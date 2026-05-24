@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignId('category_id')->nullable()->constrained()->nullOnDelete();
             $table->string('title');
             $table->string('file_url');
+            $table->string('cloudinary_public_id')->nullable();
             $table->timestamps();
         });
     }

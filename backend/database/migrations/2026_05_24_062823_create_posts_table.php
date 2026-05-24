@@ -18,6 +18,9 @@ return new class extends Migration
             $table->string('title');
             $table->text('content');
             $table->boolean('is_verified')->default(false);
+            $table->enum('type', ['question', 'answer'])->default('question');
+            $table->foreignId('parent_id')->nullable()->constrained('posts')->cascadeOnDelete();
+            $table->boolean('is_best_answer')->default(false);
             $table->timestamps();
         });
     }

@@ -16,6 +16,8 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->foreignId('category_id')->constrained()->cascadeOnDelete();
             $table->text('extracted_text')->nullable();
+            $table->string('file_url')->nullable();
+            $table->string('cloudinary_public_id')->nullable();
             $table->timestamps();
         });
     }
