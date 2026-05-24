@@ -1,5 +1,5 @@
 <template>
-  <div class="flex h-screen overflow-hidden bg-[#F7F2EB] relative text-slate-900 selection:bg-[#BAD6EB]/40">
+  <div class="flex h-screen bg-[#F7F2EB] font-sans overflow-hidden relative text-slate-900 selection:bg-[#BAD6EB]/40">
     <!-- Global Atmospheric Background System -->
     <div class="absolute inset-0 z-0 pointer-events-none overflow-hidden">
       <!-- Ultra Subtle Grid Texture -->
@@ -10,29 +10,54 @@
       <div class="absolute top-[30%] -right-[15%] w-[60vw] h-[60vw] max-w-[900px] max-h-[900px] bg-gradient-to-bl from-[#7096D1]/20 via-[#334EAC]/5 to-transparent rounded-full blur-[150px] opacity-70"></div>
       <div class="absolute top-1/4 left-1/4 w-[50vw] h-[50vw] bg-gradient-to-tr from-transparent via-white/50 to-transparent rounded-full blur-[100px]"></div>
     </div>
-
-    <!-- Sidebar -->
-    <AppSidebar class="shrink-0" />
-
-    <!-- Main Content -->
-    <div class="flex min-w-0 flex-1 flex-col overflow-hidden">
-
-      <!-- Header -->
-      <AppHeader />
-
-      <!-- Page Content -->
-      <main class="flex-1 overflow-y-auto overflow-x-hidden bg-transparent relative z-10">
-        <div class="mx-auto w-full max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-          <RouterView />
-        </div>
+    <!-- Sidebar component -->
+    <AdminSidebar />
+    
+    <!-- Main Content Area -->
+    <div class="flex-1 flex flex-col h-full min-w-0 relative">
+      <AdminHeader />
+      
+      <main class="flex-1 overflow-x-hidden overflow-y-auto bg-transparent custom-scrollbar relative z-10">
+        <RouterView v-slot="{ Component }">
+          <transition name="fade" mode="out-in">
+            <component :is="Component" />
+          </transition>
+        </RouterView>
       </main>
-
     </div>
   </div>
 </template>
 
 <script setup>
 import { RouterView } from 'vue-router'
-import AppSidebar from '@/components/shared/AppSidebar.vue'
-import AppHeader from '@/components/shared/AppHeader.vue'
+import AdminSidebar from '@/components/admin/AdminSidebar.vue'
+import AdminHeader from '@/components/admin/AdminHeader.vue'
 </script>
+
+<style scoped>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+  transform: translateY(4px);
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(8, 31, 92, 0.1);
+  border-radius: 10px;
+}
+.custom-scrollbar:hover::-webkit-scrollbar-thumb {
+  background: rgba(8, 31, 92, 0.2);
+}
+</style>

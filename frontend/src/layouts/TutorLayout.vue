@@ -11,14 +11,14 @@
       <div class="absolute top-1/4 left-1/4 w-[50vw] h-[50vw] bg-gradient-to-tr from-transparent via-white/50 to-transparent rounded-full blur-[100px]"></div>
     </div>
 
-    <!-- Sidebar -->
-    <AppSidebar class="shrink-0" />
+    <!-- Tutor Sidebar -->
+    <TutorSidebar class="shrink-0" />
 
     <!-- Main Content -->
     <div class="flex min-w-0 flex-1 flex-col overflow-hidden">
 
-      <!-- Header -->
-      <AppHeader />
+      <!-- Tutor Header -->
+      <TutorHeader />
 
       <!-- Page Content -->
       <main class="flex-1 overflow-y-auto overflow-x-hidden bg-transparent relative z-10">
@@ -33,6 +33,6 @@
 
 <script setup>
 import { RouterView } from 'vue-router'
-import AppSidebar from '@/components/shared/AppSidebar.vue'
-import AppHeader from '@/components/shared/AppHeader.vue'
+import TutorSidebar from '@/components/shared/TutorSidebar.vue'
+import TutorHeader from '@/components/shared/TutorHeader.vue'
 </script>

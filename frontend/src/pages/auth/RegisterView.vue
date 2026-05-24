@@ -20,13 +20,13 @@
       <!-- Center: Academic & Calm Hero -->
       <div class="z-10 max-w-lg mt-12">
         <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-[#BAD6EB] text-xs font-semibold uppercase tracking-wider mb-8 backdrop-blur-sm">
-          Join the community
+          Bergabung dengan komunitas
         </div>
         <h1 class="text-4xl lg:text-5xl font-bold tracking-tight leading-[1.2] mb-6 text-white">
-          Begin your journey <br /> with FokusIn.
+          Mulai perjalananmu <br /> bersama FokusIn.
         </h1>
         <p class="text-[1.1rem] text-[#BAD6EB] leading-relaxed max-w-md font-normal opacity-90">
-          Join thousands of university students learning collaboratively. Enhance your focus, share knowledge, and achieve your academic goals.
+          Bergabung dengan ribuan mahasiswa universitas yang belajar secara kolaboratif. Tingkatkan fokusmu, bagikan pengetahuan, dan raih tujuan akademikmu.
         </p>
       </div>
 
@@ -38,7 +38,7 @@
           <div class="w-9 h-9 rounded-full border-2 border-[#081F5C] bg-[#7096D1] flex items-center justify-center shadow-sm"><span class="text-[10px] font-bold text-white">UI</span></div>
         </div>
         <div class="text-sm font-medium text-[#BAD6EB]">
-          Trusted by <span class="text-white font-semibold">10,000+</span> students
+          Dipercaya oleh <span class="text-white font-semibold">10.000+</span> mahasiswa
         </div>
       </div>
     </div>
@@ -58,17 +58,27 @@
       <div class="w-full max-w-[460px] mt-16 lg:mt-0 py-8">
         
         <div class="mb-8 text-center lg:text-left">
-          <h2 class="text-3xl font-bold tracking-tight text-[#081F5C] mb-2">Create an account</h2>
-          <p class="text-slate-500 text-sm font-medium">Join FokusIn and start collaborating today.</p>
+          <h2 class="text-3xl font-bold tracking-tight text-[#081F5C] mb-2">Buat akun</h2>
+          <p class="text-slate-500 text-sm font-medium">Bergabung dengan FokusIn dan mulai berkolaborasi hari ini.</p>
         </div>
 
         <!-- The White Card -->
-        <div class="bg-white rounded-[1.5rem] shadow-[0_8px_30px_rgb(0,0,0,0.03)] border border-slate-100 p-8 sm:p-10">
+        <div class="bg-white rounded-[1.5rem] shadow-[0_8px_30px_rgb(0,0,0,0.03)] border border-slate-100 p-8 sm:p-10 relative">
+          
+          <!-- Error Alert (Replacing alert()) -->
+          <div v-if="errorMessage || authStore.error" class="mb-6 p-4 rounded-xl bg-rose-50 border border-rose-200 flex items-start gap-3 animate-in fade-in slide-in-from-top-2">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="text-rose-500 mt-0.5 shrink-0"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            <p class="text-sm font-semibold text-rose-600">{{ errorMessage || authStore.error }}</p>
+            <button @click="clearErrors" class="ml-auto text-rose-400 hover:text-rose-600 focus:outline-none">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+          </div>
+
           <form @submit.prevent="handleRegister" class="space-y-5">
             
             <!-- Full Name -->
             <div class="space-y-2">
-              <label for="fullName" class="text-sm font-semibold text-slate-700">Full Name</label>
+              <label for="fullName" class="text-sm font-semibold text-slate-700">Nama Lengkap</label>
               <div class="relative">
                 <input 
                   id="fullName" 
@@ -86,7 +96,7 @@
 
             <!-- Email Input -->
             <div class="space-y-2">
-              <label for="email" class="text-sm font-semibold text-slate-700">Email address</label>
+              <label for="email" class="text-sm font-semibold text-slate-700">Alamat Email</label>
               <div class="relative">
                 <input 
                   id="email" 
@@ -94,7 +104,7 @@
                   v-model="form.email" 
                   required
                   class="w-full px-4 pl-12 py-3 bg-[#EDF1F6] border-none rounded-xl text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#7096D1] transition-all shadow-sm"
-                  placeholder="name@student.unair.ac.id"
+                  placeholder="nama@student.unair.ac.id"
                 />
                 <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400">
                   <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
@@ -106,7 +116,7 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
               <!-- Password -->
               <div class="space-y-2">
-                <label for="password" class="text-sm font-semibold text-slate-700">Password</label>
+                <label for="password" class="text-sm font-semibold text-slate-700">Kata Sandi</label>
                 <div class="relative">
                   <input 
                     id="password" 
@@ -124,7 +134,7 @@
 
               <!-- Confirm Password -->
               <div class="space-y-2">
-                <label for="confirmPassword" class="text-sm font-semibold text-slate-700">Confirm</label>
+                <label for="confirmPassword" class="text-sm font-semibold text-slate-700">Konfirmasi</label>
                 <div class="relative">
                   <input 
                     id="confirmPassword" 
@@ -147,7 +157,7 @@
 
             <!-- Role Selection -->
             <div class="space-y-2 pt-2">
-              <label class="text-sm font-semibold text-slate-700">Select Role</label>
+              <label class="text-sm font-semibold text-slate-700">Pilih Peran</label>
               <div class="grid grid-cols-2 gap-4">
                 <label 
                   class="relative flex flex-col items-center justify-center p-4 rounded-xl border-2 cursor-pointer transition-all"
@@ -173,9 +183,11 @@
             <div class="pt-4">
               <button 
                 type="submit" 
-                class="w-full flex justify-center items-center py-3.5 px-4 rounded-xl text-sm font-bold text-white bg-[#334EAC] hover:bg-[#7096D1] focus:outline-none focus:ring-2 focus:ring-[#7096D1] focus:ring-offset-2 transition-all active:scale-[0.98] shadow-sm"
+                :disabled="authStore.loading"
+                class="w-full flex justify-center items-center py-3.5 px-4 rounded-xl text-sm font-bold text-white bg-[#334EAC] hover:bg-[#7096D1] focus:outline-none focus:ring-2 focus:ring-[#7096D1] focus:ring-offset-2 transition-all active:scale-[0.98] shadow-sm disabled:opacity-70 disabled:cursor-not-allowed"
               >
-                Create Account
+                <svg v-if="authStore.loading" class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                {{ authStore.loading ? 'Sedang Memproses...' : 'Buat Akun' }}
               </button>
             </div>
           </form>
@@ -183,7 +195,7 @@
           <!-- Divider -->
           <div class="mt-8 flex items-center gap-4">
             <div class="flex-1 h-px bg-slate-100"></div>
-            <span class="text-xs font-semibold text-slate-400 tracking-wider uppercase">Or register with</span>
+            <span class="text-xs font-semibold text-slate-400 tracking-wider uppercase">Atau daftar dengan</span>
             <div class="flex-1 h-px bg-slate-100"></div>
           </div>
 
@@ -206,9 +218,9 @@
 
         <!-- Login Link -->
         <p class="text-center text-sm text-slate-500 mt-8">
-          Already have an account? 
+          Sudah punya akun? 
           <RouterLink to="/auth/login" class="font-semibold text-[#334EAC] hover:text-[#7096D1] transition-colors ml-1">
-            Log in
+            Masuk
           </RouterLink>
         </p>
 
@@ -220,9 +232,13 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { useAuthStore } from '@/stores/auth'
 
 const router = useRouter()
+const authStore = useAuthStore()
+
 const showPassword = ref(false)
+const errorMessage = ref('')
 const form = ref({
   fullName: '',
   email: '',
@@ -231,18 +247,31 @@ const form = ref({
   role: 'pelajar' // default
 })
 
-const handleRegister = () => {
+const clearErrors = () => {
+  errorMessage.value = ''
+  authStore.error = null
+}
+
+const handleRegister = async () => {
+  clearErrors()
+  
   if (form.value.password !== form.value.confirmPassword) {
-    alert("Passwords do not match!")
+    errorMessage.value = "Kata sandi tidak cocok!"
     return
   }
   
-  console.log('Register attempt:', form.value)
-  // Route to specific dashboards based on selected role
-  if (form.value.role === 'tutor') {
-    router.push('/tutor/dashboard')
-  } else {
-    router.push('/pelajar/dashboard')
+  try {
+    await authStore.register({
+      fullName: form.value.fullName,
+      email: form.value.email,
+      password: form.value.password,
+      role: form.value.role
+    })
+    
+    // Redirect based on role
+    router.push(`/${authStore.role}/dashboard`)
+  } catch (err) {
+    // Error will be displayed via authStore.error automatically
   }
 }
 </script>
