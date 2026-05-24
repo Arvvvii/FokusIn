@@ -1,0 +1,244 @@
+<template>
+  <div class="space-y-6 md:space-y-8 animate-in fade-in duration-500">
+          
+          <!-- Breadcrumb & Back -->
+          <div class="mb-6 flex items-center gap-2">
+            <RouterLink to="/pelajar/forum" class="text-sm font-bold text-slate-400 hover:text-[#334EAC] transition-colors flex items-center gap-1 w-fit bg-white/50 px-3 py-1.5 rounded-lg border border-slate-200/50">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+              Back to Forum
+            </RouterLink>
+          </div>
+
+          <div class="flex flex-col xl:flex-row gap-8">
+            
+            <!-- MAIN LEFT CONTENT (xl:w-[75%]) -->
+            <div class="w-full xl:w-[75%] space-y-8">
+              
+              <!-- Question Header & Content -->
+              <div class="bg-white rounded-[2rem] p-6 md:p-8 shadow-[0_4px_24px_rgba(0,0,0,0.02)] border border-slate-100/80">
+                <div class="flex flex-col md:flex-row gap-6">
+                  
+                  <!-- Left Voting (Desktop) -->
+                  <div class="hidden md:flex flex-col items-center gap-2 shrink-0 pt-1">
+                    <button class="w-11 h-11 rounded-2xl flex items-center justify-center text-slate-400 hover:text-[#334EAC] hover:bg-[#EDF1F6] transition-all border border-transparent hover:border-slate-200">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg>
+                    </button>
+                    <span class="text-xl font-extrabold text-[#081F5C] my-1">42</span>
+                    <button class="w-11 h-11 rounded-2xl flex items-center justify-center text-slate-400 hover:text-rose-500 hover:bg-rose-50 transition-all border border-transparent hover:border-rose-100">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+                    </button>
+                  </div>
+
+                  <!-- Question Body -->
+                  <div class="flex-1 min-w-0">
+                    <div class="flex items-center justify-between mb-4">
+                      <span class="px-3 py-1.5 bg-[#EDF1F6] text-[#334EAC] text-[10px] font-extrabold rounded-lg uppercase tracking-widest shadow-sm">Computer Science</span>
+                      
+                      <!-- Mobile Voting -->
+                      <div class="flex md:hidden items-center gap-3 bg-white px-3 py-1.5 rounded-xl border border-slate-200 shadow-sm">
+                        <button class="text-slate-400 hover:text-[#334EAC]"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg></button>
+                        <span class="font-extrabold text-[#081F5C] text-lg">42</span>
+                        <button class="text-slate-400 hover:text-rose-500"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></button>
+                      </div>
+                    </div>
+
+                    <h1 class="text-2xl md:text-3xl font-extrabold text-[#081F5C] leading-tight mb-5">How does Dijkstra Algorithm actually work under the hood?</h1>
+                    
+                    <!-- Content (Rich Text Mock) -->
+                    <div class="prose prose-slate max-w-none text-[15px] leading-relaxed text-slate-600 mb-6 font-medium">
+                      <p>I understand the basic premise of finding the shortest path, but I am struggling to implement the priority queue efficiently in C++. Does anyone have a good mental model?</p>
+                      <pre class="bg-[#081F5C] text-[#BAD6EB] p-5 rounded-2xl text-[13px] font-mono overflow-x-auto shadow-[inset_0_4px_15px_rgba(0,0,0,0.2)] border border-[#081F5C] my-5 leading-snug"><code>priority_queue&lt;pair&lt;int, int&gt;, vector&lt;pair&lt;int, int&gt;&gt;, greater&lt;pair&lt;int, int&gt;&gt;&gt; pq;</code></pre>
+                      <p>Is this the optimal way to declare it? It feels very verbose. Any insights would be greatly appreciated!</p>
+                    </div>
+
+                    <!-- Meta & Author -->
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-6 border-t border-slate-100/80">
+                      <div class="flex items-center gap-2">
+                        <span class="text-[11px] font-bold text-[#334EAC] bg-[#EDF1F6]/50 hover:bg-[#EDF1F6] px-2.5 py-1 rounded-md cursor-pointer transition-colors">#algorithms</span>
+                        <span class="text-[11px] font-bold text-[#334EAC] bg-[#EDF1F6]/50 hover:bg-[#EDF1F6] px-2.5 py-1 rounded-md cursor-pointer transition-colors">#c++</span>
+                      </div>
+
+                      <div class="flex items-center gap-3 bg-[#F7F2EB] px-4 py-3 rounded-[1.25rem] border border-slate-200/50 hover:shadow-sm transition-all cursor-pointer">
+                        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-[#334EAC] to-[#081F5C] flex items-center justify-center text-white text-[13px] font-extrabold shadow-sm border-2 border-white">
+                          AJ
+                        </div>
+                        <div class="flex flex-col">
+                          <span class="text-[13px] font-extrabold text-[#081F5C] leading-none mb-1.5">Alex Johnson</span>
+                          <div class="flex items-center gap-1.5">
+                            <span class="text-[10px] font-extrabold text-amber-500 leading-none">1.2k rep</span>
+                            <span class="text-[10px] text-slate-400 font-bold leading-none">• Asked 2 hours ago</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Answers Section -->
+              <div>
+                <div class="flex items-center justify-between mb-6 px-1">
+                  <h3 class="text-[1.35rem] font-extrabold text-[#081F5C]">5 Answers</h3>
+                  <div class="flex items-center gap-1 bg-white p-1 rounded-xl border border-slate-200/80 shadow-[0_2px_10px_rgba(0,0,0,0.02)]">
+                    <button class="px-4 py-2 bg-[#EDF1F6] text-[#081F5C] rounded-lg font-extrabold text-[13px]">Top</button>
+                    <button class="px-4 py-2 text-slate-500 hover:text-[#081F5C] hover:bg-slate-50 rounded-lg font-bold text-[13px] transition-all">Newest</button>
+                  </div>
+                </div>
+
+                <div class="space-y-6">
+                  <!-- Accepted Answer -->
+                  <div class="bg-emerald-50/40 rounded-[2rem] p-6 md:p-8 shadow-[0_4px_24px_rgba(0,0,0,0.02)] border-[3px] border-emerald-400/30 relative">
+                    <div class="absolute -top-4 left-8 px-4 py-1.5 bg-gradient-to-r from-emerald-500 to-emerald-600 text-white text-[10px] font-extrabold uppercase tracking-widest rounded-lg shadow-[0_4px_10px_rgba(16,185,129,0.3)] flex items-center gap-1.5">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                      Accepted Answer
+                    </div>
+
+                    <div class="flex flex-col md:flex-row gap-6 mt-3">
+                      <div class="hidden md:flex flex-col items-center gap-2 shrink-0 pt-1">
+                        <button class="w-11 h-11 rounded-2xl flex items-center justify-center text-slate-400 hover:text-[#334EAC] hover:bg-white transition-all"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg></button>
+                        <span class="text-xl font-extrabold text-[#081F5C] my-1">156</span>
+                        <button class="w-11 h-11 rounded-2xl flex items-center justify-center text-slate-400 hover:text-rose-500 hover:bg-white transition-all"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></button>
+                      </div>
+
+                      <div class="flex-1 min-w-0">
+                        <div class="prose prose-slate max-w-none text-[15px] leading-relaxed text-slate-700 mb-6 font-medium">
+                          <p>Yes, that declaration is correct and standard for a min-heap in C++. To build a good mental model, think of Dijkstra's as a BFS that uses a priority queue instead of a regular queue to always explore the cheapest node next.</p>
+                        </div>
+                        
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                          <div class="flex items-center gap-5">
+                            <button class="text-[13px] font-bold text-slate-500 hover:text-[#081F5C] transition-colors flex items-center gap-1.5"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> Reply</button>
+                            <button class="text-[13px] font-bold text-slate-500 hover:text-[#081F5C] transition-colors flex items-center gap-1.5"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" x2="12" y1="2" y2="15"/></svg> Share</button>
+                          </div>
+
+                          <div class="flex items-center gap-3 bg-white px-4 py-3 rounded-[1.25rem] border border-emerald-500/30 shadow-sm">
+                            <div class="w-10 h-10 rounded-full bg-[#EDF1F6] border-2 border-white shadow-sm flex items-center justify-center text-[#081F5C] text-[13px] font-extrabold shrink-0">SS</div>
+                            <div class="flex flex-col">
+                              <div class="flex items-center gap-1.5 mb-1.5">
+                                <span class="text-[13px] font-extrabold text-[#081F5C] leading-none">Dr. Sarah Smith</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
+                              </div>
+                              <div class="flex items-center gap-2">
+                                <span class="text-[9px] font-extrabold text-emerald-700 bg-emerald-100 px-1.5 rounded uppercase tracking-widest leading-none py-1">Tutor</span>
+                                <span class="text-[10px] font-extrabold text-amber-500 leading-none">15.4k rep</span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Regular Answer -->
+                  <div class="bg-white rounded-[2rem] p-6 md:p-8 shadow-[0_4px_24px_rgba(0,0,0,0.02)] border border-slate-100/80">
+                    <div class="flex flex-col md:flex-row gap-6">
+                      <div class="hidden md:flex flex-col items-center gap-2 shrink-0 pt-1">
+                        <button class="w-11 h-11 rounded-2xl flex items-center justify-center text-slate-400 hover:text-[#334EAC] hover:bg-[#EDF1F6] transition-all"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg></button>
+                        <span class="text-xl font-extrabold text-[#081F5C] my-1">12</span>
+                        <button class="w-11 h-11 rounded-2xl flex items-center justify-center text-slate-400 hover:text-rose-500 hover:bg-rose-50 transition-all"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></button>
+                      </div>
+
+                      <div class="flex-1 min-w-0">
+                        <div class="prose prose-slate max-w-none text-[15px] leading-relaxed text-slate-600 mb-6 font-medium">
+                          <p>You can also use a custom comparator struct if you want to store a struct instead of pairs. Sometimes it makes the code much cleaner than dealing with <code>pair.first</code> and <code>pair.second</code>.</p>
+                        </div>
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-5 border-t border-slate-50">
+                          <div class="flex items-center gap-5">
+                            <button class="text-[13px] font-bold text-slate-400 hover:text-[#081F5C] transition-colors flex items-center gap-1.5"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> Reply</button>
+                            <button class="text-[13px] font-bold text-slate-400 hover:text-[#081F5C] transition-colors flex items-center gap-1.5"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" x2="12" y1="2" y2="15"/></svg> Share</button>
+                          </div>
+                          <div class="flex items-center gap-2.5">
+                            <span class="text-[13px] font-extrabold text-slate-400">Budi Santoso</span>
+                            <span class="text-[11px] text-slate-400 font-bold">• 1 hour ago</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Reply Input Area -->
+              <div class="bg-white rounded-[2rem] p-6 shadow-[0_4px_24px_rgba(0,0,0,0.02)] border border-slate-100/80 mt-8">
+                <h3 class="text-[17px] font-extrabold text-[#081F5C] mb-4">Your Answer</h3>
+                
+                <div class="border-2 border-slate-100 rounded-2xl overflow-hidden focus-within:border-[#7096D1] focus-within:ring-4 focus-within:ring-[#7096D1]/10 transition-all">
+                  <!-- Toolbar -->
+                  <div class="bg-slate-50 border-b-2 border-slate-100 px-3 py-2 flex items-center gap-1">
+                    <button class="p-1.5 text-slate-500 hover:text-[#081F5C] hover:bg-[#EDF1F6] rounded-lg transition-colors"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 12a4 4 0 0 0 0-8H6v8"/><path d="M15 20a4 4 0 0 0 0-8H6v8Z"/></svg></button>
+                    <button class="p-1.5 text-slate-500 hover:text-[#081F5C] hover:bg-[#EDF1F6] rounded-lg transition-colors"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" x2="10" y1="4" y2="4"/><line x1="14" x2="5" y1="20" y2="20"/><line x1="15" x2="9" y1="4" y2="20"/></svg></button>
+                    <div class="w-px h-5 bg-slate-200 mx-2"></div>
+                    <button class="p-1.5 text-slate-500 hover:text-[#081F5C] hover:bg-[#EDF1F6] rounded-lg transition-colors"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></button>
+                    <button class="p-1.5 text-slate-500 hover:text-[#081F5C] hover:bg-[#EDF1F6] rounded-lg transition-colors"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg></button>
+                  </div>
+                  <textarea rows="6" class="w-full p-4 text-[15px] font-medium text-slate-700 bg-white border-none focus:ring-0 resize-y" placeholder="Write your answer here... Markdown and LaTeX are supported."></textarea>
+                </div>
+
+                <div class="flex justify-end mt-5">
+                  <button class="px-8 py-3 bg-[#334EAC] hover:bg-[#081F5C] text-white rounded-xl font-extrabold text-[15px] transition-all shadow-[0_4px_15px_rgba(51,78,172,0.2)] active:scale-95">
+                    Post Answer
+                  </button>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- RIGHT SIDEBAR (xl:w-[25%]) -->
+            <div class="w-full xl:w-[25%] shrink-0 space-y-6">
+              
+              <!-- AI Recommendation -->
+              <div class="bg-gradient-to-br from-[#081F5C] to-[#334EAC] rounded-[2rem] p-7 text-white shadow-[0_15px_40px_rgba(8,31,92,0.15)] relative overflow-hidden border border-white/5">
+                <div class="absolute -left-10 -top-10 w-40 h-40 bg-[#7096D1] blur-3xl rounded-full opacity-30 pointer-events-none"></div>
+                <div class="relative z-10">
+                  <div class="flex items-center gap-2 mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#BAD6EB" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/><path d="M5 3v4"/><path d="M19 17v4"/><path d="M3 5h4"/><path d="M17 19h4"/></svg>
+                    <h3 class="text-[11px] font-extrabold tracking-widest uppercase text-[#BAD6EB]">AI Suggested Material</h3>
+                  </div>
+                  <p class="text-[14px] font-medium text-white mb-6 leading-relaxed">Reading the "Graph Theory Basics" module might help you understand Dijkstra better.</p>
+                  <button class="w-full py-3 bg-white/10 hover:bg-white/20 border border-white/10 rounded-xl text-white font-bold text-[14px] transition-colors shadow-sm">
+                    Open Material
+                  </button>
+                </div>
+              </div>
+
+              <!-- Related Discussions -->
+              <div class="bg-white rounded-[2rem] p-7 shadow-[0_4px_24px_rgba(0,0,0,0.02)] border border-slate-100/80">
+                <h3 class="text-[17px] font-extrabold text-[#081F5C] mb-5">Related Discussions</h3>
+                
+                <div class="space-y-4">
+                  <div class="group cursor-pointer">
+                    <h4 class="text-[14px] font-bold text-[#081F5C] group-hover:text-[#334EAC] transition-colors leading-snug mb-1.5">Time complexity of Dijkstra with Fibonacci Heap?</h4>
+                    <div class="flex items-center gap-2 text-[11px] font-extrabold text-slate-400">
+                      <span class="text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md">12 answers</span>
+                    </div>
+                  </div>
+                  
+                  <div class="w-full h-px bg-slate-100"></div>
+
+                  <div class="group cursor-pointer">
+                    <h4 class="text-[14px] font-bold text-[#081F5C] group-hover:text-[#334EAC] transition-colors leading-snug mb-1.5">How to trace path from Dijkstra algorithm?</h4>
+                    <div class="flex items-center gap-2 text-[11px] font-extrabold text-slate-400">
+                      <span class="bg-[#EDF1F6] text-[#081F5C] px-2 py-0.5 rounded-md">5 answers</span>
+                    </div>
+                  </div>
+
+                  <div class="w-full h-px bg-slate-100"></div>
+
+                  <div class="group cursor-pointer">
+                    <h4 class="text-[14px] font-bold text-[#081F5C] group-hover:text-[#334EAC] transition-colors leading-snug mb-1.5">Bellman-Ford vs Dijkstra - Negative weights</h4>
+                    <div class="flex items-center gap-2 text-[11px] font-extrabold text-slate-400">
+                      <span class="bg-[#EDF1F6] text-[#081F5C] px-2 py-0.5 rounded-md">8 answers</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+</template>
+
+<script setup>
+import { RouterLink } from 'vue-router'
+</script>
