@@ -1,45 +1,45 @@
 <template>
-  <div class="space-y-6 md:space-y-8 animate-in fade-in duration-500 min-w-0">
+  <div class="space-y-6 animate-in fade-in duration-500 min-w-0 max-w-7xl mx-auto">
     
     <!-- 1. PROFILE HERO SECTION -->
-    <div class="bg-gradient-to-br from-[#081F5C] via-[#334EAC] to-[#7096D1] rounded-3xl p-8 md:p-10 text-white relative overflow-hidden shadow-[0_10px_40px_rgba(15,23,42,0.15)] flex flex-col md:flex-row gap-8 items-center md:items-end min-h-[280px]">
+    <div class="bg-gradient-to-br from-[#081F5C] to-[#334EAC] rounded-2xl p-6 md:p-8 text-white relative overflow-hidden shadow-sm flex flex-col md:flex-row gap-6 items-center md:items-end min-h-[240px]">
       
-      <!-- Decorative abstract glow -->
-      <div class="absolute -right-24 -top-24 w-96 h-96 bg-white/10 blur-[100px] rounded-full pointer-events-none"></div>
-      <div class="absolute bottom-0 left-20 w-64 h-64 bg-[#BAD6EB]/20 blur-[80px] rounded-full pointer-events-none"></div>
+      <!-- Subtle graphic border decoration instead of giant glows -->
+      <div class="absolute inset-0 border border-white/5 rounded-2xl pointer-events-none"></div>
+      <div class="absolute -right-16 -top-16 w-64 h-64 border border-white/10 rounded-full pointer-events-none"></div>
       
-      <div class="relative z-10 flex flex-col md:flex-row gap-6 md:gap-8 items-center md:items-end w-full">
+      <div class="relative z-10 flex flex-col md:flex-row gap-6 items-center md:items-end w-full">
         <!-- Avatar -->
-        <div class="w-32 h-32 md:w-40 md:h-40 rounded-full bg-white/10 border-4 border-white/20 shadow-xl overflow-hidden shrink-0 backdrop-blur-md relative group cursor-pointer">
+        <div class="w-24 h-24 md:w-32 md:h-32 rounded-full bg-white/10 border-2 border-white/20 shadow-md overflow-hidden shrink-0 backdrop-blur-md relative group cursor-pointer">
           <img src="https://i.pravatar.cc/300?u=a042581f4e29026704d" alt="Profile" class="w-full h-full object-cover">
           <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
           </div>
         </div>
 
         <!-- Info -->
         <div class="flex-1 text-center md:text-left">
-          <div class="flex flex-wrap items-center justify-center md:justify-start gap-2 mb-2">
-            <span class="px-3 py-1 bg-white/10 backdrop-blur-md rounded-full border border-white/20 text-[11px] font-bold uppercase tracking-widest text-white shadow-sm flex items-center gap-1.5">
-              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> Online
+          <div class="flex flex-wrap items-center justify-center md:justify-start gap-1.5 mb-1.5">
+            <span class="px-2.5 py-0.5 bg-white/10 rounded-full border border-white/10 text-[9px] font-bold uppercase tracking-wider text-white shadow-sm flex items-center gap-1">
+              <span class="w-1 h-1 rounded-full bg-emerald-400"></span> Online
             </span>
-            <span class="px-3 py-1 bg-[#BAD6EB]/20 backdrop-blur-md rounded-full border border-[#BAD6EB]/30 text-[11px] font-bold uppercase tracking-widest text-[#BAD6EB] shadow-sm">
+            <span class="px-2.5 py-0.5 bg-[#BAD6EB]/20 rounded-full border border-[#BAD6EB]/20 text-[9px] font-bold uppercase tracking-wider text-[#BAD6EB] shadow-sm">
               Ilmu Komputer '24
             </span>
           </div>
-          <h1 class="text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight mb-2 leading-[1.1] text-white">John Doe</h1>
-          <p class="text-[15px] md:text-[16px] text-[#BAD6EB] font-medium max-w-xl leading-relaxed mb-4">
+          <h1 class="text-2xl md:text-3xl font-bold tracking-tight mb-1 text-white">John Doe</h1>
+          <p class="text-xs md:text-sm text-[#BAD6EB] font-normal max-w-xl leading-relaxed mb-3">
             Mahasiswa S1 dengan fokus pada Kecerdasan Buatan dan Sistem Terdistribusi. Aktif mengeksplorasi persimpangan antara Data Science dan Software Engineering.
           </p>
           
-          <div class="flex items-center justify-center md:justify-start gap-4">
-            <div class="flex items-center gap-1.5 text-sm font-bold text-white/90">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+          <div class="flex items-center justify-center md:justify-start gap-3">
+            <div class="flex items-center gap-1 text-xs font-bold text-white/90">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
               Pelajar Level 42
             </div>
-            <div class="h-4 w-px bg-white/20"></div>
-            <div class="flex items-center gap-1.5 text-sm font-bold text-white/90">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg>
+            <div class="h-3 w-px bg-white/20"></div>
+            <div class="flex items-center gap-1 text-xs font-bold text-white/90">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg>
               Universitas Indonesia
             </div>
           </div>
@@ -47,8 +47,8 @@
         
         <!-- Action Button -->
         <div class="shrink-0">
-           <RouterLink to="/pelajar/profile/edit" class="px-6 py-3.5 bg-white text-[#081F5C] hover:bg-[#F7F2EB] rounded-[1.25rem] font-extrabold text-[14px] transition-all shadow-[0_8px_20px_rgba(0,0,0,0.15)] active:scale-95 flex items-center gap-2 group">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg>
+           <RouterLink to="/pelajar/profile/edit" class="px-4 py-2.5 bg-white text-[#081F5C] hover:bg-[#F7F2EB] rounded-xl font-bold text-xs transition-all shadow-sm flex items-center gap-1.5 group">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg>
               Edit Profil
            </RouterLink>
         </div>
@@ -56,66 +56,66 @@
     </div>
 
     <!-- 2. PROFILE ANALYTICS -->
-    <div class="grid grid-cols-2 lg:grid-cols-6 gap-4">
+    <div class="grid grid-cols-2 lg:grid-cols-6 gap-3">
       <!-- Stat Card 1 -->
-      <div class="bg-white/80 backdrop-blur-xl rounded-3xl p-5 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-100 flex flex-col justify-between hover:border-[#7096D1]/40 transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-xl group">
-        <div class="flex items-center justify-between mb-3">
-          <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Reputasi</span>
-          <div class="w-8 h-8 rounded-lg bg-amber-50 flex items-center justify-center text-amber-500 border border-amber-100/50">
-             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      <div class="bg-white rounded-xl p-4 shadow-sm border border-slate-200/80 flex flex-col justify-between hover:border-[#7096D1]/40 transition-all group">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-[9px] font-bold text-slate-400 uppercase tracking-wider">Reputasi</span>
+          <div class="w-6 h-6 rounded bg-amber-50 flex items-center justify-center text-amber-500 border border-amber-100/50">
+             <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
           </div>
         </div>
-        <h4 class="text-2xl font-bold text-slate-900 tracking-tight">1,240</h4>
+        <h4 class="text-xl font-bold text-slate-900 tracking-tight">1,240</h4>
       </div>
       <!-- Stat Card 2 -->
-      <div class="bg-white/80 backdrop-blur-xl rounded-3xl p-5 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-100 flex flex-col justify-between hover:border-[#7096D1]/40 transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-xl group">
-        <div class="flex items-center justify-between mb-3">
-          <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Postingan</span>
-          <div class="w-8 h-8 rounded-lg bg-[#EDF1F6] flex items-center justify-center text-[#334EAC] border border-slate-200/50">
-             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      <div class="bg-white rounded-xl p-4 shadow-sm border border-slate-200/80 flex flex-col justify-between hover:border-[#7096D1]/40 transition-all group">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-[9px] font-bold text-slate-400 uppercase tracking-wider">Postingan</span>
+          <div class="w-6 h-6 rounded bg-[#EDF1F6] flex items-center justify-center text-[#334EAC] border border-slate-200/50">
+             <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
           </div>
         </div>
-        <h4 class="text-2xl font-bold text-slate-900 tracking-tight">48</h4>
+        <h4 class="text-xl font-bold text-slate-900 tracking-tight">48</h4>
       </div>
       <!-- Stat Card 3 -->
-      <div class="bg-white/80 backdrop-blur-xl rounded-3xl p-5 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-100 flex flex-col justify-between hover:border-[#7096D1]/40 transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-xl group">
-        <div class="flex items-center justify-between mb-3">
-          <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Jwb Terbaik</span>
-          <div class="w-8 h-8 rounded-lg bg-emerald-50 flex items-center justify-center text-emerald-500 border border-emerald-100/50">
-             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+      <div class="bg-white rounded-xl p-4 shadow-sm border border-slate-200/80 flex flex-col justify-between hover:border-[#7096D1]/40 transition-all group">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-[9px] font-bold text-slate-400 uppercase tracking-wider">Jwb Terbaik</span>
+          <div class="w-6 h-6 rounded bg-emerald-50 flex items-center justify-center text-emerald-500 border border-emerald-100/50">
+             <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
           </div>
         </div>
-        <h4 class="text-2xl font-bold text-slate-900 tracking-tight">15</h4>
+        <h4 class="text-xl font-bold text-slate-900 tracking-tight">15</h4>
       </div>
       <!-- Stat Card 4 -->
-      <div class="bg-white/80 backdrop-blur-xl rounded-3xl p-5 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-100 flex flex-col justify-between hover:border-[#7096D1]/40 transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-xl group">
-        <div class="flex items-center justify-between mb-3">
-          <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Akurasi Kuis</span>
-          <div class="w-8 h-8 rounded-lg bg-rose-50 flex items-center justify-center text-rose-500 border border-rose-100/50">
-             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>
+      <div class="bg-white rounded-xl p-4 shadow-sm border border-slate-200/80 flex flex-col justify-between hover:border-[#7096D1]/40 transition-all group">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-[9px] font-bold text-slate-400 uppercase tracking-wider">Akurasi Kuis</span>
+          <div class="w-6 h-6 rounded bg-rose-50 flex items-center justify-center text-rose-500 border border-rose-100/50">
+             <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>
           </div>
         </div>
-        <h4 class="text-2xl font-bold text-slate-900 tracking-tight">86%</h4>
+        <h4 class="text-xl font-bold text-slate-900 tracking-tight">86%</h4>
       </div>
       <!-- Stat Card 5 -->
-      <div class="bg-white/80 backdrop-blur-xl rounded-3xl p-5 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-100 flex flex-col justify-between hover:border-[#7096D1]/40 transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-xl group">
-        <div class="flex items-center justify-between mb-3">
-          <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Unggahan</span>
-          <div class="w-8 h-8 rounded-lg bg-indigo-50 flex items-center justify-center text-indigo-500 border border-indigo-100/50">
-             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="12" y2="12"/><line x1="15" y1="15" x2="12" y2="12"/></svg>
+      <div class="bg-white rounded-xl p-4 shadow-sm border border-slate-200/80 flex flex-col justify-between hover:border-[#7096D1]/40 transition-all group">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-[9px] font-bold text-slate-400 uppercase tracking-wider">Unggahan</span>
+          <div class="w-6 h-6 rounded bg-indigo-50 flex items-center justify-center text-indigo-500 border border-indigo-100/50">
+             <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="12" y2="12"/><line x1="15" y1="15" x2="12" y2="12"/></svg>
           </div>
         </div>
-        <h4 class="text-2xl font-bold text-slate-900 tracking-tight">12</h4>
+        <h4 class="text-xl font-bold text-slate-900 tracking-tight">12</h4>
       </div>
       <!-- Stat Card 6 -->
-      <div class="bg-white/80 backdrop-blur-xl rounded-3xl p-5 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-100 flex flex-col justify-between hover:border-[#7096D1]/40 transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-xl group">
-        <div class="flex items-center justify-between mb-3">
-          <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Mentoring</span>
-          <div class="w-8 h-8 rounded-lg bg-[#F7F2EB] flex items-center justify-center text-amber-600 border border-amber-100/50">
-             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      <div class="bg-white rounded-xl p-4 shadow-sm border border-slate-200/80 flex flex-col justify-between hover:border-[#7096D1]/40 transition-all group">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-[9px] font-bold text-slate-400 uppercase tracking-wider">Mentoring</span>
+          <div class="w-6 h-6 rounded bg-[#F7F2EB] flex items-center justify-center text-amber-600 border border-amber-100/50">
+             <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
           </div>
         </div>
-        <h4 class="text-2xl font-bold text-slate-900 tracking-tight">4</h4>
+        <h4 class="text-xl font-bold text-slate-900 tracking-tight">4</h4>
       </div>
     </div>
 

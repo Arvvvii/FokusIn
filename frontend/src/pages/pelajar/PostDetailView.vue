@@ -203,7 +203,7 @@
                     <h3 class="text-[11px] font-bold tracking-widest uppercase text-[#BAD6EB]">Rekomendasi Materi AI</h3>
                   </div>
                   <p class="text-[14px] font-medium text-white mb-6 leading-relaxed">Membaca modul "Dasar Teori Graf" mungkin dapat membantumu memahami Dijkstra dengan lebih baik.</p>
-                  <RouterLink to="/pelajar/materials/1" class="w-full py-3 bg-white/10 hover:bg-white/20 border border-white/10 rounded-xl text-white font-bold text-[14px] transition-colors shadow-sm flex items-center justify-center">
+                  <RouterLink :to="`${baseMaterialsRoute}/1`" class="w-full py-3 bg-white/10 hover:bg-white/20 border border-white/10 rounded-xl text-white font-bold text-[14px] transition-colors shadow-sm flex items-center justify-center">
                     Buka Materi
                   </RouterLink>
                 </div>
@@ -254,6 +254,10 @@ import { RouterLink, useRoute } from 'vue-router'
 const route = useRoute()
 const baseForumRoute = computed(() => {
   return route.path.startsWith('/tutor') ? '/tutor/forum' : '/pelajar/forum'
+})
+
+const baseMaterialsRoute = computed(() => {
+  return route.path.startsWith('/tutor') ? '/tutor/materials' : '/pelajar/materials'
 })
 
 const questionVote = ref(42)

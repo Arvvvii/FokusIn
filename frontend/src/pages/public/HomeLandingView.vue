@@ -218,14 +218,14 @@
                  <div class="h-3 w-1/2 bg-slate-200 rounded-full mb-4"></div>
                  <div class="space-y-3">
                     <RouterLink to="/auth/register" class="flex items-center justify-between p-4 bg-white/10 hover:bg-white/20 rounded-xl border border-white/10 transition-colors group">
-                      <div class="flex items-center gap-3">
+                      <div class="flex items-center gap-4">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="text-[#BAD6EB]"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>
                         <span class="text-[13px] font-bold text-white">Bab 10 - Rotasi</span>
                       </div>
                       <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="text-white/50 group-hover:text-white transition-colors"><path d="m9 18 6-6-6-6"/></svg>
                     </RouterLink>
                     <RouterLink to="/auth/register" class="flex items-center justify-between p-4 bg-white/10 hover:bg-white/20 rounded-xl border border-white/10 transition-colors group">
-                      <div class="flex items-center gap-3">
+                      <div class="flex items-center gap-4">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="text-[#BAD6EB]"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
                         <span class="text-[13px] font-bold text-white">Video Gesekan Menggelinding</span>
                       </div>

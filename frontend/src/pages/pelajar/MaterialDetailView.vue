@@ -4,9 +4,9 @@
     <!-- 1. Breadcrumbs -->
     <div class="mb-8">
       <div class="flex items-center gap-2 text-[13px] font-bold text-slate-400 mb-4 flex-wrap">
-        <RouterLink to="/pelajar/materials" class="hover:text-[#334EAC] transition-colors shrink-0">Materi</RouterLink>
+        <RouterLink :to="baseMaterialsRoute" class="hover:text-[#334EAC] transition-colors shrink-0">Materi</RouterLink>
         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="shrink-0"><path d="m9 18 6-6-6-6"/></svg>
-        <RouterLink to="/pelajar/materials" class="hover:text-[#334EAC] transition-colors shrink-0">Fisika</RouterLink>
+        <RouterLink :to="baseMaterialsRoute" class="hover:text-[#334EAC] transition-colors shrink-0">Fisika</RouterLink>
         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="shrink-0"><path d="m9 18 6-6-6-6"/></svg>
         <span class="text-[#081F5C] shrink-0 truncate max-w-[200px] md:max-w-none">Final OSN Fisika Nasional...</span>
       </div>
@@ -209,7 +209,7 @@
           
           <div class="space-y-4">
             <!-- Item 1 -->
-            <RouterLink to="/pelajar/materials/2" class="flex gap-4 group p-3 -m-3 rounded-2xl hover:bg-[#F7F2EB] transition-colors">
+            <RouterLink :to="`${baseMaterialsRoute}/2`" class="flex gap-4 group p-3 -m-3 rounded-2xl hover:bg-[#F7F2EB] transition-colors">
               <div class="w-12 h-12 rounded-xl bg-[#EDF1F6] flex items-center justify-center text-[#334EAC] shrink-0 border border-slate-200/60">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>
               </div>
@@ -220,7 +220,7 @@
             </RouterLink>
 
             <!-- Item 2 -->
-            <RouterLink to="/pelajar/materials/3" class="flex gap-4 group p-3 -m-3 rounded-2xl hover:bg-[#F7F2EB] transition-colors">
+            <RouterLink :to="`${baseMaterialsRoute}/3`" class="flex gap-4 group p-3 -m-3 rounded-2xl hover:bg-[#F7F2EB] transition-colors">
               <div class="w-12 h-12 rounded-xl bg-rose-50 flex items-center justify-center text-rose-500 shrink-0 border border-rose-100/60">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg>
               </div>
@@ -231,7 +231,7 @@
             </RouterLink>
           </div>
           
-          <RouterLink to="/pelajar/materials" class="mt-6 block text-center text-[12px] font-bold text-[#334EAC] hover:text-slate-900 transition-colors">
+          <RouterLink :to="baseMaterialsRoute" class="mt-6 block text-center text-[12px] font-bold text-[#334EAC] hover:text-slate-900 transition-colors">
             Lihat lebih banyak di Fisika
           </RouterLink>
         </div>
@@ -242,8 +242,13 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import { RouterLink } from 'vue-router'
+import { ref, computed } from 'vue'
+import { RouterLink, useRoute } from 'vue-router'
+
+const route = useRoute()
+const baseMaterialsRoute = computed(() => {
+  return route.path.startsWith('/tutor') ? '/tutor/materials' : '/pelajar/materials'
+})
 
 // Tipe materi: 'pdf', 'docx', atau 'video'
 const materialType = ref('video') // Set 'video' untuk mencoba tampilan course style, 'pdf' untuk view default

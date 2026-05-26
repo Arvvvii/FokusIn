@@ -175,21 +175,21 @@
           
           <div class="space-y-3">
             <RouterLink to="/pelajar/materials/1" class="flex items-center justify-between p-4 bg-white/10 hover:bg-white/20 rounded-xl border border-white/10 transition-colors group">
-              <div class="flex items-center gap-3">
+              <div class="flex items-center gap-4">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="text-[#BAD6EB]"><polyline points="20 6 9 17 4 12"/></svg>
                 <span class="text-[13px] font-bold text-white">Integral</span>
               </div>
               <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="text-white/50 group-hover:text-white transition-colors"><path d="m9 18 6-6-6-6"/></svg>
             </RouterLink>
             <RouterLink to="/pelajar/materials/2" class="flex items-center justify-between p-4 bg-white/10 hover:bg-white/20 rounded-xl border border-white/10 transition-colors group">
-              <div class="flex items-center gap-3">
+              <div class="flex items-center gap-4">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="text-[#BAD6EB]"><polyline points="20 6 9 17 4 12"/></svg>
                 <span class="text-[13px] font-bold text-white">Turunan</span>
               </div>
               <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="text-white/50 group-hover:text-white transition-colors"><path d="m9 18 6-6-6-6"/></svg>
             </RouterLink>
             <RouterLink to="/pelajar/materials/3" class="flex items-center justify-between p-4 bg-white/10 hover:bg-white/20 rounded-xl border border-white/10 transition-colors group">
-              <div class="flex items-center gap-3">
+              <div class="flex items-center gap-4">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="text-[#BAD6EB]"><polyline points="20 6 9 17 4 12"/></svg>
                 <span class="text-[13px] font-bold text-white">Dynamic Programming</span>
               </div>

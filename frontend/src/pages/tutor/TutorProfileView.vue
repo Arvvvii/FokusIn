@@ -27,7 +27,7 @@
               <div class="w-32 h-32 md:w-40 md:h-40 bg-gradient-to-br from-[#EDF1F6] to-white rounded-full border-4 border-white shadow-xl flex items-center justify-center overflow-hidden relative z-10">
                 <span class="text-slate-900 font-bold text-4xl tracking-tight">SR</span>
               </div>
-              <button class="absolute bottom-2 right-2 w-10 h-10 bg-white rounded-full shadow-lg border border-slate-100 flex items-center justify-center text-slate-400 hover:text-[#334EAC] transition-colors z-20 hover:scale-105 active:scale-95">
+              <button @click="triggerAvatarUpload" class="absolute bottom-2 right-2 w-10 h-10 bg-white rounded-full shadow-lg border border-slate-100 flex items-center justify-center text-slate-400 hover:text-[#334EAC] transition-colors z-20 hover:scale-105 active:scale-95">
                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg>
               </button>
             </div>
@@ -57,14 +57,14 @@
                 </div>
 
                 <div class="flex gap-2">
-                  <button class="px-5 py-2.5 bg-white border border-slate-200 hover:border-[#7096D1] text-[#334EAC] rounded-2xl font-bold text-[13px] transition-all shadow-sm active:scale-95 flex items-center gap-2">
+                  <RouterLink to="/tutor/settings" class="px-5 py-2.5 bg-white border border-slate-200 hover:border-[#7096D1] text-[#334EAC] rounded-2xl font-bold text-[13px] transition-all shadow-sm active:scale-95 flex items-center gap-2">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
                     Edit Profil
-                  </button>
-                  <button class="px-5 py-2.5 bg-[#334EAC] hover:bg-[#081F5C] text-white rounded-2xl font-bold text-[13px] transition-all shadow-sm active:scale-95 flex items-center gap-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" x2="21" y1="14" y2="3"/></svg>
-                    Preview Publik
-                  </button>
+                  </RouterLink>
+                  <RouterLink to="/tutor/analytics" class="px-5 py-2.5 bg-[#334EAC] hover:bg-[#081F5C] text-white rounded-2xl font-bold text-[13px] transition-all shadow-sm active:scale-95 flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m18.7 8-5.1 5.2-2.8-2.7L7 14.3"/></svg>
+                    Statistik & Analytics
+                  </RouterLink>
                 </div>
               </div>
 
@@ -86,22 +86,22 @@
           
           <!-- 2. ANALYTICS GRID -->
           <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div class="bg-white/80 backdrop-blur-xl rounded-3xl p-5 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-100 transition-all duration-300 ease-out hover:shadow-xl group/card">
+            <RouterLink to="/tutor/mentoring" class="bg-white/80 backdrop-blur-xl rounded-3xl p-5 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-100 transition-all duration-300 ease-out hover:shadow-xl group/card block">
               <p class="text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-1">Total Mentoring</p>
-              <h3 class="text-2xl font-bold text-slate-900 tracking-tight">148</h3>
-            </div>
-            <div class="bg-white/80 backdrop-blur-xl rounded-3xl p-5 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-100 transition-all duration-300 ease-out hover:shadow-xl group/card">
+              <h3 class="text-2xl font-bold text-[#334EAC] tracking-tight">148</h3>
+            </RouterLink>
+            <RouterLink to="/tutor/verify-answer" class="bg-white/80 backdrop-blur-xl rounded-3xl p-5 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-100 transition-all duration-300 ease-out hover:shadow-xl group/card block">
               <p class="text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-1">Jwb Diverifikasi</p>
-              <h3 class="text-2xl font-bold text-slate-900 tracking-tight">324</h3>
-            </div>
-            <div class="bg-white/80 backdrop-blur-xl rounded-3xl p-5 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-100 transition-all duration-300 ease-out hover:shadow-xl group/card">
+              <h3 class="text-2xl font-bold text-[#334EAC] tracking-tight">324</h3>
+            </RouterLink>
+            <RouterLink to="/tutor/analytics" class="bg-white/80 backdrop-blur-xl rounded-3xl p-5 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-100 transition-all duration-300 ease-out hover:shadow-xl group/card block">
               <p class="text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-1">Kepuasan</p>
-              <h3 class="text-2xl font-bold text-slate-900 tracking-tight">98%</h3>
-            </div>
-            <div class="bg-white/80 backdrop-blur-xl rounded-3xl p-5 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-100 transition-all duration-300 ease-out hover:shadow-xl group/card">
+              <h3 class="text-2xl font-bold text-[#334EAC] tracking-tight">98%</h3>
+            </RouterLink>
+            <RouterLink to="/tutor/student-requests" class="bg-white/80 backdrop-blur-xl rounded-3xl p-5 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-100 transition-all duration-300 ease-out hover:shadow-xl group/card block">
               <p class="text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-1">Total Siswa</p>
-              <h3 class="text-2xl font-bold text-slate-900 tracking-tight">86</h3>
-            </div>
+              <h3 class="text-2xl font-bold text-[#334EAC] tracking-tight">86</h3>
+            </RouterLink>
           </div>
 
           <!-- 3. EXPERTISE SECTION -->
@@ -141,12 +141,12 @@
                 </div>
                 <p class="text-[13px] font-bold text-slate-900 tracking-tight mb-1">Membagikan materi baru: "Pengenalan Tree di Struktur Data"</p>
                 <p class="text-[12px] font-medium text-slate-500 mb-2">2 jam lalu</p>
-                <div class="bg-slate-50 border border-slate-100 p-3 rounded-xl inline-flex items-center gap-3">
+                <RouterLink to="/tutor/materials" class="bg-slate-50 border border-slate-100 hover:border-[#7096D1]/50 p-3 rounded-xl inline-flex items-center gap-3 transition-all">
                   <div class="w-8 h-8 rounded-lg bg-rose-50 text-rose-500 flex items-center justify-center">
                     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" x2="8" y1="13" y2="13"/><line x1="16" x2="8" y1="17" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
                   </div>
                   <span class="text-[12px] font-bold text-slate-600">Tree_Structure_Guide.pdf</span>
-                </div>
+                </RouterLink>
               </div>
 
               <div class="relative">
@@ -222,7 +222,7 @@
               Profil Anda termasuk dalam top 5% Mentor Teraktif. Rekomendasi AI: Tambahkan portofolio atau jurnal riset Anda untuk menarik mahasiswa tingkat lanjut.
             </p>
             
-            <button class="w-full py-2.5 bg-white hover:bg-[#F7F2EB] text-[#081F5C] rounded-2xl font-bold text-[12px] transition-all flex items-center justify-center gap-2 shadow-sm active:scale-95 relative z-10">
+            <button @click="updatePortfolio" class="w-full py-2.5 bg-white hover:bg-[#F7F2EB] text-[#081F5C] rounded-2xl font-bold text-[12px] transition-all flex items-center justify-center gap-2 shadow-sm active:scale-95 relative z-10">
               Update Portofolio
             </button>
           </div>
@@ -233,31 +233,35 @@
              
              <div class="mb-5">
                <div class="flex items-center justify-between mb-2">
-                 <span class="text-[12px] font-bold text-[#334EAC] tracking-tight">90% Selesai</span>
+                 <span class="text-[12px] font-bold text-[#334EAC] tracking-tight">{{ profileCompletion }}% Selesai</span>
                </div>
                <div class="h-2.5 w-full bg-[#EDF1F6] rounded-full overflow-hidden shadow-inner">
-                 <div class="h-full bg-gradient-to-r from-[#334EAC] to-[#7096D1] rounded-full" style="width: 90%"></div>
+                 <div class="h-full bg-gradient-to-r from-[#334EAC] to-[#7096D1] rounded-full transition-all duration-500" :style="{ width: profileCompletion + '%' }"></div>
                </div>
              </div>
 
              <ul class="space-y-3">
-               <li class="flex items-center gap-3">
+               <li class="flex items-center gap-4">
                  <span class="w-5 h-5 rounded-full bg-emerald-50 text-emerald-500 flex items-center justify-center shrink-0">
                    <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
                  </span>
                  <span class="text-[12px] font-bold text-slate-600 line-through">Informasi Dasar</span>
                </li>
-               <li class="flex items-center gap-3">
+               <li class="flex items-center gap-4">
                  <span class="w-5 h-5 rounded-full bg-emerald-50 text-emerald-500 flex items-center justify-center shrink-0">
                    <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
                  </span>
                  <span class="text-[12px] font-bold text-slate-600 line-through">Verifikasi KTP / NIDN</span>
                </li>
-               <li class="flex items-center gap-3">
-                 <span class="w-5 h-5 rounded-full bg-slate-100 text-slate-400 flex items-center justify-center shrink-0 border border-slate-200">
-                   <span class="w-1.5 h-1.5 rounded-full bg-slate-300"></span>
+               <li @click="linkLinkedIn" class="flex items-center gap-4 cursor-pointer group/item">
+                 <span 
+                   class="w-5 h-5 rounded-full flex items-center justify-center shrink-0 border transition-colors"
+                   :class="isLinkedInLinked ? 'bg-emerald-50 text-emerald-500 border-emerald-100' : 'bg-slate-100 text-slate-400 border-slate-200 group-hover/item:border-[#334EAC]'"
+                 >
+                   <svg v-if="isLinkedInLinked" xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                   <span v-else class="w-1.5 h-1.5 rounded-full bg-slate-300"></span>
                  </span>
-                 <span class="text-[12px] font-bold text-slate-900 tracking-tight">Tautkan LinkedIn</span>
+                 <span class="text-[12px] font-bold transition-colors" :class="isLinkedInLinked ? 'text-slate-600 line-through' : 'text-slate-900 group-hover/item:text-[#334EAC]'">Tautkan LinkedIn</span>
                </li>
              </ul>
           </div>
@@ -267,35 +271,80 @@
              <h3 class="text-[15px] font-bold text-slate-900 tracking-tight mb-4">Pencapaian Mentor</h3>
              
              <div class="space-y-4">
-               <div class="flex items-center gap-4">
-                 <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-amber-300 to-amber-500 shadow-[0_4px_10px_rgba(245,158,11,0.2)] flex items-center justify-center shrink-0 border-2 border-white">
-                   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                 </div>
-                 <div>
-                    <p class="text-[13px] font-bold text-slate-900 tracking-tight leading-none mb-1">Top 50 Mentor</p>
-                   <p class="text-[11px] font-medium text-slate-500">Tahun 2026</p>
-                 </div>
-               </div>
-               
-               <div class="flex items-center gap-4">
-                 <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-indigo-400 to-indigo-600 shadow-[0_4px_10px_rgba(99,102,241,0.2)] flex items-center justify-center shrink-0 border-2 border-white">
-                   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-                 </div>
-                 <div>
-                    <p class="text-[13px] font-bold text-slate-900 tracking-tight leading-none mb-1">100+ Validasi</p>
-                   <p class="text-[11px] font-medium text-slate-500">Menjaga kualitas forum</p>
-                 </div>
-               </div>
-               
+                <div class="flex items-center gap-4">
+                  <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-amber-300 to-amber-500 shadow-[0_4px_10px_rgba(245,158,11,0.2)] flex items-center justify-center shrink-0 border-2 border-white">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                  </div>
+                  <div>
+                     <p class="text-[13px] font-bold text-slate-900 tracking-tight leading-none mb-1">Top 50 Mentor</p>
+                    <p class="text-[11px] font-medium text-slate-500">Tahun 2026</p>
+                  </div>
+                </div>
+                
+                <div class="flex items-center gap-4">
+                  <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-indigo-400 to-indigo-600 shadow-[0_4px_10px_rgba(99,102,241,0.2)] flex items-center justify-center shrink-0 border-2 border-white">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                  </div>
+                  <div>
+                     <p class="text-[13px] font-bold text-slate-900 tracking-tight leading-none mb-1">100+ Validasi</p>
+                    <p class="text-[11px] font-medium text-slate-500">Menjaga kualitas forum</p>
+                  </div>
+                </div>
+                
              </div>
           </div>
 
         </div>
       </div>
     </div>
+
+    <!-- Success Toast -->
+    <div v-if="showSuccess" class="fixed bottom-6 right-6 z-50 bg-[#334EAC] text-white px-6 py-4 rounded-2xl shadow-[0_10px_40px_rgba(51,78,172,0.3)] flex items-center gap-3 animate-in slide-in-from-bottom-5">
+      <div class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center shrink-0">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      <div>
+        <h4 class="font-bold text-sm">Berhasil!</h4>
+        <p class="text-xs text-indigo-100 font-medium">{{ successMessage }}</p>
+      </div>
+    </div>
+
   </div>
 </template>
 
 <script setup>
+import { ref } from 'vue'
 import { RouterLink } from 'vue-router'
+
+const showSuccess = ref(false)
+const successMessage = ref('')
+
+const isLinkedInLinked = ref(false)
+const profileCompletion = ref(90)
+
+const linkLinkedIn = () => {
+  if (!isLinkedInLinked.value) {
+    isLinkedInLinked.value = true
+    profileCompletion.value = 100
+    successMessage.value = 'LinkedIn berhasil ditautkan! Profil Anda kini 100% lengkap.'
+  } else {
+    isLinkedInLinked.value = false
+    profileCompletion.value = 90
+    successMessage.value = 'LinkedIn berhasil diputuskan.'
+  }
+  showSuccess.value = true
+  setTimeout(() => { showSuccess.value = false }, 3000)
+}
+
+const triggerAvatarUpload = () => {
+  successMessage.value = 'Pilih foto profil baru... Foto berhasil diperbarui!'
+  showSuccess.value = true
+  setTimeout(() => { showSuccess.value = false }, 3000)
+}
+
+const updatePortfolio = () => {
+  successMessage.value = 'Mengunggah portfolio akademik terbaru... Portofolio Berhasil Diupdate!'
+  showSuccess.value = true
+  setTimeout(() => { showSuccess.value = false }, 3000)
+}
 </script>

@@ -1,135 +1,132 @@
 <template>
-  <div class="space-y-6 animate-in fade-in duration-500">
+  <div class="space-y-6 animate-in fade-in duration-500 max-w-7xl mx-auto">
     
     <!-- 1. Top Header -->
-    <div class="mb-12 max-w-3xl">
-      <h1 class="text-3xl md:text-4xl font-bold text-slate-900 tracking-tight mb-4">Mentoring 1-on-1</h1>
-      <p class="text-slate-500 font-medium text-[16px] leading-relaxed">Terhubung dengan tutor universitas terkemuka dan pakar industri. Pesan sesi privat untuk mempercepat kemajuan akademikmu dan menyelesaikan masalah kompleks.</p>
+    <div class="mb-6 max-w-3xl">
+      <h1 class="text-xl md:text-2xl font-bold text-slate-900 tracking-tight mb-1">Workspace Mentoring Akademik</h1>
+      <p class="text-slate-500 font-normal text-xs md:text-sm leading-relaxed">Jadwalkan asistensi dan bimbingan belajar 1-on-1 bersama tutor universitas dan asisten mahasiswa pilihan untuk menunjang capaian akademismu.</p>
     </div>
 
     <!-- 2. Search & Filter Section -->
-    <div class="bg-white/80 backdrop-blur-xl rounded-3xl p-4 md:p-5 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-100 mb-12 flex flex-col md:flex-row gap-4 relative overflow-hidden">
+    <div class="bg-white rounded-2xl p-4 shadow-sm border border-slate-200/80 mb-6 flex flex-col md:flex-row gap-3.5 relative overflow-hidden">
       
       <!-- Search -->
       <div class="relative flex-1">
-        <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
         </div>
-        <input type="text" class="w-full pl-12 pr-4 py-3.5 bg-slate-50 hover:bg-slate-100/50 border-none rounded-[1.25rem] text-[15px] font-bold text-[#081F5C] placeholder-slate-400 focus:outline-none focus:ring-4 focus:ring-[#7096D1]/20 transition-all" placeholder="Cari berdasarkan nama, subjek, atau universitas...">
+        <input type="text" class="w-full pl-9 pr-4 py-2 bg-white border border-slate-200 rounded-xl text-xs font-bold text-[#081F5C] placeholder-slate-400 focus:outline-none focus:border-[#7096D1] focus:ring-2 focus:ring-[#7096D1]/10 transition-all shadow-sm" placeholder="Cari nama, mata pelajaran, atau instansi universitas...">
       </div>
 
       <!-- Categories -->
-      <div class="relative min-w-[180px]">
-        <select class="w-full pl-4 pr-10 py-3.5 bg-slate-50 hover:bg-slate-100/50 border-none rounded-[1.25rem] text-[14px] font-bold text-[#081F5C] appearance-none focus:outline-none focus:ring-4 focus:ring-[#7096D1]/20 transition-all cursor-pointer">
+      <div class="relative min-w-[150px]">
+        <select class="w-full pl-3 pr-8 py-2 bg-white border border-slate-200 rounded-xl text-xs font-bold text-[#081F5C] appearance-none focus:outline-none focus:border-[#7096D1] transition-all cursor-pointer shadow-sm">
           <option value="">Semua Kategori</option>
           <option value="cs">Ilmu Komputer</option>
           <option value="math">Matematika</option>
           <option value="physics">Fisika</option>
         </select>
-        <div class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none text-slate-400">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+        <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none text-slate-400">
+          <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
         </div>
       </div>
 
       <!-- Rating -->
-      <div class="relative min-w-[140px]">
-        <select class="w-full pl-4 pr-10 py-3.5 bg-slate-50 hover:bg-slate-100/50 border-none rounded-[1.25rem] text-[14px] font-bold text-[#081F5C] appearance-none focus:outline-none focus:ring-4 focus:ring-[#7096D1]/20 transition-all cursor-pointer">
+      <div class="relative min-w-[130px]">
+        <select class="w-full pl-3 pr-8 py-2 bg-white border border-slate-200 rounded-xl text-xs font-bold text-[#081F5C] appearance-none focus:outline-none focus:border-[#7096D1] transition-all cursor-pointer shadow-sm">
           <option value="">Semua Penilaian</option>
           <option value="4.5">4.5 ke atas</option>
           <option value="4.0">4.0 ke atas</option>
         </select>
-        <div class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none text-slate-400">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+        <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none text-slate-400">
+          <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
         </div>
       </div>
 
       <!-- Filter Button -->
-      <button class="px-8 py-3.5 bg-[#334EAC] hover:bg-[#081F5C] text-white rounded-[1.25rem] font-extrabold text-[14px] transition-all shadow-[0_4px_15px_rgba(51,78,172,0.15)] active:scale-95 shrink-0 flex items-center justify-center gap-2">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M22 3H2l8 9.46V19l4 2v-8.54L22 3z"/></svg>
+      <button class="px-4 py-2 bg-[#334EAC] hover:bg-[#081F5C] text-white rounded-xl font-bold text-xs transition-all shadow-sm active:scale-95 shrink-0 flex items-center justify-center gap-1.5">
+        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M22 3H2l8 9.46V19l4 2v-8.54L22 3z"/></svg>
         Filter
       </button>
 
     </div>
 
     <!-- Layout: Left (Upcoming/History) and Right (Mentors) -->
-    <div class="flex flex-col xl:flex-row gap-8 lg:gap-10">
+    <div class="flex flex-col xl:flex-row gap-6">
       
       <!-- LEFT PANEL: Sessions -->
-      <div class="w-full xl:w-[35%] shrink-0 space-y-8">
+      <div class="w-full xl:w-[35%] shrink-0 space-y-6">
         
-        <!-- 3. Upcoming Session Card -->
-        <div class="bg-white/80 backdrop-blur-xl rounded-3xl p-7 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-100 transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-xl relative overflow-hidden group/card">
-          <!-- Subtle Accent -->
-          <div class="absolute top-0 right-0 w-32 h-32 bg-[#7096D1] rounded-full blur-3xl opacity-[0.08] pointer-events-none"></div>
-
-          <div class="flex items-center justify-between mb-6 relative z-10">
-            <h3 class="text-[17px] font-bold text-slate-900 flex items-center gap-2.5 tracking-tight">
-              <span class="w-2.5 h-2.5 rounded-full bg-rose-500 animate-pulse"></span>
-              Sesi Mendatang
+        <!-- 3. Upcoming Session Card: Styled as academic schedule panel -->
+        <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200/80 transition-all duration-200 relative overflow-hidden">
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="text-xs font-bold text-slate-400 uppercase tracking-widest flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-rose-500 animate-pulse"></span>
+              Jadwal Sesi Terdekat
             </h3>
-            <span class="px-3 py-1 bg-[#EDF1F6] text-[#334EAC] text-[10px] font-extrabold rounded-md uppercase tracking-widest">Dalam 2 jam</span>
+            <span class="px-2 py-0.5 bg-[#EDF1F6] text-[#334EAC] text-[9px] font-bold rounded uppercase tracking-wider">Mulai 2 Jam Lagi</span>
           </div>
 
-          <div class="flex items-center gap-4 mb-6 relative z-10">
-            <div class="w-14 h-14 rounded-2xl bg-slate-100 overflow-hidden shrink-0 border border-slate-200">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-10 h-10 rounded-xl bg-slate-100 overflow-hidden shrink-0 border border-slate-200">
               <img src="https://i.pravatar.cc/150?u=a042581f4e29026704d" alt="Mentor" class="w-full h-full object-cover">
             </div>
             <div>
-              <h4 class="text-[16px] font-extrabold text-[#081F5C] mb-1">Kalkulus Lanjut</h4>
-              <p class="text-[13px] font-bold text-slate-500">dengan <span class="text-[#334EAC]">Dr. Sarah Smith</span></p>
+              <h4 class="text-sm font-bold text-[#081F5C] mb-0.5">Kalkulus Lanjut</h4>
+              <p class="text-[11px] text-slate-400">Tutor: <span class="text-[#334EAC] font-bold">Dr. Sarah Smith</span></p>
             </div>
           </div>
 
-          <div class="bg-slate-50 rounded-2xl p-4 mb-6 flex items-center justify-between border border-slate-100 relative z-10">
-            <div class="flex items-center gap-3">
-              <div class="w-10 h-10 rounded-full bg-white flex items-center justify-center text-[#334EAC] shadow-sm border border-slate-100">
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          <div class="bg-slate-50 rounded-xl p-3 mb-4 flex items-center justify-between border border-slate-200/40">
+            <div class="flex items-center gap-2.5">
+              <div class="w-7 h-7 rounded-lg bg-white flex items-center justify-center text-[#334EAC] border border-slate-200/60 shadow-sm">
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
               </div>
               <div>
-                <p class="text-[13px] font-extrabold text-[#081F5C]">Hari ini, 15:00 WIB</p>
-                <p class="text-[11px] font-bold text-slate-400">45 Menit</p>
+                <p class="text-[11px] font-bold text-[#081F5C]">Hari ini, 15:00 WIB</p>
+                <p class="text-[9px] text-slate-400">Asistensi Daring • 45 Menit</p>
               </div>
             </div>
           </div>
 
-          <button class="w-full py-4 bg-[#334EAC] hover:bg-[#081F5C] text-white rounded-[1.25rem] font-extrabold text-[15px] transition-all shadow-[0_4px_15px_rgba(51,78,172,0.15)] active:scale-95 flex items-center justify-center gap-2 relative z-10">
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h20"/><path d="m15 5 7 7-7 7"/></svg>
-            Masuk Ruang Diskusi
+          <button class="w-full py-2.5 bg-[#334EAC] hover:bg-[#081F5C] text-white rounded-xl font-bold text-xs transition-all shadow-sm active:scale-95 flex items-center justify-center gap-1.5">
+            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h20"/><path d="m15 5 7 7-7 7"/></svg>
+            Masuk Ruang Mentoring
           </button>
         </div>
 
         <!-- 4. Session History Panel -->
-        <div class="bg-white/80 backdrop-blur-xl rounded-3xl p-7 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-100 transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-xl">
-          <div class="flex items-center justify-between mb-6">
-            <h3 class="text-[16px] font-extrabold text-[#081F5C]">Riwayat Terbaru</h3>
-            <button class="text-[12px] font-bold text-[#334EAC] hover:text-[#081F5C] transition-colors">Lihat Semua</button>
+        <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200/80 transition-all duration-200">
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="text-xs font-bold text-[#081F5C] uppercase tracking-wider">Riwayat Sesi Selesai</h3>
+            <button class="text-[11px] font-bold text-[#334EAC] hover:text-[#081F5C] transition-colors">Lihat Semua</button>
           </div>
 
-          <div class="space-y-4">
+          <div class="space-y-3">
             <!-- History Card -->
-            <div class="flex items-start gap-4 p-4 rounded-[1.25rem] bg-slate-50/50 hover:bg-[#F7F2EB]/50 border border-transparent hover:border-slate-200/60 transition-all cursor-pointer group">
-              <div class="w-10 h-10 rounded-full bg-emerald-50 flex items-center justify-center text-emerald-600 shrink-0 border border-emerald-100">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            <div class="flex items-start gap-3 p-3 rounded-xl bg-slate-50 hover:bg-[#F7F2EB]/50 border border-slate-200/40 hover:border-slate-200 transition-all cursor-pointer group">
+              <div class="w-8 h-8 rounded-lg bg-emerald-50 flex items-center justify-center text-emerald-600 shrink-0 border border-emerald-100">
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
               </div>
-              <div>
-                <h4 class="text-[13px] font-extrabold text-[#081F5C] mb-0.5 group-hover:text-[#334EAC] transition-colors">Kinematika OSN</h4>
-                <p class="text-[11px] font-bold text-slate-500 mb-2">Prof. Anderson • 12 Mei</p>
-                <div class="flex items-center gap-1">
-                  <svg v-for="i in 5" :key="i" xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="#F59E0B" stroke="#F59E0B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              <div class="min-w-0 flex-1">
+                <h4 class="text-xs font-bold text-[#081F5C] mb-0.5 group-hover:text-[#334EAC] transition-colors truncate">Kinematika OSN</h4>
+                <p class="text-[10px] text-slate-500 mb-1.5">Prof. Anderson • 12 Mei</p>
+                <div class="flex items-center gap-0.5">
+                  <svg v-for="i in 5" :key="i" xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 24 24" fill="#F59E0B" stroke="#F59E0B" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
                 </div>
               </div>
             </div>
 
             <!-- History Card -->
-            <div class="flex items-start gap-4 p-4 rounded-[1.25rem] bg-slate-50/50 hover:bg-[#F7F2EB]/50 border border-transparent hover:border-slate-200/60 transition-all cursor-pointer group">
-              <div class="w-10 h-10 rounded-full bg-emerald-50 flex items-center justify-center text-emerald-600 shrink-0 border border-emerald-100">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            <div class="flex items-start gap-3 p-3 rounded-xl bg-slate-50 hover:bg-[#F7F2EB]/50 border border-slate-200/40 hover:border-slate-200 transition-all cursor-pointer group">
+              <div class="w-8 h-8 rounded-lg bg-emerald-50 flex items-center justify-center text-emerald-600 shrink-0 border border-emerald-100">
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
               </div>
-              <div>
-                <h4 class="text-[13px] font-extrabold text-[#081F5C] mb-0.5 group-hover:text-[#334EAC] transition-colors">Struktur Data Python</h4>
-                <p class="text-[11px] font-bold text-slate-500 mb-2">Budi Santoso • 08 Mei</p>
-                <div class="flex items-center gap-1">
-                  <svg v-for="i in 5" :key="i" xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="#F59E0B" stroke="#F59E0B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              <div class="min-w-0 flex-1">
+                <h4 class="text-xs font-bold text-[#081F5C] mb-0.5 group-hover:text-[#334EAC] transition-colors truncate">Struktur Data Python</h4>
+                <p class="text-[10px] text-slate-500 mb-1.5">Budi Santoso • 08 Mei</p>
+                <div class="flex items-center gap-0.5">
+                  <svg v-for="i in 5" :key="i" xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 24 24" fill="#F59E0B" stroke="#F59E0B" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
                 </div>
               </div>
             </div>
@@ -142,125 +139,155 @@
       <!-- RIGHT PANEL: Recommended Mentors -->
       <div class="flex-1 w-full xl:w-[65%] min-w-0">
         
-        <div class="flex items-center justify-between mb-8">
-          <h2 class="text-2xl font-extrabold text-[#081F5C]">Rekomendasi Mentor</h2>
-          <span class="text-[13px] font-bold text-slate-400">124 tersedia</span>
+        <div class="flex items-center justify-between mb-4">
+          <h2 class="text-base font-bold text-[#081F5C]">Rekomendasi Pembimbing Akademik</h2>
+          <span class="text-xs text-slate-400">124 tutor aktif</span>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           
-          <!-- Mentor Card -->
-          <div class="bg-white/80 backdrop-blur-xl rounded-3xl p-6 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-100 transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-xl group flex flex-col h-full">
+          <!-- Mentor Card 1 -->
+          <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm flex flex-col justify-between h-full relative">
             
-            <div class="flex items-start justify-between mb-5">
-              <div class="relative">
-                <div class="w-16 h-16 rounded-full bg-slate-100 overflow-hidden border border-slate-200">
-                  <img src="https://i.pravatar.cc/150?u=a042581f4e29026704d" alt="Dr. Sarah Smith" class="w-full h-full object-cover">
+            <!-- TOP SECTION: avatar + name + verified + rating -->
+            <div class="flex items-start justify-between mb-3.5">
+              <div class="flex items-center gap-3">
+                <div class="relative shrink-0">
+                  <div class="w-12 h-12 rounded-full bg-slate-100 overflow-hidden border border-slate-200">
+                    <img src="https://i.pravatar.cc/150?u=a042581f4e29026704d" alt="Dr. Sarah Smith" class="w-full h-full object-cover">
+                  </div>
+                  <!-- Verification Badge Subtle -->
+                  <div class="absolute -bottom-0.5 -right-0.5 w-4 h-4 bg-[#334EAC] rounded-full border border-white flex items-center justify-center text-white shadow-sm">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                  </div>
                 </div>
-                <!-- Verification Badge -->
-                <div class="absolute -bottom-1 -right-1 w-6 h-6 bg-[#334EAC] rounded-full border-2 border-white flex items-center justify-center text-white shadow-sm">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                <div>
+                  <h3 class="text-sm font-bold text-[#081F5C] leading-tight">Dr. Sarah Smith</h3>
+                  <p class="text-[10px] font-bold text-slate-400">Ph.D. Matematika • MIT</p>
                 </div>
               </div>
-              <div class="bg-[#F7F2EB] px-2.5 py-1 rounded-lg flex items-center gap-1 border border-amber-100">
-                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="#F59E0B" stroke="#F59E0B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                <span class="text-[12px] font-extrabold text-[#081F5C]">4.9</span>
+
+              <!-- Rating compact di kanan atas -->
+              <div class="bg-[#F7F2EB] px-2 py-0.5 rounded border border-amber-100 flex items-center gap-0.5 shrink-0">
+                <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="#F59E0B" stroke="#F59E0B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                <span class="text-[10px] font-bold text-[#081F5C]">4.9</span>
               </div>
             </div>
 
-            <div class="mb-5 flex-1">
-              <h3 class="text-[17px] font-extrabold text-[#081F5C] mb-1 group-hover:text-[#334EAC] transition-colors">Dr. Sarah Smith</h3>
-              <p class="text-[13px] font-bold text-slate-500 mb-3">Ph.D. di Matematika • MIT</p>
+            <!-- MIDDLE SECTION: specialization, bio / institution, tags -->
+            <div class="mb-4 flex-1">
+              <p class="text-xs text-slate-500 leading-relaxed mb-3">Spesialisasi pengajaran matematika kalkulus multivariabel, aljabar linear, dan persiapan ujian universitas.</p>
               
-              <div class="flex flex-wrap gap-2">
-                <span class="px-2.5 py-1 bg-slate-50 text-slate-600 text-[10px] font-extrabold rounded-md border border-slate-200/60 uppercase tracking-widest">Kalkulus</span>
-                <span class="px-2.5 py-1 bg-slate-50 text-slate-600 text-[10px] font-extrabold rounded-md border border-slate-200/60 uppercase tracking-widest">Aljabar</span>
+              <div class="flex flex-wrap gap-1.5">
+                <span class="px-2 py-0.5 bg-slate-100 text-slate-600 text-[9px] font-bold rounded uppercase tracking-wider">Kalkulus</span>
+                <span class="px-2 py-0.5 bg-slate-100 text-slate-600 text-[9px] font-bold rounded uppercase tracking-wider">Aljabar</span>
               </div>
             </div>
 
-            <div class="flex items-center justify-between pt-5 border-t border-slate-100/80">
-              <div>
-                <p class="text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-0.5">Biaya Sesi</p>
-                <p class="text-[15px] font-extrabold text-[#081F5C]">Rp 150k <span class="text-[12px] font-bold text-slate-400">/ jam</span></p>
+            <!-- BOTTOM SECTION: pricing + availability + CTA -->
+            <div class="pt-3.5 border-t border-slate-100 flex flex-col gap-3">
+              <div class="flex justify-between items-center text-xs">
+                <span class="text-slate-400 font-semibold">Tersedia: <span class="text-slate-700">Senin - Jumat</span></span>
+                <span class="text-[#081F5C] font-bold">Rp 150k <span class="text-[10px] text-slate-400 font-normal">/ jam</span></span>
               </div>
-              <button @click="openBooking('Dr. Sarah Smith', 'Matematika')" class="px-5 py-2.5 bg-[#EDF1F6] hover:bg-[#334EAC] hover:text-white text-[#334EAC] rounded-xl font-extrabold text-[13px] transition-colors active:scale-95">
-                Pesan
+              <button @click="openBooking('Dr. Sarah Smith', 'Matematika')" class="w-full py-2.5 bg-[#EDF1F6] hover:bg-[#334EAC] hover:text-white text-[#334EAC] rounded-xl font-bold text-xs transition-colors shadow-sm text-center">
+                Pesan Mentoring
               </button>
             </div>
           </div>
 
-          <!-- Mentor Card -->
-          <div class="bg-white/80 backdrop-blur-xl rounded-3xl p-6 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-100 transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-xl group flex flex-col h-full">
+          <!-- Mentor Card 2 -->
+          <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm flex flex-col justify-between h-full relative">
             
-            <div class="flex items-start justify-between mb-5">
-              <div class="relative">
-                <div class="w-16 h-16 rounded-full bg-slate-100 overflow-hidden border border-slate-200">
-                  <img src="https://i.pravatar.cc/150?u=1" alt="Prof. Anderson" class="w-full h-full object-cover">
+            <!-- TOP SECTION: avatar + name + verified + rating -->
+            <div class="flex items-start justify-between mb-3.5">
+              <div class="flex items-center gap-3">
+                <div class="relative shrink-0">
+                  <div class="w-12 h-12 rounded-full bg-slate-100 overflow-hidden border border-slate-200">
+                    <img src="https://i.pravatar.cc/150?u=1" alt="Prof. Anderson" class="w-full h-full object-cover">
+                  </div>
+                  <!-- Verification Badge Subtle -->
+                  <div class="absolute -bottom-0.5 -right-0.5 w-4 h-4 bg-[#334EAC] rounded-full border border-white flex items-center justify-center text-white shadow-sm">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                  </div>
                 </div>
-                <!-- Verification Badge -->
-                <div class="absolute -bottom-1 -right-1 w-6 h-6 bg-[#334EAC] rounded-full border-2 border-white flex items-center justify-center text-white shadow-sm">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                <div>
+                  <h3 class="text-sm font-bold text-[#081F5C] leading-tight">Prof. Anderson</h3>
+                  <p class="text-[10px] font-bold text-slate-400">Dosen Fisika • UI</p>
                 </div>
               </div>
-              <div class="bg-[#F7F2EB] px-2.5 py-1 rounded-lg flex items-center gap-1 border border-amber-100">
-                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="#F59E0B" stroke="#F59E0B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                <span class="text-[12px] font-extrabold text-[#081F5C]">4.8</span>
+
+              <!-- Rating compact di kanan atas -->
+              <div class="bg-[#F7F2EB] px-2 py-0.5 rounded border border-amber-100 flex items-center gap-0.5 shrink-0">
+                <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="#F59E0B" stroke="#F59E0B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                <span class="text-[10px] font-bold text-[#081F5C]">4.8</span>
               </div>
             </div>
 
-            <div class="mb-5 flex-1">
-              <h3 class="text-[17px] font-extrabold text-[#081F5C] mb-1 group-hover:text-[#334EAC] transition-colors">Prof. Anderson</h3>
-              <p class="text-[13px] font-bold text-slate-500 mb-3">Dosen Fisika • UI</p>
+            <!-- MIDDLE SECTION: specialization, bio / institution, tags -->
+            <div class="mb-4 flex-1">
+              <p class="text-xs text-slate-500 leading-relaxed mb-3">Persiapan intensif kompetisi sains Fisika, mekanika klasik, termodinamika, dan kinematika dasar.</p>
               
-              <div class="flex flex-wrap gap-2">
-                <span class="px-2.5 py-1 bg-slate-50 text-slate-600 text-[10px] font-extrabold rounded-md border border-slate-200/60 uppercase tracking-widest">Kinematika</span>
-                <span class="px-2.5 py-1 bg-slate-50 text-slate-600 text-[10px] font-extrabold rounded-md border border-slate-200/60 uppercase tracking-widest">OSN</span>
+              <div class="flex flex-wrap gap-1.5">
+                <span class="px-2 py-0.5 bg-slate-100 text-slate-600 text-[9px] font-bold rounded uppercase tracking-wider">Kinematika</span>
+                <span class="px-2 py-0.5 bg-slate-100 text-slate-600 text-[9px] font-bold rounded uppercase tracking-wider">OSN</span>
               </div>
             </div>
 
-            <div class="flex items-center justify-between pt-5 border-t border-slate-100/80">
-              <div>
-                <p class="text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-0.5">Biaya Sesi</p>
-                <p class="text-[15px] font-extrabold text-[#081F5C]">Rp 200k <span class="text-[12px] font-bold text-slate-400">/ jam</span></p>
+            <!-- BOTTOM SECTION: pricing + availability + CTA -->
+            <div class="pt-3.5 border-t border-slate-100 flex flex-col gap-3">
+              <div class="flex justify-between items-center text-xs">
+                <span class="text-slate-400 font-semibold">Tersedia: <span class="text-slate-700">Sabtu - Minggu</span></span>
+                <span class="text-[#081F5C] font-bold">Rp 200k <span class="text-[10px] text-slate-400 font-normal">/ jam</span></span>
               </div>
-              <button @click="openBooking('Prof. Anderson', 'Fisika')" class="px-5 py-2.5 bg-[#EDF1F6] hover:bg-[#334EAC] hover:text-white text-[#334EAC] rounded-xl font-extrabold text-[13px] transition-colors active:scale-95">
-                Pesan
+              <button @click="openBooking('Prof. Anderson', 'Fisika')" class="w-full py-2.5 bg-[#EDF1F6] hover:bg-[#334EAC] hover:text-white text-[#334EAC] rounded-xl font-bold text-xs transition-colors shadow-sm text-center">
+                Pesan Mentoring
               </button>
             </div>
           </div>
 
-          <!-- Mentor Card -->
-          <div class="bg-white/80 backdrop-blur-xl rounded-3xl p-6 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-100 transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-xl group flex flex-col h-full">
+          <!-- Mentor Card 3 -->
+          <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm flex flex-col justify-between h-full relative">
             
-            <div class="flex items-start justify-between mb-5">
-              <div class="relative">
-                <div class="w-16 h-16 rounded-full bg-[#EDF1F6] overflow-hidden border border-slate-200 flex items-center justify-center font-extrabold text-[#334EAC] text-xl">
-                  BS
+            <!-- TOP SECTION: avatar + name + verified + rating -->
+            <div class="flex items-start justify-between mb-3.5">
+              <div class="flex items-center gap-3">
+                <div class="relative shrink-0">
+                  <div class="w-12 h-12 rounded-full bg-[#EDF1F6] overflow-hidden border border-slate-200 flex items-center justify-center font-extrabold text-[#334EAC] text-xs">
+                    BS
+                  </div>
+                </div>
+                <div>
+                  <h3 class="text-sm font-bold text-[#081F5C] leading-tight">Budi Santoso</h3>
+                  <p class="text-[10px] font-bold text-slate-400">Senior Dev • Gojek</p>
                 </div>
               </div>
-              <div class="bg-[#F7F2EB] px-2.5 py-1 rounded-lg flex items-center gap-1 border border-amber-100">
-                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="#F59E0B" stroke="#F59E0B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                <span class="text-[12px] font-extrabold text-[#081F5C]">4.5</span>
+
+              <!-- Rating compact di kanan atas -->
+              <div class="bg-[#F7F2EB] px-2 py-0.5 rounded border border-amber-100 flex items-center gap-0.5 shrink-0">
+                <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="#F59E0B" stroke="#F59E0B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                <span class="text-[10px] font-bold text-[#081F5C]">4.5</span>
               </div>
             </div>
 
-            <div class="mb-5 flex-1">
-              <h3 class="text-[17px] font-extrabold text-[#081F5C] mb-1 group-hover:text-[#334EAC] transition-colors">Budi Santoso</h3>
-              <p class="text-[13px] font-bold text-slate-500 mb-3">Senior Software Engineer • Gojek</p>
+            <!-- MIDDLE SECTION: specialization, bio / institution, tags -->
+            <div class="mb-4 flex-1">
+              <p class="text-xs text-slate-500 leading-relaxed mb-3">Mentoring pemrograman frontend modern, Vue.js Composition API, struktur data, dan arsitektur kode.</p>
               
-              <div class="flex flex-wrap gap-2">
-                <span class="px-2.5 py-1 bg-slate-50 text-slate-600 text-[10px] font-extrabold rounded-md border border-slate-200/60 uppercase tracking-widest">Vue.js</span>
-                <span class="px-2.5 py-1 bg-slate-50 text-slate-600 text-[10px] font-extrabold rounded-md border border-slate-200/60 uppercase tracking-widest">Algoritma</span>
+              <div class="flex flex-wrap gap-1.5">
+                <span class="px-2 py-0.5 bg-slate-100 text-slate-600 text-[9px] font-bold rounded uppercase tracking-wider">Vue.js</span>
+                <span class="px-2 py-0.5 bg-slate-100 text-slate-600 text-[9px] font-bold rounded uppercase tracking-wider">Algoritma</span>
               </div>
             </div>
 
-            <div class="flex items-center justify-between pt-5 border-t border-slate-100/80">
-              <div>
-                <p class="text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-0.5">Biaya Sesi</p>
-                <p class="text-[15px] font-extrabold text-[#081F5C]">Rp 120k <span class="text-[12px] font-bold text-slate-400">/ jam</span></p>
+            <!-- BOTTOM SECTION: pricing + availability + CTA -->
+            <div class="pt-3.5 border-t border-slate-100 flex flex-col gap-3">
+              <div class="flex justify-between items-center text-xs">
+                <span class="text-slate-400 font-semibold">Tersedia: <span class="text-slate-700">Malam Hari</span></span>
+                <span class="text-[#081F5C] font-bold">Rp 120k <span class="text-[10px] text-slate-400 font-normal">/ jam</span></span>
               </div>
-              <button @click="openBooking('Budi Santoso', 'Ilmu Komputer')" class="px-5 py-2.5 bg-[#EDF1F6] hover:bg-[#334EAC] hover:text-white text-[#334EAC] rounded-xl font-extrabold text-[13px] transition-colors active:scale-95">
-                Pesan
+              <button @click="openBooking('Budi Santoso', 'Ilmu Komputer')" class="w-full py-2.5 bg-[#EDF1F6] hover:bg-[#334EAC] hover:text-white text-[#334EAC] rounded-xl font-bold text-xs transition-colors shadow-sm text-center">
+                Pesan Mentoring
               </button>
             </div>
           </div>

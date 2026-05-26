@@ -12,7 +12,7 @@
         <h1 class="text-2xl md:text-3xl font-bold text-slate-900 tracking-tight">Edit Profil Akademik</h1>
         <p class="text-[14px] text-slate-500 mt-1 font-medium">Sesuaikan identitas akademik dan preferensi belajar Anda.</p>
       </div>
-      <div class="flex items-center gap-3">
+      <div class="flex items-center gap-4">
         <div class="w-10 h-10 rounded-full bg-[#EDF1F6] flex items-center justify-center shrink-0 border border-slate-200 overflow-hidden">
            <img src="https://i.pravatar.cc/300?u=a042581f4e29026704d" alt="Profile Badge" class="w-full h-full object-cover">
         </div>

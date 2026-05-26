@@ -30,7 +30,7 @@
         <h3 class="text-[22px] font-bold text-slate-900 text-center mb-3 tracking-tight">Tarik dan lepaskan dokumenmu di sini</h3>
         <p class="text-[15px] font-medium text-slate-500 text-center max-w-md mb-8 leading-relaxed">Kami menerima file PDF, DOCX, dan TXT yang berisi lembar ujian, catatan kuliah, atau bab buku.</p>
         
-        <div class="flex items-center gap-3">
+        <div class="flex items-center gap-4">
           <span class="px-4 py-1.5 bg-white text-slate-400 text-[11px] font-extrabold rounded-xl shadow-sm border border-slate-200/60 uppercase tracking-widest">PDF</span>
           <span class="px-4 py-1.5 bg-white text-slate-400 text-[11px] font-extrabold rounded-xl shadow-sm border border-slate-200/60 uppercase tracking-widest">DOCX</span>
           <span class="px-4 py-1.5 bg-[#EDF1F6] text-[#334EAC] text-[11px] font-extrabold rounded-xl shadow-sm border border-slate-200/60 uppercase tracking-widest">Maks 10MB</span>

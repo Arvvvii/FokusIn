@@ -1,5 +1,5 @@
 <template>
-  <div class="flex h-screen overflow-hidden bg-[#F7F2EB] relative text-slate-900 selection:bg-[#BAD6EB]/40">
+  <div class="flex h-screen overflow-hidden bg-[#F7F2EB] relative text-slate-900 selection:bg-[#BAD6EB]/40" style="zoom: 90%;">
     <!-- Global Atmospheric Background System -->
     <div class="absolute inset-0 z-0 pointer-events-none overflow-hidden">
       <!-- Ultra Subtle Grid Texture -->

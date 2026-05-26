@@ -7,7 +7,7 @@
         <h1 class="text-3xl font-extrabold text-[#081F5C] tracking-tight mb-2">Community Moderation</h1>
         <p class="text-slate-500 font-medium">Tinjau laporan konten, hapus diskusi spam, dan jaga integritas akademik platform.</p>
       </div>
-      <div class="flex items-center gap-3">
+      <div class="flex items-center gap-4">
         <select class="px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-sm font-bold text-slate-600 shadow-sm focus:outline-none focus:border-[#7096D1] appearance-none cursor-pointer">
           <option>Terbaru</option>
           <option>Prioritas Tinggi</option>

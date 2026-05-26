@@ -10,7 +10,7 @@
         </div>
         <p class="text-slate-500 font-medium">Pantau kinerja sistem ekstraksi AI, tingkat kepercayaan, dan log analisis real-time.</p>
       </div>
-      <div class="flex items-center gap-3">
+      <div class="flex items-center gap-4">
         <div class="px-4 py-2 bg-indigo-50 border border-indigo-100 rounded-xl text-indigo-700 font-bold text-sm shadow-sm flex items-center gap-2">
           <span class="w-2 h-2 rounded-full bg-indigo-500 animate-ping absolute"></span>
           <span class="w-2 h-2 rounded-full bg-indigo-500 relative"></span>

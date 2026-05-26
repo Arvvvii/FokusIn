@@ -7,7 +7,7 @@
         <h1 class="text-3xl font-bold text-slate-900 tracking-tight mb-2">Platform Overview</h1>
         <p class="text-slate-500 font-medium">Pantau kesehatan sistem, moderasi komunitas, dan performa AI secara real-time.</p>
       </div>
-      <div class="flex items-center gap-3">
+      <div class="flex items-center gap-4">
         <button class="px-4 py-2 bg-white text-slate-600 border border-slate-200 rounded-xl font-bold text-sm shadow-sm hover:bg-slate-50 transition-all flex items-center gap-2">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
           Export Report
@@ -40,7 +40,7 @@
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div v-for="health in healthMetrics" :key="health.name" class="p-4 rounded-2xl border border-slate-100 bg-slate-50/50 flex items-center justify-between hover:bg-white hover:shadow-sm transition-all duration-300 ease-out">
-            <div class="flex items-center gap-3">
+            <div class="flex items-center gap-4">
               <div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0" :class="health.colorClass">
                 <div v-html="health.icon"></div>
               </div>

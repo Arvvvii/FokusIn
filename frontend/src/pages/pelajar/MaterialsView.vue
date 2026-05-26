@@ -1,17 +1,28 @@
 <template>
   <div class="space-y-6 animate-in fade-in duration-500">
     
-    <!-- 1. Top Header -->
-    <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-12">
-      <div class="max-w-2xl">
-        <h1 class="text-3xl md:text-4xl font-bold text-slate-900 tracking-tight mb-3">Materi Akademik</h1>
-        <p class="text-slate-500 font-medium text-[16px] leading-relaxed">Akses perpustakaan catatan kuliah, soal ujian, dan sumber daya universitas yang dikurasi untuk mempercepat pembelajaranmu.</p>
+    <!-- 1. GLASSMORPHIC HEADER SECTION -->
+    <div class="bg-white/80 backdrop-blur-xl rounded-3xl p-7 md:p-8 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-white/40 relative overflow-hidden flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8 animate-in fade-in duration-500">
+      <div class="absolute right-0 top-0 w-1/3 h-full bg-gradient-to-l from-[#EDF1F6]/80 to-transparent pointer-events-none"></div>
+      
+      <div class="relative z-10 flex items-center gap-4">
+        <span class="w-12 h-12 rounded-2xl bg-[#334EAC]/10 text-[#334EAC] flex items-center justify-center shrink-0">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>
+        </span>
+        <div>
+          <h1 class="text-2xl md:text-3xl font-bold text-slate-900 tracking-tight leading-none mb-1">Materi Akademik</h1>
+          <p class="text-[14px] text-slate-500 font-medium leading-relaxed mt-1">
+            Akses perpustakaan catatan kuliah, soal ujian, dan sumber daya akademik terverifikasi yang dikurasi oleh para tutor ahli FokusIn.
+          </p>
+        </div>
       </div>
-      <!-- Primary CTA -->
-      <RouterLink to="/pelajar/materials/create" class="inline-flex items-center justify-center gap-2.5 px-7 py-3.5 bg-[#334EAC] hover:bg-[#081F5C] text-white rounded-2xl font-bold transition-all shadow-[0_4px_15px_rgba(51,78,172,0.15)] active:scale-95 shrink-0">
-        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg>
-        Unggah Materi
-      </RouterLink>
+
+      <div class="relative z-10 flex shrink-0">
+        <RouterLink :to="`${baseMaterialsRoute}/create`" class="px-5 py-2.5 bg-[#334EAC] hover:bg-[#081F5C] text-white rounded-2xl font-bold text-[13px] shadow-sm active:scale-95 transition-all flex items-center gap-2">
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg>
+          Unggah Materi Baru
+        </RouterLink>
+      </div>
     </div>
 
     <!-- 2. Search & Filter Section -->
@@ -63,7 +74,7 @@
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 lg:gap-8">
       
       <!-- Material Card 1 -->
-      <RouterLink to="/pelajar/materials/1" class="bg-white/80 backdrop-blur-xl rounded-3xl p-5 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 ease-out group flex flex-col h-full cursor-pointer block">
+      <RouterLink :to="`${baseMaterialsRoute}/1`" class="bg-white/80 backdrop-blur-xl rounded-3xl p-5 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 ease-out group flex flex-col h-full cursor-pointer block">
         <div class="w-full h-44 bg-[#F7F2EB] rounded-2xl mb-5 relative overflow-hidden border border-slate-200/60">
           <div class="absolute inset-0 flex flex-col items-center justify-center text-slate-400 group-hover:scale-105 transition-transform duration-500">
             <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="mb-2"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>
@@ -97,7 +108,7 @@
       </RouterLink>
 
       <!-- Material Card 2 -->
-      <RouterLink to="/pelajar/materials/2" class="bg-white/80 backdrop-blur-xl rounded-3xl p-5 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 ease-out group flex flex-col h-full cursor-pointer block">
+      <RouterLink :to="`${baseMaterialsRoute}/2`" class="bg-white/80 backdrop-blur-xl rounded-3xl p-5 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 ease-out group flex flex-col h-full cursor-pointer block">
         <div class="w-full h-44 bg-[#EDF1F6] rounded-2xl mb-5 relative overflow-hidden border border-slate-200/60">
           <div class="absolute inset-0 flex flex-col items-center justify-center text-slate-400 group-hover:scale-105 transition-transform duration-500">
             <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="mb-2"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>
@@ -131,7 +142,7 @@
       </RouterLink>
 
       <!-- Material Card 3 -->
-      <RouterLink to="/pelajar/materials/3" class="bg-white/80 backdrop-blur-xl rounded-3xl p-5 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 ease-out group flex flex-col h-full cursor-pointer block">
+      <RouterLink :to="`${baseMaterialsRoute}/3`" class="bg-white/80 backdrop-blur-xl rounded-3xl p-5 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 ease-out group flex flex-col h-full cursor-pointer block">
         <div class="w-full h-44 bg-emerald-50 rounded-2xl mb-5 relative overflow-hidden border border-emerald-100/60">
           <div class="absolute inset-0 flex flex-col items-center justify-center text-emerald-300 group-hover:scale-105 transition-transform duration-500">
             <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="mb-2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
@@ -169,6 +180,11 @@
 </template>
 
 <script setup>
-import { RouterLink } from 'vue-router'
-// Modern Academic Materials Library View
+import { computed } from 'vue'
+import { RouterLink, useRoute } from 'vue-router'
+
+const route = useRoute()
+const baseMaterialsRoute = computed(() => {
+  return route.path.startsWith('/tutor') ? '/tutor/materials' : '/pelajar/materials'
+})
 </script>
