@@ -1,19 +1,23 @@
 <template>
   <div class="space-y-6 md:space-y-8 animate-in fade-in duration-500 min-w-0 max-w-7xl mx-auto">
     
-    <!-- 1. PAGE HEADER -->
-    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-slate-200 pb-6 relative">
-      <div>
-        <div class="flex items-center gap-2 text-[12px] font-bold text-slate-400 uppercase tracking-widest mb-2">
-          <RouterLink to="/pelajar/profile" class="hover:text-[#334EAC] transition-colors">Profil</RouterLink>
-          <span class="text-slate-300">/</span>
-          <span class="text-[#334EAC]">Edit</span>
+    <!-- 1. GLASSMORPHIC HEADER SECTION -->
+    <div class="bg-white/80 backdrop-blur-xl rounded-3xl p-7 md:p-8 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-white/40 relative overflow-hidden flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
+      <div class="absolute right-0 top-0 w-1/3 h-full bg-gradient-to-l from-[#EDF1F6]/80 to-transparent pointer-events-none"></div>
+      
+      <div class="relative z-10 flex items-center gap-4">
+        <span class="w-12 h-12 rounded-2xl bg-[#334EAC]/10 text-[#334EAC] flex items-center justify-center shrink-0">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        </span>
+        <div>
+          <h1 class="text-2xl md:text-3xl font-bold text-slate-900 tracking-tight leading-none mb-1">Edit Profil Akademik</h1>
+          <p class="text-[14px] text-slate-500 font-medium leading-relaxed mt-1">
+            Sesuaikan identitas akademik dan preferensi belajar Anda.
+          </p>
         </div>
-        <h1 class="text-2xl md:text-3xl font-bold text-slate-900 tracking-tight">Edit Profil Akademik</h1>
-        <p class="text-[14px] text-slate-500 mt-1 font-medium">Sesuaikan identitas akademik dan preferensi belajar Anda.</p>
       </div>
-      <div class="flex items-center gap-4">
-        <div class="w-10 h-10 rounded-full bg-[#EDF1F6] flex items-center justify-center shrink-0 border border-slate-200 overflow-hidden">
+      <div class="relative z-10 flex items-center gap-4">
+        <div class="w-12 h-12 rounded-full bg-[#EDF1F6] flex items-center justify-center shrink-0 border border-slate-200 overflow-hidden shadow-sm">
            <img src="https://i.pravatar.cc/300?u=a042581f4e29026704d" alt="Profile Badge" class="w-full h-full object-cover">
         </div>
       </div>

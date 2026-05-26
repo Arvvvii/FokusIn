@@ -5,39 +5,39 @@
     <section class="flex flex-col xl:flex-row gap-6">
       
       <!-- 1. Refined Academic Hero Card (Left) -->
-      <div class="xl:w-[70%] bg-gradient-to-br from-[#081F5C] to-[#334EAC] rounded-2xl p-6 md:p-8 text-white relative overflow-hidden shadow-md border border-[#334EAC]/20 flex flex-col justify-between min-h-[280px]">
+      <div class="xl:w-[70%] bg-[#081F5C] rounded-2xl p-7 md:p-8 text-white relative overflow-hidden shadow-sm border border-[#081F5C] flex flex-col justify-between">
         
-        <!-- Subtle graphic border decoration instead of giant glows -->
-        <div class="absolute inset-0 border border-white/5 rounded-2xl pointer-events-none"></div>
-        <div class="absolute -right-16 -top-16 w-64 h-64 border border-white/10 rounded-full pointer-events-none"></div>
+        <!-- Academic Mesh & Soft Radial Glow -->
+        <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCI+PHBhdGggZD0iTTAgMGg0MHY0MEgweiIgZmlsbD0ibm9uZSIvPgo8cGF0aCBkPSJNMCA0MGg0MFYweiIgZmlsbD0ibm9uZSIvPgo8cGF0aCBkPSJNMCA0MGg0MFYweiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmZmZmIiBzdHJva2Utb3BhY2l0eT0iMC4wNSIgc3Ryb2tlLXdpZHRoPSIxIi8+Cjwvc3ZnPg==')] opacity-40 pointer-events-none"></div>
+        <div class="absolute -right-20 -top-20 w-96 h-96 bg-[#334EAC] rounded-full blur-[90px] pointer-events-none opacity-50"></div>
         
-        <div class="relative z-10 max-w-2xl">
-          <div class="inline-flex items-center gap-2 px-3 py-1 bg-white/10 rounded-full border border-white/10 mb-4 shadow-sm">
-            <span class="w-1.5 h-1.5 rounded-full bg-[#BAD6EB] shadow-sm animate-pulse"></span>
-            <span class="text-[10px] font-bold text-white tracking-wider uppercase">Semester 4 Aktif</span>
+        <div class="relative z-10 flex-1 flex flex-col justify-center">
+          <div class="inline-flex items-center gap-2 px-3 py-1.5 bg-white/5 rounded-lg border border-white/10 mb-4 shadow-sm backdrop-blur-sm self-start">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.8)]"></span>
+            <span class="text-[11px] font-semibold text-white tracking-wide uppercase">Semester 4 Aktif</span>
           </div>
           
-          <h1 class="text-2xl md:text-3xl font-bold tracking-tight mb-3 text-white leading-tight">
-            Selamat datang kembali, John. <br />Pantau progres belajar dan aktivitas akademikmu.
+          <h1 class="text-[26px] md:text-[28px] font-bold tracking-tight mb-2 text-white leading-tight">
+            Selamat datang kembali, John.
           </h1>
-          <p class="text-sm md:text-base text-[#BAD6EB] font-normal mb-8 max-w-xl leading-relaxed">
-            Kamu berada di top 15% angkatanmu semester ini. Lanjutkan untuk mempertahankan capaian akademikmu.
+          <p class="text-[14px] text-indigo-100/90 font-medium mb-8 max-w-xl leading-relaxed">
+            Jelajahi, belajar, dan berkembang! Tingkatkan aktivitas di forum, jadwalkan sesi mentoring mendatang, dan pantau progres belajarmu.
           </p>
           
-          <div class="flex flex-col sm:flex-row items-start sm:items-center gap-6">
-            <RouterLink to="/pelajar/materials" class="px-5 py-3 bg-white text-[#081F5C] hover:bg-[#F7F2EB] rounded-xl font-bold text-xs transition-all duration-200 ease-out shadow-sm flex items-center gap-2 group">
-              Lanjutkan Belajar
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="group-hover:translate-x-1 transition-transform"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          <div class="flex flex-col sm:flex-row items-start sm:items-center gap-5 mt-auto">
+            <RouterLink to="/pelajar/forum" class="h-11 px-6 bg-white text-[#081F5C] hover:bg-slate-50 rounded-xl font-bold text-[13px] transition-all duration-200 shadow-sm flex items-center justify-center gap-2 shrink-0 active:scale-95">
+              Mulai Diskusi
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
             </RouterLink>
             
-            <!-- Hero Progress Bar -->
-            <div class="w-full sm:w-auto flex-1 max-w-xs">
-              <div class="flex justify-between text-[11px] font-bold mb-1.5">
-                <span class="text-[#BAD6EB] uppercase tracking-wider">Capaian Target Mingguan</span>
-                <span class="text-white">80%</span>
+            <!-- Compact Editorial Progress -->
+            <div class="w-full sm:w-auto flex-1 max-w-xs pl-0 sm:pl-5 sm:border-l border-white/10 pt-2 sm:pt-0">
+              <div class="flex justify-between items-end mb-2">
+                <span class="text-[12px] font-semibold text-indigo-100/80">Progres Belajar</span>
+                <span class="text-[13px] font-bold text-white">80%</span>
               </div>
-              <div class="h-2 w-full bg-black/20 rounded-full overflow-hidden border border-white/5">
-                <div class="h-full bg-[#BAD6EB] rounded-full w-[80%]"></div>
+              <div class="h-1.5 w-full bg-white/10 rounded-full overflow-hidden">
+                <div class="h-full bg-emerald-400 rounded-full w-[80%]"></div>
               </div>
             </div>
           </div>
@@ -45,39 +45,46 @@
       </div>
 
       <!-- 2. Academic Recommender (Right) -->
-      <div class="xl:w-[30%] bg-white rounded-2xl p-6 text-slate-800 relative shadow-sm flex flex-col overflow-hidden border border-slate-200/80">
+      <div class="xl:w-[30%] bg-white rounded-2xl p-7 text-slate-800 relative shadow-sm flex flex-col overflow-hidden border border-slate-200">
         
-        <div class="relative z-10 flex items-center justify-between mb-5">
-          <div class="flex items-center gap-3">
-            <div class="w-8 h-8 rounded-lg bg-[#EDF1F6] flex items-center justify-center border border-slate-200">
-               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#334EAC" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+        <div class="relative z-10 flex items-center justify-between mb-4">
+          <div class="flex items-center gap-2.5">
+            <div class="w-7 h-7 rounded bg-indigo-50 flex items-center justify-center border border-indigo-100">
+               <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#334EAC" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
             </div>
-            <span class="text-xs font-bold tracking-wider uppercase text-[#081F5C]">Rekomendasi Studi AI</span>
+            <span class="text-xs font-bold tracking-widest uppercase text-slate-900">Insight Akademik</span>
           </div>
+          <span class="px-2 py-0.5 bg-emerald-50 border border-emerald-100 text-emerald-600 rounded text-[10px] font-bold uppercase tracking-wider">AI Conf: 88%</span>
         </div>
 
         <div class="relative z-10 flex-1 flex flex-col justify-center">
-          <p class="text-slate-500 text-[12px] leading-relaxed mb-3">
-            Berdasarkan performa pengerjaan kuis terakhir (Confidence Level 85%), kamu disarankan untuk mengulas kembali:
+          <p class="text-slate-500 text-[13px] font-medium leading-relaxed mb-4">
+            Berdasarkan analisis riwayat kuis dan tugas terbarumu, area berikut memerlukan perhatian:
           </p>
-          <ul class="space-y-1.5 mb-5">
-            <li class="flex items-center gap-2 text-xs text-slate-700 font-bold bg-[#EDF1F6]/50 px-3 py-2 rounded-lg border border-slate-200/50">
-              <span class="w-1.5 h-1.5 rounded-full bg-[#334EAC]"></span>
-              Integral Parsial (Matematika)
+          <ul class="space-y-2.5 mb-6">
+            <li class="flex flex-col gap-1.5 p-3 rounded-xl border border-slate-100 bg-slate-50">
+              <div class="flex items-center justify-between">
+                <span class="text-[12px] text-slate-900 font-bold">Kalkulus: Integral Parsial</span>
+                <span class="px-1.5 py-0.5 bg-rose-100 text-rose-600 rounded text-[9px] font-extrabold uppercase">Prioritas Tinggi</span>
+              </div>
+              <div class="w-full h-1 bg-slate-200 rounded-full overflow-hidden">
+                <div class="h-full bg-rose-400 w-[35%] rounded-full"></div>
+              </div>
             </li>
-            <li class="flex items-center gap-2 text-xs text-slate-700 font-bold bg-[#EDF1F6]/50 px-3 py-2 rounded-lg border border-slate-200/50">
-              <span class="w-1.5 h-1.5 rounded-full bg-[#334EAC]"></span>
-              Turunan Tingkat Lanjut (Matematika)
-            </li>
-            <li class="flex items-center gap-2 text-xs text-slate-700 font-bold bg-[#EDF1F6]/50 px-3 py-2 rounded-lg border border-slate-200/50">
-              <span class="w-1.5 h-1.5 rounded-full bg-[#334EAC]"></span>
-              Dynamic Programming (Ilmu Komputer)
+            <li class="flex flex-col gap-1.5 p-3 rounded-xl border border-slate-100 bg-slate-50">
+              <div class="flex items-center justify-between">
+                <span class="text-[12px] text-slate-900 font-bold">Aljabar: Nilai Eigen</span>
+                <span class="px-1.5 py-0.5 bg-amber-100 text-amber-600 rounded text-[9px] font-extrabold uppercase">Tinjau Ulang</span>
+              </div>
+              <div class="w-full h-1 bg-slate-200 rounded-full overflow-hidden">
+                <div class="h-full bg-amber-400 w-[60%] rounded-full"></div>
+              </div>
             </li>
           </ul>
         </div>
 
-        <RouterLink to="/pelajar/materials" class="relative z-10 w-full py-3 bg-[#EDF1F6] hover:bg-[#334EAC] hover:text-white text-[#334EAC] border border-[#334EAC]/10 rounded-xl font-bold text-xs transition-colors flex justify-center items-center gap-2 shadow-sm text-center">
-          Mulai Ulasan
+        <RouterLink to="/pelajar/ai-analyzer" class="relative z-10 w-full h-11 bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 rounded-xl font-bold text-[12px] transition-colors flex justify-center items-center gap-2 shadow-sm text-center">
+          Buka Laporan AI
           <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
         </RouterLink>
       </div>
@@ -92,38 +99,48 @@
 
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
         <!-- Card 1 -->
-        <RouterLink to="/pelajar/forum" class="bg-slate-50 hover:bg-[#F7F2EB]/50 border border-slate-200/60 p-4 rounded-xl transition-all block group/card">
-          <div class="w-10 h-10 rounded-lg bg-white border border-slate-200 shadow-sm flex items-center justify-center text-lg mb-3">💬</div>
-          <h4 class="text-[13px] font-bold text-[#081F5C] mb-1">Forum Diskusi</h4>
-          <p class="text-[11px] text-slate-500 leading-normal">Berbagi tanya jawab dan berkolaborasi antar pelajar.</p>
+        <RouterLink to="/pelajar/forum" class="bg-white hover:bg-slate-50 border border-slate-200 p-4 rounded-2xl transition-all block group/card shadow-sm hover:shadow-md hover:-translate-y-0.5">
+          <div class="w-10 h-10 rounded-[10px] bg-indigo-50 border border-indigo-100/50 flex items-center justify-center text-indigo-600 mb-3 group-hover/card:scale-105 transition-transform">
+             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          </div>
+          <h4 class="text-[13px] font-bold text-slate-900 tracking-tight mb-1 group-hover/card:text-[#334EAC] transition-colors">Forum Diskusi</h4>
+          <p class="text-[11px] font-medium text-slate-500 leading-relaxed">Berbagi tanya jawab dan berkolaborasi antar pelajar.</p>
         </RouterLink>
 
         <!-- Card 2 -->
-        <RouterLink to="/pelajar/ai-analyzer" class="bg-slate-50 hover:bg-[#F7F2EB]/50 border border-slate-200/60 p-4 rounded-xl transition-all block group/card">
-          <div class="w-10 h-10 rounded-lg bg-white border border-slate-200 shadow-sm flex items-center justify-center text-lg mb-3">🔬</div>
-          <h4 class="text-[13px] font-bold text-[#081F5C] mb-1">Pattern Analyzer</h4>
-          <p class="text-[11px] text-slate-500 leading-normal">Analisis pola soal ujian secara mendalam.</p>
+        <RouterLink to="/pelajar/ai-analyzer" class="bg-white hover:bg-slate-50 border border-slate-200 p-4 rounded-2xl transition-all block group/card shadow-sm hover:shadow-md hover:-translate-y-0.5">
+          <div class="w-10 h-10 rounded-[10px] bg-emerald-50 border border-emerald-100/50 flex items-center justify-center text-emerald-600 mb-3 group-hover/card:scale-105 transition-transform">
+             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+          </div>
+          <h4 class="text-[13px] font-bold text-slate-900 tracking-tight mb-1 group-hover/card:text-[#334EAC] transition-colors">Pattern Analyzer</h4>
+          <p class="text-[11px] font-medium text-slate-500 leading-relaxed">Analisis pola soal ujian secara mendalam.</p>
         </RouterLink>
 
         <!-- Card 3 -->
-        <RouterLink to="/pelajar/mentoring" class="bg-slate-50 hover:bg-[#F7F2EB]/50 border border-slate-200/60 p-4 rounded-xl transition-all block group/card">
-          <div class="w-10 h-10 rounded-lg bg-white border border-slate-200 shadow-sm flex items-center justify-center text-lg mb-3">👩‍🏫</div>
-          <h4 class="text-[13px] font-bold text-[#081F5C] mb-1">Mentoring Akademik</h4>
-          <p class="text-[11px] text-slate-500 leading-normal">Bimbingan belajar 1-on-1 bersama asisten dan tutor.</p>
+        <RouterLink to="/pelajar/mentoring" class="bg-white hover:bg-slate-50 border border-slate-200 p-4 rounded-2xl transition-all block group/card shadow-sm hover:shadow-md hover:-translate-y-0.5">
+          <div class="w-10 h-10 rounded-[10px] bg-amber-50 border border-amber-100/50 flex items-center justify-center text-amber-600 mb-3 group-hover/card:scale-105 transition-transform">
+             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>
+          </div>
+          <h4 class="text-[13px] font-bold text-slate-900 tracking-tight mb-1 group-hover/card:text-[#334EAC] transition-colors">Mentoring Akademik</h4>
+          <p class="text-[11px] font-medium text-slate-500 leading-relaxed">Bimbingan belajar 1-on-1 bersama asisten dan tutor.</p>
         </RouterLink>
 
         <!-- Card 4 -->
-        <RouterLink to="/pelajar/materials" class="bg-slate-50 hover:bg-[#F7F2EB]/50 border border-slate-200/60 p-4 rounded-xl transition-all block group/card">
-          <div class="w-10 h-10 rounded-lg bg-white border border-slate-200 shadow-sm flex items-center justify-center text-lg mb-3">📖</div>
-          <h4 class="text-[13px] font-bold text-[#081F5C] mb-1">Repositori Materi</h4>
-          <p class="text-[11px] text-slate-500 leading-normal">Akses kumpulan materi kuliah & catatan terbaik.</p>
+        <RouterLink to="/pelajar/materials" class="bg-white hover:bg-slate-50 border border-slate-200 p-4 rounded-2xl transition-all block group/card shadow-sm hover:shadow-md hover:-translate-y-0.5">
+          <div class="w-10 h-10 rounded-[10px] bg-rose-50 border border-rose-100/50 flex items-center justify-center text-rose-600 mb-3 group-hover/card:scale-105 transition-transform">
+             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>
+          </div>
+          <h4 class="text-[13px] font-bold text-slate-900 tracking-tight mb-1 group-hover/card:text-[#334EAC] transition-colors">Repositori Materi</h4>
+          <p class="text-[11px] font-medium text-slate-500 leading-relaxed">Akses kumpulan materi kuliah & catatan terbaik.</p>
         </RouterLink>
 
         <!-- Card 5 -->
-        <RouterLink to="/pelajar/profile" class="bg-slate-50 hover:bg-[#F7F2EB]/50 border border-slate-200/60 p-4 rounded-xl transition-all block group/card">
-          <div class="w-10 h-10 rounded-lg bg-white border border-slate-200 shadow-sm flex items-center justify-center text-lg mb-3">🏆</div>
-          <h4 class="text-[13px] font-bold text-[#081F5C] mb-1">Capaian Akademik</h4>
-          <p class="text-[11px] text-slate-500 leading-normal">Evaluasi poin reputasi, kontribusi, dan lencana.</p>
+        <RouterLink to="/pelajar/profile" class="bg-white hover:bg-slate-50 border border-slate-200 p-4 rounded-2xl transition-all block group/card shadow-sm hover:shadow-md hover:-translate-y-0.5">
+          <div class="w-10 h-10 rounded-[10px] bg-[#334EAC]/10 border border-[#334EAC]/10 flex items-center justify-center text-[#334EAC] mb-3 group-hover/card:scale-105 transition-transform">
+             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>
+          </div>
+          <h4 class="text-[13px] font-bold text-slate-900 tracking-tight mb-1 group-hover/card:text-[#334EAC] transition-colors">Capaian Akademik</h4>
+          <p class="text-[11px] font-medium text-slate-500 leading-relaxed">Evaluasi poin reputasi, kontribusi, dan lencana.</p>
         </RouterLink>
       </div>
     </section>

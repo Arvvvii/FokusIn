@@ -63,7 +63,9 @@ const router = createRouter({
         { path: 'quiz/:id/result', name: 'pelajar-quiz-result', component: () => import('@/pages/pelajar/QuizResultView.vue') },
         { path: 'profile', name: 'pelajar-profile', component: () => import('@/pages/pelajar/ProfileView.vue') },
         { path: 'profile/edit', name: 'pelajar-profile-edit', component: () => import('@/pages/pelajar/EditProfileView.vue') },
-        { path: 'notifications', name: 'pelajar-notifications', component: () => import('@/pages/shared/ComingSoonView.vue') },
+        { path: 'mentor/:id', name: 'pelajar-mentor-profile', component: () => import('@/pages/pelajar/MentorProfileView.vue') },
+        { path: 'notifications', name: 'pelajar-notifications', component: () => import('@/pages/pelajar/PelajarNotificationsView.vue') },
+        { path: 'help', name: 'pelajar-help', component: () => import('@/pages/shared/HelpSupportView.vue') },
       ]
     },
     // Tutor Routes

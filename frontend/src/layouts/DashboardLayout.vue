@@ -1,5 +1,5 @@
 <template>
-  <div class="flex h-screen overflow-hidden bg-[#F7F2EB] relative text-slate-900 selection:bg-[#BAD6EB]/40">
+  <div class="flex h-[111.12vh] w-[111.12vw] overflow-hidden bg-[#F7F2EB] relative text-slate-900 selection:bg-[#BAD6EB]/40" style="zoom: 90%; transform-origin: top left;">
     <!-- Global Background System -->
     <div class="absolute inset-0 z-0 pointer-events-none overflow-hidden">
       <!-- Ultra Subtle Grid Texture -->
@@ -7,17 +7,17 @@
     </div>
 
     <!-- Sidebar -->
-    <AppSidebar class="shrink-0" :style="isTutor ? { zoom: '90%' } : {}" />
+    <AppSidebar class="shrink-0" />
 
     <!-- Main Content -->
     <div class="flex min-w-0 flex-1 flex-col overflow-hidden">
 
       <!-- Header -->
-      <AppHeader :style="isTutor ? { zoom: '90%' } : {}" />
+      <AppHeader />
 
       <!-- Page Content -->
       <main class="flex-1 overflow-y-auto overflow-x-hidden bg-transparent relative z-10">
-        <div class="mx-auto w-full px-4 py-6 sm:px-6 lg:px-8 transition-all duration-300" :class="isTutor ? 'max-w-[1450px]' : 'max-w-7xl'" :style="isTutor ? { zoom: '90%' } : {}">
+        <div class="mx-auto w-full max-w-7xl px-4 py-6 sm:px-6 lg:px-8 transition-all duration-300">
           <RouterView />
         </div>
       </main>
@@ -27,12 +27,8 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
-import { RouterView, useRoute } from 'vue-router'
+import { RouterView } from 'vue-router'
 import AppSidebar from '@/components/shared/AppSidebar.vue'
 import AppHeader from '@/components/shared/AppHeader.vue'
-
-const route = useRoute()
-const isTutor = computed(() => route.path.startsWith('/tutor'))
 </script>
 

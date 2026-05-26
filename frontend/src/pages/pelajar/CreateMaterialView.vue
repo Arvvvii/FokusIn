@@ -1,15 +1,24 @@
 <template>
   <div class="space-y-8 animate-in fade-in duration-500">
     
-    <!-- 1. Page Header -->
-    <div class="mb-10">
-      <div class="flex items-center gap-2 text-[13px] font-bold text-slate-400 mb-4 flex-wrap">
-        <RouterLink :to="baseMaterialsRoute" class="hover:text-[#334EAC] transition-colors shrink-0">Materi</RouterLink>
-        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="shrink-0"><path d="m9 18 6-6-6-6"/></svg>
-        <span class="text-[#081F5C] shrink-0">Unggah</span>
+    <!-- 1. GLASSMORPHIC HEADER SECTION -->
+    <div class="bg-white/80 backdrop-blur-xl rounded-3xl p-7 md:p-8 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-white/40 relative overflow-hidden flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
+      <div class="absolute right-0 top-0 w-1/3 h-full bg-gradient-to-l from-[#EDF1F6]/80 to-transparent pointer-events-none"></div>
+      
+      <div class="relative z-10 flex items-center gap-4">
+        <RouterLink :to="baseMaterialsRoute" class="w-10 h-10 rounded-xl bg-white border border-slate-200 text-slate-500 hover:text-[#334EAC] hover:border-[#7096D1] flex items-center justify-center transition-all shadow-sm active:scale-95 shrink-0" title="Kembali">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+        </RouterLink>
+        <span class="w-12 h-12 rounded-2xl bg-[#334EAC]/10 text-[#334EAC] flex items-center justify-center shrink-0">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg>
+        </span>
+        <div>
+          <h1 class="text-2xl md:text-3xl font-bold text-slate-900 tracking-tight leading-none mb-1">Publikasikan Materi Akademik</h1>
+          <p class="text-[14px] text-slate-500 font-medium leading-relaxed mt-1">
+            Bagikan catatan kuliah, ringkasan, dan persiapan ujianmu dengan komunitas FokusIn.
+          </p>
+        </div>
       </div>
-      <h1 class="text-3xl md:text-4xl font-bold text-slate-900 tracking-tight mb-3">Publikasikan Materi Akademik</h1>
-      <p class="text-slate-500 font-medium text-[16px] leading-relaxed max-w-2xl">Bagikan catatan kuliah, ringkasan, dan persiapan ujianmu dengan komunitas FokusIn.</p>
     </div>
 
     <div class="flex flex-col xl:flex-row gap-8 min-w-0">

@@ -100,10 +100,10 @@
             </RouterLink>
           </div>
           <div class="p-2">
-            <button @click="showComingSoon = true; showProfile = false" class="w-full flex items-center gap-3 px-3 py-2 text-sm font-bold text-[#081F5C] hover:bg-slate-50 rounded-xl transition-colors text-left">
+            <RouterLink to="/pelajar/help" @click="showProfile = false" class="w-full flex items-center gap-3 px-3 py-2 text-sm font-bold text-[#081F5C] hover:bg-slate-50 rounded-xl transition-colors text-left">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="text-slate-400"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>
               Bantuan & Dukungan
-            </button>
+            </RouterLink>
             <button @click="handleLogout" class="w-full flex items-center gap-3 px-3 py-2 text-sm font-bold text-rose-600 hover:bg-rose-50 rounded-xl transition-colors text-left">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="text-rose-400"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/></svg>
               Keluar

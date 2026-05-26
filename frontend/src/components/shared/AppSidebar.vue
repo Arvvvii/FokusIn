@@ -46,20 +46,23 @@
     </div>
     
     <!-- Navigation -->
-    <nav class="flex-1 overflow-y-auto py-6 px-3 custom-scrollbar">
-      <ul class="space-y-1.5">
+    <nav class="flex-1 overflow-y-auto py-6 px-4 custom-scrollbar">
+      <ul class="space-y-1">
         <li v-for="item in menuItems" :key="item.name" class="relative group">
           <RouterLink 
             :to="item.path" 
-            class="flex items-center rounded-xl transition-all duration-200 group-hover:bg-[#7096D1]/10"
+            class="flex items-center rounded-xl transition-all duration-200 relative overflow-hidden"
             :class="[
-              isCollapsed ? 'justify-center p-3' : 'px-3.5 py-2.5',
+              isCollapsed ? 'justify-center p-3' : 'px-4 py-2.5',
               isActive(item.path) 
-                ? 'bg-[#334EAC] text-white shadow-sm' 
-                : 'text-[#BAD6EB] hover:text-white'
+                ? 'bg-white/5 text-white font-bold' 
+                : 'text-indigo-200 hover:bg-white/5 hover:text-white font-medium'
             ]"
             @click="isMobileOpen = false"
           >
+            <!-- Active Indicator -->
+            <div v-if="isActive(item.path)" class="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-5 bg-[#BAD6EB] rounded-r-full shadow-[0_0_8px_rgba(186,214,235,0.4)]"></div>
+            
             <svg 
               xmlns="http://www.w3.org/2000/svg" 
               width="20" 
@@ -72,12 +75,12 @@
               stroke-linejoin="round" 
               class="shrink-0 transition-transform duration-300"
               :class="[
-                !isCollapsed && 'mr-3',
-                isActive(item.path) ? 'scale-105' : 'group-hover:scale-110'
+                !isCollapsed && 'mr-3.5',
+                isActive(item.path) ? 'scale-105 opacity-100' : 'group-hover:scale-110 opacity-70 group-hover:opacity-100'
               ]"
               v-html="item.iconPath"
             ></svg>
-            <span v-if="!isCollapsed" class="font-medium text-[14px] whitespace-nowrap">{{ item.name }}</span>
+            <span v-if="!isCollapsed" class="text-[13px] whitespace-nowrap" :class="isActive(item.path) ? 'tracking-tight' : ''">{{ item.name }}</span>
           </RouterLink>
           
           <!-- Tooltip for collapsed state -->
@@ -89,31 +92,31 @@
     </nav>
     
     <!-- Bottom Profile Section -->
-    <div class="p-4 mt-auto border-t border-white/5 bg-[#081F5C]">
+    <div class="p-4 mt-auto border-t border-white/10 bg-[#081F5C]/80">
       <div 
-        class="bg-white/5 rounded-2xl border border-white/10 overflow-hidden transition-all duration-300 hover:bg-white/10"
-        :class="isCollapsed ? 'p-2 flex justify-center' : 'p-3'"
+        class="bg-white/5 rounded-xl border border-white/5 overflow-hidden transition-all duration-300 hover:bg-white/10 cursor-pointer"
+        :class="isCollapsed ? 'p-2 flex justify-center' : 'p-2.5'"
       >
         <div class="flex items-center gap-3">
           <!-- Avatar -->
-          <div class="w-10 h-10 rounded-full bg-[#EDF1F6] border-2 border-[#7096D1] shrink-0 flex items-center justify-center overflow-hidden">
-            <span class="text-[#081F5C] font-bold text-sm">JD</span>
+          <div class="w-8 h-8 rounded-lg bg-indigo-500/30 border border-indigo-400/50 shrink-0 flex items-center justify-center overflow-hidden">
+            <span class="text-indigo-100 font-bold text-[11px]">JD</span>
           </div>
           <!-- Info -->
           <div v-if="!isCollapsed" class="flex-1 min-w-0">
-            <p class="text-sm font-bold text-white truncate">{{ user?.name || 'Pelajar' }}</p>
-            <p class="text-xs text-[#BAD6EB] font-medium truncate capitalize">{{ userRole }}</p>
+            <p class="text-[13px] font-bold text-white truncate leading-tight mb-0.5">{{ user?.name || 'Pelajar' }}</p>
+            <p class="text-[10px] text-indigo-300 font-medium truncate capitalize leading-none">{{ userRole }}</p>
           </div>
         </div>
         
         <!-- Action Buttons inside profile box (if expanded) -->
-        <div v-if="!isCollapsed" class="mt-3 pt-3 border-t border-white/10 flex items-center justify-between">
-          <div class="flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider text-[#7096D1] bg-[#7096D1]/10 px-2 py-1 rounded-md">
+        <div v-if="!isCollapsed" class="mt-2.5 pt-2.5 border-t border-white/10 flex items-center justify-between">
+          <div class="flex items-center gap-1 text-[9px] font-bold uppercase tracking-widest text-[#BAD6EB] bg-white/5 border border-white/10 px-2 py-0.5 rounded-md">
             <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
             Pro
           </div>
-          <button @click="handleLogout" class="text-[#BAD6EB] hover:text-white hover:bg-white/10 p-1.5 rounded-lg transition-colors" title="Keluar">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/></svg>
+          <button @click="handleLogout" class="text-indigo-200 hover:text-white hover:bg-white/10 p-1.5 rounded-lg transition-colors" title="Keluar">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/></svg>
           </button>
         </div>
       </div>

@@ -141,12 +141,12 @@
         </div>
 
         <!-- Submit CTA -->
-        <div class="pt-4">
+        <div class="pt-4 space-y-3">
           <button @click="submitQuiz" class="w-full py-4 bg-[#334EAC] hover:bg-[#081F5C] text-white rounded-2xl font-bold text-[15px] transition-all shadow-[0_4px_15px_rgba(51,78,172,0.15)] active:scale-95 flex items-center justify-center gap-2">
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="m9 11 3 3L22 4"/></svg>
             Kumpulkan Kuis
           </button>
-          <button class="w-full py-3 mt-2 bg-transparent text-slate-400 hover:text-slate-900 rounded-2xl font-bold text-[13px] transition-colors">
+          <button class="w-full py-3.5 bg-white border border-slate-200 hover:border-slate-300 hover:text-[#081F5C] text-slate-500 rounded-2xl font-bold text-[13px] transition-all shadow-sm active:scale-95">
             Simpan & Keluar
           </button>
         </div>

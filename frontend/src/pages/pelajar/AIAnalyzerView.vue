@@ -1,18 +1,29 @@
 <template>
   <div class="space-y-8 animate-in fade-in duration-500">
     
-    <!-- Header Section -->
-    <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-12">
-      <div class="max-w-2xl relative">
-        <div class="absolute -top-10 -left-10 w-32 h-32 bg-indigo-500/20 rounded-full blur-3xl pointer-events-none animate-pulse"></div>
-        <h1 class="text-3xl md:text-4xl font-bold text-slate-900 tracking-tight mb-3">Analisis Pola AI</h1>
-        <p class="text-slate-500 font-medium text-[16px] leading-relaxed">Unggah ujian sebelumnya atau materi belajar. AI kami akan menganalisis pola historis dan merancang rencana belajar strategis untukmu.</p>
+    <!-- 1. GLASSMORPHIC HEADER SECTION -->
+    <div class="bg-white/80 backdrop-blur-xl rounded-3xl p-7 md:p-8 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-white/40 relative overflow-hidden flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
+      <div class="absolute right-0 top-0 w-1/3 h-full bg-gradient-to-l from-[#EDF1F6]/80 to-transparent pointer-events-none"></div>
+      
+      <div class="relative z-10 flex items-center gap-4">
+        <span class="w-12 h-12 rounded-2xl bg-indigo-500/10 text-indigo-600 flex items-center justify-center shrink-0">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+        </span>
+        <div>
+          <h1 class="text-2xl md:text-3xl font-bold text-slate-900 tracking-tight leading-none mb-1">Analisis Pola AI</h1>
+          <p class="text-[14px] text-slate-500 font-medium leading-relaxed mt-1">
+            Unggah ujian sebelumnya atau materi belajar. AI kami akan menganalisis pola historis dan merancang rencana belajar strategis untukmu.
+          </p>
+        </div>
       </div>
+
       <!-- Primary CTA -->
-      <RouterLink to="/pelajar/ai-analyzer/create" class="inline-flex items-center justify-center gap-2.5 px-7 py-3.5 bg-[#334EAC] hover:bg-[#081F5C] text-white rounded-2xl font-extrabold transition-all shadow-[0_4px_15px_rgba(51,78,172,0.15)] active:scale-95 shrink-0">
-        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg>
-        Analisis Baru
-      </RouterLink>
+      <div class="relative z-10 flex shrink-0">
+        <RouterLink to="/pelajar/ai-analyzer/create" class="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-[#334EAC] hover:bg-[#081F5C] text-white rounded-2xl font-bold text-[13px] transition-all shadow-sm active:scale-95 shrink-0">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg>
+          Analisis Baru
+        </RouterLink>
+      </div>
     </div>
 
     <!-- Upload Area -->

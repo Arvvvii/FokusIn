@@ -1,10 +1,21 @@
 <template>
   <div class="space-y-6 animate-in fade-in duration-500 max-w-7xl mx-auto">
     
-    <!-- 1. Top Header -->
-    <div class="mb-6 max-w-3xl">
-      <h1 class="text-xl md:text-2xl font-bold text-slate-900 tracking-tight mb-1">Workspace Mentoring Akademik</h1>
-      <p class="text-slate-500 font-normal text-xs md:text-sm leading-relaxed">Jadwalkan asistensi dan bimbingan belajar 1-on-1 bersama tutor universitas dan asisten mahasiswa pilihan untuk menunjang capaian akademismu.</p>
+    <!-- 1. GLASSMORPHIC HEADER SECTION -->
+    <div class="bg-white/80 backdrop-blur-xl rounded-3xl p-7 md:p-8 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-white/40 relative overflow-hidden flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
+      <div class="absolute right-0 top-0 w-1/3 h-full bg-gradient-to-l from-[#EDF1F6]/80 to-transparent pointer-events-none"></div>
+      
+      <div class="relative z-10 flex items-center gap-4">
+        <span class="w-12 h-12 rounded-2xl bg-[#334EAC]/10 text-[#334EAC] flex items-center justify-center shrink-0">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+        </span>
+        <div>
+          <h1 class="text-2xl md:text-3xl font-bold text-slate-900 tracking-tight leading-none mb-1">Workspace Mentoring Akademik</h1>
+          <p class="text-[14px] text-slate-500 font-medium leading-relaxed mt-1">
+            Jadwalkan asistensi dan bimbingan belajar 1-on-1 bersama tutor universitas dan asisten mahasiswa pilihan untuk menunjang capaian akademismu.
+          </p>
+        </div>
+      </div>
     </div>
 
     <!-- 2. Search & Filter Section -->
@@ -51,13 +62,196 @@
 
     </div>
 
-    <!-- Layout: Left (Upcoming/History) and Right (Mentors) -->
-    <div class="flex flex-col xl:flex-row gap-6">
+    <!-- 3. STRUCTURAL ASYMMETRIC GRID -->
+    <div class="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_360px] gap-8 items-start w-full">
       
-      <!-- LEFT PANEL: Sessions -->
-      <div class="w-full xl:w-[35%] shrink-0 space-y-6">
+      <!-- LEFT WORKSPACE: Recommended Mentors -->
+      <div class="space-y-6 flex-1 self-stretch">
+        <div class="flex items-center justify-between">
+          <h2 class="text-base font-bold text-[#081F5C]">Rekomendasi Pembimbing Akademik</h2>
+          <span class="text-xs text-slate-400 font-medium">124 tutor aktif</span>
+        </div>
+
+        <div class="space-y-4">
+          
+          <!-- Mentor List Item 1 -->
+          <div class="bg-white rounded-3xl p-6 md:p-7 border border-slate-200/60 shadow-[0_5px_20px_rgba(15,23,42,0.02)] relative overflow-hidden group/card hover:shadow-md transition-all duration-300">
+            <div class="flex flex-col sm:flex-row justify-between gap-6">
+              
+              <!-- Mentor Info -->
+              <div class="flex-1 space-y-4">
+                <div class="flex items-start justify-between">
+                  <div class="flex items-center gap-4">
+                    <div class="relative shrink-0">
+                      <div class="w-14 h-14 rounded-full bg-slate-100 overflow-hidden border border-slate-200 shadow-sm group-hover:border-[#334EAC] transition-colors">
+                        <img src="https://i.pravatar.cc/150?u=a042581f4e29026704d" alt="Dr. Sarah Smith" class="w-full h-full object-cover">
+                      </div>
+                      <div class="absolute -bottom-0.5 -right-0.5 w-4.5 h-4.5 bg-[#334EAC] rounded-full border border-white flex items-center justify-center text-white shadow-sm">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                      </div>
+                    </div>
+                    <div>
+                      <h3 class="text-base font-bold text-slate-900 leading-none tracking-tight group-hover:text-[#334EAC] transition-colors">Dr. Sarah Smith</h3>
+                      <p class="text-xs font-semibold text-slate-400 mt-1">Ph.D. Matematika • MIT</p>
+                    </div>
+                  </div>
+                  <div class="bg-[#F7F2EB] px-2.5 py-1 rounded-xl border border-amber-100 flex items-center gap-1 shrink-0">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="#F59E0B" stroke="#F59E0B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                    <span class="text-xs font-bold text-[#081F5C]">4.9</span>
+                  </div>
+                </div>
+
+                <div class="bg-slate-50 border border-slate-100 rounded-2xl p-4">
+                  <p class="text-xs text-slate-600 font-medium leading-relaxed">Spesialisasi pengajaran matematika kalkulus multivariabel, aljabar linear, dan persiapan intensif ujian masuk universitas.</p>
+                </div>
+
+                <div class="flex flex-wrap items-center gap-2 pt-1">
+                  <span class="px-2.5 py-1 bg-slate-100 text-slate-500 rounded-xl border border-slate-200/50 uppercase tracking-widest text-[9px] font-bold">Kalkulus</span>
+                  <span class="px-2.5 py-1 bg-slate-100 text-slate-500 rounded-xl border border-slate-200/50 uppercase tracking-widest text-[9px] font-bold">Aljabar</span>
+                  <span class="text-xs font-bold text-emerald-500 ml-auto flex items-center gap-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>
+                    Senin - Jumat
+                  </span>
+                </div>
+              </div>
+
+              <!-- Quick Actions -->
+              <div class="flex flex-row sm:flex-col items-center justify-between sm:justify-start gap-2.5 shrink-0 border-t sm:border-t-0 sm:border-l border-slate-100 pt-4 sm:pt-0 sm:pl-6 min-w-[140px]">
+                <div class="text-right sm:text-center w-full mb-2">
+                  <span class="text-sm font-bold text-[#081F5C]">Rp 150k</span><span class="text-[10px] font-bold text-slate-400"> /jam</span>
+                </div>
+                <button @click="openBooking('Dr. Sarah Smith', 'Kalkulus')" class="w-full text-center px-4 py-2.5 bg-[#334EAC] hover:bg-[#081F5C] text-white rounded-xl font-bold text-xs shadow-sm active:scale-95 transition-all flex items-center justify-center gap-1.5">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15.6 11.6 5.4-3.2c.5-.3 1.2 0 1.2.7v5.8c0 .7-.7 1-1.2.7l-5.4-3.2a1.2 1.2 0 0 1 0-2Z"/><rect width="14" height="14" x="2" y="5" rx="3" ry="3"/></svg>
+                  Pesan
+                </button>
+                <RouterLink to="/pelajar/mentor/1" class="w-full text-center px-4 py-2.5 bg-white border border-slate-200 hover:border-[#7096D1] text-slate-600 rounded-xl font-bold text-xs shadow-sm active:scale-95 transition-all flex items-center justify-center">
+                  Lihat Profil
+                </RouterLink>
+              </div>
+            </div>
+          </div>
+
+          <!-- Mentor List Item 2 -->
+          <div class="bg-white rounded-3xl p-6 md:p-7 border border-slate-200/60 shadow-[0_5px_20px_rgba(15,23,42,0.02)] relative overflow-hidden group/card hover:shadow-md transition-all duration-300">
+            <div class="flex flex-col sm:flex-row justify-between gap-6">
+              
+              <!-- Mentor Info -->
+              <div class="flex-1 space-y-4">
+                <div class="flex items-start justify-between">
+                  <div class="flex items-center gap-4">
+                    <div class="relative shrink-0">
+                      <div class="w-14 h-14 rounded-full bg-slate-100 overflow-hidden border border-slate-200 shadow-sm group-hover:border-[#334EAC] transition-colors">
+                        <img src="https://i.pravatar.cc/150?u=b042581f4e29026704e" alt="Prof. Anderson" class="w-full h-full object-cover">
+                      </div>
+                      <div class="absolute -bottom-0.5 -right-0.5 w-4.5 h-4.5 bg-[#334EAC] rounded-full border border-white flex items-center justify-center text-white shadow-sm">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                      </div>
+                    </div>
+                    <div>
+                      <h3 class="text-base font-bold text-slate-900 leading-none tracking-tight group-hover:text-[#334EAC] transition-colors">Prof. Anderson</h3>
+                      <p class="text-xs font-semibold text-slate-400 mt-1">Dosen Fisika • UI</p>
+                    </div>
+                  </div>
+                  <div class="bg-[#F7F2EB] px-2.5 py-1 rounded-xl border border-amber-100 flex items-center gap-1 shrink-0">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="#F59E0B" stroke="#F59E0B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                    <span class="text-xs font-bold text-[#081F5C]">4.8</span>
+                  </div>
+                </div>
+
+                <div class="bg-slate-50 border border-slate-100 rounded-2xl p-4">
+                  <p class="text-xs text-slate-600 font-medium leading-relaxed">Persiapan intensif kompetisi sains Fisika, mekanika klasik, termodinamika, dan kinematika dasar.</p>
+                </div>
+
+                <div class="flex flex-wrap items-center gap-2 pt-1">
+                  <span class="px-2.5 py-1 bg-slate-100 text-slate-500 rounded-xl border border-slate-200/50 uppercase tracking-widest text-[9px] font-bold">Kinematika</span>
+                  <span class="px-2.5 py-1 bg-slate-100 text-slate-500 rounded-xl border border-slate-200/50 uppercase tracking-widest text-[9px] font-bold">OSN</span>
+                  <span class="text-xs font-bold text-amber-500 ml-auto flex items-center gap-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>
+                    Sabtu - Minggu
+                  </span>
+                </div>
+              </div>
+
+              <!-- Quick Actions -->
+              <div class="flex flex-row sm:flex-col items-center justify-between sm:justify-start gap-2.5 shrink-0 border-t sm:border-t-0 sm:border-l border-slate-100 pt-4 sm:pt-0 sm:pl-6 min-w-[140px]">
+                <div class="text-right sm:text-center w-full mb-2">
+                  <span class="text-sm font-bold text-[#081F5C]">Rp 200k</span><span class="text-[10px] font-bold text-slate-400"> /jam</span>
+                </div>
+                <button @click="openBooking('Prof. Anderson', 'Fisika')" class="w-full text-center px-4 py-2.5 bg-[#334EAC] hover:bg-[#081F5C] text-white rounded-xl font-bold text-xs shadow-sm active:scale-95 transition-all flex items-center justify-center gap-1.5">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15.6 11.6 5.4-3.2c.5-.3 1.2 0 1.2.7v5.8c0 .7-.7 1-1.2.7l-5.4-3.2a1.2 1.2 0 0 1 0-2Z"/><rect width="14" height="14" x="2" y="5" rx="3" ry="3"/></svg>
+                  Pesan
+                </button>
+                <RouterLink to="/pelajar/mentor/1" class="w-full text-center px-4 py-2.5 bg-white border border-slate-200 hover:border-[#7096D1] text-slate-600 rounded-xl font-bold text-xs shadow-sm active:scale-95 transition-all flex items-center justify-center">
+                  Lihat Profil
+                </RouterLink>
+              </div>
+            </div>
+          </div>
+
+          <!-- Mentor List Item 3 -->
+          <div class="bg-white rounded-3xl p-6 md:p-7 border border-slate-200/60 shadow-[0_5px_20px_rgba(15,23,42,0.02)] relative overflow-hidden group/card hover:shadow-md transition-all duration-300">
+            <div class="flex flex-col sm:flex-row justify-between gap-6">
+              
+              <!-- Mentor Info -->
+              <div class="flex-1 space-y-4">
+                <div class="flex items-start justify-between">
+                  <div class="flex items-center gap-4">
+                    <div class="relative shrink-0">
+                      <div class="w-14 h-14 rounded-full bg-slate-100 overflow-hidden border border-slate-200 shadow-sm group-hover:border-[#334EAC] transition-colors">
+                        <img src="https://i.pravatar.cc/150?u=c042581f4e29026704f" alt="Kevin Pratama" class="w-full h-full object-cover">
+                      </div>
+                      <div class="absolute -bottom-0.5 -right-0.5 w-4.5 h-4.5 bg-[#334EAC] rounded-full border border-white flex items-center justify-center text-white shadow-sm">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                      </div>
+                    </div>
+                    <div>
+                      <h3 class="text-base font-bold text-slate-900 leading-none tracking-tight group-hover:text-[#334EAC] transition-colors">Kevin Pratama</h3>
+                      <p class="text-xs font-semibold text-slate-400 mt-1">S.Kom • ITB</p>
+                    </div>
+                  </div>
+                  <div class="bg-[#F7F2EB] px-2.5 py-1 rounded-xl border border-amber-100 flex items-center gap-1 shrink-0">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="#F59E0B" stroke="#F59E0B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                    <span class="text-xs font-bold text-[#081F5C]">4.7</span>
+                  </div>
+                </div>
+
+                <div class="bg-slate-50 border border-slate-100 rounded-2xl p-4">
+                  <p class="text-xs text-slate-600 font-medium leading-relaxed">Fokus pada pemrograman dasar, struktur data, dan algoritma menggunakan Python dan C++.</p>
+                </div>
+
+                <div class="flex flex-wrap items-center gap-2 pt-1">
+                  <span class="px-2.5 py-1 bg-slate-100 text-slate-500 rounded-xl border border-slate-200/50 uppercase tracking-widest text-[9px] font-bold">Python</span>
+                  <span class="px-2.5 py-1 bg-slate-100 text-slate-500 rounded-xl border border-slate-200/50 uppercase tracking-widest text-[9px] font-bold">C++</span>
+                  <span class="text-xs font-bold text-emerald-500 ml-auto flex items-center gap-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>
+                    Senin - Sabtu
+                  </span>
+                </div>
+              </div>
+
+              <!-- Quick Actions -->
+              <div class="flex flex-row sm:flex-col items-center justify-between sm:justify-start gap-2.5 shrink-0 border-t sm:border-t-0 sm:border-l border-slate-100 pt-4 sm:pt-0 sm:pl-6 min-w-[140px]">
+                <div class="text-right sm:text-center w-full mb-2">
+                  <span class="text-sm font-bold text-[#081F5C]">Rp 100k</span><span class="text-[10px] font-bold text-slate-400"> /jam</span>
+                </div>
+                <button @click="openBooking('Kevin Pratama', 'Computer Science')" class="w-full text-center px-4 py-2.5 bg-[#334EAC] hover:bg-[#081F5C] text-white rounded-xl font-bold text-xs shadow-sm active:scale-95 transition-all flex items-center justify-center gap-1.5">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15.6 11.6 5.4-3.2c.5-.3 1.2 0 1.2.7v5.8c0 .7-.7 1-1.2.7l-5.4-3.2a1.2 1.2 0 0 1 0-2Z"/><rect width="14" height="14" x="2" y="5" rx="3" ry="3"/></svg>
+                  Pesan
+                </button>
+                <RouterLink to="/pelajar/mentor/1" class="w-full text-center px-4 py-2.5 bg-white border border-slate-200 hover:border-[#7096D1] text-slate-600 rounded-xl font-bold text-xs shadow-sm active:scale-95 transition-all flex items-center justify-center">
+                  Lihat Profil
+                </RouterLink>
+              </div>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+
+      <!-- RIGHT SIDEBAR (360px): PERFORMANCE & QUICK ACTIONS -->
+      <div class="space-y-6 lg:sticky lg:top-6">
         
-        <!-- 3. Upcoming Session Card: Styled as academic schedule panel -->
+        <!-- Upcoming Session Card: Styled as academic schedule panel -->
         <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200/80 transition-all duration-200 relative overflow-hidden">
           <div class="flex items-center justify-between mb-4">
             <h3 class="text-xs font-bold text-slate-400 uppercase tracking-widest flex items-center gap-2">
@@ -95,7 +289,7 @@
           </button>
         </div>
 
-        <!-- 4. Session History Panel -->
+        <!-- Session History Panel -->
         <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200/80 transition-all duration-200">
           <div class="flex items-center justify-between mb-4">
             <h3 class="text-xs font-bold text-[#081F5C] uppercase tracking-wider">Riwayat Sesi Selesai</h3>
@@ -135,217 +329,100 @@
         </div>
 
       </div>
-
-      <!-- RIGHT PANEL: Recommended Mentors -->
-      <div class="flex-1 w-full xl:w-[65%] min-w-0">
-        
-        <div class="flex items-center justify-between mb-4">
-          <h2 class="text-base font-bold text-[#081F5C]">Rekomendasi Pembimbing Akademik</h2>
-          <span class="text-xs text-slate-400">124 tutor aktif</span>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          
-          <!-- Mentor Card 1 -->
-          <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm flex flex-col justify-between h-full relative">
-            
-            <!-- TOP SECTION: avatar + name + verified + rating -->
-            <div class="flex items-start justify-between mb-3.5">
-              <div class="flex items-center gap-3">
-                <div class="relative shrink-0">
-                  <div class="w-12 h-12 rounded-full bg-slate-100 overflow-hidden border border-slate-200">
-                    <img src="https://i.pravatar.cc/150?u=a042581f4e29026704d" alt="Dr. Sarah Smith" class="w-full h-full object-cover">
-                  </div>
-                  <!-- Verification Badge Subtle -->
-                  <div class="absolute -bottom-0.5 -right-0.5 w-4 h-4 bg-[#334EAC] rounded-full border border-white flex items-center justify-center text-white shadow-sm">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-                  </div>
-                </div>
-                <div>
-                  <h3 class="text-sm font-bold text-[#081F5C] leading-tight">Dr. Sarah Smith</h3>
-                  <p class="text-[10px] font-bold text-slate-400">Ph.D. Matematika • MIT</p>
-                </div>
-              </div>
-
-              <!-- Rating compact di kanan atas -->
-              <div class="bg-[#F7F2EB] px-2 py-0.5 rounded border border-amber-100 flex items-center gap-0.5 shrink-0">
-                <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="#F59E0B" stroke="#F59E0B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                <span class="text-[10px] font-bold text-[#081F5C]">4.9</span>
-              </div>
-            </div>
-
-            <!-- MIDDLE SECTION: specialization, bio / institution, tags -->
-            <div class="mb-4 flex-1">
-              <p class="text-xs text-slate-500 leading-relaxed mb-3">Spesialisasi pengajaran matematika kalkulus multivariabel, aljabar linear, dan persiapan ujian universitas.</p>
-              
-              <div class="flex flex-wrap gap-1.5">
-                <span class="px-2 py-0.5 bg-slate-100 text-slate-600 text-[9px] font-bold rounded uppercase tracking-wider">Kalkulus</span>
-                <span class="px-2 py-0.5 bg-slate-100 text-slate-600 text-[9px] font-bold rounded uppercase tracking-wider">Aljabar</span>
-              </div>
-            </div>
-
-            <!-- BOTTOM SECTION: pricing + availability + CTA -->
-            <div class="pt-3.5 border-t border-slate-100 flex flex-col gap-3">
-              <div class="flex justify-between items-center text-xs">
-                <span class="text-slate-400 font-semibold">Tersedia: <span class="text-slate-700">Senin - Jumat</span></span>
-                <span class="text-[#081F5C] font-bold">Rp 150k <span class="text-[10px] text-slate-400 font-normal">/ jam</span></span>
-              </div>
-              <button @click="openBooking('Dr. Sarah Smith', 'Matematika')" class="w-full py-2.5 bg-[#EDF1F6] hover:bg-[#334EAC] hover:text-white text-[#334EAC] rounded-xl font-bold text-xs transition-colors shadow-sm text-center">
-                Pesan Mentoring
-              </button>
-            </div>
-          </div>
-
-          <!-- Mentor Card 2 -->
-          <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm flex flex-col justify-between h-full relative">
-            
-            <!-- TOP SECTION: avatar + name + verified + rating -->
-            <div class="flex items-start justify-between mb-3.5">
-              <div class="flex items-center gap-3">
-                <div class="relative shrink-0">
-                  <div class="w-12 h-12 rounded-full bg-slate-100 overflow-hidden border border-slate-200">
-                    <img src="https://i.pravatar.cc/150?u=1" alt="Prof. Anderson" class="w-full h-full object-cover">
-                  </div>
-                  <!-- Verification Badge Subtle -->
-                  <div class="absolute -bottom-0.5 -right-0.5 w-4 h-4 bg-[#334EAC] rounded-full border border-white flex items-center justify-center text-white shadow-sm">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-                  </div>
-                </div>
-                <div>
-                  <h3 class="text-sm font-bold text-[#081F5C] leading-tight">Prof. Anderson</h3>
-                  <p class="text-[10px] font-bold text-slate-400">Dosen Fisika • UI</p>
-                </div>
-              </div>
-
-              <!-- Rating compact di kanan atas -->
-              <div class="bg-[#F7F2EB] px-2 py-0.5 rounded border border-amber-100 flex items-center gap-0.5 shrink-0">
-                <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="#F59E0B" stroke="#F59E0B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                <span class="text-[10px] font-bold text-[#081F5C]">4.8</span>
-              </div>
-            </div>
-
-            <!-- MIDDLE SECTION: specialization, bio / institution, tags -->
-            <div class="mb-4 flex-1">
-              <p class="text-xs text-slate-500 leading-relaxed mb-3">Persiapan intensif kompetisi sains Fisika, mekanika klasik, termodinamika, dan kinematika dasar.</p>
-              
-              <div class="flex flex-wrap gap-1.5">
-                <span class="px-2 py-0.5 bg-slate-100 text-slate-600 text-[9px] font-bold rounded uppercase tracking-wider">Kinematika</span>
-                <span class="px-2 py-0.5 bg-slate-100 text-slate-600 text-[9px] font-bold rounded uppercase tracking-wider">OSN</span>
-              </div>
-            </div>
-
-            <!-- BOTTOM SECTION: pricing + availability + CTA -->
-            <div class="pt-3.5 border-t border-slate-100 flex flex-col gap-3">
-              <div class="flex justify-between items-center text-xs">
-                <span class="text-slate-400 font-semibold">Tersedia: <span class="text-slate-700">Sabtu - Minggu</span></span>
-                <span class="text-[#081F5C] font-bold">Rp 200k <span class="text-[10px] text-slate-400 font-normal">/ jam</span></span>
-              </div>
-              <button @click="openBooking('Prof. Anderson', 'Fisika')" class="w-full py-2.5 bg-[#EDF1F6] hover:bg-[#334EAC] hover:text-white text-[#334EAC] rounded-xl font-bold text-xs transition-colors shadow-sm text-center">
-                Pesan Mentoring
-              </button>
-            </div>
-          </div>
-
-          <!-- Mentor Card 3 -->
-          <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm flex flex-col justify-between h-full relative">
-            
-            <!-- TOP SECTION: avatar + name + verified + rating -->
-            <div class="flex items-start justify-between mb-3.5">
-              <div class="flex items-center gap-3">
-                <div class="relative shrink-0">
-                  <div class="w-12 h-12 rounded-full bg-[#EDF1F6] overflow-hidden border border-slate-200 flex items-center justify-center font-extrabold text-[#334EAC] text-xs">
-                    BS
-                  </div>
-                </div>
-                <div>
-                  <h3 class="text-sm font-bold text-[#081F5C] leading-tight">Budi Santoso</h3>
-                  <p class="text-[10px] font-bold text-slate-400">Senior Dev • Gojek</p>
-                </div>
-              </div>
-
-              <!-- Rating compact di kanan atas -->
-              <div class="bg-[#F7F2EB] px-2 py-0.5 rounded border border-amber-100 flex items-center gap-0.5 shrink-0">
-                <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="#F59E0B" stroke="#F59E0B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                <span class="text-[10px] font-bold text-[#081F5C]">4.5</span>
-              </div>
-            </div>
-
-            <!-- MIDDLE SECTION: specialization, bio / institution, tags -->
-            <div class="mb-4 flex-1">
-              <p class="text-xs text-slate-500 leading-relaxed mb-3">Mentoring pemrograman frontend modern, Vue.js Composition API, struktur data, dan arsitektur kode.</p>
-              
-              <div class="flex flex-wrap gap-1.5">
-                <span class="px-2 py-0.5 bg-slate-100 text-slate-600 text-[9px] font-bold rounded uppercase tracking-wider">Vue.js</span>
-                <span class="px-2 py-0.5 bg-slate-100 text-slate-600 text-[9px] font-bold rounded uppercase tracking-wider">Algoritma</span>
-              </div>
-            </div>
-
-            <!-- BOTTOM SECTION: pricing + availability + CTA -->
-            <div class="pt-3.5 border-t border-slate-100 flex flex-col gap-3">
-              <div class="flex justify-between items-center text-xs">
-                <span class="text-slate-400 font-semibold">Tersedia: <span class="text-slate-700">Malam Hari</span></span>
-                <span class="text-[#081F5C] font-bold">Rp 120k <span class="text-[10px] text-slate-400 font-normal">/ jam</span></span>
-              </div>
-              <button @click="openBooking('Budi Santoso', 'Ilmu Komputer')" class="w-full py-2.5 bg-[#EDF1F6] hover:bg-[#334EAC] hover:text-white text-[#334EAC] rounded-xl font-bold text-xs transition-colors shadow-sm text-center">
-                Pesan Mentoring
-              </button>
-            </div>
-          </div>
-
-        </div>
-      </div>
-      
     </div>
 
     <!-- Booking Modal -->
-    <div v-if="showModal" class="fixed inset-0 z-50 flex items-center justify-center p-4">
-      <div class="absolute inset-0 bg-slate-900/40 backdrop-blur-sm" @click="closeBooking"></div>
-      <div class="bg-white/90 backdrop-blur-xl rounded-3xl border border-white/50 w-full max-w-lg relative z-10 shadow-[0_20px_60px_rgba(15,23,42,0.15)] animate-in zoom-in-95 duration-200 overflow-hidden flex flex-col max-h-[90vh]">
-        <div class="p-6 md:p-8 border-b border-slate-100 overflow-y-auto">
-          <h2 class="text-2xl font-extrabold text-[#081F5C] mb-2">Booking Mentor</h2>
-          <p class="text-sm font-bold text-slate-500 mb-6">Jadwalkan sesi 1-on-1 dengan {{ selectedMentor.name }} ({{ selectedMentor.expertise }})</p>
+    <Teleport to="body">
+      <div v-if="showModal" class="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6">
+        <div class="absolute inset-0 bg-[#081F5C]/60 backdrop-blur-md transition-opacity" @click="closeBooking"></div>
+        
+        <div class="bg-white rounded-[24px] w-full max-w-xl relative z-10 shadow-2xl animate-in zoom-in-95 duration-300 overflow-hidden flex flex-col max-h-[90vh] border border-slate-100">
           
-          <div class="space-y-5">
-            <div>
-              <label class="block text-xs font-extrabold text-slate-500 uppercase tracking-widest mb-2">Tanggal</label>
-              <input type="date" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm font-bold text-[#081F5C] focus:outline-none focus:ring-4 focus:ring-[#7096D1]/20 focus:border-[#7096D1] transition-all">
-            </div>
-            <div>
-              <label class="block text-xs font-extrabold text-slate-500 uppercase tracking-widest mb-2">Waktu</label>
-              <select class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm font-bold text-[#081F5C] focus:outline-none focus:ring-4 focus:ring-[#7096D1]/20 focus:border-[#7096D1] transition-all appearance-none cursor-pointer">
-                <option value="">Pilih Jam</option>
-                <option value="10:00">10:00 WIB</option>
-                <option value="13:00">13:00 WIB</option>
-                <option value="15:00">15:00 WIB</option>
-              </select>
-            </div>
-            <div>
-              <label class="block text-xs font-extrabold text-slate-500 uppercase tracking-widest mb-2">Topik Mentoring</label>
-              <input type="text" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm font-bold text-[#081F5C] focus:outline-none focus:ring-4 focus:ring-[#7096D1]/20 focus:border-[#7096D1] transition-all placeholder-slate-400" placeholder="Contoh: Persiapan UTS Kalkulus Lanjut">
-            </div>
-            <div>
-              <label class="block text-xs font-extrabold text-slate-500 uppercase tracking-widest mb-2">Catatan Tambahan (Opsional)</label>
-              <textarea rows="3" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm font-medium text-slate-700 focus:outline-none focus:ring-4 focus:ring-[#7096D1]/20 focus:border-[#7096D1] transition-all resize-none placeholder-slate-400" placeholder="Ada materi spesifik yang ingin dibahas?"></textarea>
+          <!-- Modal Header -->
+          <div class="px-8 pt-8 pb-6 border-b border-slate-100 bg-white relative shrink-0">
+            <button @click="closeBooking" class="absolute top-6 right-6 w-8 h-8 flex items-center justify-center rounded-full bg-slate-50 text-slate-400 hover:bg-slate-100 hover:text-slate-600 transition-colors">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+            </button>
+            <div class="flex items-center gap-5">
+              <div class="w-14 h-14 rounded-2xl bg-[#EEF3FF] text-[#334EAC] flex items-center justify-center shrink-0 border border-[#D5E2F5]">
+                <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>
+              </div>
+              <div>
+                <h2 class="text-2xl font-bold text-slate-900 tracking-tight">Jadwalkan Mentoring</h2>
+                <p class="text-[14px] font-medium text-slate-500 mt-1">
+                  Sesi 1-on-1 dengan <span class="font-bold text-[#334EAC]">{{ selectedMentor.name }}</span>
+                </p>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="p-6 bg-slate-50/80 flex items-center justify-end gap-3 rounded-b-3xl">
-          <button @click="closeBooking" class="px-6 py-2.5 text-sm font-bold text-slate-500 hover:text-[#081F5C] hover:bg-slate-200/50 rounded-xl transition-all">Batalkan</button>
-          <button @click="submitBooking" class="px-6 py-2.5 bg-[#334EAC] hover:bg-[#081F5C] text-white text-sm font-extrabold rounded-xl transition-all shadow-md active:scale-95">Konfirmasi Booking</button>
+          
+          <!-- Modal Body -->
+          <div class="p-8 overflow-y-auto custom-scrollbar bg-slate-50/50">
+            <div class="space-y-6">
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="space-y-2">
+                  <label class="block text-[12px] font-bold text-slate-600 ml-1">Tanggal Sesi</label>
+                  <div class="relative">
+                    <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>
+                    </div>
+                    <input type="date" class="w-full pl-11 pr-4 py-3.5 bg-white border border-slate-200 hover:border-[#7096D1] rounded-2xl text-[14px] font-bold text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#334EAC] focus:border-transparent transition-all shadow-sm">
+                  </div>
+                </div>
+                <div class="space-y-2">
+                  <label class="block text-[12px] font-bold text-slate-600 ml-1">Waktu Mulai</label>
+                  <div class="relative">
+                    <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    </div>
+                    <select class="w-full pl-11 pr-4 py-3.5 bg-white border border-slate-200 hover:border-[#7096D1] rounded-2xl text-[14px] font-bold text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#334EAC] focus:border-transparent transition-all shadow-sm appearance-none cursor-pointer">
+                      <option value="">Pilih Jam</option>
+                      <option value="10:00">10:00 WIB</option>
+                      <option value="13:00">13:00 WIB</option>
+                      <option value="15:00">15:00 WIB</option>
+                    </select>
+                    <div class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none text-slate-400">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="space-y-2">
+                <label class="block text-[12px] font-bold text-slate-600 ml-1">Topik Mentoring</label>
+                <input type="text" class="w-full px-5 py-3.5 bg-white border border-slate-200 hover:border-[#7096D1] rounded-2xl text-[14px] font-bold text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#334EAC] focus:border-transparent transition-all shadow-sm placeholder-slate-400" placeholder="Contoh: Persiapan UTS Kalkulus Lanjut, Review Algoritma">
+              </div>
+              
+              <div class="space-y-2">
+                <label class="block text-[12px] font-bold text-slate-600 ml-1">Catatan Tambahan (Opsional)</label>
+                <textarea rows="3" class="w-full px-5 py-3.5 bg-white border border-slate-200 hover:border-[#7096D1] rounded-2xl text-[14px] font-medium text-slate-700 focus:outline-none focus:ring-2 focus:ring-[#334EAC] focus:border-transparent transition-all shadow-sm resize-none placeholder-slate-400" placeholder="Ada materi spesifik yang ingin dibahas? Tuliskan secara detail di sini."></textarea>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Modal Footer -->
+          <div class="px-8 py-6 bg-white border-t border-slate-100 flex items-center justify-end gap-3 rounded-b-[24px] shrink-0">
+            <button @click="closeBooking" class="px-6 py-3.5 text-[14px] font-bold text-slate-600 hover:bg-slate-50 bg-white border border-slate-200 hover:border-slate-300 rounded-xl transition-all shadow-sm active:scale-95">Batalkan</button>
+            <button @click="submitBooking" class="px-8 py-3.5 bg-[#334EAC] hover:bg-[#081F5C] text-white text-[14px] font-bold rounded-xl transition-all shadow-[0_4px_15px_rgba(51,78,172,0.15)] active:scale-95 flex items-center gap-2">
+              Konfirmasi Booking
+            </button>
+          </div>
         </div>
       </div>
-    </div>
+    </Teleport>
 
     <!-- Success Toast -->
-    <div v-if="showSuccess" class="fixed bottom-6 right-6 z-50 bg-emerald-500 text-white px-6 py-4 rounded-2xl shadow-[0_10px_40px_rgba(16,185,129,0.3)] flex items-center gap-3 animate-in slide-in-from-bottom-5">
-      <div class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center shrink-0">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+    <Teleport to="body">
+      <div v-if="showSuccess" class="fixed bottom-6 right-6 z-[100] bg-emerald-500 text-white px-6 py-4 rounded-2xl shadow-[0_10px_40px_rgba(16,185,129,0.3)] flex items-center gap-3 animate-in slide-in-from-bottom-5">
+        <div class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center shrink-0">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <div>
+          <h4 class="font-extrabold text-sm">Booking Berhasil!</h4>
+          <p class="text-xs text-emerald-100 font-medium">Jadwalmu telah ditambahkan ke dashboard.</p>
+        </div>
       </div>
-      <div>
-        <h4 class="font-extrabold text-sm">Booking Berhasil!</h4>
-        <p class="text-xs text-emerald-100 font-medium">Jadwalmu telah ditambahkan ke dashboard.</p>
-      </div>
-    </div>
+    </Teleport>
 
   </div>
 </template>
