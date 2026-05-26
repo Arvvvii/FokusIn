@@ -1,41 +1,34 @@
 <template>
-  <div class="space-y-8 animate-in fade-in duration-500 min-w-0">
+  <div class="p-6 md:p-8 xl:p-10 max-w-[1600px] mx-auto animate-in fade-in duration-500 space-y-8 min-w-0">
     
     <!-- 1. Analytics Hero -->
-    <section class="flex flex-col md:flex-row md:items-end justify-between gap-6 bg-white/80 backdrop-blur-xl rounded-3xl p-8 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-100 relative overflow-hidden group">
+    <section class="bg-white/80 backdrop-blur-xl rounded-3xl p-7 md:p-8 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-white/40 relative overflow-hidden mb-8 group">
       <!-- Decorative background -->
       <div class="absolute -right-20 -top-20 w-64 h-64 bg-gradient-to-bl from-[#7096D1]/10 to-transparent blur-3xl pointer-events-none rounded-full"></div>
       
-      <div class="relative z-10">
-        <div class="flex items-center gap-2 text-[13px] font-bold text-slate-400 mb-3 uppercase tracking-widest">
-          <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-          Live Data
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 relative z-10">
+        <div>
+          <div class="flex items-center gap-2 text-[13px] font-bold text-slate-400 mb-2 uppercase tracking-widest">
+            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+            Live Data
+          </div>
+          <h1 class="text-[28px] font-bold text-slate-900 tracking-tight mb-1">Platform Analytics</h1>
+          <p class="text-base text-slate-500 font-medium max-w-xl">
+            Pusat komando wawasan akademik dan performa ekosistem FokusIn.
+          </p>
         </div>
-        <h1 class="text-3xl md:text-4xl font-bold text-slate-900 tracking-tight mb-2">Platform Analytics</h1>
-        <p class="text-slate-500 font-medium text-[15px] max-w-xl leading-relaxed">
-          Pusat komando wawasan akademik dan performa ekosistem FokusIn. Lacak metrik kunci dan pertumbuhan pengguna secara real-time.
-        </p>
-      </div>
-
-      <div class="flex flex-col sm:flex-row gap-3 relative z-10 shrink-0">
-        <!-- Date Range Filter -->
-        <div class="relative min-w-[200px]">
-          <select class="w-full pl-5 pr-10 py-3.5 bg-slate-50 hover:bg-white border border-transparent hover:border-slate-200 rounded-2xl text-[14px] font-bold text-slate-900 appearance-none focus:outline-none focus:ring-4 focus:ring-[#7096D1]/20 transition-all cursor-pointer shadow-sm">
+        <div class="flex items-center gap-4">
+          <select class="px-4 py-2 bg-white border border-slate-200 rounded-xl text-sm font-bold text-slate-600 shadow-sm focus:outline-none focus:border-indigo-500 appearance-none cursor-pointer">
             <option value="7">7 Hari Terakhir</option>
             <option value="30" selected>30 Hari Terakhir</option>
             <option value="90">3 Bulan Terakhir</option>
             <option value="year">Tahun Ini</option>
           </select>
-          <div class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none text-slate-400">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
-          </div>
+          <button @click="exportCSV" class="px-5 py-2.5 bg-indigo-600 text-white rounded-xl font-semibold text-sm shadow-sm hover:bg-indigo-700 transition-all flex items-center gap-2 active:scale-95">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+            Export CSV
+          </button>
         </div>
-        
-        <!-- Export Action -->
-        <button class="px-6 py-3.5 bg-[#334EAC] hover:bg-[#081F5C] text-white rounded-2xl font-extrabold text-[14px] transition-all shadow-[0_4px_15px_rgba(51,78,172,0.15)] active:scale-95 flex items-center justify-center gap-2">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
-          Export CSV
-        </button>
       </div>
     </section>
 
@@ -43,7 +36,7 @@
     <section class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
       
       <!-- KPI 1 -->
-      <div class="bg-white/80 backdrop-blur-xl rounded-3xl p-6 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-100 flex flex-col justify-between hover:border-[#7096D1]/30 transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-xl group">
+      <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm transition-all hover:shadow-md hover:-translate-y-1 group flex flex-col justify-between">
         <div class="flex items-center justify-between mb-4">
           <div class="w-10 h-10 rounded-xl bg-[#EDF1F6] flex items-center justify-center text-[#334EAC] group-hover:scale-110 transition-transform">
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
@@ -54,13 +47,13 @@
           </span>
         </div>
         <div>
-          <h4 class="text-[13px] font-extrabold text-slate-400 uppercase tracking-widest mb-1">Total Pengguna</h4>
-          <p class="text-3xl font-bold text-slate-900 tracking-tight">14,208</p>
+          <h4 class="text-sm font-semibold text-slate-500 mb-1">Total Pengguna</h4>
+          <p class="text-[28px] font-bold text-slate-900 tracking-tight">14,208</p>
         </div>
       </div>
 
       <!-- KPI 2 -->
-      <div class="bg-white/80 backdrop-blur-xl rounded-3xl p-6 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-100 flex flex-col justify-between hover:border-[#7096D1]/30 transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-xl group">
+      <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm transition-all hover:shadow-md hover:-translate-y-1 group flex flex-col justify-between">
         <div class="flex items-center justify-between mb-4">
           <div class="w-10 h-10 rounded-xl bg-amber-50 flex items-center justify-center text-amber-500 group-hover:scale-110 transition-transform">
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
@@ -71,13 +64,13 @@
           </span>
         </div>
         <div>
-          <h4 class="text-[13px] font-extrabold text-slate-400 uppercase tracking-widest mb-1">Sesi Aktif Harian</h4>
-          <p class="text-3xl font-bold text-slate-900 tracking-tight">3,842</p>
+          <h4 class="text-sm font-semibold text-slate-500 mb-1">Sesi Aktif Harian</h4>
+          <p class="text-[28px] font-bold text-slate-900 tracking-tight">3,842</p>
         </div>
       </div>
 
       <!-- KPI 3 -->
-      <div class="bg-white/80 backdrop-blur-xl rounded-3xl p-6 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-100 flex flex-col justify-between hover:border-[#7096D1]/30 transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-xl group">
+      <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm transition-all hover:shadow-md hover:-translate-y-1 group flex flex-col justify-between">
         <div class="flex items-center justify-between mb-4">
           <div class="w-10 h-10 rounded-xl bg-indigo-50 flex items-center justify-center text-indigo-500 group-hover:scale-110 transition-transform">
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4"/><path d="M12 18v4"/><path d="M4.93 4.93l2.83 2.83"/><path d="M16.24 16.24l2.83 2.83"/><path d="M2 12h4"/><path d="M18 12h4"/><path d="M4.93 19.07l2.83-2.83"/><path d="M16.24 7.76l2.83-2.83"/></svg>
@@ -88,13 +81,13 @@
           </span>
         </div>
         <div>
-          <h4 class="text-[13px] font-extrabold text-slate-400 uppercase tracking-widest mb-1">Permintaan AI (Tokens)</h4>
-          <p class="text-3xl font-bold text-slate-900 tracking-tight">1.2M</p>
+          <h4 class="text-sm font-semibold text-slate-500 mb-1">Permintaan AI (Tokens)</h4>
+          <p class="text-[28px] font-bold text-slate-900 tracking-tight">1.2M</p>
         </div>
       </div>
 
       <!-- KPI 4 -->
-      <div class="bg-white/80 backdrop-blur-xl rounded-3xl p-6 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-100 flex flex-col justify-between hover:border-[#7096D1]/30 transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-xl group">
+      <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm transition-all hover:shadow-md hover:-translate-y-1 group flex flex-col justify-between">
         <div class="flex items-center justify-between mb-4">
           <div class="w-10 h-10 rounded-xl bg-rose-50 flex items-center justify-center text-rose-500 group-hover:scale-110 transition-transform">
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>
@@ -105,8 +98,8 @@
           </span>
         </div>
         <div>
-          <h4 class="text-[13px] font-extrabold text-slate-400 uppercase tracking-widest mb-1">Materi Diunduh</h4>
-          <p class="text-3xl font-bold text-slate-900 tracking-tight">8,405</p>
+          <h4 class="text-sm font-semibold text-slate-500 mb-1">Materi Diunduh</h4>
+          <p class="text-[28px] font-bold text-slate-900 tracking-tight">8,405</p>
         </div>
       </div>
 
@@ -116,15 +109,15 @@
     <section class="grid grid-cols-1 xl:grid-cols-3 gap-6">
       
       <!-- Main Chart (Activity) -->
-      <div class="xl:col-span-2 bg-white/80 backdrop-blur-xl rounded-3xl p-8 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-100 flex flex-col transition-all duration-300 ease-out hover:shadow-xl group/card">
+      <div class="xl:col-span-2 bg-white rounded-2xl border border-slate-200 shadow-sm p-6 xl:p-8 flex flex-col transition-all duration-300 ease-out hover:shadow-md group/card">
         <div class="flex items-center justify-between mb-8">
           <div>
             <h3 class="text-xl font-bold text-slate-900 mb-1 tracking-tight">Aktivitas Platform</h3>
             <p class="text-sm font-medium text-slate-500">Total sesi pembelajaran (30 Hari Terakhir)</p>
           </div>
           <div class="flex gap-2 bg-[#EDF1F6] p-1 rounded-xl">
-            <button class="px-4 py-1.5 bg-white text-[#081F5C] text-[12px] font-extrabold rounded-lg shadow-sm">Sesi</button>
-            <button class="px-4 py-1.5 text-slate-500 hover:text-[#081F5C] text-[12px] font-extrabold rounded-lg transition-colors">Users</button>
+            <button @click="chartTab = 'sesi'" :class="chartTab === 'sesi' ? 'bg-white text-[#081F5C] shadow-sm' : 'text-slate-500 hover:text-[#081F5C]'" class="px-4 py-1.5 text-[12px] font-extrabold rounded-lg transition-colors">Sesi</button>
+            <button @click="chartTab = 'users'" :class="chartTab === 'users' ? 'bg-white text-[#081F5C] shadow-sm' : 'text-slate-500 hover:text-[#081F5C]'" class="px-4 py-1.5 text-[12px] font-extrabold rounded-lg transition-colors">Users</button>
           </div>
         </div>
 
@@ -148,7 +141,7 @@
       </div>
 
       <!-- Secondary Chart (Demographics/Distribution) -->
-      <div class="bg-white/80 backdrop-blur-xl rounded-3xl p-8 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-100 flex flex-col transition-all duration-300 ease-out hover:shadow-xl group/card">
+      <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 xl:p-8 flex flex-col transition-all duration-300 ease-out hover:shadow-md group/card">
         <h3 class="text-xl font-bold text-slate-900 mb-1 tracking-tight">Distribusi Pengguna</h3>
         <p class="text-sm font-medium text-slate-500 mb-8">Berdasarkan role di ekosistem</p>
 
@@ -216,7 +209,7 @@
       </div>
 
       <div class="shrink-0 relative z-10">
-        <button class="px-6 py-3 bg-white text-[#081F5C] hover:bg-[#F7F2EB] rounded-2xl font-extrabold text-[14px] transition-all shadow-lg active:scale-95 flex items-center justify-center gap-2">
+        <button @click="createNotification" class="px-6 py-3 bg-white text-[#081F5C] hover:bg-[#F7F2EB] rounded-2xl font-extrabold text-[14px] transition-all shadow-lg active:scale-95 flex items-center justify-center gap-2">
           Buat Notifikasi Global
         </button>
       </div>
@@ -226,5 +219,15 @@
 </template>
 
 <script setup>
-// Admin Analytics View
+import { ref } from 'vue'
+
+const chartTab = ref('sesi')
+
+const exportCSV = () => {
+  alert('Sedang menyiapkan file CSV... Laporan Analisis berhasil diunduh.')
+}
+
+const createNotification = () => {
+  alert('Prompt berhasil dikirimkan ke Broadcast Notification System. Seluruh Tutor Ilmu Komputer akan menerima notifikasi ini.')
+}
 </script>

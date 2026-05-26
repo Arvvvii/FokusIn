@@ -2,17 +2,19 @@
   <div class="p-6 md:p-8 xl:p-10 max-w-[1600px] mx-auto animate-in fade-in duration-500">
     
     <!-- Header -->
-    <div class="mb-8 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
-      <div>
-        <h1 class="text-3xl font-extrabold text-[#081F5C] tracking-tight mb-2">Community Moderation</h1>
-        <p class="text-slate-500 font-medium">Tinjau laporan konten, hapus diskusi spam, dan jaga integritas akademik platform.</p>
-      </div>
-      <div class="flex items-center gap-4">
-        <select class="px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-sm font-bold text-slate-600 shadow-sm focus:outline-none focus:border-[#7096D1] appearance-none cursor-pointer">
-          <option>Terbaru</option>
-          <option>Prioritas Tinggi</option>
-          <option>Diselesaikan</option>
-        </select>
+    <div class="bg-white/80 backdrop-blur-xl rounded-3xl p-7 md:p-8 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-white/40 relative overflow-hidden mb-8">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 relative z-10">
+        <div>
+          <h1 class="text-[28px] font-bold text-slate-900 tracking-tight mb-1">User Reports & Escalation</h1>
+          <p class="text-base text-slate-500 font-medium">Tinjau laporan pengguna, tangani pelanggaran serius, dan kelola eskalasi kasus secara komprehensif.</p>
+        </div>
+        <div class="flex items-center gap-4">
+          <select class="px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-sm font-bold text-slate-600 shadow-sm focus:outline-none focus:border-indigo-500 appearance-none cursor-pointer">
+            <option>Terbaru</option>
+            <option>Prioritas Tinggi</option>
+            <option>Diselesaikan</option>
+          </select>
+        </div>
       </div>
     </div>
 
@@ -22,17 +24,17 @@
       <!-- Left Column: Queue List -->
       <div class="lg:col-span-1 flex flex-col gap-4 max-h-[800px] overflow-y-auto custom-scrollbar pr-2">
         <div v-for="report in reports" :key="report.id" 
-             class="bg-white p-5 rounded-2xl border transition-all cursor-pointer shadow-[0_4px_20px_rgba(8,31,92,0.03)] group"
-             :class="selectedReport?.id === report.id ? 'border-[#334EAC] ring-1 ring-[#334EAC] bg-[#F8FAFC]' : 'border-slate-200 hover:border-[#7096D1]'"
+             class="bg-white p-5 rounded-2xl border transition-all cursor-pointer shadow-sm group"
+             :class="selectedReport?.id === report.id ? 'border-indigo-500 ring-1 ring-indigo-500 bg-indigo-50/10' : 'border-slate-200 hover:border-indigo-300'"
              @click="selectedReport = report">
           <div class="flex items-start justify-between mb-3">
-            <span class="px-2.5 py-1 rounded-md text-[10px] font-extrabold uppercase tracking-widest"
-                  :class="report.severity === 'High' ? 'bg-rose-50 text-rose-600' : (report.severity === 'Medium' ? 'bg-amber-50 text-amber-600' : 'bg-sky-50 text-sky-600')">
+            <span class="px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-widest"
+                  :class="report.severity === 'High' ? 'bg-rose-50 text-rose-700' : (report.severity === 'Medium' ? 'bg-amber-50 text-amber-700' : 'bg-sky-50 text-sky-700')">
               {{ report.type }}
             </span>
             <span class="text-xs font-bold text-slate-400">{{ report.time }}</span>
           </div>
-          <h3 class="text-sm font-bold text-[#081F5C] mb-1 line-clamp-1 group-hover:text-[#334EAC]">{{ report.targetTitle }}</h3>
+          <h3 class="text-base font-bold text-slate-900 mb-1 line-clamp-1 group-hover:text-indigo-700 tracking-tight">{{ report.targetTitle }}</h3>
           <p class="text-xs text-slate-500 mb-3">Dilaporkan oleh: <span class="font-bold text-slate-700">{{ report.reporter }}</span> ({{ report.reason }})</p>
           <div class="flex items-center gap-2">
             <div class="flex -space-x-2">
@@ -51,34 +53,34 @@
           <!-- Detail Header -->
           <div class="p-6 border-b border-slate-100 bg-slate-50/50">
             <div class="flex items-center gap-3 mb-2">
-              <span class="px-2.5 py-1 bg-rose-100 text-rose-700 rounded-md text-[10px] font-extrabold uppercase tracking-widest">
+              <span class="px-2.5 py-1 bg-rose-100 text-rose-700 rounded-md text-[10px] font-bold uppercase tracking-widest">
                 <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="inline-block mr-1 -mt-0.5"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" x2="12" y1="9" y2="13"/><line x1="12" x2="12.01" y1="17" y2="17"/></svg>
                 Dilaporkan {{ selectedReport.flagCount }} kali
               </span>
               <span class="text-xs font-bold text-slate-400">ID: #RPT-{{ selectedReport.id }}</span>
             </div>
-            <h2 class="text-xl font-extrabold text-[#081F5C] mb-2">{{ selectedReport.targetTitle }}</h2>
+            <h2 class="text-[28px] font-bold text-slate-900 tracking-tight mb-2">{{ selectedReport.targetTitle }}</h2>
             <div class="flex items-center gap-2 text-sm text-slate-500 font-medium">
-              Ditulis oleh <span class="font-bold text-[#334EAC] cursor-pointer hover:underline">{{ selectedReport.author }}</span> pada {{ selectedReport.postDate }}
+              Ditulis oleh <span class="font-bold text-indigo-600 cursor-pointer hover:underline">{{ selectedReport.author }}</span> pada {{ selectedReport.postDate }}
             </div>
           </div>
 
           <!-- Content Review -->
           <div class="p-6 flex-1 overflow-y-auto">
-            <h3 class="text-xs font-extrabold text-slate-400 uppercase tracking-widest mb-4">Konten yang Dilaporkan</h3>
+            <h3 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">Konten yang Dilaporkan</h3>
             <div class="p-5 bg-slate-50 rounded-xl border border-slate-200 text-sm text-slate-700 leading-relaxed mb-6 font-medium">
               {{ selectedReport.content }}
             </div>
             
-            <h3 class="text-xs font-extrabold text-slate-400 uppercase tracking-widest mb-4">Konteks Pelanggaran</h3>
+            <h3 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">Konteks Pelanggaran</h3>
             <ul class="space-y-3">
               <li v-for="(reason, i) in selectedReport.reasonsDetail" :key="i" class="flex items-start gap-3 p-3 rounded-xl border border-rose-100 bg-rose-50/50">
                 <div class="mt-0.5">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#F43F5E" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#be123c" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg>
                 </div>
                 <div>
                   <p class="text-sm font-bold text-rose-900">{{ reason.title }}</p>
-                  <p class="text-[11px] text-rose-700/80">{{ reason.desc }}</p>
+                  <p class="text-xs text-rose-700/80">{{ reason.desc }}</p>
                 </div>
               </li>
             </ul>
@@ -86,14 +88,14 @@
 
           <!-- Action Footer -->
           <div class="p-6 border-t border-slate-100 bg-white flex items-center justify-between gap-4 mt-auto">
-            <button class="px-5 py-2.5 text-slate-500 font-bold text-sm hover:text-emerald-600 hover:bg-emerald-50 rounded-xl transition-all">
+            <button @click="resolveReport" class="px-5 py-2.5 text-slate-500 font-bold text-sm hover:text-emerald-600 hover:bg-emerald-50 rounded-xl transition-all">
               Abaikan (Restore)
             </button>
             <div class="flex gap-3">
-              <button class="px-5 py-2.5 bg-amber-50 text-amber-600 border border-amber-200 hover:bg-amber-100 font-bold text-sm rounded-xl transition-all shadow-sm">
+              <button @click="markAsSpam" class="px-5 py-2.5 bg-amber-50 text-amber-700 border border-amber-200 hover:bg-amber-100 font-bold text-sm rounded-xl transition-all shadow-sm">
                 Tandai Spam
               </button>
-              <button class="px-5 py-2.5 bg-rose-600 text-white font-bold text-sm rounded-xl hover:bg-rose-700 transition-all shadow-[0_4px_15px_rgba(225,29,72,0.2)] flex items-center gap-2">
+              <button @click="removeContent" class="px-5 py-2.5 bg-rose-600 text-white font-bold text-sm rounded-xl hover:bg-rose-700 transition-all shadow-[0_4px_15px_rgba(225,29,72,0.2)] flex items-center gap-2">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
                 Remove Content
               </button>
@@ -103,12 +105,12 @@
         </div>
 
         <!-- Empty State -->
-        <div v-else class="h-full bg-white rounded-2xl border border-slate-200 shadow-sm flex flex-col items-center justify-center p-10 text-center border-dashed">
-          <div class="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mb-4 text-slate-300">
+        <div v-else class="h-full bg-white rounded-2xl border border-slate-200 shadow-sm flex flex-col items-center justify-center p-10 text-center">
+          <div class="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center mb-4 text-slate-400">
             <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="m9 12 2 2 4-4"/></svg>
           </div>
-          <h3 class="text-lg font-extrabold text-slate-600 mb-2">Tidak ada laporan yang dipilih</h3>
-          <p class="text-sm text-slate-400 max-w-sm">Pilih laporan dari daftar di sebelah kiri untuk meninjau dan mengambil tindakan moderasi.</p>
+          <h3 class="text-lg font-bold text-slate-700 tracking-tight mb-2">Tidak ada laporan yang dipilih</h3>
+          <p class="text-sm text-slate-500 max-w-sm">Pilih laporan dari daftar di sebelah kiri untuk meninjau dan mengambil tindakan operasional.</p>
         </div>
       </div>
       
@@ -120,6 +122,18 @@
 import { ref } from 'vue'
 
 const selectedReport = ref(null)
+
+const resolveReport = () => {
+  alert('Laporan diabaikan dan konten direstore.')
+}
+
+const markAsSpam = () => {
+  alert('Konten ditandai sebagai spam dan pengguna akan menerima peringatan.')
+}
+
+const removeContent = () => {
+  alert('Konten dihapus secara permanen dari platform.')
+}
 
 const reports = ref([
   { 
@@ -183,10 +197,10 @@ const reports = ref([
   background: transparent;
 }
 .custom-scrollbar::-webkit-scrollbar-thumb {
-  background: rgba(8, 31, 92, 0.1);
+  background: rgba(15, 23, 42, 0.1);
   border-radius: 10px;
 }
 .custom-scrollbar:hover::-webkit-scrollbar-thumb {
-  background: rgba(8, 31, 92, 0.2);
+  background: rgba(15, 23, 42, 0.2);
 }
 </style>

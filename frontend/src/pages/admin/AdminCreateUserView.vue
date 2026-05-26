@@ -1,26 +1,28 @@
 <template>
-  <div class="p-6 md:p-8 xl:p-10 max-w-[1200px] mx-auto animate-in fade-in duration-500">
+  <div class="p-6 md:p-8 xl:p-10 max-w-4xl mx-auto animate-in fade-in duration-500">
     
     <!-- Header -->
-    <div class="bg-white rounded-2xl border border-slate-200 shadow-sm px-6 py-5 flex flex-col sm:flex-row sm:items-start justify-between gap-5 mb-6">
-      <div class="flex items-center gap-4">
-        <button 
-          @click="$router.push({ name: 'admin-users' })"
-          class="w-10 h-10 rounded-full flex items-center justify-center text-slate-500 hover:bg-slate-100 hover:text-slate-900 transition-colors shrink-0"
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
-        </button>
-        <div>
-          <h1 class="text-[28px] font-semibold tracking-tight text-[#081F5C] mb-1">Tambah User</h1>
-          <p class="text-sm text-slate-600">Buat akun baru untuk pelajar, tutor, atau administrator.</p>
+    <div class="bg-white/80 backdrop-blur-xl rounded-3xl p-7 md:p-8 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-white/40 relative overflow-hidden mb-8">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 relative z-10">
+        <div class="flex items-center gap-4">
+          <button 
+            @click="$router.push({ name: 'admin-users' })"
+            class="w-10 h-10 rounded-full flex items-center justify-center text-slate-500 hover:bg-slate-100 hover:text-slate-900 transition-colors shrink-0"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+          </button>
+          <div>
+            <h1 class="text-[28px] font-bold text-slate-900 tracking-tight mb-1">Tambah User</h1>
+            <p class="text-base text-slate-500 font-medium">Buat akun baru untuk pelajar, tutor, atau administrator.</p>
+          </div>
         </div>
       </div>
     </div>
 
     <!-- Form Section -->
     <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 md:p-8">
-      <h3 class="text-lg font-semibold text-slate-900 mb-6">Informasi Akun</h3>
-      <form @submit.prevent="submitForm" class="max-w-2xl space-y-6">
+      <h3 class="text-xl font-bold text-slate-900 mb-6 border-b border-slate-100 pb-4">Informasi Akun</h3>
+      <form @submit.prevent="submitForm" class="space-y-6">
         
         <!-- Name & Email -->
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -30,7 +32,7 @@
               v-model="form.name"
               type="text" 
               required
-              class="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:border-[#7096D1] focus:ring-4 focus:ring-[#7096D1]/10 transition-all shadow-sm"
+              class="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 transition-all shadow-sm"
               placeholder="Masukkan nama lengkap"
             >
           </div>
@@ -40,7 +42,7 @@
               v-model="form.email"
               type="email" 
               required
-              class="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:border-[#7096D1] focus:ring-4 focus:ring-[#7096D1]/10 transition-all shadow-sm"
+              class="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 transition-all shadow-sm"
               placeholder="email@example.com"
             >
           </div>
@@ -53,7 +55,7 @@
             <select 
               v-model="form.role"
               required
-              class="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-sm text-slate-900 focus:outline-none focus:border-[#7096D1] focus:ring-4 focus:ring-[#7096D1]/10 transition-all shadow-sm appearance-none cursor-pointer"
+              class="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-sm text-slate-900 focus:outline-none focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 transition-all shadow-sm appearance-none cursor-pointer"
             >
               <option value="pelajar">Pelajar</option>
               <option value="tutor">Tutor</option>
@@ -65,7 +67,7 @@
             <select 
               v-model="form.status"
               required
-              class="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-sm text-slate-900 focus:outline-none focus:border-[#7096D1] focus:ring-4 focus:ring-[#7096D1]/10 transition-all shadow-sm appearance-none cursor-pointer"
+              class="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-sm text-slate-900 focus:outline-none focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 transition-all shadow-sm appearance-none cursor-pointer"
             >
               <option value="active">Active</option>
               <option value="suspended">Suspended</option>
@@ -107,7 +109,7 @@
           </button>
           <button 
             type="submit"
-            class="text-sm font-medium h-10 px-5 rounded-xl bg-[#334EAC] text-white shadow-sm hover:bg-[#081F5C] transition-colors"
+            class="text-sm font-medium h-10 px-5 rounded-xl bg-indigo-600 text-white shadow-sm hover:bg-indigo-700 transition-colors"
           >
             Simpan User
           </button>

@@ -2,19 +2,18 @@
   <div class="p-6 md:p-8 xl:p-10 max-w-[1600px] mx-auto animate-in fade-in duration-500">
     
     <!-- Header -->
-    <div class="mb-10 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
-      <div>
-        <div class="flex items-center gap-2 mb-2">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#4F46E5" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="animate-pulse"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
-          <h1 class="text-3xl font-extrabold text-[#081F5C] tracking-tight">AI Monitoring Workspace</h1>
+    <div class="bg-white/80 backdrop-blur-xl rounded-3xl p-7 md:p-8 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-white/40 relative overflow-hidden mb-8">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 relative z-10">
+        <div>
+          <h1 class="text-[28px] font-bold text-slate-900 tracking-tight mb-1">AI Monitoring Workspace</h1>
+          <p class="text-base text-slate-500 font-medium">Pantau kinerja sistem ekstraksi AI, tingkat kepercayaan, dan log analisis real-time.</p>
         </div>
-        <p class="text-slate-500 font-medium">Pantau kinerja sistem ekstraksi AI, tingkat kepercayaan, dan log analisis real-time.</p>
-      </div>
-      <div class="flex items-center gap-4">
-        <div class="px-4 py-2 bg-indigo-50 border border-indigo-100 rounded-xl text-indigo-700 font-bold text-sm shadow-sm flex items-center gap-2">
-          <span class="w-2 h-2 rounded-full bg-indigo-500 animate-ping absolute"></span>
-          <span class="w-2 h-2 rounded-full bg-indigo-500 relative"></span>
-          AI Node: Active
+        <div class="flex items-center gap-4">
+          <div class="px-4 py-2 bg-indigo-50 border border-indigo-100 rounded-xl text-indigo-700 font-bold text-sm shadow-sm flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-indigo-500 animate-ping absolute"></span>
+            <span class="w-2 h-2 rounded-full bg-indigo-500 relative"></span>
+            AI Node: Active
+          </div>
         </div>
       </div>
     </div>
