@@ -1,9 +1,7 @@
 <template>
-  <div class="relative min-h-screen pb-12 overflow-hidden bg-[#F7F2EB]">
-    <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
-      
-      <!-- 1. GLASSMORPHIC HEADER SECTION -->
-      <div class="bg-white/80 backdrop-blur-xl rounded-3xl p-7 md:p-8 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-white/40 relative overflow-hidden flex flex-col md:flex-row md:items-center justify-between gap-6">
+  <div class="space-y-8 w-full pb-12">
+    <!-- 1. GLASSMORPHIC HEADER SECTION -->
+    <div class="bg-white/80 backdrop-blur-xl rounded-3xl p-7 md:p-8 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-white/40 relative overflow-hidden flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div class="absolute right-0 top-0 w-1/3 h-full bg-gradient-to-l from-[#EDF1F6]/80 to-transparent pointer-events-none"></div>
         
         <div class="relative z-10 flex items-center gap-4">
@@ -133,9 +131,6 @@
         </div>
 
       </div>
-    </div>
-
-    <!-- Success Toast -->
     <div v-if="showSyncToast" class="fixed bottom-6 right-6 z-50 bg-emerald-500 text-white px-6 py-4 rounded-2xl shadow-[0_10px_40px_rgba(16,185,129,0.3)] flex items-center gap-3 animate-in slide-in-from-bottom-5">
       <div class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center shrink-0">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
