@@ -92,11 +92,20 @@ class AIPatternService
             throw new \Exception('GROQ_API_KEY tidak dikonfigurasi di file .env');
         }
 
-        $response = Http::withHeaders([
+        $response = Http::withoutVerifying()
+            ->timeout(120)
+            ->connectTimeout(30)
+            ->withOptions([
+                'curl' => [
+                    CURLOPT_IPRESOLVE => CURL_IPRESOLVE_V4,
+                    CURLOPT_SSLVERSION => CURL_SSLVERSION_TLSv1_2,
+                ],
+            ])
+            ->withHeaders([
             'Authorization' => 'Bearer ' . $apiKey,
             'Content-Type' => 'application/json',
         ])->post('https://api.groq.com/openai/v1/chat/completions', [
-            'model' => 'llama3-70b-8192',
+            'model' => 'llama-3.3-70b-versatile',
             'messages' => [
                 [
                     'role' => 'system', 
