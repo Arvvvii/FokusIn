@@ -10,18 +10,51 @@ use App\Http\Controllers\MentoringController;
 use App\Http\Controllers\QuizController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return response()->json(['message' => 'API FokusIn running']);
-});
 // ==========================================
-// ── PUBLIC ROUTES (Tidak Perlu Login) ──────
+// ── HEALTH CHECK ROUTE (Akan menjadi /api) 
 // ==========================================
 Route::get('/', function () {
     return response()->json([
         'message' => 'FokusIn API is running successfully.',
-        'status' => 'up'
-    ]);
+        'status' => 'up',
+        'timestamp' => now()->toIso8601String()
+    ], 200);
 });
+
+// ==========================================
+// ── ROUTE SEMENTARA UNTUK SETUP ADMIN ──────
+// ==========================================
+Route::get('/setup-admin', function () {
+    // 1. Pastikan role admin tersedia di database
+    \Spatie\Permission\Models\Role::firstOrCreate(['name' => 'admin', 'guard_name' => 'web']);
+
+    // 2. Buat user admin jika belum ada
+    $admin = \App\Models\User::firstOrCreate(
+        ['email' => 'admin@fokusin.com'],
+        [
+            'name' => 'Admin Vokasi',
+            'password' => \Illuminate\Support\Facades\Hash::make('password123'),
+            'role' => 'admin',
+            'reputation_score' => 600,
+        ]
+    );
+
+    // 3. Assign role Spatie
+    $admin->assignRole('admin');
+
+    return response()->json([
+        'success' => true,
+        'message' => 'Akun Admin berhasil dibuat dan role Spatie telah di-assign.',
+        'data' => [
+            'email' => $admin->email,
+            'role' => 'admin'
+        ]
+    ], 201);
+});
+
+// ==========================================
+// ── PUBLIC ROUTES (Tidak Perlu Login) ──────
+// ==========================================
 
 Route::prefix('auth')->group(function () {
     Route::post('/register', [AuthController::class, 'register']);

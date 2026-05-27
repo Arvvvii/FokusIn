@@ -22,6 +22,7 @@ class UserSeeder extends Seeder
             'role' => 'admin',
             'reputation_score' => 600,
         ]);
+        $admin->assignRole('admin');
         
         $expertBadge = Badge::where('threshold', 500)->first();
         if ($expertBadge) {
@@ -36,6 +37,7 @@ class UserSeeder extends Seeder
             'role' => 'tutor',
             'reputation_score' => 120,
         ]);
+        $tutor->assignRole('tutor');
         
         $badgesForTutor = Badge::whereIn('threshold', [0, 50, 100])->get();
         foreach ($badgesForTutor as $badge) {
@@ -50,6 +52,7 @@ class UserSeeder extends Seeder
             'role' => 'pelajar',
             'reputation_score' => 55,
         ]);
+        $pelajar1->assignRole('pelajar');
         
         $badgesForP1 = Badge::whereIn('threshold', [0, 50])->get();
         foreach ($badgesForP1 as $badge) {
@@ -64,6 +67,7 @@ class UserSeeder extends Seeder
             'role' => 'pelajar',
             'reputation_score' => 5,
         ]);
+        $pelajar2->assignRole('pelajar');
         
         $pemulaBadge = Badge::where('threshold', 0)->first();
         if ($pemulaBadge) {
@@ -78,6 +82,7 @@ class UserSeeder extends Seeder
             'role' => 'pelajar',
             'reputation_score' => 0,
         ]);
+        $pelajar3->assignRole('pelajar');
         
         if ($pemulaBadge) {
             $pelajar3->badges()->attach($pemulaBadge->id);
