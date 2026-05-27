@@ -220,6 +220,7 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import axios from 'axios'
 
 const router = useRouter()
 const showPassword = ref(false)
@@ -231,18 +232,43 @@ const form = ref({
   role: 'pelajar' // default
 })
 
-const handleRegister = () => {
+const handleRegister = async () => {
   if (form.value.password !== form.value.confirmPassword) {
     alert("Passwords do not match!")
     return
   }
   
-  console.log('Register attempt:', form.value)
-  // Route to specific dashboards based on selected role
-  if (form.value.role === 'tutor') {
-    router.push('/tutor/dashboard')
-  } else {
-    router.push('/pelajar/dashboard')
+  try {
+    const response = await axios.post('https://fokusin-production.up.railway.app/api/register', {
+      name: form.value.fullName,
+      email: form.value.email,
+      password: form.value.password,
+      password_confirmation: form.value.confirmPassword,
+      role: form.value.role
+    })
+
+    if (response.status === 200 || response.status === 201) {
+      if (response.data && response.data.token) {
+        localStorage.setItem('token', response.data.token)
+      }
+      
+      // Route to specific dashboards based on selected role
+      if (form.value.role === 'tutor') {
+        router.push('/tutor/dashboard')
+      } else {
+        router.push('/pelajar/dashboard')
+      }
+    }
+  } catch (error) {
+    console.error('Registration error:', error)
+    if (error.response && error.response.data && error.response.data.message) {
+      alert(error.response.data.message)
+    } else if (error.response && error.response.data && error.response.data.errors) {
+      const messages = Object.values(error.response.data.errors).flat().join('\n')
+      alert(messages)
+    } else {
+      alert("Registration failed. Please check your data and try again.")
+    }
   }
 }
 </script>
