@@ -70,3 +70,115 @@
 .ai-orb { 
   animation: ai-pulse 3s ease-in-out infinite; 
 }
+
+/* =========================================================
+   PELAJAR REDESIGN - GLOBAL STYLES
+   ========================================================= */
+
+/* G1 - Background Layer */
+.fokus-bg-canvas {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden;
+}
+.fokus-blob {
+  position: absolute; border-radius: 50%; filter: blur(100px); opacity: 0.13;
+}
+.fokus-blob-1 { width: 700px; height: 700px; background: #334EAC; top: -250px; left: -200px; }
+.fokus-blob-2 { width: 550px; height: 550px; background: #7096D1; top: 150px; right: -150px; }
+.fokus-blob-3 { width: 450px; height: 450px; background: #BAD6EB; bottom: -120px; left: 35%; }
+.fokus-dot-grid {
+  position: absolute; inset: 0;
+  background-image: radial-gradient(circle, rgba(51,78,172,0.16) 1px, transparent 1px);
+  background-size: 30px 30px; opacity: 0.35;
+}
+.layout-main, .topbar { position: relative; z-index: 1; }
+
+/* G2 - Topbar Glassmorphism */
+.topbar {
+  background: rgba(247, 242, 235, 0.82);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(112, 150, 209, 0.15);
+  box-shadow: 0 1px 20px rgba(8, 31, 92, 0.05);
+  position: sticky; top: 0; z-index: 50;
+}
+.topbar-search {
+  background: rgba(255,255,255,0.65);
+  border: 1px solid rgba(112,150,209,0.20);
+  border-radius: 20px;
+}
+.topbar-search:focus-within {
+  background: rgba(255,255,255,0.90);
+  border-color: rgba(51,78,172,0.30);
+  box-shadow: 0 0 0 3px rgba(51,78,172,0.08);
+}
+.btn-tanya-ai {
+  background: linear-gradient(135deg, #334EAC, #5570C9);
+  box-shadow: 0 3px 12px rgba(51,78,172,0.28);
+  transition: all 0.2s;
+}
+.btn-tanya-ai:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 5px 18px rgba(51,78,172,0.36);
+}
+
+/* G3 - Sidebar Enhancement */
+.nav-item.active {
+  background: rgba(51, 78, 172, 0.50);
+  box-shadow: 0 2px 12px rgba(51,78,172,0.28);
+  position: relative;
+  transition: all 0.2s ease;
+}
+.nav-item.active::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 50%;
+  transform: translateY(-50%);
+  width: 3px; height: 20px;
+  background: #BAD6EB;
+  border-radius: 0 2px 2px 0;
+}
+.nav-item:hover:not(.active) {
+  background: rgba(255,255,255,0.08);
+}
+.sidebar-user-card {
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.10);
+  border-radius: 10px;
+}
+
+/* G4 - Base Card Style */
+.card-base {
+  background: rgba(255, 255, 255, 0.78);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(112, 150, 209, 0.16);
+  border-radius: 14px;
+  transition: all 0.2s ease;
+}
+.card-base:hover {
+  border-color: rgba(51, 78, 172, 0.22);
+  box-shadow: 0 6px 24px rgba(8, 31, 92, 0.08);
+  transform: translateY(-1px);
+}
+.card-panel {
+  background: rgba(255, 255, 255, 0.78);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(112, 150, 209, 0.14);
+  border-radius: 14px;
+}
+
+/* G5 - Page Header Banner */
+.page-header-banner {
+  background: linear-gradient(135deg,
+    rgba(237, 241, 246, 0.90) 0%,
+    rgba(208, 227, 255, 0.60) 100%);
+  border: 1px solid rgba(112, 150, 209, 0.18);
+  border-radius: 14px;
+  position: relative;
+  overflow: hidden;
+}
+.page-header-icon {
+  background: rgba(51, 78, 172, 0.08);
+  color: #334EAC;
+  border-radius: 12px;
+}

@@ -13,7 +13,7 @@
     </div>
 
     <!-- 1. GLASSMORPHIC HEADER SECTION -->
-    <div class="bg-white/60 backdrop-blur-xl rounded-3xl p-7 md:p-8 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-200/60 relative overflow-hidden mb-8">
+    <div class="page-header-banner p-7 md:p-8 mb-8">
       <div class="relative z-10 flex flex-col md:flex-row gap-6 justify-between items-start md:items-center">
         <div>
           <h1 class="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">Mulai Diskusi</h1>
@@ -31,7 +31,7 @@
       <div class="w-full xl:w-[75%] space-y-6">
         
         <!-- Post Form Container -->
-        <div class="bg-white/60 backdrop-blur-xl rounded-3xl p-6 md:p-10 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-200/60 space-y-8 transition-all duration-300 ease-out hover:shadow-xl group/card">
+        <div class="card-base p-6 md:p-10 space-y-8 group/card">
           
           <!-- Title & Category -->
           <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -124,7 +124,7 @@
       <div class="w-full xl:w-[25%] shrink-0 space-y-6">
         
         <!-- Community Guidelines -->
-        <div class="bg-white/80 backdrop-blur-xl rounded-3xl p-7 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-100 transition-all duration-300 ease-out hover:shadow-xl group/card">
+        <div class="card-base p-7 group/card">
           <div class="flex items-center gap-3 mb-6">
             <div class="w-10 h-10 rounded-[1rem] bg-[#EDF1F6] flex items-center justify-center text-[#334EAC]">
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/></svg>

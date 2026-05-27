@@ -8,14 +8,17 @@
 
   <!-- Sidebar -->
   <aside 
-    class="fixed md:relative inset-y-0 left-0 z-50 text-slate-300 flex flex-col transition-all duration-300 shadow-[4px_0_24px_rgba(8,31,92,0.08)] bg-[linear-gradient(175deg,#081F5C_0%,#0e2d7e_60%,#1a3a99_100%)]"
+    class="sidebar shrink-0 fixed md:relative inset-y-0 left-0 z-50 text-slate-300 flex flex-col transition-all duration-300 shadow-[4px_0_24px_rgba(8,31,92,0.08)] bg-[linear-gradient(175deg,#081F5C_0%,#0e2d7e_60%,#1a3a99_100%)]"
     :class="[
       isCollapsed ? 'w-20' : 'w-64',
       isMobileOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'
     ]"
   >
-    <!-- Decorative Blob -->
-    <div class="absolute top-[-80px] right-[-60px] w-[240px] h-[240px] bg-[#BAD6EB]/10 rounded-full pointer-events-none z-0"></div>
+    <!-- Decorative Blob Container -->
+    <div class="absolute inset-0 overflow-hidden pointer-events-none z-0">
+      <!-- Decorative Blob -->
+      <div class="absolute top-[-80px] right-[-60px] w-[240px] h-[240px] bg-[#BAD6EB]/10 rounded-full"></div>
+    </div>
     <!-- Header / Branding -->
     <div class="h-16 flex items-center justify-between px-5 py-4 shrink-0 border-b border-white/5 relative z-10">
       <div class="flex items-center gap-3 overflow-hidden whitespace-nowrap">
@@ -53,17 +56,16 @@
         <li v-for="item in menuItems" :key="item.name" class="relative group">
           <RouterLink 
             :to="item.path" 
-            class="flex items-center rounded-xl transition-all duration-200 relative"
+            class="nav-item flex items-center rounded-xl transition-all duration-200 relative"
             :class="[
               isCollapsed ? 'justify-center p-3' : 'px-4 py-2.5',
               isActive(item.path) 
-                ? 'bg-[#334EAC]/55 text-white font-bold shadow-[0_2px_12px_rgba(51,78,172,0.3)]' 
-                : 'text-indigo-200 hover:bg-white/5 hover:text-white font-medium'
+                ? 'active text-white font-bold' 
+                : 'text-indigo-200 hover:text-white font-medium'
             ]"
             @click="isMobileOpen = false"
           >
-            <!-- Active Indicator -->
-            <div v-if="isActive(item.path)" class="absolute -left-2 top-1/2 -translate-y-1/2 w-[3px] h-[18px] bg-[#BAD6EB] rounded-sm"></div>
+            <!-- Active Indicator (Handled by CSS now) -->
             
             <svg 
               xmlns="http://www.w3.org/2000/svg" 
@@ -96,7 +98,7 @@
     <!-- Bottom Profile Section -->
     <div class="p-4 mt-auto border-t border-white/10 bg-[#081F5C]/80 relative z-10">
       <div 
-        class="bg-white/5 rounded-xl border border-white/5 overflow-hidden transition-all duration-300 hover:bg-white/10 cursor-pointer"
+        class="sidebar-user-card overflow-hidden transition-all duration-300 cursor-pointer"
         :class="isCollapsed ? 'p-2 flex justify-center' : 'p-2.5'"
       >
         <div class="flex items-center gap-3">

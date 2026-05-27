@@ -13,7 +13,7 @@
     </div>
 
     <!-- 1. GLASSMORPHIC HEADER SECTION -->
-    <div class="bg-white/60 backdrop-blur-xl rounded-3xl p-7 md:p-8 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-200/60 relative overflow-hidden flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
+    <div class="page-header-banner p-7 md:p-8 flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
       <div class="absolute right-0 top-0 w-1/3 h-full bg-gradient-to-l from-[#EDF1F6]/80 to-transparent pointer-events-none"></div>
       
       <div class="relative z-10 flex items-center gap-4">
@@ -41,7 +41,7 @@
       <div class="flex-1 space-y-6 md:space-y-8 min-w-0">
         
         <!-- 2. PROFILE HERO EDIT CARD -->
-        <div class="bg-white/80 backdrop-blur-xl rounded-3xl shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-100 overflow-hidden group/card transition-all duration-300 ease-out hover:shadow-xl">
+        <div class="card-base overflow-hidden group/card">
           <!-- Cover -->
           <div class="h-40 md:h-48 bg-gradient-to-br from-[#081F5C] via-[#334EAC] to-[#7096D1] relative">
             <button class="absolute top-4 right-4 p-2 bg-black/20 hover:bg-black/40 backdrop-blur-md rounded-xl text-white transition-colors">
@@ -93,7 +93,7 @@
         </div>
 
         <!-- 3. PERSONAL INFORMATION SECTION -->
-        <div class="bg-white/80 backdrop-blur-xl rounded-3xl p-7 md:p-8 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-100 transition-all duration-300 ease-out hover:shadow-xl group/card">
+        <div class="card-base p-7 md:p-8 group/card">
           <h3 class="text-[16px] font-bold text-slate-900 tracking-tight mb-6 flex items-center gap-3">
              <span class="w-8 h-8 rounded-lg bg-[#EDF1F6] flex items-center justify-center text-[#334EAC]">
                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
@@ -138,7 +138,7 @@
         </div>
 
         <!-- 4. ACADEMIC PREFERENCES -->
-        <div class="bg-white/80 backdrop-blur-xl rounded-3xl p-7 md:p-8 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-100 transition-all duration-300 ease-out hover:shadow-xl group/card">
+        <div class="card-base p-7 md:p-8 group/card">
           <h3 class="text-[16px] font-bold text-slate-900 tracking-tight mb-6 flex items-center gap-3">
              <span class="w-8 h-8 rounded-lg bg-[#EDF1F6] flex items-center justify-center text-[#334EAC]">
                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="m9 12 2 2 4-4"/></svg>
@@ -207,7 +207,7 @@
         </div>
 
         <!-- 5. ACCOUNT & SECURITY -->
-        <div class="bg-white/80 backdrop-blur-xl rounded-3xl p-7 md:p-8 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-100 transition-all duration-300 ease-out hover:shadow-xl group/card">
+        <div class="card-base p-7 md:p-8 group/card">
            <h3 class="text-[16px] font-bold text-slate-900 tracking-tight mb-6 flex items-center gap-3">
              <span class="w-8 h-8 rounded-lg bg-[#EDF1F6] flex items-center justify-center text-[#334EAC]">
                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
@@ -276,7 +276,7 @@
       <div class="w-full xl:w-80 shrink-0 space-y-6 md:space-y-8">
         
         <!-- Profile Completion -->
-        <div class="bg-white/80 backdrop-blur-xl rounded-3xl p-6 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-100 text-center flex flex-col items-center transition-all duration-300 ease-out hover:shadow-xl group/card">
+        <div class="card-base p-6 text-center flex flex-col items-center group/card">
           <div class="relative w-24 h-24 mb-4">
             <svg viewBox="0 0 36 36" class="w-full h-full transform -rotate-90">
               <path class="text-[#EDF1F6]" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-width="4" />

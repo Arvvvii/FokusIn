@@ -1,9 +1,9 @@
 <template>
-  <div class="bg-mesh">
-    <div class="blob blob-1"></div>
-    <div class="blob blob-2"></div>
-    <div class="blob blob-3"></div>
-    <div class="dot-grid"></div>
+  <div class="fokus-bg-canvas" aria-hidden="true">
+    <div class="fokus-blob fokus-blob-1"></div>
+    <div class="fokus-blob fokus-blob-2"></div>
+    <div class="fokus-blob fokus-blob-3"></div>
+    <div class="fokus-dot-grid"></div>
   </div>
 </template>
 

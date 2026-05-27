@@ -5,10 +5,10 @@
     <div class="relative z-10 space-y-6">
       
       <!-- Page Header -->
-      <div class="bg-white/60 backdrop-blur-xl rounded-3xl p-7 md:p-8 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-200/60 relative overflow-hidden flex flex-col md:flex-row md:items-center justify-between gap-6 mb-6">
+      <div class="page-header-banner p-7 md:p-8 flex flex-col md:flex-row md:items-center justify-between gap-6 mb-6">
         <div class="absolute right-0 top-0 w-1/3 h-full bg-gradient-to-l from-[#EDF1F6]/80 to-transparent pointer-events-none"></div>
         <div class="relative z-10 flex items-center gap-4">
-          <span class="w-12 h-12 rounded-2xl bg-[#334EAC]/10 text-[#334EAC] flex items-center justify-center shrink-0">
+          <span class="page-header-icon w-12 h-12 flex items-center justify-center shrink-0">
             <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg>
           </span>
           <div>
@@ -61,7 +61,7 @@
           </div>
 
           <!-- Today's Activity Panel -->
-          <div class="bg-white rounded-xl p-4 border border-slate-200 shadow-sm space-y-3">
+          <div class="card-panel p-4 space-y-3">
             <h3 class="text-[10px] font-bold text-slate-400 uppercase tracking-widest pb-1.5 border-b border-slate-100">Aktivitas Hari Ini</h3>
             <div class="space-y-2 text-xs">
               <div class="flex items-center justify-between text-slate-600 font-semibold">
@@ -101,14 +101,14 @@
         <div class="flex-1 w-full xl:w-[51%] flex flex-col min-w-0">
           
           <!-- Search & Info Bar -->
-          <div class="relative mb-6 bg-white/70 border border-slate-200/80 p-2 rounded-xl shadow-sm">
+          <div class="relative mb-6 card-panel p-2">
             <input type="text" v-model="searchQuery" placeholder="Cari diskusi, kata kunci, atau tag..." class="w-full pl-9 pr-4 py-2 bg-transparent text-xs text-slate-800 focus:outline-none focus:ring-0 placeholder-slate-400 font-medium" />
             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="absolute left-3 top-2.5 text-slate-400"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
           </div>
 
           <!-- Post List: Clean, high readability discussions -->
           <div class="space-y-3">
-            <RouterLink :to="`${baseForumRoute}/${post.id}`" v-for="post in filteredPosts" :key="post.id" class="group bg-white rounded-xl p-5 border border-slate-200/80 hover:border-[#7096D1]/50 shadow-sm transition-all duration-200 flex flex-col sm:flex-row gap-5 cursor-pointer relative overflow-hidden">
+            <RouterLink :to="`${baseForumRoute}/${post.id}`" v-for="post in filteredPosts" :key="post.id" class="group card-base forum-card p-5 flex flex-col sm:flex-row gap-5 cursor-pointer relative overflow-hidden">
               
               <!-- Left Stats: Elegant & compact voting UI -->
               <div class="flex sm:flex-col items-center gap-3 sm:gap-1.5 shrink-0">
@@ -179,13 +179,13 @@
         <div class="hidden xl:flex flex-col w-[25%] shrink-0 space-y-6 sticky top-[24px] h-fit">
           
           <!-- Create Post CTA -->
-          <RouterLink :to="`${baseForumRoute}/create`" class="w-full flex items-center justify-center gap-1.5 px-4 py-3 bg-[#334EAC] hover:bg-[#081F5C] text-white rounded-xl font-bold text-xs transition-all shadow-sm group">
+          <RouterLink :to="`${baseForumRoute}/create`" class="btn-banner-cta w-full flex items-center justify-center gap-1.5 px-4 py-3 group">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="group-hover:rotate-90 transition-transform"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
             Mulai Diskusi Baru
           </RouterLink>
 
           <!-- Top Contributors -->
-          <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200/80">
+          <div class="card-panel kontributor-panel p-5">
             <div class="flex items-center gap-2 mb-4">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#F59E0B" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
               <h3 class="text-xs font-bold text-[#081F5C] uppercase tracking-wider">Kontributor Terbaik</h3>
@@ -208,7 +208,7 @@
           </div>
 
           <!-- AI Assistant Widget -->
-          <div class="bg-[#081F5C] rounded-2xl p-5 text-white shadow-sm border border-white/5 relative overflow-hidden">
+          <div class="card-panel ai-help-panel p-5 relative overflow-hidden">
             <div class="relative z-10">
               <div class="flex items-center gap-2 mb-2">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#BAD6EB" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
@@ -377,4 +377,26 @@ const contributors = [
   { name: 'Prof. Anderson', rep: '12.1k', role: 'Tutor', avatar: 'PA' },
 ]
 </script>
+
+<style scoped>
+/* Forum Specific Adjustments */
+.forum-card {
+  transition: all 0.25s ease;
+}
+.forum-card:hover {
+  transform: translateX(4px);
+  border-left-width: 4px;
+  border-left-color: #334EAC;
+  background: rgba(255,255,255,0.95);
+}
+.kontributor-panel {
+  background: linear-gradient(135deg, rgba(255,255,255,0.8), rgba(255,249,240,0.8));
+}
+.ai-help-panel {
+  background: linear-gradient(135deg, #081F5C, #334EAC);
+  color: white;
+  border: 1px solid rgba(112, 150, 209, 0.3);
+  box-shadow: 0 10px 30px rgba(8, 31, 92, 0.2);
+}
+</style>
 

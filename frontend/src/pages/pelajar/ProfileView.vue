@@ -2,7 +2,7 @@
   <div class="space-y-6 animate-in fade-in duration-500 min-w-0 max-w-7xl mx-auto">
     
     <!-- 1. PROFILE HERO SECTION -->
-    <div class="bg-gradient-to-br from-[#081F5C] to-[#334EAC] rounded-2xl p-6 md:p-8 text-white relative overflow-hidden shadow-sm flex flex-col md:flex-row gap-6 items-center md:items-end min-h-[240px]">
+    <div class="bg-[linear-gradient(135deg,#081F5C_0%,#334EAC_100%)] rounded-2xl p-6 md:p-8 text-white relative overflow-hidden shadow-lg flex flex-col md:flex-row gap-6 items-center md:items-end min-h-[240px]">
       
       <!-- Subtle graphic border decoration instead of giant glows -->
       <div class="absolute inset-0 border border-white/5 rounded-2xl pointer-events-none"></div>
@@ -58,7 +58,7 @@
     <!-- 2. PROFILE ANALYTICS -->
     <div class="grid grid-cols-2 lg:grid-cols-6 gap-3">
       <!-- Stat Card 1 -->
-      <div class="bg-white rounded-xl p-4 shadow-sm border border-slate-200/80 flex flex-col justify-between hover:border-[#7096D1]/40 transition-all group">
+      <div class="card-panel p-4 flex flex-col justify-between hover:border-[#7096D1]/40 transition-all group">
         <div class="flex items-center justify-between mb-2">
           <span class="text-[9px] font-bold text-slate-400 uppercase tracking-wider">Reputasi</span>
           <div class="w-6 h-6 rounded bg-amber-50 flex items-center justify-center text-amber-500 border border-amber-100/50">
@@ -68,7 +68,7 @@
         <h4 class="text-xl font-bold text-slate-900 tracking-tight">1,240</h4>
       </div>
       <!-- Stat Card 2 -->
-      <div class="bg-white rounded-xl p-4 shadow-sm border border-slate-200/80 flex flex-col justify-between hover:border-[#7096D1]/40 transition-all group">
+      <div class="card-panel p-4 flex flex-col justify-between hover:border-[#7096D1]/40 transition-all group">
         <div class="flex items-center justify-between mb-2">
           <span class="text-[9px] font-bold text-slate-400 uppercase tracking-wider">Postingan</span>
           <div class="w-6 h-6 rounded bg-[#EDF1F6] flex items-center justify-center text-[#334EAC] border border-slate-200/50">
@@ -78,7 +78,7 @@
         <h4 class="text-xl font-bold text-slate-900 tracking-tight">48</h4>
       </div>
       <!-- Stat Card 3 -->
-      <div class="bg-white rounded-xl p-4 shadow-sm border border-slate-200/80 flex flex-col justify-between hover:border-[#7096D1]/40 transition-all group">
+      <div class="card-panel p-4 flex flex-col justify-between hover:border-[#7096D1]/40 transition-all group">
         <div class="flex items-center justify-between mb-2">
           <span class="text-[9px] font-bold text-slate-400 uppercase tracking-wider">Jwb Terbaik</span>
           <div class="w-6 h-6 rounded bg-emerald-50 flex items-center justify-center text-emerald-500 border border-emerald-100/50">
@@ -88,7 +88,7 @@
         <h4 class="text-xl font-bold text-slate-900 tracking-tight">15</h4>
       </div>
       <!-- Stat Card 4 -->
-      <div class="bg-white rounded-xl p-4 shadow-sm border border-slate-200/80 flex flex-col justify-between hover:border-[#7096D1]/40 transition-all group">
+      <div class="card-panel p-4 flex flex-col justify-between hover:border-[#7096D1]/40 transition-all group">
         <div class="flex items-center justify-between mb-2">
           <span class="text-[9px] font-bold text-slate-400 uppercase tracking-wider">Akurasi Kuis</span>
           <div class="w-6 h-6 rounded bg-rose-50 flex items-center justify-center text-rose-500 border border-rose-100/50">
@@ -98,7 +98,7 @@
         <h4 class="text-xl font-bold text-slate-900 tracking-tight">86%</h4>
       </div>
       <!-- Stat Card 5 -->
-      <div class="bg-white rounded-xl p-4 shadow-sm border border-slate-200/80 flex flex-col justify-between hover:border-[#7096D1]/40 transition-all group">
+      <div class="card-panel p-4 flex flex-col justify-between hover:border-[#7096D1]/40 transition-all group">
         <div class="flex items-center justify-between mb-2">
           <span class="text-[9px] font-bold text-slate-400 uppercase tracking-wider">Unggahan</span>
           <div class="w-6 h-6 rounded bg-indigo-50 flex items-center justify-center text-indigo-500 border border-indigo-100/50">
@@ -108,7 +108,7 @@
         <h4 class="text-xl font-bold text-slate-900 tracking-tight">12</h4>
       </div>
       <!-- Stat Card 6 -->
-      <div class="bg-white rounded-xl p-4 shadow-sm border border-slate-200/80 flex flex-col justify-between hover:border-[#7096D1]/40 transition-all group">
+      <div class="card-panel p-4 flex flex-col justify-between hover:border-[#7096D1]/40 transition-all group">
         <div class="flex items-center justify-between mb-2">
           <span class="text-[9px] font-bold text-slate-400 uppercase tracking-wider">Mentoring</span>
           <div class="w-6 h-6 rounded bg-[#F7F2EB] flex items-center justify-center text-amber-600 border border-amber-100/50">
@@ -126,7 +126,7 @@
       <div class="flex-1 space-y-6 md:space-y-8 min-w-0">
         
         <!-- 3. LEARNING PROGRESS -->
-        <div class="bg-white/80 backdrop-blur-xl rounded-3xl p-7 md:p-8 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-100 transition-all duration-300 ease-out hover:shadow-xl group/card">
+        <div class="card-base p-7 md:p-8 group/card">
           <h3 class="text-[17px] font-bold text-slate-900 mb-6 flex items-center gap-3 tracking-tight">
             <span class="w-8 h-8 rounded-lg bg-[#EDF1F6] flex items-center justify-center text-[#334EAC]"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></span>
             Progres Belajar
@@ -200,7 +200,7 @@
         </div>
 
         <!-- 4. BADGE MILESTONE SYSTEM -->
-        <div class="bg-white/80 backdrop-blur-xl rounded-3xl p-7 md:p-8 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-100 transition-all duration-300 ease-out hover:shadow-xl group/card">
+        <div class="card-base p-7 md:p-8 group/card">
           <div class="flex items-center justify-between mb-6">
             <h3 class="text-[17px] font-bold text-slate-900 flex items-center gap-3 tracking-tight">
               <span class="w-8 h-8 rounded-lg bg-[#F7F2EB] flex items-center justify-center text-amber-500"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/></svg></span>
@@ -273,7 +273,7 @@
         </div>
 
         <!-- 5. RECENT ACTIVITY -->
-        <div class="bg-white/80 backdrop-blur-xl rounded-3xl p-7 md:p-8 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-100 transition-all duration-300 ease-out hover:shadow-xl group/card">
+        <div class="card-base p-7 md:p-8 group/card">
           <h3 class="text-[17px] font-bold text-slate-900 mb-6 flex items-center gap-3 tracking-tight">
             <span class="w-8 h-8 rounded-lg bg-[#EDF1F6] flex items-center justify-center text-[#334EAC]"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></span>
             Aktivitas Terbaru
@@ -330,7 +330,7 @@
       <div class="w-full xl:w-80 shrink-0 space-y-6 md:space-y-8 min-w-0">
         
         <!-- Profile Completion -->
-        <div class="bg-white/80 backdrop-blur-xl rounded-3xl p-6 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-100 text-center flex flex-col items-center transition-all duration-300 ease-out hover:shadow-xl group/card">
+        <div class="card-base p-6 text-center flex flex-col items-center group/card">
           <div class="relative w-24 h-24 mb-4">
             <svg viewBox="0 0 36 36" class="w-full h-full transform -rotate-90">
               <path class="text-[#EDF1F6]" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-width="4" />
@@ -348,7 +348,7 @@
         </div>
 
         <!-- AI Study Recommendation -->
-        <div class="bg-gradient-to-br from-[#081F5C] to-[#334EAC] rounded-3xl p-6 shadow-[0_10px_40px_rgba(15,23,42,0.15)] border border-white/10 text-white relative overflow-hidden group transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-2xl">
+        <div class="card-fokus p-6 text-white relative overflow-hidden group hover:-translate-y-1 hover:shadow-2xl transition-all duration-300">
           <div class="absolute -right-4 -top-4 w-24 h-24 bg-white/10 blur-[30px] rounded-full pointer-events-none"></div>
           
           <h3 class="text-[14px] font-extrabold mb-4 flex items-center gap-2 relative z-10">
@@ -364,7 +364,7 @@
         </div>
 
         <!-- Next Mentoring Schedule -->
-        <div class="bg-white/80 backdrop-blur-xl rounded-3xl p-6 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-100 transition-all duration-300 ease-out hover:shadow-xl group/card">
+        <div class="card-base p-6 group/card">
           <h3 class="text-[15px] font-bold text-slate-900 mb-4 flex items-center justify-between tracking-tight">
             Sesi Berikutnya
             <span class="w-2 h-2 rounded-full bg-rose-500 animate-pulse"></span>
@@ -386,7 +386,7 @@
         </div>
 
         <!-- Quick Links -->
-        <div class="bg-white/80 backdrop-blur-xl rounded-3xl p-6 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-100 transition-all duration-300 ease-out hover:shadow-xl group/card">
+        <div class="card-base p-6 group/card">
           <h3 class="text-[15px] font-bold text-slate-900 mb-4 tracking-tight">Tautan Cepat</h3>
           <div class="space-y-2">
             <RouterLink to="/pelajar/materials" class="flex items-center gap-3 p-3 rounded-xl hover:bg-slate-50 transition-colors group text-[13px] font-bold text-slate-600 hover:text-[#334EAC]">

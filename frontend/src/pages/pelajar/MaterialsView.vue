@@ -2,11 +2,11 @@
   <div class="space-y-6 animate-in fade-in duration-500">
     
     <!-- 1. GLASSMORPHIC HEADER SECTION -->
-    <div class="bg-white/60 backdrop-blur-xl rounded-3xl p-7 md:p-8 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-200/60 relative overflow-hidden flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
+    <div class="page-header-banner p-7 md:p-8 flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
       <div class="absolute right-0 top-0 w-1/3 h-full bg-gradient-to-l from-[#EDF1F6]/80 to-transparent pointer-events-none"></div>
       
       <div class="relative z-10 flex items-center gap-4">
-        <span class="w-12 h-12 rounded-2xl bg-[#334EAC]/10 text-[#334EAC] flex items-center justify-center shrink-0">
+        <span class="page-header-icon w-12 h-12 flex items-center justify-center shrink-0">
           <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>
         </span>
         <div>
@@ -18,7 +18,7 @@
       </div>
 
       <div class="relative z-10 flex shrink-0">
-        <RouterLink :to="`${baseMaterialsRoute}/create`" class="px-5 py-2.5 bg-[#334EAC] hover:bg-[#081F5C] text-white rounded-2xl font-bold text-[13px] shadow-sm active:scale-95 transition-all flex items-center gap-2">
+        <RouterLink :to="`${baseMaterialsRoute}/create`" class="btn-banner-cta px-5 py-2.5 flex items-center gap-2">
           <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg>
           Unggah Materi Baru
         </RouterLink>
@@ -26,7 +26,7 @@
     </div>
 
     <!-- 2. Search & Filter Section -->
-    <div class="bg-white/80 backdrop-blur-xl rounded-3xl p-4 md:p-5 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-100 mb-12 flex flex-col md:flex-row gap-4 transition-all duration-300 ease-out hover:shadow-xl group">
+    <div class="card-panel filter-bar p-4 md:p-5 mb-12 flex flex-col md:flex-row gap-4 transition-all duration-300 ease-out group">
       
       <!-- Search -->
       <div class="relative flex-1">
@@ -75,12 +75,12 @@
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 lg:gap-8">
       
       <!-- Material Card 1 -->
-      <RouterLink :to="`${baseMaterialsRoute}/1`" class="bg-white/80 backdrop-blur-xl rounded-3xl p-5 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 ease-out group flex flex-col h-full cursor-pointer block">
-        <div class="w-full h-44 bg-[#F7F2EB] rounded-2xl mb-5 relative overflow-hidden border border-slate-200/60">
+      <RouterLink :to="`${baseMaterialsRoute}/1`" class="card-base p-5 group flex flex-col h-full cursor-pointer block">
+        <div class="material-thumb material-pdf w-full h-44 rounded-2xl mb-5 relative overflow-hidden">
           <div class="absolute inset-0 flex flex-col items-center justify-center text-slate-400 group-hover:scale-105 transition-transform duration-500">
             <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="mb-2"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>
           </div>
-          <div class="absolute top-3 right-3 bg-white px-2.5 py-1 rounded-lg text-rose-500 text-[10px] font-bold shadow-sm border border-slate-100 uppercase tracking-widest">
+          <div class="absolute top-3 right-3 format-badge badge-pdf px-2.5 py-1 rounded-lg text-[10px] font-bold uppercase tracking-widest">
             PDF
           </div>
         </div>
@@ -109,12 +109,12 @@
       </RouterLink>
 
       <!-- Material Card 2 -->
-      <RouterLink :to="`${baseMaterialsRoute}/2`" class="bg-white/80 backdrop-blur-xl rounded-3xl p-5 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 ease-out group flex flex-col h-full cursor-pointer block">
-        <div class="w-full h-44 bg-[#EDF1F6] rounded-2xl mb-5 relative overflow-hidden border border-slate-200/60">
+      <RouterLink :to="`${baseMaterialsRoute}/2`" class="card-base p-5 group flex flex-col h-full cursor-pointer block">
+        <div class="material-thumb material-docx w-full h-44 rounded-2xl mb-5 relative overflow-hidden">
           <div class="absolute inset-0 flex flex-col items-center justify-center text-slate-400 group-hover:scale-105 transition-transform duration-500">
             <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="mb-2"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>
           </div>
-          <div class="absolute top-3 right-3 bg-white px-2.5 py-1 rounded-lg text-blue-500 text-[10px] font-bold shadow-sm border border-slate-100 uppercase tracking-widest">
+          <div class="absolute top-3 right-3 format-badge badge-docx px-2.5 py-1 rounded-lg text-[10px] font-bold uppercase tracking-widest">
             DOCX
           </div>
         </div>
@@ -143,12 +143,12 @@
       </RouterLink>
 
       <!-- Material Card 3 -->
-      <RouterLink :to="`${baseMaterialsRoute}/3`" class="bg-white/80 backdrop-blur-xl rounded-3xl p-5 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 ease-out group flex flex-col h-full cursor-pointer block">
-        <div class="w-full h-44 bg-emerald-50 rounded-2xl mb-5 relative overflow-hidden border border-emerald-100/60">
+      <RouterLink :to="`${baseMaterialsRoute}/3`" class="card-base p-5 group flex flex-col h-full cursor-pointer block">
+        <div class="material-thumb material-vid w-full h-44 rounded-2xl mb-5 relative overflow-hidden">
           <div class="absolute inset-0 flex flex-col items-center justify-center text-emerald-300 group-hover:scale-105 transition-transform duration-500">
             <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="mb-2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
           </div>
-          <div class="absolute top-3 right-3 bg-white px-2.5 py-1 rounded-lg text-emerald-500 text-[10px] font-bold shadow-sm border border-slate-100 uppercase tracking-widest">
+          <div class="absolute top-3 right-3 format-badge badge-vid px-2.5 py-1 rounded-lg text-[10px] font-bold uppercase tracking-widest">
             VIDEO
           </div>
         </div>
@@ -219,3 +219,25 @@ const applyFilter = () => {
   }, 600)
 }
 </script>
+
+<style scoped>
+/* Materials Specific Adjustments */
+.filter-bar {
+  background: linear-gradient(135deg, rgba(255,255,255,0.7), rgba(237,241,246,0.6));
+  box-shadow: 0 4px 15px rgba(8,31,92,0.05);
+}
+.material-thumb {
+  border: 1px solid rgba(112, 150, 209, 0.2);
+}
+.material-pdf { background: linear-gradient(135deg, #FFF0F0, #FEE2E2); color: #F43F5E; }
+.material-docx { background: linear-gradient(135deg, #F0F9FF, #E0F2FE); color: #0EA5E9; }
+.material-vid { background: linear-gradient(135deg, #ECFDF5, #D1FAE5); color: #10B981; }
+
+.format-badge {
+  background: white;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+}
+.badge-pdf { color: #F43F5E; }
+.badge-docx { color: #0EA5E9; }
+.badge-vid { color: #10B981; }
+</style>

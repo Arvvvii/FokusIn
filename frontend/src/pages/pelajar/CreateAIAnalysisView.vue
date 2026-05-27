@@ -13,7 +13,7 @@
     </div>
 
     <!-- 1. HEADER SECTION -->
-    <div class="bg-white rounded-3xl p-7 md:p-8 shadow-sm border border-slate-200 relative overflow-hidden mb-8">
+    <div class="page-header-banner p-7 md:p-8 mb-8">
       <div class="relative z-10 flex flex-col md:flex-row gap-6 justify-between items-start md:items-center">
         <div>
           <h1 class="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">Buat Analisis AI Baru</h1>
@@ -30,7 +30,7 @@
       <div class="w-full xl:w-[65%] space-y-8 min-w-0">
         
         <!-- 3. Document Input Section -->
-        <div class="bg-white rounded-3xl p-6 md:p-10 shadow-sm border border-slate-200 w-full overflow-hidden transition-all duration-300 ease-out hover:shadow-md group/card">
+        <div class="card-base p-6 md:p-10 w-full group/card">
           <h3 class="text-[17px] font-bold text-slate-900 mb-5 flex items-center gap-3 tracking-tight">
             <span class="w-8 h-8 rounded-full bg-[#EDF1F6] flex items-center justify-center text-[#334EAC]"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg></span>
             Dokumen Sumber
@@ -48,7 +48,7 @@
         </div>
 
         <!-- 4. Analysis Configuration -->
-        <div class="bg-white rounded-3xl shadow-sm border border-slate-200 w-full overflow-hidden relative transition-all duration-300 ease-out hover:shadow-md group/card">
+        <div class="card-base w-full group/card relative overflow-hidden">
           <!-- Subtle top gradient line -->
           <div class="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-[#334EAC] via-[#7096D1] to-[#BAD6EB]"></div>
           
@@ -198,7 +198,7 @@
       <div class="w-full xl:w-[35%] shrink-0 space-y-6 min-w-0">
         
         <!-- 5. Selected AI Capabilities Panel -->
-        <div class="bg-gradient-to-b from-white to-[#EDF1F6]/50 rounded-3xl p-8 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-100 transition-all duration-300 ease-out hover:shadow-xl group/card">
+        <div class="card-base p-8 group/card">
           <div class="flex items-center gap-3 mb-8">
             <div class="w-10 h-10 rounded-[1rem] bg-[#334EAC] flex items-center justify-center text-white shadow-sm">
               <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><path d="M12 12v6"/><path d="M8 15h8"/></svg>
@@ -243,7 +243,7 @@
 
           </div>
 
-          <div class="p-5 bg-gradient-to-br from-[#081F5C] to-[#334EAC] rounded-2xl relative overflow-hidden shadow-lg">
+          <div class="card-fokus p-5 relative overflow-hidden shadow-lg">
             <div class="absolute top-0 right-0 w-24 h-24 bg-white/10 blur-[20px] rounded-full"></div>
             <h4 class="text-[12px] font-extrabold text-[#BAD6EB] uppercase tracking-widest mb-2 relative z-10 flex items-center gap-1.5">
               <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
@@ -256,7 +256,7 @@
         </div>
 
         <!-- 6. Action Buttons -->
-        <div class="bg-white rounded-3xl p-6 md:p-8 shadow-sm border border-slate-200 flex flex-col gap-3 transition-all duration-300 ease-out hover:shadow-md group/card">
+        <div class="card-panel p-6 md:p-8 flex flex-col gap-3 group/card">
           <RouterLink to="/pelajar/ai-analyzer" class="w-full py-4 bg-[#334EAC] hover:bg-[#081F5C] text-white rounded-2xl font-bold text-[15px] transition-all shadow-[0_4px_15px_rgba(51,78,172,0.15)] active:scale-95 flex items-center justify-center gap-2">
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
             Mulai Analisis AI

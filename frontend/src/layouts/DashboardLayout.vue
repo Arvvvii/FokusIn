@@ -1,10 +1,10 @@
 <template>
-  <div class="flex h-[111.12vh] w-[111.12vw] overflow-hidden bg-[#F7F2EB] relative text-slate-900 selection:bg-[#BAD6EB]/40" style="zoom: 90%; transform-origin: top left;">
+  <div class="flex h-screen w-full overflow-hidden bg-[#F7F2EB] relative text-slate-900 selection:bg-[#BAD6EB]/40">
     <!-- Global Background System -->
     <AppBackground />
 
     <!-- Sidebar -->
-    <AppSidebar class="shrink-0" />
+    <AppSidebar />
 
     <!-- Main Content -->
     <div class="flex min-w-0 flex-1 flex-col overflow-hidden">

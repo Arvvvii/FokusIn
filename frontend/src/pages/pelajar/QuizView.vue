@@ -2,11 +2,11 @@
   <div class="space-y-6 animate-in fade-in duration-500">
     
     <!-- 1. GLASSMORPHIC HEADER SECTION -->
-    <div class="bg-white/60 backdrop-blur-xl rounded-3xl p-7 md:p-8 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-200/60 relative overflow-hidden flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
+    <div class="page-header-banner p-7 md:p-8 flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
       <div class="absolute right-0 top-0 w-1/3 h-full bg-gradient-to-l from-[#EDF1F6]/80 to-transparent pointer-events-none"></div>
       
       <div class="relative z-10 flex items-center gap-4">
-        <span class="w-12 h-12 rounded-2xl bg-amber-500/10 text-amber-600 flex items-center justify-center shrink-0">
+        <span class="page-header-icon bg-amber-500/10 text-amber-600 w-12 h-12 flex items-center justify-center shrink-0">
           <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
         </span>
         <div>
@@ -50,7 +50,7 @@
       </div>
 
       <!-- Weekly Performance -->
-      <div class="bg-white/80 backdrop-blur-xl rounded-3xl p-8 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-100 flex flex-col justify-center transition-all duration-300 ease-out hover:shadow-xl group/card">
+      <div class="card-panel p-8 flex flex-col justify-center group/card">
         <h3 class="text-[15px] font-bold text-slate-900 mb-6 flex items-center gap-2 tracking-tight">
           Akurasi Mingguan
         </h3>
@@ -90,14 +90,14 @@
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
       
       <!-- Quiz Card 1 -->
-      <RouterLink to="/pelajar/quiz/1" class="bg-white/80 backdrop-blur-xl rounded-3xl p-6 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 ease-out group flex flex-col h-full cursor-pointer relative overflow-hidden">
+      <RouterLink to="/pelajar/quiz/1" class="card-base quiz-card p-6 group flex flex-col h-full cursor-pointer relative overflow-hidden">
         <div class="absolute top-0 right-0 w-24 h-24 bg-[#7096D1]/10 rounded-bl-full pointer-events-none group-hover:bg-[#7096D1]/20 transition-colors"></div>
         
         <div class="flex items-center justify-between mb-5 relative z-10">
           <div class="w-12 h-12 rounded-2xl bg-[#F7F2EB] flex items-center justify-center text-amber-600 border border-amber-100 group-hover:scale-110 transition-transform">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2v20"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
           </div>
-          <span class="px-2.5 py-1 bg-rose-50 text-rose-600 text-[10px] font-extrabold rounded-md border border-rose-100 uppercase tracking-widest">Sulit</span>
+          <span class="quiz-difficulty diff-hard px-2.5 py-1 text-[10px] font-extrabold rounded-md uppercase tracking-widest">Sulit</span>
         </div>
 
         <div class="mb-6 flex-1 relative z-10">
@@ -107,11 +107,11 @@
 
         <div class="flex items-center justify-between pt-5 border-t border-slate-100/80 relative z-10">
           <div class="flex items-center gap-4">
-            <div class="flex items-center gap-1.5 text-[12px] font-bold text-slate-400">
+            <div class="stat-badge flex items-center gap-1.5 text-[12px] font-bold text-slate-400">
               <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h20"/><path d="m15 5 7 7-7 7"/></svg>
               20 Soal
             </div>
-            <div class="flex items-center gap-1.5 text-[12px] font-bold text-slate-400">
+            <div class="stat-badge flex items-center gap-1.5 text-[12px] font-bold text-slate-400">
               <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
               45m
             </div>
@@ -123,14 +123,14 @@
       </RouterLink>
 
       <!-- Quiz Card 2 (In Progress) -->
-      <RouterLink to="/pelajar/quiz/2" class="bg-white/80 backdrop-blur-xl rounded-3xl p-6 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-[#334EAC]/30 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 ease-out group flex flex-col h-full cursor-pointer relative overflow-hidden ring-1 ring-[#334EAC]/5">
+      <RouterLink to="/pelajar/quiz/2" class="card-base quiz-card p-6 border-[#334EAC]/30 group flex flex-col h-full cursor-pointer relative overflow-hidden ring-1 ring-[#334EAC]/5">
         <div class="absolute top-0 right-0 w-24 h-24 bg-[#7096D1]/10 rounded-bl-full pointer-events-none group-hover:bg-[#7096D1]/20 transition-colors"></div>
         
         <div class="flex items-center justify-between mb-5 relative z-10">
           <div class="w-12 h-12 rounded-2xl bg-emerald-50 flex items-center justify-center text-emerald-600 border border-emerald-100 group-hover:scale-110 transition-transform">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>
           </div>
-          <span class="px-2.5 py-1 bg-[#EDF1F6] text-[#334EAC] text-[10px] font-extrabold rounded-md border border-[#BAD6EB] uppercase tracking-widest animate-pulse">Sedang Berjalan</span>
+          <span class="quiz-difficulty diff-progress px-2.5 py-1 text-[10px] font-extrabold rounded-md uppercase tracking-widest animate-pulse">Sedang Berjalan</span>
         </div>
 
         <div class="mb-6 flex-1 relative z-10">
@@ -152,14 +152,14 @@
       </RouterLink>
 
       <!-- Quiz Card 3 -->
-      <RouterLink to="/pelajar/quiz/3" class="bg-white/80 backdrop-blur-xl rounded-3xl p-6 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 ease-out group flex flex-col h-full cursor-pointer relative overflow-hidden">
+      <RouterLink to="/pelajar/quiz/3" class="card-base quiz-card p-6 group flex flex-col h-full cursor-pointer relative overflow-hidden">
         <div class="absolute top-0 right-0 w-24 h-24 bg-[#7096D1]/10 rounded-bl-full pointer-events-none group-hover:bg-[#7096D1]/20 transition-colors"></div>
         
         <div class="flex items-center justify-between mb-5 relative z-10">
           <div class="w-12 h-12 rounded-2xl bg-[#F7F2EB] flex items-center justify-center text-amber-600 border border-amber-100 group-hover:scale-110 transition-transform">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
           </div>
-          <span class="px-2.5 py-1 bg-[#EDF1F6] text-slate-500 text-[10px] font-extrabold rounded-md border border-slate-200 uppercase tracking-widest">Sedang</span>
+          <span class="quiz-difficulty diff-medium px-2.5 py-1 text-[10px] font-extrabold rounded-md uppercase tracking-widest">Sedang</span>
         </div>
 
         <div class="mb-6 flex-1 relative z-10">
@@ -169,11 +169,11 @@
 
         <div class="flex items-center justify-between pt-5 border-t border-slate-100/80 relative z-10">
           <div class="flex items-center gap-4">
-            <div class="flex items-center gap-1.5 text-[12px] font-bold text-slate-400">
+            <div class="stat-badge flex items-center gap-1.5 text-[12px] font-bold text-slate-400">
               <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h20"/><path d="m15 5 7 7-7 7"/></svg>
               15 Soal
             </div>
-            <div class="flex items-center gap-1.5 text-[12px] font-bold text-slate-400">
+            <div class="stat-badge flex items-center gap-1.5 text-[12px] font-bold text-slate-400">
               <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
               30m
             </div>
@@ -196,3 +196,25 @@ const searchQuery = ref('')
 const activeCategory = ref('Semua Kuis')
 const categories = ['Semua Kuis', 'Fisika', 'Matematika', 'Ilmu Komputer', 'Biologi']
 </script>
+
+<style scoped>
+/* Quiz Specific Adjustments */
+.quiz-card {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.quiz-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 15px 35px rgba(15, 23, 42, 0.08);
+}
+.quiz-difficulty {
+  border: 1px solid transparent;
+}
+.diff-hard { background: #FFF1F2; color: #E11D48; border-color: #FFE4E6; }
+.diff-medium { background: #F8FAFC; color: #64748B; border-color: #F1F5F9; }
+.diff-progress { background: #F0F9FF; color: #0284C7; border-color: #E0F2FE; }
+.stat-badge {
+  background: rgba(248, 250, 252, 0.8);
+  padding: 4px 8px;
+  border-radius: 8px;
+}
+</style>

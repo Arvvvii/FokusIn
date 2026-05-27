@@ -5,7 +5,7 @@
     <section class="flex flex-col xl:flex-row gap-6">
       
       <!-- 1. Refined Academic Hero Card (Left) -->
-      <div class="xl:w-[70%] bg-[linear-gradient(90deg,#0e2370,#1a3aa8,#2d5bbf)] rounded-[18px] p-7 md:p-8 text-white relative overflow-hidden shadow-sm border border-[#081F5C] flex flex-col justify-between">
+      <div class="dashboard-hero xl:w-[70%] rounded-[18px] p-7 md:p-8 text-white relative overflow-hidden flex flex-col justify-between">
         
         <!-- Academic Mesh & Soft Radial Glow -->
         <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCI+PHBhdGggZD0iTTAgMGg0MHY0MEgweiIgZmlsbD0ibm9uZSIvPgo8cGF0aCBkPSJNMCA0MGg0MFYweiIgZmlsbD0ibm9uZSIvPgo8cGF0aCBkPSJNMCA0MGg0MFYweiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmZmZmIiBzdHJva2Utb3BhY2l0eT0iMC4wNSIgc3Ryb2tlLXdpZHRoPSIxIi8+Cjwvc3ZnPg==')] opacity-40 pointer-events-none"></div>
@@ -37,7 +37,7 @@
                 <span class="text-[13px] font-bold text-white">80%</span>
               </div>
               <div class="h-1.5 w-full bg-white/10 rounded-full overflow-hidden">
-                <div class="h-full bg-emerald-400 rounded-full w-[80%]"></div>
+                <div class="hero-progress-bar h-full rounded-full w-[80%]"></div>
               </div>
             </div>
           </div>
@@ -45,7 +45,7 @@
       </div>
 
       <!-- 2. Academic Recommender (Right) -->
-      <div class="xl:w-[30%] card-fokus p-7 text-slate-800 relative flex flex-col overflow-hidden bg-[linear-gradient(135deg,rgba(51,78,172,0.08),rgba(112,150,209,0.10))] border-[rgba(51,78,172,0.18)]">
+      <div class="card-panel insight-panel xl:w-[30%] p-7 text-slate-800 relative flex flex-col overflow-hidden">
         
         <div class="relative z-10 flex items-center justify-between mb-4">
           <div class="flex items-center gap-2.5">
@@ -54,7 +54,7 @@
             </div>
             <span class="text-xs font-bold tracking-widest uppercase text-slate-900">Insight Akademik</span>
           </div>
-          <span class="px-2 py-0.5 bg-emerald-50 border border-emerald-100 text-emerald-600 rounded text-[10px] font-bold uppercase tracking-wider">AI Conf: 88%</span>
+          <span class="ai-conf-badge px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider">AI Conf: 88%</span>
         </div>
 
         <div class="relative z-10 flex-1 flex flex-col justify-center">
@@ -99,7 +99,7 @@
 
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
         <!-- Card 1 -->
-        <RouterLink to="/pelajar/forum" class="bg-white hover:bg-slate-50 border border-slate-200 p-4 rounded-2xl transition-all block group/card shadow-sm hover:shadow-md hover:-translate-y-0.5">
+        <RouterLink to="/pelajar/forum" class="card-base ecosystem-card p-4 rounded-2xl block group/card">
           <div class="w-10 h-10 rounded-[10px] bg-indigo-50 border border-indigo-100/50 flex items-center justify-center text-indigo-600 mb-3 group-hover/card:scale-105 transition-transform">
              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
           </div>
@@ -108,7 +108,7 @@
         </RouterLink>
 
         <!-- Card 2 -->
-        <RouterLink to="/pelajar/ai-analyzer" class="bg-white hover:bg-slate-50 border border-slate-200 p-4 rounded-2xl transition-all block group/card shadow-sm hover:shadow-md hover:-translate-y-0.5">
+        <RouterLink to="/pelajar/ai-analyzer" class="card-base ecosystem-card p-4 rounded-2xl block group/card">
           <div class="w-10 h-10 rounded-[10px] bg-emerald-50 border border-emerald-100/50 flex items-center justify-center text-emerald-600 mb-3 group-hover/card:scale-105 transition-transform">
              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
           </div>
@@ -117,7 +117,7 @@
         </RouterLink>
 
         <!-- Card 3 -->
-        <RouterLink to="/pelajar/mentoring" class="bg-white hover:bg-slate-50 border border-slate-200 p-4 rounded-2xl transition-all block group/card shadow-sm hover:shadow-md hover:-translate-y-0.5">
+        <RouterLink to="/pelajar/mentoring" class="card-base ecosystem-card p-4 rounded-2xl block group/card">
           <div class="w-10 h-10 rounded-[10px] bg-amber-50 border border-amber-100/50 flex items-center justify-center text-amber-600 mb-3 group-hover/card:scale-105 transition-transform">
              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>
           </div>
@@ -126,7 +126,7 @@
         </RouterLink>
 
         <!-- Card 4 -->
-        <RouterLink to="/pelajar/materials" class="bg-white hover:bg-slate-50 border border-slate-200 p-4 rounded-2xl transition-all block group/card shadow-sm hover:shadow-md hover:-translate-y-0.5">
+        <RouterLink to="/pelajar/materials" class="card-base ecosystem-card p-4 rounded-2xl block group/card">
           <div class="w-10 h-10 rounded-[10px] bg-rose-50 border border-rose-100/50 flex items-center justify-center text-rose-600 mb-3 group-hover/card:scale-105 transition-transform">
              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>
           </div>
@@ -135,7 +135,7 @@
         </RouterLink>
 
         <!-- Card 5 -->
-        <RouterLink to="/pelajar/profile" class="bg-white hover:bg-slate-50 border border-slate-200 p-4 rounded-2xl transition-all block group/card shadow-sm hover:shadow-md hover:-translate-y-0.5">
+        <RouterLink to="/pelajar/profile" class="card-base ecosystem-card p-4 rounded-2xl block group/card">
           <div class="w-10 h-10 rounded-[10px] bg-[#334EAC]/10 border border-[#334EAC]/10 flex items-center justify-center text-[#334EAC] mb-3 group-hover/card:scale-105 transition-transform">
              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>
           </div>
@@ -147,7 +147,7 @@
 
     <!-- MIDDLE ROW: Compact Analytics Grid -->
     <section class="grid grid-cols-2 lg:grid-cols-4 gap-4">
-      <div v-for="stat in stats" :key="stat.label" class="bg-white rounded-2xl p-4 border border-slate-200/80 flex flex-col justify-between shadow-sm transition-all hover:border-[#7096D1]/50">
+      <div v-for="stat in stats" :key="stat.label" class="card-base p-4 rounded-2xl flex flex-col justify-between">
         <div class="flex items-center justify-between mb-3">
           <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">{{ stat.label }}</span>
           <div class="w-8 h-8 rounded-lg flex items-center justify-center border" :class="stat.bg">
@@ -167,7 +167,7 @@
     <section class="grid grid-cols-1 lg:grid-cols-3 gap-6">
       
       <!-- Trending Discussions (Larger width) -->
-      <div class="lg:col-span-2 bg-white rounded-2xl p-6 border border-slate-200/80 flex flex-col shadow-sm">
+      <div class="card-panel lg:col-span-2 p-6 flex flex-col">
         <div class="flex items-center justify-between mb-5">
           <h3 class="text-lg font-bold text-slate-900 tracking-tight">Diskusi Terpopuler Harian</h3>
           <RouterLink to="/pelajar/forum" class="text-xs font-bold text-[#334EAC] hover:text-[#7096D1] transition-colors flex items-center gap-1">
@@ -201,7 +201,7 @@
       </div>
 
       <!-- Upcoming Mentoring (Right column) -->
-      <div class="bg-white rounded-2xl p-6 border border-slate-200/80 flex flex-col shadow-sm">
+      <div class="card-panel p-6 flex flex-col">
         <div class="flex items-center justify-between mb-5">
           <h3 class="text-lg font-bold text-slate-900 tracking-tight">Jadwal Sesi Terdekat</h3>
           <span class="px-2 py-0.5 bg-[#EDF1F6] text-[#334EAC] text-[10px] font-bold rounded">2 Sesi Aktif</span>
@@ -256,3 +256,34 @@ const mentoring = [
   { tutor: 'Budi Santoso', subject: 'Aljabar Linear', dateMonth: 'Mei', dateDay: '27', time: '10:00', type: 'Chat' },
 ]
 </script>
+
+<style scoped>
+/* Dashboard Specific Adjustments */
+.dashboard-hero {
+  background: linear-gradient(135deg, #081F5C 0%, #334EAC 100%);
+  border: 1px solid rgba(112, 150, 209, 0.2);
+  box-shadow: inset 0 2px 20px rgba(255,255,255,0.1), 0 8px 32px rgba(8, 31, 92, 0.15);
+}
+.hero-progress-bar {
+  background: linear-gradient(90deg, #BAD6EB, #7096D1);
+  box-shadow: 0 0 10px rgba(112,150,209,0.5);
+}
+.insight-panel {
+  background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(237,241,246,0.7));
+  border-top: 2px solid #7096D1;
+}
+.ai-conf-badge {
+  background: linear-gradient(135deg, #334EAC, #7096D1);
+  color: white;
+  box-shadow: 0 2px 8px rgba(51,78,172,0.25);
+}
+.ecosystem-card {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.ecosystem-card:hover {
+  background: rgba(255,255,255,0.95);
+  border-color: rgba(112,150,209,0.3);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(8,31,92,0.08);
+}
+</style>

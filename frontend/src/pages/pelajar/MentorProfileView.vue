@@ -13,7 +13,7 @@
     </div>
 
     <!-- 1. GLASSMORPHIC HEADER SECTION -->
-    <div class="bg-white/60 backdrop-blur-xl rounded-3xl p-7 md:p-8 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-200/60 relative overflow-hidden flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
+    <div class="page-header-banner p-7 md:p-8 flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
       <div class="absolute right-0 top-0 w-1/3 h-full bg-gradient-to-l from-[#EDF1F6]/80 to-transparent pointer-events-none"></div>
       
       <div class="relative z-10 flex items-center gap-4">
@@ -32,7 +32,7 @@
       <div class="space-y-8">
         
         <!-- Hero Card -->
-        <div class="bg-white/80 backdrop-blur-xl rounded-3xl p-8 md:p-10 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-100 relative overflow-hidden">
+        <div class="card-base p-8 md:p-10 relative overflow-hidden">
           <div class="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-[#334EAC]/5 to-transparent rounded-bl-full pointer-events-none"></div>
           
           <div class="flex flex-col sm:flex-row items-center sm:items-start gap-8 relative z-10">
@@ -75,7 +75,7 @@
 
         <!-- Experience & Credentials -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <div class="bg-white/80 backdrop-blur-xl rounded-3xl p-8 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-100 transition-all hover:shadow-xl">
+          <div class="card-base p-8 hover:shadow-xl transition-all">
             <h3 class="text-[15px] font-bold text-slate-900 mb-6 flex items-center gap-2">
               <span class="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-500 flex items-center justify-center border border-emerald-100">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
@@ -98,7 +98,7 @@
             </div>
           </div>
 
-          <div class="bg-white/80 backdrop-blur-xl rounded-3xl p-8 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-100 transition-all hover:shadow-xl">
+          <div class="card-base p-8 hover:shadow-xl transition-all">
             <h3 class="text-[15px] font-bold text-slate-900 mb-6 flex items-center gap-2">
               <span class="w-8 h-8 rounded-lg bg-[#EEF3FF] text-[#334EAC] flex items-center justify-center border border-[#D5E2F5]">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><polyline points="16 11 18 13 22 9"/></svg>
@@ -123,7 +123,7 @@
         </div>
 
         <!-- Student Reviews -->
-        <div class="bg-white/80 backdrop-blur-xl rounded-3xl p-8 md:p-10 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-100">
+        <div class="card-base p-8 md:p-10">
           <div class="flex items-center justify-between mb-8">
             <h3 class="text-[17px] font-bold text-slate-900">Ulasan Pelajar</h3>
             <div class="flex gap-2">
@@ -181,7 +181,7 @@
       <div class="space-y-6">
         
         <!-- Booking Card -->
-        <div class="bg-white/90 backdrop-blur-xl rounded-3xl p-8 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-100 sticky top-8">
+        <div class="card-base p-8 sticky top-8">
           <div class="flex items-center justify-between mb-6">
             <span class="text-[14px] font-bold text-slate-500 uppercase tracking-widest">Tarif Sesi</span>
             <span class="text-2xl font-bold text-[#081F5C]">Rp 150k<span class="text-[12px] text-slate-400 font-medium">/jam</span></span>

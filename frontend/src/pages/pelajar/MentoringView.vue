@@ -2,11 +2,11 @@
   <div class="space-y-6 animate-in fade-in duration-500 max-w-7xl mx-auto">
     
     <!-- 1. GLASSMORPHIC HEADER SECTION -->
-    <div class="bg-white/60 backdrop-blur-xl rounded-3xl p-7 md:p-8 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-200/60 relative overflow-hidden flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
+    <div class="page-header-banner p-7 md:p-8 flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
       <div class="absolute right-0 top-0 w-1/3 h-full bg-gradient-to-l from-[#EDF1F6]/80 to-transparent pointer-events-none"></div>
       
       <div class="relative z-10 flex items-center gap-4">
-        <span class="w-12 h-12 rounded-2xl bg-[#334EAC]/10 text-[#334EAC] flex items-center justify-center shrink-0">
+        <span class="page-header-icon w-12 h-12 flex items-center justify-center shrink-0">
           <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
         </span>
         <div>
@@ -19,7 +19,7 @@
     </div>
 
     <!-- 2. Search & Filter Section -->
-    <div class="bg-white rounded-2xl p-4 shadow-sm border border-slate-200/80 mb-6 flex flex-col md:flex-row gap-3.5 relative overflow-hidden">
+    <div class="card-panel p-4 mb-6 flex flex-col md:flex-row gap-3.5 relative overflow-hidden">
       
       <!-- Search -->
       <div class="relative flex-1">
@@ -76,7 +76,7 @@
         <div class="space-y-4">
           
           <!-- Mentor List Item 1 -->
-          <div class="bg-white rounded-3xl p-6 md:p-7 border border-slate-200/60 shadow-[0_5px_20px_rgba(15,23,42,0.02)] relative overflow-hidden group/card hover:shadow-md transition-all duration-300">
+          <div class="card-base mentor-card p-6 md:p-7 relative overflow-hidden group/card">
             <div class="flex flex-col sm:flex-row justify-between gap-6">
               
               <!-- Mentor Info -->
@@ -84,10 +84,10 @@
                 <div class="flex items-start justify-between">
                   <div class="flex items-center gap-4">
                     <div class="relative shrink-0">
-                      <div class="w-14 h-14 rounded-full bg-slate-100 overflow-hidden border border-slate-200 shadow-sm group-hover:border-[#334EAC] transition-colors">
+                      <div class="mentor-avatar w-14 h-14 rounded-full overflow-hidden transition-colors">
                         <img src="https://i.pravatar.cc/150?u=a042581f4e29026704d" alt="Dr. Sarah Smith" class="w-full h-full object-cover">
                       </div>
-                      <div class="absolute -bottom-0.5 -right-0.5 w-4.5 h-4.5 bg-[#334EAC] rounded-full border border-white flex items-center justify-center text-white shadow-sm">
+                      <div class="absolute -bottom-0.5 -right-0.5 w-4.5 h-4.5 rounded-full border border-white flex items-center justify-center text-white shadow-sm status-indicator">
                         <svg xmlns="http://www.w3.org/2000/svg" width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
                       </div>
                     </div>
@@ -133,7 +133,7 @@
           </div>
 
           <!-- Mentor List Item 2 -->
-          <div class="bg-white rounded-3xl p-6 md:p-7 border border-slate-200/60 shadow-[0_5px_20px_rgba(15,23,42,0.02)] relative overflow-hidden group/card hover:shadow-md transition-all duration-300">
+          <div class="card-base mentor-card p-6 md:p-7 relative overflow-hidden group/card">
             <div class="flex flex-col sm:flex-row justify-between gap-6">
               
               <!-- Mentor Info -->
@@ -141,10 +141,10 @@
                 <div class="flex items-start justify-between">
                   <div class="flex items-center gap-4">
                     <div class="relative shrink-0">
-                      <div class="w-14 h-14 rounded-full bg-slate-100 overflow-hidden border border-slate-200 shadow-sm group-hover:border-[#334EAC] transition-colors">
+                      <div class="mentor-avatar w-14 h-14 rounded-full overflow-hidden transition-colors">
                         <img src="https://i.pravatar.cc/150?u=b042581f4e29026704e" alt="Prof. Anderson" class="w-full h-full object-cover">
                       </div>
-                      <div class="absolute -bottom-0.5 -right-0.5 w-4.5 h-4.5 bg-[#334EAC] rounded-full border border-white flex items-center justify-center text-white shadow-sm">
+                      <div class="absolute -bottom-0.5 -right-0.5 w-4.5 h-4.5 rounded-full border border-white flex items-center justify-center text-white shadow-sm status-indicator">
                         <svg xmlns="http://www.w3.org/2000/svg" width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
                       </div>
                     </div>
@@ -190,7 +190,7 @@
           </div>
 
           <!-- Mentor List Item 3 -->
-          <div class="bg-white rounded-3xl p-6 md:p-7 border border-slate-200/60 shadow-[0_5px_20px_rgba(15,23,42,0.02)] relative overflow-hidden group/card hover:shadow-md transition-all duration-300">
+          <div class="card-base mentor-card p-6 md:p-7 relative overflow-hidden group/card">
             <div class="flex flex-col sm:flex-row justify-between gap-6">
               
               <!-- Mentor Info -->
@@ -198,10 +198,10 @@
                 <div class="flex items-start justify-between">
                   <div class="flex items-center gap-4">
                     <div class="relative shrink-0">
-                      <div class="w-14 h-14 rounded-full bg-slate-100 overflow-hidden border border-slate-200 shadow-sm group-hover:border-[#334EAC] transition-colors">
+                      <div class="mentor-avatar w-14 h-14 rounded-full overflow-hidden transition-colors">
                         <img src="https://i.pravatar.cc/150?u=c042581f4e29026704f" alt="Kevin Pratama" class="w-full h-full object-cover">
                       </div>
-                      <div class="absolute -bottom-0.5 -right-0.5 w-4.5 h-4.5 bg-[#334EAC] rounded-full border border-white flex items-center justify-center text-white shadow-sm">
+                      <div class="absolute -bottom-0.5 -right-0.5 w-4.5 h-4.5 rounded-full border border-white flex items-center justify-center text-white shadow-sm status-indicator">
                         <svg xmlns="http://www.w3.org/2000/svg" width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
                       </div>
                     </div>
@@ -253,7 +253,7 @@
       <div class="space-y-6 lg:sticky lg:top-6">
         
         <!-- Upcoming Session Card: Styled as academic schedule panel -->
-        <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200/80 transition-all duration-200 relative overflow-hidden">
+        <div class="card-panel p-5 transition-all duration-200 relative overflow-hidden">
           <div class="flex items-center justify-between mb-4">
             <h3 class="text-xs font-bold text-slate-400 uppercase tracking-widest flex items-center gap-2">
               <span class="w-2 h-2 rounded-full bg-rose-500 animate-pulse"></span>
@@ -291,7 +291,7 @@
         </div>
 
         <!-- Session History Panel -->
-        <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200/80 transition-all duration-200">
+        <div class="card-panel p-5 transition-all duration-200">
           <div class="flex items-center justify-between mb-4">
             <h3 class="text-xs font-bold text-[#081F5C] uppercase tracking-wider">Riwayat Sesi Selesai</h3>
             <button @click="showInfoToast('Menampilkan semua riwayat sesi...')" class="text-[11px] font-bold text-[#334EAC] hover:text-[#081F5C] transition-colors">Lihat Semua</button>
@@ -503,3 +503,23 @@ const showInfoToast = (msg) => {
   }, 3000)
 }
 </script>
+
+<style scoped>
+/* Mentoring Specific Adjustments */
+.mentor-card {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.mentor-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 15px 35px rgba(15, 23, 42, 0.08);
+}
+.mentor-avatar {
+  border: 2px solid transparent;
+}
+.mentor-card:hover .mentor-avatar {
+  border-color: #334EAC;
+}
+.status-indicator {
+  background: linear-gradient(135deg, #10B981, #059669);
+}
+</style>

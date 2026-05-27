@@ -7,7 +7,7 @@
       <div class="w-full xl:w-[70%] space-y-6">
         
         <!-- Header / Progress Bar -->
-        <div class="bg-white/80 backdrop-blur-xl rounded-3xl p-6 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-100 flex flex-col md:flex-row md:items-center justify-between gap-4 transition-all duration-300 ease-out hover:shadow-xl group/card">
+        <div class="card-base p-6 flex flex-col md:flex-row md:items-center justify-between gap-4 group/card">
           <div class="flex-1">
             <h2 class="text-[15px] font-bold text-slate-900 mb-2 flex items-center gap-2 tracking-tight">
               <span class="w-2.5 h-2.5 rounded-full bg-[#334EAC]"></span>
@@ -25,7 +25,7 @@
         </div>
 
         <!-- Question Content -->
-        <div class="bg-white/60 backdrop-blur-xl rounded-3xl p-7 md:p-8 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-200/60 relative overflow-hidden">
+        <div class="card-base p-7 md:p-8 relative overflow-hidden">
           <div class="flex items-start justify-between gap-4 mb-8">
             <h1 class="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">
               Sebuah silinder pejal bermassa <span class="font-mono text-[#334EAC] bg-[#EDF1F6] px-1.5 py-0.5 rounded">M</span> dan berjari-jari <span class="font-mono text-[#334EAC] bg-[#EDF1F6] px-1.5 py-0.5 rounded">R</span> menggelinding tanpa slip menuruni bidang miring dengan sudut <span class="font-mono text-[#334EAC] bg-[#EDF1F6] px-1.5 py-0.5 rounded">θ</span>. Berapakah percepatan linearnya?
@@ -89,7 +89,7 @@
       <div class="w-full xl:w-[30%] shrink-0 space-y-6">
         
         <!-- Question Navigator Grid -->
-        <div class="bg-white/80 backdrop-blur-xl rounded-3xl p-7 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-100 transition-all duration-300 ease-out hover:shadow-xl group/card">
+        <div class="card-base p-7 group/card">
           <h3 class="text-[15px] font-bold text-slate-900 mb-5 tracking-tight">Navigasi Pertanyaan</h3>
           
           <div class="grid grid-cols-5 gap-2 mb-8">

@@ -1,5 +1,5 @@
 <template>
-  <header class="sticky top-0 z-30 h-[72px] bg-white/80 backdrop-blur-xl border-b border-slate-200/60 flex items-center justify-between px-5 lg:px-8 shrink-0 transition-all">
+  <header class="topbar h-[72px] flex items-center justify-between px-5 lg:px-8 shrink-0 transition-all">
     
     <!-- Left Section: Search & Breadcrumb -->
     <div class="flex items-center gap-4 flex-1">
@@ -16,7 +16,7 @@
         </div>
         <input 
           type="text" 
-          class="w-full pl-10 pr-16 py-2.5 bg-[#EDF1F6] border border-transparent rounded-xl text-[14px] text-slate-800 placeholder-slate-400 focus:outline-none focus:bg-white focus:border-[#7096D1]/30 focus:ring-4 focus:ring-[#7096D1]/10 transition-all shadow-[inset_0_1px_2px_rgba(0,0,0,0.02)]" 
+          class="topbar-search w-full pl-10 pr-16 py-2.5 text-[14px] text-slate-800 placeholder-slate-400 focus:outline-none transition-all" 
           placeholder="Cari diskusi, materi, atau mentor..."
         >
         <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
@@ -29,7 +29,7 @@
     <div class="flex items-center gap-3 sm:gap-4 ml-4">
       
       <!-- AI Assistant Button -->
-      <RouterLink to="/pelajar/ai-analyzer" class="hidden sm:flex items-center gap-2 px-3.5 py-2 bg-[#334EAC]/5 hover:bg-[#334EAC]/10 text-[#334EAC] rounded-xl font-bold text-sm transition-all border border-[#334EAC]/10 active:scale-95 shadow-sm">
+      <RouterLink to="/pelajar/ai-analyzer" class="hidden sm:flex items-center gap-2 px-4 py-2.5 btn-tanya-ai text-white rounded-xl font-bold text-sm active:scale-95">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/><path d="M5 3v4"/><path d="M19 17v4"/><path d="M3 5h4"/><path d="M17 19h4"/></svg>
         Tanya AI
       </RouterLink>

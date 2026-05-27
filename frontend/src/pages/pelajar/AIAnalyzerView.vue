@@ -2,11 +2,11 @@
   <div class="space-y-8 animate-in fade-in duration-500">
     
     <!-- 1. HEADER SECTION -->
-    <div class="bg-[linear-gradient(90deg,#0e2370,#1a3aa8,#2d5bbf)] rounded-3xl p-7 md:p-8 shadow-sm border border-[#081F5C] relative overflow-hidden flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8 text-white">
+    <div class="ai-analyzer-hero rounded-3xl p-7 md:p-8 relative overflow-hidden flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8 text-white">
       <div class="absolute right-0 top-0 w-1/3 h-full bg-gradient-to-l from-white/5 to-transparent pointer-events-none"></div>
       
       <div class="relative z-10 flex items-center gap-4">
-        <span class="w-12 h-12 rounded-2xl bg-white/10 text-white flex items-center justify-center shrink-0 border border-white/10">
+        <span class="ai-hero-icon w-12 h-12 rounded-2xl text-white flex items-center justify-center shrink-0">
           <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
         </span>
         <div>
@@ -27,11 +27,11 @@
     </div>
 
     <!-- Upload Area -->
-    <RouterLink to="/pelajar/ai-analyzer/create" class="block card-fokus rounded-3xl p-8 md:p-14 mb-12 transition-all duration-300 ease-out relative overflow-hidden group">
+    <RouterLink to="/pelajar/ai-analyzer/create" class="block card-base rounded-3xl p-8 md:p-14 mb-12 transition-all duration-300 ease-out relative overflow-hidden group">
       <!-- Glow Orb -->
       <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-indigo-500/10 blur-[100px] rounded-full pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
       
-      <div class="max-w-3xl mx-auto flex flex-col items-center justify-center p-12 md:p-16 border-[2.5px] border-dashed border-[#334EAC]/30 rounded-3xl bg-[rgba(51,78,172,0.02)] hover:bg-[rgba(51,78,172,0.05)] hover:border-[#334EAC]/50 transition-all cursor-pointer relative z-10">
+      <div class="upload-zone max-w-3xl mx-auto flex flex-col items-center justify-center p-12 md:p-16 rounded-3xl cursor-pointer relative z-10">
         
         <div class="w-20 h-20 rounded-full bg-gradient-to-br from-indigo-50 to-white flex items-center justify-center text-indigo-600 mb-6 group-hover:-translate-y-2 group-hover:shadow-lg group-hover:shadow-indigo-500/20 transition-all duration-300 border border-indigo-100/50 relative">
           <div class="absolute inset-0 rounded-full bg-indigo-400/20 blur-md animate-pulse"></div>
@@ -53,7 +53,7 @@
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
       
       <!-- Most Frequent Topics -->
-      <div class="lg:col-span-2 card-fokus rounded-3xl p-8 transition-all duration-300 ease-out group/card">
+      <div class="card-panel lg:col-span-2 rounded-3xl p-8 transition-all duration-300 ease-out group/card">
         <div class="flex items-center justify-between mb-8">
           <h3 class="text-[17px] font-bold text-slate-900 flex items-center gap-3 tracking-tight">
             <span class="w-8 h-8 rounded-lg bg-indigo-50 flex items-center justify-center text-indigo-600 border border-indigo-100/50 group-hover/card:scale-110 transition-transform"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg></span>
@@ -106,7 +106,7 @@
       </div>
 
       <!-- Difficulty Chart -->
-      <div class="card-fokus rounded-3xl p-8 flex flex-col items-center transition-all duration-300 ease-out group/card relative overflow-hidden">
+      <div class="card-panel rounded-3xl p-8 flex flex-col items-center transition-all duration-300 ease-out group/card relative overflow-hidden">
         <div class="absolute inset-0 bg-gradient-to-br from-amber-500/5 to-transparent opacity-0 group-hover/card:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
         <h3 class="text-[17px] font-bold text-slate-900 mb-8 w-full text-left flex items-center gap-3 tracking-tight">
           <span class="w-8 h-8 rounded-lg bg-amber-50 flex items-center justify-center text-amber-600 border border-amber-100/50 group-hover/card:scale-110 transition-transform"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></span>
@@ -148,7 +148,7 @@
       </div>
 
       <!-- AI Summary / Intelligence Report -->
-      <div class="lg:col-span-2 card-fokus rounded-3xl p-8 transition-all duration-300 ease-out group/card relative overflow-hidden">
+      <div class="card-panel lg:col-span-2 rounded-3xl p-8 transition-all duration-300 ease-out group/card relative overflow-hidden">
         <div class="absolute inset-0 bg-gradient-to-br from-emerald-500/5 to-transparent opacity-0 group-hover/card:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
         <h3 class="text-[17px] font-bold text-slate-900 mb-6 flex items-center gap-3 tracking-tight">
           <span class="w-8 h-8 rounded-lg bg-emerald-50 flex items-center justify-center text-emerald-600 border border-emerald-100/50 group-hover/card:scale-110 transition-transform"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg></span>
@@ -184,7 +184,7 @@
       </div>
 
       <!-- Important Keywords -->
-      <div class="card-fokus rounded-3xl p-8 transition-all duration-300 ease-out group/card relative overflow-hidden">
+      <div class="card-panel rounded-3xl p-8 transition-all duration-300 ease-out group/card relative overflow-hidden">
         <div class="absolute inset-0 bg-gradient-to-br from-indigo-500/5 to-transparent opacity-0 group-hover/card:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
         <h3 class="text-[17px] font-bold text-slate-900 mb-6 flex items-center gap-3 tracking-tight">
           <span class="w-8 h-8 rounded-lg bg-indigo-50 flex items-center justify-center text-indigo-600 border border-indigo-100/50 group-hover/card:scale-110 transition-transform"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20"/><path d="m17 5-5-3-5 3v14l5 3 5-3Z"/></svg></span>
@@ -208,3 +208,31 @@
 <script setup>
 import { RouterLink } from 'vue-router'
 </script>
+
+<style scoped>
+/* AI Analyzer Specific Adjustments */
+.ai-analyzer-hero {
+  background: linear-gradient(135deg, #081F5C 0%, #334EAC 100%);
+  box-shadow: inset 0 0 40px rgba(112,150,209,0.2), 0 10px 40px rgba(8,31,92,0.15);
+}
+.ai-hero-icon {
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.2);
+  box-shadow: 0 0 15px rgba(255,255,255,0.2);
+  animation: ai-icon-pulse 3s infinite;
+}
+@keyframes ai-icon-pulse {
+  0% { box-shadow: 0 0 15px rgba(255,255,255,0.2); }
+  50% { box-shadow: 0 0 30px rgba(255,255,255,0.5); }
+  100% { box-shadow: 0 0 15px rgba(255,255,255,0.2); }
+}
+.upload-zone {
+  background: linear-gradient(135deg, rgba(255,255,255,0.6), rgba(237,241,246,0.5));
+  border: 2px dashed rgba(112,150,209,0.4);
+  transition: all 0.3s ease;
+}
+.upload-zone:hover {
+  background: rgba(255,255,255,0.9);
+  border-color: #334EAC;
+}
+</style>
