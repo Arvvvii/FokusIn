@@ -21,36 +21,6 @@ Route::get('/', function () {
     ], 200);
 });
 
-// ==========================================
-// ── ROUTE SEMENTARA UNTUK SETUP ADMIN ──────
-// ==========================================
-Route::get('/setup-admin', function () {
-    // 1. Pastikan role admin tersedia di database
-    \Spatie\Permission\Models\Role::firstOrCreate(['name' => 'admin', 'guard_name' => 'web']);
-
-    // 2. Buat user admin jika belum ada
-    $admin = \App\Models\User::firstOrCreate(
-        ['email' => 'admin@fokusin.com'],
-        [
-            'name' => 'Admin Vokasi',
-            'password' => \Illuminate\Support\Facades\Hash::make('password123'),
-            'role' => 'admin',
-            'reputation_score' => 600,
-        ]
-    );
-
-    // 3. Assign role Spatie
-    $admin->assignRole('admin');
-
-    return response()->json([
-        'success' => true,
-        'message' => 'Akun Admin berhasil dibuat dan role Spatie telah di-assign.',
-        'data' => [
-            'email' => $admin->email,
-            'role' => 'admin'
-        ]
-    ], 201);
-});
 
 // ==========================================
 // ── PUBLIC ROUTES (Tidak Perlu Login) ──────
