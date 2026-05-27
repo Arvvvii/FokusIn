@@ -46,10 +46,10 @@
       <!-- User Profile Dropdown Toggle -->
       <button class="flex items-center gap-3 p-1 pr-2 hover:bg-[#EDF1F6] rounded-xl transition-colors focus:outline-none border border-transparent hover:border-slate-200/50">
         <div class="w-9 h-9 rounded-full bg-[#EDF1F6] border-2 border-white shadow-sm shrink-0 flex items-center justify-center overflow-hidden">
-          <span class="text-[#081F5C] font-bold text-sm">JD</span>
+          <img :src="avatarUrl" alt="Avatar" class="w-full h-full object-cover" />
         </div>
         <div class="hidden lg:flex items-center gap-2">
-          <span class="text-sm font-bold text-slate-700">John Doe</span>
+          <span class="text-sm font-bold text-slate-700">{{ userName }}</span>
           <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="text-slate-400"><path d="m6 9 6 6 6-6"/></svg>
         </div>
       </button>
@@ -59,5 +59,12 @@
 </template>
 
 <script setup>
-// Future dropdown/search logic will go here
+import { computed } from 'vue'
+
+const user = JSON.parse(localStorage.getItem('user') || '{}')
+const userName = user.name || 'User'
+
+const avatarUrl = computed(() => {
+  return `https://ui-avatars.com/api/?name=${encodeURIComponent(userName)}&background=BAD6EB&color=081F5C&bold=true`
+})
 </script>

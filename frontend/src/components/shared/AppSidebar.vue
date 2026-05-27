@@ -97,12 +97,12 @@
         <div class="flex items-center gap-3">
           <!-- Avatar -->
           <div class="w-10 h-10 rounded-full bg-[#EDF1F6] border-2 border-[#7096D1] shrink-0 flex items-center justify-center overflow-hidden">
-            <span class="text-[#081F5C] font-bold text-sm">JD</span>
+            <img :src="avatarUrl" alt="Avatar" class="w-full h-full object-cover" />
           </div>
           <!-- Info -->
           <div v-if="!isCollapsed" class="flex-1 min-w-0">
-            <p class="text-sm font-bold text-white truncate">John Doe</p>
-            <p class="text-xs text-[#BAD6EB] font-medium truncate">Pelajar</p>
+            <p class="text-sm font-bold text-white truncate">{{ userName }}</p>
+            <p class="text-xs text-[#BAD6EB] font-medium truncate capitalize">{{ userRole }}</p>
           </div>
         </div>
         
@@ -112,14 +112,14 @@
             <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
             Pro
           </div>
-          <button class="text-[#BAD6EB] hover:text-white hover:bg-white/10 p-1.5 rounded-lg transition-colors" title="Log out">
+          <button @click="handleLogout" class="text-[#BAD6EB] hover:text-white hover:bg-white/10 p-1.5 rounded-lg transition-colors" title="Log out">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/></svg>
           </button>
         </div>
       </div>
       
       <!-- Logout button when collapsed -->
-      <button v-if="isCollapsed" class="mt-3 w-full flex items-center justify-center p-3 rounded-xl text-[#BAD6EB] hover:bg-white/10 hover:text-white transition-colors" title="Log out">
+      <button v-if="isCollapsed" @click="handleLogout" class="mt-3 w-full flex items-center justify-center p-3 rounded-xl text-[#BAD6EB] hover:bg-white/10 hover:text-white transition-colors" title="Log out">
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/></svg>
       </button>
     </div>
@@ -136,25 +136,66 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import { useRoute } from 'vue-router'
+import { ref, computed } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 
 const route = useRoute()
+const router = useRouter()
 const isCollapsed = ref(false)
 const isMobileOpen = ref(false)
 
-// Placeholder role. In a real app, you would fetch this from an auth store.
-const userRole = 'pelajar' 
+const user = JSON.parse(localStorage.getItem('user') || '{}')
+const userName = user.name || 'User'
+const userRole = localStorage.getItem('role') || 'pelajar'
 
-const menuItems = [
-  { name: 'Dashboard', path: `/${userRole}/dashboard`, iconPath: '<rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/>' },
-  { name: 'Forum', path: `/${userRole}/forum`, iconPath: '<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>' },
-  { name: 'AI Analyzer', path: `/${userRole}/ai-analyzer`, iconPath: '<path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/><path d="M5 3v4"/><path d="M19 17v4"/><path d="M3 5h4"/><path d="M17 19h4"/>' },
-  { name: 'Materials', path: `/${userRole}/materials`, iconPath: '<path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>' },
-  { name: 'Mentoring', path: `/${userRole}/mentoring`, iconPath: '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>' },
-  { name: 'Quiz', path: `/${userRole}/quiz`, iconPath: '<polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>' },
-  { name: 'Profile', path: `/${userRole}/profile`, iconPath: '<path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>' }
-]
+const userInitials = computed(() => {
+  return userName
+    .split(' ')
+    .map(n => n[0])
+    .slice(0, 2)
+    .join('')
+    .toUpperCase()
+})
+
+const avatarUrl = computed(() => {
+  return `https://ui-avatars.com/api/?name=${encodeURIComponent(userName)}&background=BAD6EB&color=081F5C&bold=true`
+})
+
+const menuItems = computed(() => {
+  if (userRole === 'admin') {
+    return [
+      { name: 'Dashboard', path: '/admin/dashboard', iconPath: '<rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/>' },
+      { name: 'Manage Users', path: '/admin/users', iconPath: '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>' },
+      { name: 'Categories', path: '/admin/categories', iconPath: '<path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/>' },
+      { name: 'Reports', path: '/admin/reports', iconPath: '<path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" x2="12" y1="9" y2="13"/><line x1="12" x2="12.01" y1="17" y2="17"/>' },
+      { name: 'Analytics', path: '/admin/analytics', iconPath: '<path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/>' },
+    ]
+  } else if (userRole === 'tutor') {
+    return [
+      { name: 'Dashboard', path: '/tutor/dashboard', iconPath: '<rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/>' },
+      { name: 'Verify Answers', path: '/tutor/verify-answer', iconPath: '<polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>' },
+      { name: 'Mentoring', path: '/tutor/mentoring', iconPath: '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>' },
+      { name: 'Profile', path: '/tutor/profile', iconPath: '<path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>' },
+    ]
+  } else {
+    return [
+      { name: 'Dashboard', path: '/pelajar/dashboard', iconPath: '<rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/>' },
+      { name: 'Forum', path: '/pelajar/forum', iconPath: '<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>' },
+      { name: 'AI Analyzer', path: '/pelajar/ai-analyzer', iconPath: '<path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/><path d="M5 3v4"/><path d="M19 17v4"/><path d="M3 5h4"/><path d="M17 19h4"/>' },
+      { name: 'Materials', path: '/pelajar/materials', iconPath: '<path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>' },
+      { name: 'Mentoring', path: '/pelajar/mentoring', iconPath: '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>' },
+      { name: 'Quiz', path: '/pelajar/quiz', iconPath: '<polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>' },
+      { name: 'Profile', path: '/pelajar/profile', iconPath: '<path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>' }
+    ]
+  }
+})
+
+const handleLogout = () => {
+  localStorage.removeItem('token')
+  localStorage.removeItem('user')
+  localStorage.removeItem('role')
+  router.push('/auth/login')
+}
 
 // Determine if the current route matches the navigation item
 const isActive = (path) => {

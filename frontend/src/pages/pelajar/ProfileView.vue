@@ -11,7 +11,7 @@
       <div class="relative z-10 flex flex-col md:flex-row gap-6 md:gap-8 items-center md:items-end w-full">
         <!-- Avatar -->
         <div class="w-32 h-32 md:w-40 md:h-40 rounded-full bg-white/10 border-4 border-white/20 shadow-xl overflow-hidden shrink-0 backdrop-blur-md relative group cursor-pointer">
-          <img src="https://i.pravatar.cc/300?u=a042581f4e29026704d" alt="Profile" class="w-full h-full object-cover">
+          <img :src="avatarUrl" alt="Profile" class="w-full h-full object-cover">
           <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
           </div>
@@ -23,13 +23,13 @@
             <span class="px-3 py-1 bg-white/10 backdrop-blur-md rounded-full border border-white/20 text-[11px] font-bold uppercase tracking-widest text-white shadow-sm flex items-center gap-1.5">
               <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> Online
             </span>
-            <span class="px-3 py-1 bg-[#BAD6EB]/20 backdrop-blur-md rounded-full border border-[#BAD6EB]/30 text-[11px] font-bold uppercase tracking-widest text-[#BAD6EB] shadow-sm">
-              Computer Science '24
+            <span class="px-3 py-1 bg-[#BAD6EB]/20 backdrop-blur-md rounded-full border border-[#BAD6EB]/30 text-[11px] font-bold uppercase tracking-widest text-[#BAD6EB] shadow-sm capitalize">
+              {{ academicStatus }}
             </span>
           </div>
-          <h1 class="text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight mb-2 leading-[1.1] text-white">John Doe</h1>
+          <h1 class="text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight mb-2 leading-[1.1] text-white">{{ userName }}</h1>
           <p class="text-[15px] md:text-[16px] text-[#BAD6EB] font-medium max-w-xl leading-relaxed mb-4">
-            Undergraduate student focusing on Artificial Intelligence and Distributed Systems. Actively exploring the intersection of Data Science and Software Engineering.
+            {{ userBio }}
           </p>
           
           <div class="flex items-center justify-center md:justify-start gap-4">
@@ -65,7 +65,7 @@
              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
           </div>
         </div>
-        <h4 class="text-2xl font-extrabold text-[#081F5C] tracking-tight">1,240</h4>
+        <h4 class="text-2xl font-extrabold text-[#081F5C] tracking-tight">{{ reputationScore }}</h4>
       </div>
       <!-- Stat Card 2 -->
       <div class="bg-white rounded-[1.5rem] p-5 shadow-[0_4px_24px_rgba(0,0,0,0.02)] border border-slate-100/80 flex flex-col justify-between hover:border-[#7096D1]/40 transition-colors group">
@@ -392,5 +392,35 @@
 </template>
 
 <script setup>
+import { computed } from 'vue'
 import { RouterLink } from 'vue-router'
+
+const user = JSON.parse(localStorage.getItem('user') || '{}')
+const userName = user.name || 'User'
+const userRole = localStorage.getItem('role') || 'pelajar'
+const reputationScore = user.reputation_score !== undefined ? user.reputation_score.toLocaleString() : '0'
+
+const avatarUrl = computed(() => {
+  return `https://ui-avatars.com/api/?name=${encodeURIComponent(userName)}&background=BAD6EB&color=081F5C&bold=true`
+})
+
+const userBio = computed(() => {
+  if (userRole === 'admin') {
+    return 'Backend and system administrator for FokusIn platform. Managing user permissions, categories, and analytical statistics.'
+  } else if (userRole === 'tutor') {
+    return 'Experienced educator and academic mentor. Reviewing forum answers, verifying explanations, and conducting tutoring sessions.'
+  } else {
+    return 'Undergraduate student focusing on Artificial Intelligence and Distributed Systems. Actively exploring the intersection of Data Science and Software Engineering.'
+  }
+})
+
+const academicStatus = computed(() => {
+  if (userRole === 'admin') {
+    return 'System Administrator'
+  } else if (userRole === 'tutor') {
+    return 'Academic Tutor'
+  } else {
+    return 'Active Scholar'
+  }
+})
 </script>

@@ -164,6 +164,7 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import axios from 'axios'
 
 const router = useRouter()
 const showPassword = ref(false)
@@ -173,9 +174,44 @@ const form = ref({
   remember: false
 })
 
-const handleLogin = () => {
-  console.log('Login attempt:', form.value)
-  // Default routing for demonstration
-  router.push('/pelajar/dashboard')
+const handleLogin = async () => {
+  try {
+    const response = await axios.post('https://fokusin-production.up.railway.app/api/auth/login', {
+      email: form.value.email,
+      password: form.value.password
+    })
+
+    if (response.status === 200 || response.status === 201) {
+      const data = response.data
+      
+      if (data && data.token) {
+        localStorage.setItem('token', data.token)
+      }
+      
+      if (data && data.user) {
+        localStorage.setItem('user', JSON.stringify(data.user))
+        localStorage.setItem('role', data.user.role)
+      }
+
+      const role = data.user ? data.user.role : 'pelajar'
+
+      if (role === 'admin') {
+        router.push('/admin/dashboard')
+      } else if (role === 'tutor') {
+        router.push('/tutor/dashboard')
+      } else {
+        router.push('/pelajar/dashboard')
+      }
+    }
+  } catch (error) {
+    console.error('Login error:', error)
+    if (error.response && error.response.data && error.response.data.message) {
+      alert(error.response.data.message)
+    } else if (error.response && error.response.data && error.response.data.error) {
+      alert(error.response.data.error)
+    } else {
+      alert("Login failed. Please check your email and password.")
+    }
+  }
 }
 </script>

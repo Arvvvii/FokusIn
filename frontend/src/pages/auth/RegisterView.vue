@@ -252,6 +252,14 @@ const handleRegister = async () => {
         localStorage.setItem('token', response.data.token)
       }
       
+      if (response.data && response.data.user) {
+        localStorage.setItem('user', JSON.stringify(response.data.user))
+        localStorage.setItem('role', response.data.user.role)
+      } else {
+        localStorage.setItem('user', JSON.stringify({ name: form.value.fullName, email: form.value.email, role: form.value.role }))
+        localStorage.setItem('role', form.value.role)
+      }
+      
       // Route to specific dashboards based on selected role
       if (form.value.role === 'tutor') {
         router.push('/tutor/dashboard')

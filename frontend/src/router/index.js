@@ -66,4 +66,60 @@ const router = createRouter({
   ],
 })
 
+router.beforeEach((to, from, next) => {
+  const token = localStorage.getItem('token')
+  const role = localStorage.getItem('role')
+
+  // 1. Jika mengakses halaman auth tetapi sudah login, arahkan ke dashboard masing-masing
+  if (to.path.startsWith('/auth')) {
+    if (token && role) {
+      if (role === 'admin') {
+        return next('/admin/dashboard')
+      } else if (role === 'tutor') {
+        return next('/tutor/dashboard')
+      } else {
+        return next('/pelajar/dashboard')
+      }
+    }
+    return next()
+  }
+
+  // 2. Proteksi rute berdasarkan autentikasi dan role
+  if (to.path !== '/' && !to.path.startsWith('/auth')) {
+    // Jika belum login, paksa ke halaman login
+    if (!token) {
+      return next('/auth/login')
+    }
+
+    // Hanya admin yang boleh masuk ke rute /admin/*
+    if (to.path.startsWith('/admin') && role !== 'admin') {
+      if (role === 'tutor') {
+        return next('/tutor/dashboard')
+      } else {
+        return next('/pelajar/dashboard')
+      }
+    }
+
+    // Hanya tutor yang boleh masuk ke rute /tutor/*
+    if (to.path.startsWith('/tutor') && role !== 'tutor') {
+      if (role === 'admin') {
+        return next('/admin/dashboard')
+      } else {
+        return next('/pelajar/dashboard')
+      }
+    }
+
+    // Hanya pelajar yang boleh masuk ke rute /pelajar/*
+    if (to.path.startsWith('/pelajar') && role !== 'pelajar') {
+      if (role === 'admin') {
+        return next('/admin/dashboard')
+      } else if (role === 'tutor') {
+        return next('/tutor/dashboard')
+      }
+    }
+  }
+
+  next()
+})
+
 export default router
