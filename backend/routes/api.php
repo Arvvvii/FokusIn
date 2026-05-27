@@ -22,38 +22,6 @@ Route::get('/', function () {
 });
 
 
-// ==========================================
-// ── ROUTE SEMENTARA UNTUK SETUP TUTOR ──────
-// ==========================================
-Route::get('/setup-tutor', function () {
-    // 1. Pastikan role tutor tersedia di database
-    \Spatie\Permission\Models\Role::firstOrCreate(['name' => 'tutor', 'guard_name' => 'web']);
-
-    // 2. Buat user tutor jika belum ada
-    $tutor = \App\Models\User::firstOrCreate(
-        ['email' => 'tutor@fokusin.com'],
-        [
-            'name' => 'Tutor FokusIn',
-            'password' => \Illuminate\Support\Facades\Hash::make('password123'),
-            'role' => 'tutor',
-            'reputation_score' => 0,
-        ]
-    );
-
-    // 3. Assign role Spatie
-    $tutor->assignRole('tutor');
-
-    return response()->json([
-        'success' => true,
-        'message' => 'Akun Tutor berhasil dibuat dan role Spatie telah di-assign.',
-        'data' => [
-            'email' => $tutor->email,
-            'role' => 'tutor'
-        ]
-    ], 201);
-});
-
-
 
 // ==========================================
 // ── PUBLIC ROUTES (Tidak Perlu Login) ──────

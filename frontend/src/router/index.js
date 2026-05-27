@@ -7,7 +7,8 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      redirect: '/auth/login'
+      name: 'landing',
+      component: () => import('@/pages/LandingView.vue')
     },
     // Auth Routes
     {
@@ -70,7 +71,20 @@ router.beforeEach((to, from, next) => {
   const token = localStorage.getItem('token')
   const role = localStorage.getItem('role')
 
-  // 1. Jika mengakses halaman auth tetapi sudah login, arahkan ke dashboard masing-masing
+  // 1. Jika mengakses landing page ('/') tetapi sudah login, arahkan ke dashboard masing-masing
+  if (to.path === '/') {
+    if (token && role) {
+      if (role === 'admin') {
+        return next('/admin/dashboard')
+      } else if (role === 'tutor') {
+        return next('/tutor/dashboard')
+      } else {
+        return next('/pelajar/dashboard')
+      }
+    }
+  }
+
+  // 2. Jika mengakses halaman auth tetapi sudah login, arahkan ke dashboard masing-masing
   if (to.path.startsWith('/auth')) {
     if (token && role) {
       if (role === 'admin') {
@@ -84,7 +98,7 @@ router.beforeEach((to, from, next) => {
     return next()
   }
 
-  // 2. Proteksi rute berdasarkan autentikasi dan role
+  // 3. Proteksi rute berdasarkan autentikasi dan role
   if (to.path !== '/' && !to.path.startsWith('/auth')) {
     // Jika belum login, paksa ke halaman login
     if (!token) {
