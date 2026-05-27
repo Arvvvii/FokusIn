@@ -10,9 +10,19 @@ use App\Http\Controllers\MentoringController;
 use App\Http\Controllers\QuizController;
 use Illuminate\Support\Facades\Route;
 
+Route::get('/', function () {
+    return response()->json(['message' => 'API FokusIn running']);
+});
 // ==========================================
 // ── PUBLIC ROUTES (Tidak Perlu Login) ──────
 // ==========================================
+Route::get('/', function () {
+    return response()->json([
+        'message' => 'FokusIn API is running successfully.',
+        'status' => 'up'
+    ]);
+});
+
 Route::prefix('auth')->group(function () {
     Route::post('/register', [AuthController::class, 'register']);
     Route::post('/login', [AuthController::class, 'login']);
