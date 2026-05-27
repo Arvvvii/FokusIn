@@ -225,6 +225,11 @@
       </div>
     </div>
 
+    <!-- Mobile CTA (Floating Action Button) -->
+    <RouterLink :to="`${baseForumRoute}/create`" class="xl:hidden fixed bottom-6 right-6 z-40 w-14 h-14 bg-[#334EAC] text-white rounded-2xl shadow-xl flex items-center justify-center hover:bg-[#081F5C] hover:scale-105 active:scale-95 transition-all">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+    </RouterLink>
+
     <!-- Info Toast -->
     <Teleport to="body">
       <div v-if="showInfo" class="fixed bottom-6 right-6 z-[100] bg-[#334EAC] text-white px-6 py-4 rounded-2xl shadow-[0_10px_40px_rgba(51,78,172,0.3)] flex items-center gap-3 animate-in slide-in-from-bottom-5">

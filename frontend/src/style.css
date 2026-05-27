@@ -182,3 +182,8 @@
   color: #334EAC;
   border-radius: 12px;
 }
+
+/* Custom Buttons */
+.btn-banner-cta {
+  @apply bg-white text-[#081F5C] font-extrabold rounded-xl shadow-sm hover:shadow-md transition-all duration-300;
+}
