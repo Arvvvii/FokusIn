@@ -239,7 +239,7 @@ const handleRegister = async () => {
   }
   
   try {
-    const response = await axios.post('https://fokusin-production.up.railway.app/api/register', {
+    const response = await axios.post('https://fokusin-production.up.railway.app/api/auth/register', {
       name: form.value.fullName,
       email: form.value.email,
       password: form.value.password,
