@@ -8,7 +8,7 @@ const router = createRouter({
     {
       path: '/',
       name: 'landing',
-      component: () => import('@/pages/LandingView.vue')
+      component: () => import('@/pages/public/HomeLandingView.vue')
     },
     // Auth Routes
     {
