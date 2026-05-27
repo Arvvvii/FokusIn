@@ -1,19 +1,24 @@
 <template>
   <div class="p-6 md:p-8 xl:p-10 max-w-4xl mx-auto animate-in fade-in duration-500">
     
+    <!-- Back Navigation -->
+    <div class="mb-6 flex items-center gap-2">
+      <RouterLink
+        to="/admin/users"
+        class="text-sm font-bold text-slate-400 hover:text-[#334EAC] transition-colors flex items-center gap-1 w-fit bg-white/50 px-3 py-1.5 rounded-lg border border-slate-200/50"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"></path></svg>
+        Kembali ke Daftar User
+      </RouterLink>
+    </div>
+
     <!-- Header -->
-    <div class="bg-white/80 backdrop-blur-xl rounded-3xl p-7 md:p-8 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-white/40 relative overflow-hidden mb-8">
+    <div class="bg-white/60 backdrop-blur-xl rounded-3xl p-7 md:p-8 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-200/60 relative overflow-hidden mb-8">
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 relative z-10">
         <div class="flex items-center gap-4">
-          <button 
-            @click="$router.push({ name: 'admin-users' })"
-            class="w-10 h-10 rounded-full flex items-center justify-center text-slate-500 hover:bg-slate-100 hover:text-slate-900 transition-colors shrink-0"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
-          </button>
           <div>
-            <h1 class="text-[28px] font-bold text-slate-900 tracking-tight mb-1">Tambah User</h1>
-            <p class="text-base text-slate-500 font-medium">Buat akun baru untuk pelajar, tutor, atau administrator.</p>
+            <h1 class="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">Tambah User</h1>
+            <p class="text-[15px] text-slate-600 font-medium mt-2 max-w-xl leading-relaxed">Buat akun baru untuk pelajar, tutor, atau administrator.</p>
           </div>
         </div>
       </div>

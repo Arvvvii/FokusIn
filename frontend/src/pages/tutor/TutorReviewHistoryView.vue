@@ -3,15 +3,15 @@
     <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
       
       <!-- HEADER -->
-      <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-5 mb-6 relative overflow-hidden">
+      <div class="bg-white/60 backdrop-blur-xl rounded-3xl p-7 md:p-8 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-200/60 relative overflow-hidden flex flex-col sm:flex-row sm:items-center justify-between gap-5 mb-6">
         <div class="absolute right-0 top-0 w-1/3 h-full bg-gradient-to-l from-[#EDF1F6]/50 to-transparent pointer-events-none"></div>
         <div class="relative z-10 flex items-center gap-4">
           <span class="w-12 h-12 rounded-xl bg-[#334EAC]/10 text-[#334EAC] flex items-center justify-center shrink-0">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="m9 12 2 2 4-4"/></svg>
           </span>
           <div>
-            <h1 class="text-lg md:text-xl font-bold text-slate-900 tracking-tight mb-0.5">Riwayat Verifikasi Forum</h1>
-            <p class="text-xs md:text-sm text-slate-500 font-medium max-w-xl leading-relaxed">
+            <h1 class="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">Riwayat Verifikasi Forum</h1>
+            <p class="text-[15px] text-slate-600 font-medium mt-2 max-w-xl leading-relaxed">
               Katalog verifikasi jawaban, pemberian feedback kontribusi mahasiswa, serta penganugerahan badge Jawaban Terbaik.
             </p>
           </div>

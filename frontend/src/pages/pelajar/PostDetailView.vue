@@ -3,10 +3,15 @@
           
           <!-- Breadcrumb & Back -->
           <div class="mb-6 flex items-center gap-2">
-            <RouterLink :to="baseForumRoute" class="text-sm font-bold text-slate-400 hover:text-[#334EAC] transition-colors flex items-center gap-1 w-fit bg-white/50 px-3 py-1.5 rounded-lg border border-slate-200/50">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
-              Kembali ke Forum
-            </RouterLink>
+            <div class="mb-6 flex items-center gap-2">
+  <RouterLink
+    :to="baseForumRoute"
+    class="text-sm font-bold text-slate-400 hover:text-[#334EAC] transition-colors flex items-center gap-1 w-fit bg-white/50 px-3 py-1.5 rounded-lg border border-slate-200/50"
+  >
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"></path></svg>
+    Kembali ke Forum
+  </RouterLink>
+</div>
           </div>
 
           <div class="flex flex-col xl:flex-row gap-8">
@@ -15,7 +20,7 @@
             <div class="w-full xl:w-[75%] space-y-8">
               
               <!-- Question Header & Content -->
-              <div class="bg-white/80 backdrop-blur-xl rounded-3xl p-6 md:p-8 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-100 transition-all duration-300 ease-out hover:shadow-xl group/card">
+              <div class="bg-white/60 backdrop-blur-xl rounded-3xl p-6 md:p-8 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-200/60 transition-all duration-300 ease-out hover:shadow-xl group/card">
                 <div class="flex flex-col md:flex-row gap-6">
                   
                   <!-- Left Voting (Desktop) -->
@@ -35,14 +40,14 @@
                       <span class="px-3 py-1.5 bg-[#EDF1F6] text-[#334EAC] text-[10px] font-extrabold rounded-lg uppercase tracking-widest shadow-sm">Ilmu Komputer</span>
                       
                       <!-- Mobile Voting -->
-                      <div class="flex md:hidden items-center gap-3 bg-white px-3 py-1.5 rounded-xl border border-slate-200 shadow-sm">
+                      <div class="bg-white/60 backdrop-blur-xl rounded-3xl p-7 md:p-8 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-200/60 relative overflow-hidden flex items-center gap-3">
                         <button @click="handleQuestionVote('up')" :class="questionVoted === 'up' ? 'text-[#334EAC]' : 'text-slate-400 hover:text-[#334EAC]'" class="transition-colors active:scale-95"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
                         <span class="font-extrabold text-lg transition-colors" :class="questionVoted === 'up' ? 'text-[#334EAC]' : questionVoted === 'down' ? 'text-rose-500' : 'text-[#081F5C]'">{{ questionVote }}</span>
                         <button @click="handleQuestionVote('down')" :class="questionVoted === 'down' ? 'text-rose-500' : 'text-slate-400 hover:text-rose-500'" class="transition-colors active:scale-95"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M19 12l-7 7-7-7"/></svg></button>
                       </div>
                     </div>
 
-                    <h1 class="text-2xl md:text-3xl font-bold text-slate-900 tracking-tight leading-tight mb-5">Bagaimana sebenarnya algoritma Dijkstra bekerja?</h1>
+                    <h1 class="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">Bagaimana sebenarnya algoritma Dijkstra bekerja?</h1>
                     
                     <!-- Content (Rich Text Mock) -->
                     <div class="prose prose-slate max-w-none text-[15px] leading-relaxed text-slate-600 mb-6 font-medium">
@@ -134,7 +139,7 @@
                   </div>
 
                   <!-- Regular Answer -->
-                  <div class="bg-white/80 backdrop-blur-xl rounded-3xl p-6 md:p-8 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-100 transition-all duration-300 ease-out hover:shadow-xl group/card">
+                  <div class="bg-white/60 backdrop-blur-xl rounded-3xl p-6 md:p-8 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-200/60 transition-all duration-300 ease-out hover:shadow-xl group/card">
                     <div class="flex flex-col md:flex-row gap-6">
                       <div class="hidden md:flex flex-col items-center gap-2 shrink-0 pt-1">
                         <button @click="handleAnswerVote(1, 'up')" :class="answers[1].voted === 'up' ? 'text-[#334EAC] bg-[#EDF1F6] border-[#7096D1]/30' : 'text-slate-400 hover:text-[#334EAC] hover:bg-[#EDF1F6] border-transparent hover:border-slate-200'" class="w-11 h-11 rounded-2xl flex items-center justify-center transition-all border hover:scale-105 active:scale-95">

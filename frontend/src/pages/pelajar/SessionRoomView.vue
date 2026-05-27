@@ -1,10 +1,14 @@
 <template>
   <div class="relative min-h-screen bg-[#F7F2EB] flex flex-col">
     <!-- Top Header -->
-    <div class="bg-white border-b border-slate-200 px-6 py-4 flex items-center justify-between shrink-0">
+    <div class="bg-white/60 backdrop-blur-xl rounded-3xl p-7 md:p-8 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-200/60 relative overflow-hidden flex items-center justify-between">
       <div class="flex items-center gap-4">
-        <RouterLink to="/pelajar/mentoring" class="p-2 hover:bg-slate-50 text-slate-400 hover:text-slate-900 rounded-xl transition-colors">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+        <RouterLink 
+          to="/pelajar/mentoring" 
+          class="text-sm font-bold text-slate-400 hover:text-[#334EAC] transition-colors flex items-center gap-1 w-fit bg-white/50 px-3 py-1.5 rounded-lg border border-slate-200/50"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+          Kembali ke Mentoring
         </RouterLink>
         <div>
           <h1 class="text-base font-bold text-[#081F5C] flex items-center gap-2 leading-none">

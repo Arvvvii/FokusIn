@@ -2,7 +2,7 @@
   <div class="p-6 md:p-8 xl:p-10 max-w-[1600px] mx-auto animate-in fade-in duration-500">
     
     <!-- 1. HERO PROFILE SECTION -->
-    <div class="bg-white rounded-3xl shadow-sm border border-slate-200 overflow-hidden relative mb-8">
+    <div class="bg-white/60 backdrop-blur-xl rounded-3xl shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-200/60 relative overflow-hidden mb-8">
       <!-- Cover Photo -->
       <div class="h-32 md:h-48 bg-gradient-to-r from-[#081F5C] to-indigo-600 relative">
       </div>

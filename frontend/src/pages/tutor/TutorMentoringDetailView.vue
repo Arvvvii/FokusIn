@@ -2,18 +2,26 @@
   <div class="relative min-h-screen pb-12 overflow-hidden bg-[#F7F2EB]">
     <div class="relative z-10 max-w-[1450px] mx-auto px-4 sm:px-6 xl:px-8 py-8 space-y-6">
       
+      <!-- Back Navigation -->
+      <div class="mb-6 flex items-center gap-2">
+        <RouterLink
+          to="/tutor/mentoring"
+          class="text-sm font-bold text-slate-400 hover:text-[#334EAC] transition-colors flex items-center gap-1 w-fit bg-white/50 px-3 py-1.5 rounded-lg border border-slate-200/50"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"></path></svg>
+          Kembali ke Mentoring
+        </RouterLink>
+      </div>
+
       <!-- HEADER -->
-      <div class="bg-white rounded-3xl p-6 sm:p-7 shadow-sm border border-slate-200/60 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div class="bg-white/60 backdrop-blur-xl rounded-3xl p-7 md:p-8 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-200/60 relative overflow-hidden sm:p-7 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div class="flex items-center gap-4">
-          <RouterLink to="/tutor/mentoring" class="w-8 h-8 rounded-lg bg-white border border-slate-200 text-slate-500 hover:text-[#334EAC] hover:border-[#7096D1] flex items-center justify-center transition-colors shadow-sm">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
-          </RouterLink>
           <div>
             <div class="flex items-center gap-2">
-              <h1 class="text-lg font-bold text-slate-900 tracking-tight leading-none">Workspace Mentoring: Sesi #{{ $route.params.id || '1' }}</h1>
+              <h1 class="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">Workspace Mentoring: Sesi #{{ $route.params.id || '1' }}</h1>
               <span class="px-2.5 py-0.5 bg-emerald-50 text-emerald-600 rounded text-[9px] font-bold border border-emerald-100 uppercase">Aktif</span>
             </div>
-            <p class="text-xs text-slate-500 mt-1.5">Algoritma & Struktur Data • Java & C++ Spesialist</p>
+            <p class="text-[15px] text-slate-600 font-medium mt-2 max-w-xl leading-relaxed">Algoritma & Struktur Data • Java & C++ Spesialist</p>
           </div>
         </div>
 

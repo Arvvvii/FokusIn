@@ -16,8 +16,8 @@
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8v4l3 3"/><circle cx="12" cy="12" r="10"/></svg>
             </span>
             <div>
-              <h1 class="text-[30px] font-semibold text-slate-900 tracking-tight leading-tight mb-1">Riwayat Bimbingan</h1>
-              <p class="text-base text-slate-500 leading-relaxed max-w-xl">
+              <h1 class="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">Riwayat Bimbingan</h1>
+              <p class="text-[15px] text-slate-600 font-medium mt-2 max-w-xl leading-relaxed">
                 Tinjau seluruh rekaman sesi belajar privat, catatan pembelajaran, dan modul umpan balik dari mentor Anda.
               </p>
             </div>

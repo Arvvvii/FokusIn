@@ -12,7 +12,7 @@
     <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
       
       <!-- 1. HERO PROFILE SECTION -->
-      <div class="bg-white/80 backdrop-blur-xl rounded-3xl shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-white/40 overflow-hidden relative transition-all duration-300 ease-out hover:shadow-xl group/card">
+      <div class="bg-white/60 backdrop-blur-xl rounded-3xl shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-200/60 overflow-hidden relative transition-all duration-300 ease-out hover:shadow-xl group/card">
         <!-- Cover Photo -->
         <div class="h-32 md:h-48 bg-gradient-to-r from-[#081F5C] via-[#334EAC] to-[#7096D1] relative">
           <!-- Optional overlay pattern -->

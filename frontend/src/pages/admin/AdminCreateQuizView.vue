@@ -2,7 +2,7 @@
   <div class="p-6 md:p-8 xl:p-10 max-w-4xl mx-auto animate-in fade-in duration-500">
     
     <!-- Header -->
-    <div class="bg-white/80 backdrop-blur-xl rounded-3xl p-7 md:p-8 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-white/40 relative overflow-hidden mb-8">
+    <div class="bg-white/60 backdrop-blur-xl rounded-3xl p-7 md:p-8 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-200/60 relative overflow-hidden mb-8">
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 relative z-10">
         <div class="flex items-center gap-4">
           <button 
@@ -12,8 +12,8 @@
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
           </button>
           <div>
-            <h1 class="text-[28px] font-bold text-slate-900 tracking-tight mb-1">Tambah Quiz Dataset</h1>
-            <p class="text-base text-slate-500 font-medium">Impor atau buat set pertanyaan baru untuk sistem kuis.</p>
+            <h1 class="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">Tambah Quiz Dataset</h1>
+            <p class="text-[15px] text-slate-600 font-medium mt-2 max-w-xl leading-relaxed">Impor atau buat set pertanyaan baru untuk sistem kuis.</p>
           </div>
         </div>
       </div>

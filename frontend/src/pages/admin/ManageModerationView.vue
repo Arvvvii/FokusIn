@@ -3,14 +3,14 @@
     <div class="max-w-[1450px] mx-auto px-4 sm:px-6 xl:px-8 py-6 space-y-5 animate-in fade-in duration-500">
       
       <!-- Compact Editorial Header -->
-      <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-5 mb-6 relative overflow-hidden">
+      <div class="bg-white/60 backdrop-blur-xl rounded-3xl p-7 md:p-8 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-200/60 relative overflow-hidden flex flex-col sm:flex-row sm:items-center justify-between gap-5 mb-6">
         <div class="flex items-center gap-4">
           <span class="w-9 h-9 rounded-xl bg-amber-50 border border-amber-100 text-amber-600 flex items-center justify-center shrink-0">
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m3 21 1.9-5.7a8.5 8.5 0 1 1 3.8 3.8z"/></svg>
           </span>
           <div>
-            <h1 class="text-[30px] font-semibold text-slate-900 tracking-tight leading-tight mb-1">Antrean Moderasi Diskusi</h1>
-            <p class="text-base text-slate-500 leading-relaxed max-w-xl">Kelola penyaringan kiriman, validasi konten akademik, dan tangguhkan pelanggaran pedoman komunitas.</p>
+            <h1 class="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">Antrean Moderasi Diskusi</h1>
+            <p class="text-[15px] text-slate-600 font-medium mt-2 max-w-xl leading-relaxed">Kelola penyaringan kiriman, validasi konten akademik, dan tangguhkan pelanggaran pedoman komunitas.</p>
           </div>
         </div>
       </div>

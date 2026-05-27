@@ -1,19 +1,27 @@
 <template>
   <div class="space-y-8 w-full pb-12">
+    <!-- Back Navigation -->
+    <div class="mb-6 flex items-center gap-2">
+      <RouterLink
+        to="/tutor/dashboard"
+        class="text-sm font-bold text-slate-400 hover:text-[#334EAC] transition-colors flex items-center gap-1 w-fit bg-white/50 px-3 py-1.5 rounded-lg border border-slate-200/50"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"></path></svg>
+        Kembali ke Dashboard
+      </RouterLink>
+    </div>
+
     <!-- 1. GLASSMORPHIC HEADER SECTION -->
-    <div class="bg-white/80 backdrop-blur-xl rounded-3xl p-7 md:p-8 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-white/40 relative overflow-hidden flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
+    <div class="bg-white/60 backdrop-blur-xl rounded-3xl p-7 md:p-8 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-200/60 relative overflow-hidden flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
         <div class="absolute right-0 top-0 w-1/3 h-full bg-gradient-to-l from-[#EDF1F6]/80 to-transparent pointer-events-none"></div>
         
         <div class="relative z-10 flex items-center gap-4">
-          <RouterLink to="/tutor/dashboard" class="w-10 h-10 rounded-xl bg-white border border-slate-200 text-slate-500 hover:text-[#334EAC] hover:border-[#7096D1] flex items-center justify-center transition-all shadow-sm active:scale-95 shrink-0" title="Kembali">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
-          </RouterLink>
           <span class="w-12 h-12 rounded-2xl bg-[#334EAC]/10 text-[#334EAC] flex items-center justify-center shrink-0">
             <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>
           </span>
           <div>
-            <h1 class="text-2xl md:text-3xl font-bold text-slate-900 tracking-tight leading-none mb-1">Statistik & Analisis Mentor</h1>
-            <p class="text-[14px] text-slate-500 font-medium leading-relaxed mt-1">
+            <h1 class="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">Statistik & Analisis Mentor</h1>
+            <p class="text-[15px] text-slate-600 font-medium mt-2 max-w-xl leading-relaxed">
               Tinjau performa kualitatif dan kuantitatif kontribusi Anda, termasuk kepuasan bimbingan dan keakuratan verifikasi.
             </p>
           </div>

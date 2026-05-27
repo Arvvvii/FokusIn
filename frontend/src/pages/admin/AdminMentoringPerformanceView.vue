@@ -3,14 +3,14 @@
     <div class="max-w-[1450px] mx-auto px-4 sm:px-6 xl:px-8 py-6 space-y-5 animate-in fade-in duration-500">
       
       <!-- Compact Editorial Header -->
-      <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-5 mb-6 relative overflow-hidden">
+      <div class="bg-white/60 backdrop-blur-xl rounded-3xl p-7 md:p-8 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-200/60 relative overflow-hidden flex flex-col sm:flex-row sm:items-center justify-between gap-5 mb-6">
         <div class="flex items-center gap-4">
           <span class="w-12 h-12 rounded-xl bg-[#334EAC]/10 text-[#334EAC] flex items-center justify-center shrink-0">
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"/></svg>
           </span>
           <div>
-            <h1 class="text-[30px] font-semibold text-slate-900 tracking-tight leading-tight mb-1">Laporan Kinerja Mentoring</h1>
-            <p class="text-base text-slate-500 leading-relaxed max-w-xl">Statistik penyelesaian sesi, rating rata-rata tutor, dan kepuasan belajar mahasiswa.</p>
+            <h1 class="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">Laporan Kinerja Mentoring</h1>
+            <p class="text-[15px] text-slate-600 font-medium mt-2 max-w-xl leading-relaxed">Statistik penyelesaian sesi, rating rata-rata tutor, dan kepuasan belajar mahasiswa.</p>
           </div>
         </div>
         <div class="flex shrink-0">

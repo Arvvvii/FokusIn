@@ -2,7 +2,7 @@
   <div class="space-y-6 animate-in fade-in duration-500">
     
     <!-- 1. Header / Breadcrumbs -->
-    <div class="bg-white/80 backdrop-blur-xl rounded-3xl p-7 md:p-8 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-white/40 relative overflow-hidden flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
+    <div class="bg-white/60 backdrop-blur-xl rounded-3xl p-7 md:p-8 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-200/60 relative overflow-hidden flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
       <div class="absolute right-0 top-0 w-1/3 h-full bg-gradient-to-l from-[#EDF1F6]/80 to-transparent pointer-events-none"></div>
       
       <div class="relative z-10 flex items-center gap-4">
@@ -10,8 +10,8 @@
           <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="m9 11 3 3L22 4"/></svg>
         </span>
         <div>
-          <h1 class="text-2xl md:text-3xl font-bold text-slate-900 tracking-tight leading-none mb-1">Kuis Selesai!</h1>
-          <p class="text-[14px] text-slate-500 font-medium leading-relaxed mt-1">
+          <h1 class="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">Kuis Selesai!</h1>
+          <p class="text-[15px] text-slate-600 font-medium mt-2 max-w-xl leading-relaxed">
             Kerja bagus telah menyelesaikan Cek Penguasaan Kinematika. Tinjau analitik performa dan wawasan AI-mu di bawah ini.
           </p>
         </div>
@@ -79,9 +79,15 @@
         </div>
 
         <div class="flex flex-col gap-3 mt-8">
-          <RouterLink to="/pelajar/quiz" class="w-full py-3.5 bg-[#334EAC] hover:bg-[#081F5C] text-white rounded-2xl font-bold text-[14px] transition-all shadow-[0_4px_15px_rgba(51,78,172,0.15)] active:scale-95 text-center">
-            Kembali ke Kuis
-          </RouterLink>
+          <div class="mb-6 flex items-center gap-2">
+  <RouterLink
+    to="/pelajar/quiz"
+    class="text-sm font-bold text-slate-400 hover:text-[#334EAC] transition-colors flex items-center gap-1 w-fit bg-white/50 px-3 py-1.5 rounded-lg border border-slate-200/50"
+  >
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"></path></svg>
+    Kembali ke Kuis
+  </RouterLink>
+</div>
           <button class="w-full py-3.5 bg-slate-50 border border-slate-200 hover:border-[#334EAC] text-slate-900 hover:text-[#334EAC] rounded-2xl font-bold text-[14px] transition-colors active:scale-95 flex items-center justify-center gap-2">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
             Coba Lagi Kuis

@@ -2,10 +2,10 @@
   <div class="p-6 md:p-8 xl:p-10 max-w-[1600px] mx-auto animate-in fade-in duration-500">
     
     <!-- Header -->
-    <div class="bg-white rounded-2xl border border-slate-200 shadow-sm px-6 py-5 flex flex-col sm:flex-row sm:items-start justify-between gap-5 mb-6">
+    <div class="bg-white/60 backdrop-blur-xl rounded-3xl p-7 md:p-8 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-200/60 relative overflow-hidden flex flex-col sm:flex-row sm:items-start justify-between gap-5 mb-6">
       <div>
-        <h1 class="text-[28px] font-semibold tracking-tight text-[#081F5C] mb-1">Monitoring Mentoring</h1>
-        <p class="text-sm text-slate-600">Kelola, verifikasi, dan pantau sesi bimbingan interaktif antara pelajar dan tutor.</p>
+        <h1 class="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">Monitoring Mentoring</h1>
+        <p class="text-[15px] text-slate-600 font-medium mt-2 max-w-xl leading-relaxed">Kelola, verifikasi, dan pantau sesi bimbingan interaktif antara pelajar dan tutor.</p>
       </div>
       <div class="flex items-center gap-4">
         <RouterLink to="/admin/mentoring/performance" class="text-sm font-medium h-10 px-5 rounded-xl bg-[#334EAC] text-white shadow-sm hover:bg-[#081F5C] transition-all flex items-center justify-center">

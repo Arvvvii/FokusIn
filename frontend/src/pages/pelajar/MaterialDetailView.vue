@@ -1,15 +1,15 @@
 <template>
   <div class="space-y-8 animate-in fade-in duration-500 min-w-0">
     
-    <!-- 1. Breadcrumbs -->
-    <div class="mb-8">
-      <div class="flex items-center gap-2 text-[13px] font-bold text-slate-400 mb-4 flex-wrap">
-        <RouterLink :to="baseMaterialsRoute" class="hover:text-[#334EAC] transition-colors shrink-0">Materi</RouterLink>
-        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="shrink-0"><path d="m9 18 6-6-6-6"/></svg>
-        <RouterLink :to="baseMaterialsRoute" class="hover:text-[#334EAC] transition-colors shrink-0">Fisika</RouterLink>
-        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="shrink-0"><path d="m9 18 6-6-6-6"/></svg>
-        <span class="text-[#081F5C] shrink-0 truncate max-w-[200px] md:max-w-none">Final OSN Fisika Nasional...</span>
-      </div>
+    <!-- 1. Back Navigation -->
+    <div class="mb-6 flex items-center gap-2">
+      <RouterLink
+        :to="baseMaterialsRoute"
+        class="text-sm font-bold text-slate-400 hover:text-[#334EAC] transition-colors flex items-center gap-1 w-fit bg-white/50 px-3 py-1.5 rounded-lg border border-slate-200/50"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"></path></svg>
+        Kembali ke Materi
+      </RouterLink>
     </div>
 
     <!-- 2. Hero / Header Section -->
@@ -19,7 +19,7 @@
       <!-- Icon/Badge -->
       <div v-if="materialType === 'pdf'" class="w-24 h-24 rounded-[1.5rem] bg-[#F7F2EB] flex items-center justify-center text-rose-500 shrink-0 border border-slate-200/60 shadow-sm relative z-10">
         <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>
-        <div class="absolute -bottom-2 -right-2 px-2.5 py-1 bg-white border border-slate-100 shadow-sm rounded-lg text-[10px] font-bold text-slate-900 uppercase tracking-widest">
+        <div class="bg-white/60 backdrop-blur-xl rounded-3xl p-7 md:p-8 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-200/60 relative overflow-hidden">
           PDF
         </div>
       </div>
@@ -35,7 +35,7 @@
           <span class="px-3 py-1 bg-[#EDF1F6] text-[#334EAC] text-[10px] font-bold uppercase tracking-widest rounded-md border border-[#BAD6EB]">Fisika</span>
           <span class="px-3 py-1 bg-white text-slate-500 text-[10px] font-bold uppercase tracking-widest rounded-md border border-slate-200">Persiapan OSN</span>
         </div>
-        <h1 class="text-3xl md:text-4xl font-bold text-slate-900 tracking-tight mb-4 leading-snug">Soal & Pembahasan Lengkap Final OSN Fisika Nasional 2023</h1>
+        <h1 class="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">Soal & Pembahasan Lengkap Final OSN Fisika Nasional 2023</h1>
         
         <div class="flex flex-wrap items-center gap-6 text-[13px] font-bold text-slate-500">
           <div class="flex items-center gap-2">

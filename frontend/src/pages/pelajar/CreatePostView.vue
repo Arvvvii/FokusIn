@@ -1,16 +1,27 @@
 <template>
   <div class="space-y-6 md:space-y-8 animate-in fade-in duration-500 w-full">
     
-    <!-- Header -->
-    <div class="mb-8">
-      <div class="flex items-center gap-2 mb-2">
-        <RouterLink :to="baseForumRoute" class="text-sm font-bold text-slate-400 hover:text-[#334EAC] transition-colors flex items-center gap-1 w-fit bg-white/50 px-3 py-1.5 rounded-lg border border-slate-200/50 shadow-sm">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
-          Kembali ke Forum
-        </RouterLink>
+    <!-- Back Navigation -->
+    <div class="mb-6 flex items-center gap-2">
+      <RouterLink
+        :to="baseForumRoute"
+        class="text-sm font-bold text-slate-400 hover:text-[#334EAC] transition-colors flex items-center gap-1 w-fit bg-white/50 px-3 py-1.5 rounded-lg border border-slate-200/50"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"></path></svg>
+        Kembali ke Forum
+      </RouterLink>
+    </div>
+
+    <!-- 1. GLASSMORPHIC HEADER SECTION -->
+    <div class="bg-white/60 backdrop-blur-xl rounded-3xl p-7 md:p-8 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-200/60 relative overflow-hidden mb-8">
+      <div class="relative z-10 flex flex-col md:flex-row gap-6 justify-between items-start md:items-center">
+        <div>
+          <h1 class="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">Mulai Diskusi</h1>
+          <p class="text-[15px] text-slate-600 font-medium mt-2 max-w-xl leading-relaxed">
+            Bertanya, berbagi pengetahuan, atau mencari bantuan dari komunitas dan AI.
+          </p>
+        </div>
       </div>
-      <h1 class="text-3xl md:text-4xl font-bold text-slate-900 tracking-tight mb-2 mt-4">Mulai Diskusi</h1>
-      <p class="text-slate-500 font-medium text-lg max-w-2xl">Bertanya, berbagi pengetahuan, atau mencari bantuan dari komunitas dan AI.</p>
     </div>
 
     <!-- Layout: Main Content (w-75%) and Right Sidebar (w-25%) -->
@@ -20,7 +31,7 @@
       <div class="w-full xl:w-[75%] space-y-6">
         
         <!-- Post Form Container -->
-        <div class="bg-white/80 backdrop-blur-xl rounded-3xl p-6 md:p-10 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-100 space-y-8 transition-all duration-300 ease-out hover:shadow-xl group/card">
+        <div class="bg-white/60 backdrop-blur-xl rounded-3xl p-6 md:p-10 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-200/60 space-y-8 transition-all duration-300 ease-out hover:shadow-xl group/card">
           
           <!-- Title & Category -->
           <div class="grid grid-cols-1 md:grid-cols-3 gap-6">

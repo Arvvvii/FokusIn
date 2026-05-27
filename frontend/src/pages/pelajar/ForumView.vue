@@ -5,15 +5,15 @@
     <div class="relative z-10 space-y-6">
       
       <!-- Page Header -->
-      <div class="bg-white/80 backdrop-blur-xl rounded-3xl p-7 md:p-8 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-white/40 relative overflow-hidden flex flex-col md:flex-row md:items-center justify-between gap-6 mb-6">
+      <div class="bg-white/60 backdrop-blur-xl rounded-3xl p-7 md:p-8 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-200/60 relative overflow-hidden flex flex-col md:flex-row md:items-center justify-between gap-6 mb-6">
         <div class="absolute right-0 top-0 w-1/3 h-full bg-gradient-to-l from-[#EDF1F6]/80 to-transparent pointer-events-none"></div>
         <div class="relative z-10 flex items-center gap-4">
           <span class="w-12 h-12 rounded-2xl bg-[#334EAC]/10 text-[#334EAC] flex items-center justify-center shrink-0">
             <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg>
           </span>
           <div>
-            <h1 class="text-2xl md:text-3xl font-bold text-slate-900 tracking-tight leading-none mb-1">Forum Diskusi Akademik</h1>
-            <p class="text-[14px] text-slate-500 font-medium leading-relaxed mt-1 max-w-2xl">
+            <h1 class="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">Forum Diskusi Akademik</h1>
+            <p class="text-[15px] text-slate-600 font-medium mt-2 max-w-xl leading-relaxed">
               Berkolaborasi, bertanya, dan berbagi catatan belajar bersama rekan mahasiswa dan tutor di FokusIn.
             </p>
           </div>
@@ -102,7 +102,7 @@
           
           <!-- Search & Info Bar -->
           <div class="relative mb-6 bg-white/70 border border-slate-200/80 p-2 rounded-xl shadow-sm">
-            <input type="text" placeholder="Cari diskusi, kata kunci, atau tag..." class="w-full pl-9 pr-4 py-2 bg-transparent text-xs text-slate-800 focus:outline-none focus:ring-0 placeholder-slate-400 font-medium" />
+            <input type="text" v-model="searchQuery" placeholder="Cari diskusi, kata kunci, atau tag..." class="w-full pl-9 pr-4 py-2 bg-transparent text-xs text-slate-800 focus:outline-none focus:ring-0 placeholder-slate-400 font-medium" />
             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="absolute left-3 top-2.5 text-slate-400"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
           </div>
 
@@ -167,7 +167,10 @@
           
           <!-- Pagination -->
           <div class="mt-8 flex justify-center">
-            <button class="px-6 py-2.5 bg-white border border-slate-200 text-slate-800 rounded-xl font-bold text-xs shadow-sm hover:bg-slate-50 transition-all">Muat Lebih Banyak</button>
+            <button @click="loadMore" class="px-6 py-2.5 bg-white border border-slate-200 text-slate-800 rounded-xl font-bold text-xs shadow-sm hover:bg-slate-50 transition-all active:scale-95 flex items-center gap-2">
+              <svg v-if="isLoadingMore" class="animate-spin" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>
+              {{ isLoadingMore ? 'Memuat...' : 'Muat Lebih Banyak' }}
+            </button>
           </div>
 
         </div>
@@ -221,6 +224,19 @@
         </div>
       </div>
     </div>
+
+    <!-- Info Toast -->
+    <Teleport to="body">
+      <div v-if="showInfo" class="fixed bottom-6 right-6 z-[100] bg-[#334EAC] text-white px-6 py-4 rounded-2xl shadow-[0_10px_40px_rgba(51,78,172,0.3)] flex items-center gap-3 animate-in slide-in-from-bottom-5">
+        <div class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center shrink-0">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+        </div>
+        <div>
+          <h4 class="font-extrabold text-sm">Informasi</h4>
+          <p class="text-xs text-[#BAD6EB] font-medium">{{ infoMessage }}</p>
+        </div>
+      </div>
+    </Teleport>
   </div>
 </template>
 
@@ -304,6 +320,11 @@ const posts = ref([
   }
 ])
 
+const searchQuery = ref('')
+const isLoadingMore = ref(false)
+const showInfo = ref(false)
+const infoMessage = ref('')
+
 const activeCategoryName = computed(() => {
   const active = categories.value.find(c => c.active)
   return active ? active.name : 'Semua Topik'
@@ -311,15 +332,43 @@ const activeCategoryName = computed(() => {
 
 const filteredPosts = computed(() => {
   return posts.value.filter(post => {
+    let matchCat = true
+    let matchSearch = true
+
     if (activeCategoryName.value !== 'Semua Topik' && post.category !== activeCategoryName.value) {
-      return false
+      matchCat = false
     }
-    return true
+
+    if (searchQuery.value) {
+      const query = searchQuery.value.toLowerCase()
+      matchSearch = post.title.toLowerCase().includes(query) || 
+                    post.preview.toLowerCase().includes(query) || 
+                    post.tags.some(t => t.toLowerCase().includes(query))
+    }
+
+    return matchCat && matchSearch
   })
 })
 
 const selectTag = (tag) => {
-  alert(`Menyaring diskusi dengan tag: ${tag}`)
+  searchQuery.value = tag
+  showInfoToast(`Menyaring tag: ${tag}`)
+}
+
+const loadMore = () => {
+  isLoadingMore.value = true
+  setTimeout(() => {
+    isLoadingMore.value = false
+    showInfoToast('Tidak ada diskusi lama yang tersedia.')
+  }, 800)
+}
+
+const showInfoToast = (msg) => {
+  infoMessage.value = msg
+  showInfo.value = true
+  setTimeout(() => {
+    showInfo.value = false
+  }, 3000)
 }
 
 const contributors = [

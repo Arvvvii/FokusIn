@@ -2,7 +2,7 @@
   <div class="space-y-8 w-full">
     
     <!-- 1. GLASSMORPHIC GREETING HERO SECTION -->
-    <div class="bg-white/80 backdrop-blur-xl rounded-3xl p-7 md:p-8 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-white/40 relative overflow-hidden flex flex-col md:flex-row md:items-center justify-between gap-6">
+    <div class="bg-white/60 backdrop-blur-xl rounded-3xl p-7 md:p-8 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-200/60 relative overflow-hidden flex flex-col md:flex-row md:items-center justify-between gap-6">
       <div class="absolute right-0 top-0 w-1/3 h-full bg-gradient-to-l from-[#EDF1F6]/80 to-transparent pointer-events-none"></div>
       
       <div class="relative z-10">
@@ -18,8 +18,8 @@
             👑 Expert Mentor
           </span>
         </div>
-        <h1 class="text-2xl md:text-3xl font-bold text-slate-900 mb-2 tracking-tight">Selamat pagi, Dr. Sarah</h1>
-        <p class="text-[14px] text-slate-500 font-medium max-w-lg leading-relaxed">
+        <h1 class="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">Selamat pagi, Dr. Sarah</h1>
+        <p class="text-[15px] text-slate-600 font-medium mt-2 max-w-xl leading-relaxed">
           Ada <span class="text-[#334EAC] font-bold">4 sesi mentoring</span> dan <span class="text-amber-500 font-bold">12 jawaban pending</span> yang menunggu verifikasi Anda hari ini.
         </p>
       </div>

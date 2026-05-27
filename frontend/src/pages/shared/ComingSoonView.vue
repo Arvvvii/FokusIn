@@ -9,7 +9,7 @@
       <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCI+CjxwYXRoIGQ9Ik0wIDBoNDB2NDBIMHoiIGZpbGw9Im5vbmUiLz4KPHBhdGggZD0iTTAgNDBoNDBWMHoiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzMzNEVBQyIgc3Ryb2tlLW9wYWNpdHk9IjAuMDMiIHN0cm9rZS13aWR0aD0iMSIvPgo8L3N2Zz4=')] opacity-50 mask-image:linear-gradient(to_bottom,white,transparent)"></div>
     </div>
 
-    <div class="relative z-10 max-w-lg w-full bg-white/60 backdrop-blur-xl border border-white/80 rounded-[2.5rem] shadow-[0_24px_60px_rgba(8,31,92,0.05)] p-10 md:p-14">
+    <div class="bg-white/60 backdrop-blur-xl rounded-3xl p-7 md:p-8 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-200/60 relative overflow-hidden max-w-lg w-full">
       
       <!-- Icon -->
       <div class="w-20 h-20 mx-auto rounded-3xl bg-gradient-to-br from-[#081F5C] to-[#334EAC] flex items-center justify-center shadow-lg mb-8 relative">
@@ -20,8 +20,8 @@
       </div>
 
       <!-- Content -->
-      <h1 class="text-3xl font-extrabold text-[#081F5C] mb-4 tracking-tight">Segera Hadir</h1>
-      <p class="text-[15px] font-medium text-slate-500 leading-relaxed mb-10">
+      <h1 class="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">Segera Hadir</h1>
+      <p class="text-[15px] text-slate-600 font-medium mt-2 max-w-xl leading-relaxed">
         Kami sedang membangun fitur ini untuk memberikan pengalaman yang lebih baik. Silakan kembali lagi nanti!
       </p>
 

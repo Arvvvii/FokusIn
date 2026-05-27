@@ -1,15 +1,27 @@
 <template>
   <div class="space-y-8 animate-in fade-in duration-500">
     
-    <!-- 1. Page Header -->
-    <div class="mb-10">
-      <div class="flex items-center gap-2 text-[13px] font-bold text-slate-400 mb-4 flex-wrap">
-        <RouterLink to="/pelajar/ai-analyzer" class="hover:text-[#334EAC] transition-colors shrink-0">Analisis AI</RouterLink>
-        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="shrink-0"><path d="m9 18 6-6-6-6"/></svg>
-        <span class="text-[#081F5C] shrink-0">Analisis Baru</span>
+    <!-- Back Navigation -->
+    <div class="mb-6 flex items-center gap-2">
+      <RouterLink
+        to="/pelajar/ai-analyzer"
+        class="text-sm font-bold text-slate-400 hover:text-[#334EAC] transition-colors flex items-center gap-1 w-fit bg-white/50 px-3 py-1.5 rounded-lg border border-slate-200/50"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"></path></svg>
+        Kembali ke Analisis AI
+      </RouterLink>
+    </div>
+
+    <!-- 1. GLASSMORPHIC HEADER SECTION -->
+    <div class="bg-white/60 backdrop-blur-xl rounded-3xl p-7 md:p-8 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-200/60 relative overflow-hidden mb-8">
+      <div class="relative z-10 flex flex-col md:flex-row gap-6 justify-between items-start md:items-center">
+        <div>
+          <h1 class="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">Buat Analisis AI Baru</h1>
+          <p class="text-[15px] text-slate-600 font-medium mt-2 max-w-xl leading-relaxed">
+            Unggah dokumenmu dan konfigurasikan mesin AI untuk menghasilkan wawasan akademik, prediksi topik, dan jalur belajar personal.
+          </p>
+        </div>
       </div>
-      <h1 class="text-3xl md:text-4xl font-bold text-slate-900 tracking-tight mb-3">Buat Analisis AI Baru</h1>
-      <p class="text-slate-500 font-medium text-[16px] leading-relaxed max-w-2xl">Unggah dokumenmu dan konfigurasikan mesin AI untuk menghasilkan wawasan akademik, prediksi topik, dan jalur belajar personal.</p>
     </div>
 
     <div class="flex flex-col xl:flex-row gap-8 min-w-0">
@@ -18,7 +30,7 @@
       <div class="w-full xl:w-[65%] space-y-8 min-w-0">
         
         <!-- 3. Document Input Section -->
-        <div class="bg-white/80 backdrop-blur-xl rounded-3xl p-6 md:p-10 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-100 w-full overflow-hidden transition-all duration-300 ease-out hover:shadow-xl group/card">
+        <div class="bg-white/60 backdrop-blur-xl rounded-3xl p-6 md:p-10 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-200/60 w-full overflow-hidden transition-all duration-300 ease-out hover:shadow-xl group/card">
           <h3 class="text-[17px] font-bold text-slate-900 mb-5 flex items-center gap-3 tracking-tight">
             <span class="w-8 h-8 rounded-full bg-[#EDF1F6] flex items-center justify-center text-[#334EAC]"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg></span>
             Dokumen Sumber
@@ -244,7 +256,7 @@
         </div>
 
         <!-- 6. Action Buttons -->
-        <div class="bg-white/80 backdrop-blur-xl rounded-3xl p-6 md:p-8 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-100 flex flex-col gap-3 transition-all duration-300 ease-out hover:shadow-xl group/card">
+        <div class="bg-white/60 backdrop-blur-xl rounded-3xl p-6 md:p-8 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-200/60 flex flex-col gap-3 transition-all duration-300 ease-out hover:shadow-xl group/card">
           <RouterLink to="/pelajar/ai-analyzer" class="w-full py-4 bg-[#334EAC] hover:bg-[#081F5C] text-white rounded-2xl font-bold text-[15px] transition-all shadow-[0_4px_15px_rgba(51,78,172,0.15)] active:scale-95 flex items-center justify-center gap-2">
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
             Mulai Analisis AI

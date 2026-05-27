@@ -2,7 +2,7 @@
   <div class="space-y-6 animate-in fade-in duration-500 max-w-7xl mx-auto">
     
     <!-- 1. GLASSMORPHIC HEADER SECTION -->
-    <div class="bg-white/80 backdrop-blur-xl rounded-3xl p-7 md:p-8 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-white/40 relative overflow-hidden flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
+    <div class="bg-white/60 backdrop-blur-xl rounded-3xl p-7 md:p-8 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-200/60 relative overflow-hidden flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
       <div class="absolute right-0 top-0 w-1/3 h-full bg-gradient-to-l from-[#EDF1F6]/80 to-transparent pointer-events-none"></div>
       
       <div class="relative z-10 flex items-center gap-4">
@@ -10,8 +10,8 @@
           <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
         </span>
         <div>
-          <h1 class="text-2xl md:text-3xl font-bold text-slate-900 tracking-tight leading-none mb-1">Workspace Mentoring Akademik</h1>
-          <p class="text-[14px] text-slate-500 font-medium leading-relaxed mt-1">
+          <h1 class="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">Workspace Mentoring Akademik</h1>
+          <p class="text-[15px] text-slate-600 font-medium mt-2 max-w-xl leading-relaxed">
             Jadwalkan asistensi dan bimbingan belajar 1-on-1 bersama tutor universitas dan asisten mahasiswa pilihan untuk menunjang capaian akademismu.
           </p>
         </div>
@@ -26,12 +26,12 @@
         <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
           <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
         </div>
-        <input type="text" class="w-full pl-9 pr-4 py-2 bg-white border border-slate-200 rounded-xl text-xs font-bold text-[#081F5C] placeholder-slate-400 focus:outline-none focus:border-[#7096D1] focus:ring-2 focus:ring-[#7096D1]/10 transition-all shadow-sm" placeholder="Cari nama, mata pelajaran, atau instansi universitas...">
+        <input type="text" v-model="searchQuery" class="w-full pl-9 pr-4 py-2 bg-white border border-slate-200 rounded-xl text-xs font-bold text-[#081F5C] placeholder-slate-400 focus:outline-none focus:border-[#7096D1] focus:ring-2 focus:ring-[#7096D1]/10 transition-all shadow-sm" placeholder="Cari nama, mata pelajaran, atau instansi universitas...">
       </div>
 
       <!-- Categories -->
       <div class="relative min-w-[150px]">
-        <select class="w-full pl-3 pr-8 py-2 bg-white border border-slate-200 rounded-xl text-xs font-bold text-[#081F5C] appearance-none focus:outline-none focus:border-[#7096D1] transition-all cursor-pointer shadow-sm">
+        <select v-model="selectedCategory" class="w-full pl-3 pr-8 py-2 bg-white border border-slate-200 rounded-xl text-xs font-bold text-[#081F5C] appearance-none focus:outline-none focus:border-[#7096D1] transition-all cursor-pointer shadow-sm">
           <option value="">Semua Kategori</option>
           <option value="cs">Ilmu Komputer</option>
           <option value="math">Matematika</option>
@@ -44,7 +44,7 @@
 
       <!-- Rating -->
       <div class="relative min-w-[130px]">
-        <select class="w-full pl-3 pr-8 py-2 bg-white border border-slate-200 rounded-xl text-xs font-bold text-[#081F5C] appearance-none focus:outline-none focus:border-[#7096D1] transition-all cursor-pointer shadow-sm">
+        <select v-model="selectedRating" class="w-full pl-3 pr-8 py-2 bg-white border border-slate-200 rounded-xl text-xs font-bold text-[#081F5C] appearance-none focus:outline-none focus:border-[#7096D1] transition-all cursor-pointer shadow-sm">
           <option value="">Semua Penilaian</option>
           <option value="4.5">4.5 ke atas</option>
           <option value="4.0">4.0 ke atas</option>
@@ -55,9 +55,10 @@
       </div>
 
       <!-- Filter Button -->
-      <button class="px-4 py-2 bg-[#334EAC] hover:bg-[#081F5C] text-white rounded-xl font-bold text-xs transition-all shadow-sm active:scale-95 shrink-0 flex items-center justify-center gap-1.5">
-        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M22 3H2l8 9.46V19l4 2v-8.54L22 3z"/></svg>
-        Filter
+      <button @click="applyFilter" :disabled="isFiltering" class="px-4 py-2 bg-[#334EAC] hover:bg-[#081F5C] text-white rounded-xl font-bold text-xs transition-all shadow-sm active:scale-95 shrink-0 flex items-center justify-center gap-1.5" :class="isFiltering ? 'opacity-70 cursor-wait' : ''">
+        <svg v-if="!isFiltering" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M22 3H2l8 9.46V19l4 2v-8.54L22 3z"/></svg>
+        <svg v-else class="animate-spin" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>
+        {{ isFiltering ? 'Menyaring...' : 'Filter' }}
       </button>
 
     </div>
@@ -283,7 +284,7 @@
             </div>
           </div>
 
-          <button class="w-full py-2.5 bg-[#334EAC] hover:bg-[#081F5C] text-white rounded-xl font-bold text-xs transition-all shadow-sm active:scale-95 flex items-center justify-center gap-1.5">
+          <button @click="enterMentoringRoom" class="w-full py-2.5 bg-[#334EAC] hover:bg-[#081F5C] text-white rounded-xl font-bold text-xs transition-all shadow-sm active:scale-95 flex items-center justify-center gap-1.5">
             <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h20"/><path d="m15 5 7 7-7 7"/></svg>
             Masuk Ruang Mentoring
           </button>
@@ -293,7 +294,7 @@
         <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200/80 transition-all duration-200">
           <div class="flex items-center justify-between mb-4">
             <h3 class="text-xs font-bold text-[#081F5C] uppercase tracking-wider">Riwayat Sesi Selesai</h3>
-            <button class="text-[11px] font-bold text-[#334EAC] hover:text-[#081F5C] transition-colors">Lihat Semua</button>
+            <button @click="showInfoToast('Menampilkan semua riwayat sesi...')" class="text-[11px] font-bold text-[#334EAC] hover:text-[#081F5C] transition-colors">Lihat Semua</button>
           </div>
 
           <div class="space-y-3">
@@ -418,8 +419,21 @@
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
         </div>
         <div>
-          <h4 class="font-extrabold text-sm">Booking Berhasil!</h4>
-          <p class="text-xs text-emerald-100 font-medium">Jadwalmu telah ditambahkan ke dashboard.</p>
+          <h4 class="font-extrabold text-sm">{{ toastTitle }}</h4>
+          <p class="text-xs text-emerald-100 font-medium">{{ toastMessage }}</p>
+        </div>
+      </div>
+    </Teleport>
+    
+    <!-- Info Toast -->
+    <Teleport to="body">
+      <div v-if="showInfo" class="fixed bottom-6 right-6 z-[100] bg-[#334EAC] text-white px-6 py-4 rounded-2xl shadow-[0_10px_40px_rgba(51,78,172,0.3)] flex items-center gap-3 animate-in slide-in-from-bottom-5">
+        <div class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center shrink-0">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+        </div>
+        <div>
+          <h4 class="font-extrabold text-sm">Informasi</h4>
+          <p class="text-xs text-[#BAD6EB] font-medium">{{ infoMessage }}</p>
         </div>
       </div>
     </Teleport>
@@ -429,10 +443,22 @@
 
 <script setup>
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 
+const router = useRouter()
 const showModal = ref(false)
 const showSuccess = ref(false)
+const showInfo = ref(false)
+const toastTitle = ref('Berhasil!')
+const toastMessage = ref('Aksi berhasil dilakukan.')
+const infoMessage = ref('')
 const selectedMentor = ref({ name: '', expertise: '' })
+
+// Filter states
+const searchQuery = ref('')
+const selectedCategory = ref('')
+const selectedRating = ref('')
+const isFiltering = ref(false)
 
 const openBooking = (name, expertise) => {
   selectedMentor.value = { name, expertise }
@@ -445,9 +471,35 @@ const closeBooking = () => {
 
 const submitBooking = () => {
   showModal.value = false
+  triggerSuccessToast('Booking Berhasil!', 'Jadwalmu telah ditambahkan ke dashboard.')
+}
+
+const applyFilter = () => {
+  isFiltering.value = true
+  setTimeout(() => {
+    isFiltering.value = false
+    triggerSuccessToast('Filter Diterapkan', 'Daftar mentor telah diperbarui sesuai kriteria.')
+  }, 600)
+}
+
+const enterMentoringRoom = () => {
+  showInfoToast('Memasuki ruang mentoring daring...')
+}
+
+const triggerSuccessToast = (title, message) => {
+  toastTitle.value = title
+  toastMessage.value = message
   showSuccess.value = true
   setTimeout(() => {
     showSuccess.value = false
+  }, 3000)
+}
+
+const showInfoToast = (msg) => {
+  infoMessage.value = msg
+  showInfo.value = true
+  setTimeout(() => {
+    showInfo.value = false
   }, 3000)
 }
 </script>

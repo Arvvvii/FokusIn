@@ -9,8 +9,8 @@
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
           </RouterLink>
           <div>
-            <h1 class="text-xl md:text-2xl font-bold text-slate-900 tracking-tight">Notifikasi Pendidik</h1>
-            <p class="text-slate-500 font-medium text-xs">Pantau aktivitas mahasiswa, permohonan bimbingan baru, serta notifikasi sistem ekstraksi AI.</p>
+            <h1 class="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">Notifikasi Pendidik</h1>
+            <p class="text-[15px] text-slate-600 font-medium mt-2 max-w-xl leading-relaxed">Pantau aktivitas mahasiswa, permohonan bimbingan baru, serta notifikasi sistem ekstraksi AI.</p>
           </div>
         </div>
         <button @click="markAllRead" class="px-3.5 py-2 bg-white hover:bg-slate-50 text-slate-600 border border-slate-200 rounded-xl font-bold text-xs transition-colors shadow-sm active:scale-[0.98]">

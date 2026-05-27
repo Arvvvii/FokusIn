@@ -2,7 +2,7 @@
   <div class="space-y-6 animate-in fade-in duration-500">
     
     <!-- 1. GLASSMORPHIC HEADER SECTION -->
-    <div class="bg-white/80 backdrop-blur-xl rounded-3xl p-7 md:p-8 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-white/40 relative overflow-hidden flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8 animate-in fade-in duration-500">
+    <div class="bg-white/60 backdrop-blur-xl rounded-3xl p-7 md:p-8 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-200/60 relative overflow-hidden flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
       <div class="absolute right-0 top-0 w-1/3 h-full bg-gradient-to-l from-[#EDF1F6]/80 to-transparent pointer-events-none"></div>
       
       <div class="relative z-10 flex items-center gap-4">
@@ -10,8 +10,8 @@
           <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>
         </span>
         <div>
-          <h1 class="text-2xl md:text-3xl font-bold text-slate-900 tracking-tight leading-none mb-1">Materi Akademik</h1>
-          <p class="text-[14px] text-slate-500 font-medium leading-relaxed mt-1">
+          <h1 class="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">Materi Akademik</h1>
+          <p class="text-[15px] text-slate-600 font-medium mt-2 max-w-xl leading-relaxed">
             Akses perpustakaan catatan kuliah, soal ujian, dan sumber daya akademik terverifikasi yang dikurasi oleh para tutor ahli FokusIn.
           </p>
         </div>
@@ -33,12 +33,12 @@
         <div class="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none text-slate-400">
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
         </div>
-        <input type="text" class="w-full pl-14 pr-5 py-3.5 bg-slate-50 hover:bg-white border border-transparent hover:border-slate-200 rounded-2xl text-[15px] font-bold text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-4 focus:ring-[#7096D1]/20 focus:border-[#7096D1] transition-all" placeholder="Cari dokumen, topik, atau penulis...">
+        <input type="text" v-model="searchQuery" class="w-full pl-14 pr-5 py-3.5 bg-slate-50 hover:bg-white border border-transparent hover:border-slate-200 rounded-2xl text-[15px] font-bold text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-4 focus:ring-[#7096D1]/20 focus:border-[#7096D1] transition-all" placeholder="Cari dokumen, topik, atau penulis...">
       </div>
 
       <!-- Categories -->
       <div class="relative min-w-[180px]">
-        <select class="w-full pl-5 pr-10 py-3.5 bg-slate-50 hover:bg-white border border-transparent hover:border-slate-200 rounded-2xl text-[14px] font-bold text-slate-900 appearance-none focus:outline-none focus:ring-4 focus:ring-[#7096D1]/20 transition-all cursor-pointer">
+        <select v-model="selectedCategory" class="w-full pl-5 pr-10 py-3.5 bg-slate-50 hover:bg-white border border-transparent hover:border-slate-200 rounded-2xl text-[14px] font-bold text-slate-900 appearance-none focus:outline-none focus:ring-4 focus:ring-[#7096D1]/20 transition-all cursor-pointer">
           <option value="">Semua Subjek</option>
           <option value="physics">Fisika</option>
           <option value="cs">Ilmu Komputer</option>
@@ -51,7 +51,7 @@
 
       <!-- File Type -->
       <div class="relative min-w-[150px]">
-        <select class="w-full pl-5 pr-10 py-3.5 bg-slate-50 hover:bg-white border border-transparent hover:border-slate-200 rounded-2xl text-[14px] font-bold text-slate-900 appearance-none focus:outline-none focus:ring-4 focus:ring-[#7096D1]/20 transition-all cursor-pointer">
+        <select v-model="selectedFileType" class="w-full pl-5 pr-10 py-3.5 bg-slate-50 hover:bg-white border border-transparent hover:border-slate-200 rounded-2xl text-[14px] font-bold text-slate-900 appearance-none focus:outline-none focus:ring-4 focus:ring-[#7096D1]/20 transition-all cursor-pointer">
           <option value="">Semua Format</option>
           <option value="pdf">PDF</option>
           <option value="docx">DOCX</option>
@@ -63,9 +63,10 @@
       </div>
 
       <!-- Filter Button -->
-      <button class="px-8 py-3.5 bg-white border border-slate-200 hover:border-[#334EAC] text-slate-900 hover:text-[#334EAC] rounded-2xl font-bold text-[14px] transition-all shadow-sm active:scale-95 shrink-0 flex items-center justify-center gap-2">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M22 3H2l8 9.46V19l4 2v-8.54L22 3z"/></svg>
-        Filter
+      <button @click="applyFilter" :disabled="isFiltering" class="px-8 py-3.5 bg-white border border-slate-200 hover:border-[#334EAC] text-slate-900 hover:text-[#334EAC] rounded-2xl font-bold text-[14px] transition-all shadow-sm active:scale-95 shrink-0 flex items-center justify-center gap-2" :class="isFiltering ? 'opacity-70 cursor-wait' : ''">
+        <svg v-if="!isFiltering" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M22 3H2l8 9.46V19l4 2v-8.54L22 3z"/></svg>
+        <svg v-else class="animate-spin" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>
+        {{ isFiltering ? 'Menyaring...' : 'Filter' }}
       </button>
 
     </div>
@@ -176,15 +177,45 @@
       </RouterLink>
 
     </div>
+
+    <!-- Success Toast -->
+    <Teleport to="body">
+      <div v-if="showSuccess" class="fixed bottom-6 right-6 z-[100] bg-emerald-500 text-white px-6 py-4 rounded-2xl shadow-[0_10px_40px_rgba(16,185,129,0.3)] flex items-center gap-3 animate-in slide-in-from-bottom-5">
+        <div class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center shrink-0">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <div>
+          <h4 class="font-extrabold text-sm">Filter Diterapkan</h4>
+          <p class="text-xs text-emerald-100 font-medium">Menampilkan materi sesuai kriteria.</p>
+        </div>
+      </div>
+    </Teleport>
   </div>
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { ref, computed } from 'vue'
 import { RouterLink, useRoute } from 'vue-router'
 
 const route = useRoute()
 const baseMaterialsRoute = computed(() => {
   return route.path.startsWith('/tutor') ? '/tutor/materials' : '/pelajar/materials'
 })
+
+const searchQuery = ref('')
+const selectedCategory = ref('')
+const selectedFileType = ref('')
+const isFiltering = ref(false)
+const showSuccess = ref(false)
+
+const applyFilter = () => {
+  isFiltering.value = true
+  setTimeout(() => {
+    isFiltering.value = false
+    showSuccess.value = true
+    setTimeout(() => {
+      showSuccess.value = false
+    }, 3000)
+  }, 600)
+}
 </script>

@@ -2,7 +2,7 @@
   <div class="space-y-6 animate-in fade-in duration-500 pb-12">
     
     <!-- 1. GLASSMORPHIC HEADER SECTION -->
-    <div class="bg-white/80 backdrop-blur-xl rounded-3xl p-7 md:p-8 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-white/40 relative overflow-hidden">
+    <div class="bg-white/60 backdrop-blur-xl rounded-3xl p-7 md:p-8 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-200/60 relative overflow-hidden">
       <!-- Decorative background elements -->
       <div class="absolute top-0 right-0 -mr-20 -mt-20 w-64 h-64 rounded-full bg-gradient-to-br from-[#EEF3FF] to-[#E2EAF8] opacity-70 blur-3xl mix-blend-multiply"></div>
       

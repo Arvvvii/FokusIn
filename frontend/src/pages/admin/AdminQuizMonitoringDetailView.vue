@@ -2,14 +2,14 @@
   <div class="p-6 md:p-8 xl:p-10 max-w-[1600px] mx-auto animate-in fade-in duration-500">
     
     <!-- Header -->
-    <div class="bg-white/80 backdrop-blur-xl rounded-3xl p-7 md:p-8 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-white/40 relative overflow-hidden mb-8">
+    <div class="bg-white/60 backdrop-blur-xl rounded-3xl p-7 md:p-8 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-200/60 relative overflow-hidden mb-8">
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 relative z-10">
         <div>
           <div class="flex items-center gap-2 mb-2">
             <RouterLink to="/admin/quiz-monitoring" class="text-sm font-semibold text-indigo-600 hover:underline">← Back to Quizzes</RouterLink>
           </div>
-          <h1 class="text-[28px] font-bold text-slate-900 tracking-tight mb-1">Quiz Report #{{ id }}</h1>
-          <p class="text-base text-slate-500 font-medium">Analitik pengerjaan kuis dan manajemen soal.</p>
+          <h1 class="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">Quiz Report #{{ id }}</h1>
+          <p class="text-[15px] text-slate-600 font-medium mt-2 max-w-xl leading-relaxed">Analitik pengerjaan kuis dan manajemen soal.</p>
         </div>
       </div>
     </div>

@@ -19,7 +19,7 @@
 
       <!-- Center: Academic & Calm Hero -->
       <div class="z-10 max-w-lg mt-12">
-        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-[#BAD6EB] text-xs font-semibold uppercase tracking-wider mb-8 backdrop-blur-sm">
+        <div class="bg-white/60 backdrop-blur-xl rounded-3xl p-7 md:p-8 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-200/60 relative overflow-hidden items-center gap-2 mb-8">
           Bergabung dengan komunitas
         </div>
         <h1 class="text-4xl lg:text-5xl font-bold tracking-tight leading-[1.2] mb-6 text-white">

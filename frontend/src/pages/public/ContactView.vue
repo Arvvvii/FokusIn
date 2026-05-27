@@ -17,8 +17,8 @@
 
     <main class="flex-1 relative z-10 pt-32 pb-24 max-w-3xl mx-auto px-6 w-full">
       <div class="text-center mb-12">
-        <h1 class="text-4xl md:text-5xl font-extrabold text-[#081F5C] mb-6 tracking-tight">Hubungi Kami</h1>
-        <p class="text-lg text-slate-600 leading-relaxed font-medium">
+        <h1 class="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">Hubungi Kami</h1>
+        <p class="text-[15px] text-slate-600 font-medium mt-2 max-w-xl leading-relaxed">
           Punya pertanyaan atau masukan? Jangan ragu untuk mengirim pesan.
         </p>
       </div>

@@ -2,10 +2,21 @@
   <div class="relative min-h-screen pb-12 bg-[#F7F2EB] text-slate-900 selection:bg-[#BAD6EB]/40">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
       
+      <!-- Back Navigation -->
+      <div class="mb-6 flex items-center gap-2">
+        <RouterLink
+          to="/tutor/dashboard"
+          class="text-sm font-bold text-slate-400 hover:text-[#334EAC] transition-colors flex items-center gap-1 w-fit bg-white/50 px-3 py-1.5 rounded-lg border border-slate-200/50"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"></path></svg>
+          Kembali ke Dashboard
+        </RouterLink>
+      </div>
+
       <!-- Page Header -->
       <div class="mb-6">
-        <h1 class="text-xl md:text-2xl font-bold text-slate-900 tracking-tight mb-2">Pengaturan Pendidik</h1>
-        <p class="text-slate-500 font-medium text-xs md:text-sm">Atur akun akademik Anda, ketersediaan mentoring, preferensi harga per jam, serta integrasi asisten AI.</p>
+        <h1 class="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">Pengaturan Pendidik</h1>
+        <p class="text-[15px] text-slate-600 font-medium mt-2 max-w-xl leading-relaxed">Atur akun akademik Anda, ketersediaan mentoring, preferensi harga per jam, serta integrasi asisten AI.</p>
       </div>
 
       <!-- Settings Layout -->

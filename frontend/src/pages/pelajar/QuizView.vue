@@ -2,7 +2,7 @@
   <div class="space-y-6 animate-in fade-in duration-500">
     
     <!-- 1. GLASSMORPHIC HEADER SECTION -->
-    <div class="bg-white/80 backdrop-blur-xl rounded-3xl p-7 md:p-8 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-white/40 relative overflow-hidden flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
+    <div class="bg-white/60 backdrop-blur-xl rounded-3xl p-7 md:p-8 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-200/60 relative overflow-hidden flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
       <div class="absolute right-0 top-0 w-1/3 h-full bg-gradient-to-l from-[#EDF1F6]/80 to-transparent pointer-events-none"></div>
       
       <div class="relative z-10 flex items-center gap-4">
@@ -10,8 +10,8 @@
           <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
         </span>
         <div>
-          <h1 class="text-2xl md:text-3xl font-bold text-slate-900 tracking-tight leading-none mb-1">Ekosistem Kuis AI</h1>
-          <p class="text-[14px] text-slate-500 font-medium leading-relaxed mt-1">
+          <h1 class="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">Ekosistem Kuis AI</h1>
+          <p class="text-[15px] text-slate-600 font-medium mt-2 max-w-xl leading-relaxed">
             Uji pengetahuanmu dengan kuis yang dihasilkan AI, disesuaikan dengan kelemahanmu dan persyaratan silabus.
           </p>
         </div>
@@ -21,7 +21,7 @@
         <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400">
           <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
         </div>
-        <input type="text" class="w-full pl-12 pr-4 py-3 bg-white/50 border border-slate-200 hover:border-[#7096D1] rounded-2xl text-[13px] font-bold text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#7096D1]/20 focus:border-[#7096D1] transition-all shadow-sm" placeholder="Cari kuis...">
+        <input type="text" v-model="searchQuery" class="w-full pl-12 pr-4 py-3 bg-white/50 border border-slate-200 hover:border-[#7096D1] rounded-2xl text-[13px] font-bold text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#7096D1]/20 focus:border-[#7096D1] transition-all shadow-sm" placeholder="Cari kuis...">
       </div>
     </div>
 
@@ -75,11 +75,15 @@
 
     <!-- 3. Category Tabs -->
     <div class="flex items-center gap-3 overflow-x-auto pb-4 mb-8 scrollbar-hide">
-      <button class="px-5 py-2.5 bg-slate-900 text-white rounded-2xl font-bold text-[13px] whitespace-nowrap shadow-sm">Semua Kuis</button>
-      <button class="px-5 py-2.5 bg-white border border-slate-200 hover:border-[#7096D1] hover:bg-slate-50 text-slate-600 hover:text-[#334EAC] rounded-2xl font-bold text-[13px] whitespace-nowrap transition-all">Fisika</button>
-      <button class="px-5 py-2.5 bg-white border border-slate-200 hover:border-[#7096D1] hover:bg-slate-50 text-slate-600 hover:text-[#334EAC] rounded-2xl font-bold text-[13px] whitespace-nowrap transition-all">Matematika</button>
-      <button class="px-5 py-2.5 bg-white border border-slate-200 hover:border-[#7096D1] hover:bg-slate-50 text-slate-600 hover:text-[#334EAC] rounded-2xl font-bold text-[13px] whitespace-nowrap transition-all">Ilmu Komputer</button>
-      <button class="px-5 py-2.5 bg-white border border-slate-200 hover:border-[#7096D1] hover:bg-slate-50 text-slate-600 hover:text-[#334EAC] rounded-2xl font-bold text-[13px] whitespace-nowrap transition-all">Biologi</button>
+      <button 
+        v-for="cat in categories" 
+        :key="cat"
+        @click="activeCategory = cat"
+        class="px-5 py-2.5 rounded-2xl font-bold text-[13px] whitespace-nowrap transition-all"
+        :class="activeCategory === cat ? 'bg-slate-900 text-white shadow-sm' : 'bg-white border border-slate-200 hover:border-[#7096D1] hover:bg-slate-50 text-slate-600 hover:text-[#334EAC]'"
+      >
+        {{ cat }}
+      </button>
     </div>
 
     <!-- 4. Quiz Grid -->
@@ -185,5 +189,10 @@
 </template>
 
 <script setup>
+import { ref } from 'vue'
 import { RouterLink } from 'vue-router'
+
+const searchQuery = ref('')
+const activeCategory = ref('Semua Kuis')
+const categories = ['Semua Kuis', 'Fisika', 'Matematika', 'Ilmu Komputer', 'Biologi']
 </script>
