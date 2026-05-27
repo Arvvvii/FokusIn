@@ -5,7 +5,7 @@
     <section class="flex flex-col xl:flex-row gap-6">
       
       <!-- 1. Refined Academic Hero Card (Left) -->
-      <div class="xl:w-[70%] bg-[#081F5C] rounded-2xl p-7 md:p-8 text-white relative overflow-hidden shadow-sm border border-[#081F5C] flex flex-col justify-between">
+      <div class="xl:w-[70%] bg-[linear-gradient(90deg,#0e2370,#1a3aa8,#2d5bbf)] rounded-[18px] p-7 md:p-8 text-white relative overflow-hidden shadow-sm border border-[#081F5C] flex flex-col justify-between">
         
         <!-- Academic Mesh & Soft Radial Glow -->
         <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCI+PHBhdGggZD0iTTAgMGg0MHY0MEgweiIgZmlsbD0ibm9uZSIvPgo8cGF0aCBkPSJNMCA0MGg0MFYweiIgZmlsbD0ibm9uZSIvPgo8cGF0aCBkPSJNMCA0MGg0MFYweiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmZmZmIiBzdHJva2Utb3BhY2l0eT0iMC4wNSIgc3Ryb2tlLXdpZHRoPSIxIi8+Cjwvc3ZnPg==')] opacity-40 pointer-events-none"></div>
@@ -45,12 +45,12 @@
       </div>
 
       <!-- 2. Academic Recommender (Right) -->
-      <div class="xl:w-[30%] bg-white rounded-2xl p-7 text-slate-800 relative shadow-sm flex flex-col overflow-hidden border border-slate-200">
+      <div class="xl:w-[30%] card-fokus p-7 text-slate-800 relative flex flex-col overflow-hidden bg-[linear-gradient(135deg,rgba(51,78,172,0.08),rgba(112,150,209,0.10))] border-[rgba(51,78,172,0.18)]">
         
         <div class="relative z-10 flex items-center justify-between mb-4">
           <div class="flex items-center gap-2.5">
-            <div class="w-7 h-7 rounded bg-indigo-50 flex items-center justify-center border border-indigo-100">
-               <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#334EAC" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            <div class="ai-orb w-8 h-8 rounded-full flex items-center justify-center shrink-0 bg-[linear-gradient(135deg,#334EAC,#7096D1)] text-white">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
             </div>
             <span class="text-xs font-bold tracking-widest uppercase text-slate-900">Insight Akademik</span>
           </div>
@@ -83,7 +83,7 @@
           </ul>
         </div>
 
-        <RouterLink to="/pelajar/ai-analyzer" class="relative z-10 w-full h-11 bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 rounded-xl font-bold text-[12px] transition-colors flex justify-center items-center gap-2 shadow-sm text-center">
+        <RouterLink to="/pelajar/ai-analyzer" class="relative z-10 w-full h-11 bg-[linear-gradient(135deg,#334EAC,#7096D1)] hover:opacity-90 text-white rounded-xl font-bold text-[12px] transition-opacity flex justify-center items-center gap-2 shadow-sm text-center">
           Buka Laporan AI
           <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
         </RouterLink>

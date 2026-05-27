@@ -2,20 +2,19 @@
   <div class="min-h-screen bg-[#F7F2EB] font-sans selection:bg-[#7096D1] selection:text-white relative overflow-hidden">
     
     <!-- Ambient Background -->
-    <div class="absolute inset-0 z-0 pointer-events-none overflow-hidden">
-      <!-- Subtle mesh blur / radial gradients -->
-      <div class="absolute top-0 right-0 w-[800px] h-[800px] bg-gradient-to-bl from-[#D0E3FF]/40 via-[#BAD6EB]/20 to-transparent rounded-full blur-[120px] transform translate-x-1/3 -translate-y-1/3"></div>
-      <div class="absolute bottom-0 left-0 w-[600px] h-[600px] bg-gradient-to-tr from-[#7096D1]/20 via-[#D0E3FF]/10 to-transparent rounded-full blur-[100px] transform -translate-x-1/3 translate-y-1/3"></div>
-      <!-- Very soft grid pattern overlay -->
-      <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCI+CjxwYXRoIGQ9Ik0wIDBoNDB2NDBIMHoiIGZpbGw9Im5vbmUiLz4KPHBhdGggZD0iTTAgNDBoNDBWMHoiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzMzNEVBQyIgc3Ryb2tlLW9wYWNpdHk9IjAuMDMiIHN0cm9rZS13aWR0aD0iMSIvPgo8L3N2Zz4=')] opacity-50 mask-image:linear-gradient(to_bottom,white,transparent)"></div>
+    <div class="bg-canvas" aria-hidden="true">
+      <div class="blob blob-1"></div>
+      <div class="blob blob-2"></div>
+      <div class="blob blob-3"></div>
+      <div class="dot-grid"></div>
     </div>
 
     <!-- 1. STICKY NAVBAR -->
-    <nav class="fixed top-0 inset-x-0 z-50 bg-[#F7F2EB]/80 backdrop-blur-md border-b border-[#081F5C]/5 transition-all duration-300">
-      <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+    <nav class="navbar">
+      <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between relative z-10">
         <!-- Logo -->
         <RouterLink to="/" class="flex items-center gap-2 group">
-          <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-[#081F5C] to-[#334EAC] flex items-center justify-center shadow-md group-hover:shadow-lg transition-all">
+          <div class="w-8 h-8 logo-icon flex items-center justify-center shadow-md transition-all">
             <span class="text-white font-black text-lg leading-none">F</span>
           </div>
           <span class="text-xl font-extrabold tracking-tight text-[#081F5C]">FokusIn</span>
@@ -23,19 +22,19 @@
 
         <!-- Desktop Menu -->
         <div class="hidden md:flex items-center gap-8">
-          <RouterLink to="/" class="text-[14px] font-bold text-[#081F5C] hover:text-[#334EAC] transition-colors">Home</RouterLink>
-          <a href="#fitur" class="text-[14px] font-bold text-slate-500 hover:text-[#334EAC] transition-colors">Fitur</a>
-          <a href="#testimoni" class="text-[14px] font-bold text-slate-500 hover:text-[#334EAC] transition-colors">Testimoni</a>
-          <RouterLink to="/about" class="text-[14px] font-bold text-slate-500 hover:text-[#334EAC] transition-colors">Tentang</RouterLink>
-          <RouterLink to="/faq" class="text-[14px] font-bold text-slate-500 hover:text-[#334EAC] transition-colors">FAQ</RouterLink>
+          <RouterLink to="/" class="nav-link active">Home</RouterLink>
+          <a href="#fitur" class="nav-link">Fitur</a>
+          <a href="#testimoni" class="nav-link">Testimoni</a>
+          <RouterLink to="/about" class="nav-link">Tentang</RouterLink>
+          <RouterLink to="/faq" class="nav-link">FAQ</RouterLink>
         </div>
 
         <!-- Auth Buttons -->
         <div class="hidden md:flex items-center gap-4">
-          <RouterLink to="/auth/login" class="text-[14px] font-bold text-slate-600 hover:text-[#081F5C] px-2 transition-colors">
+          <RouterLink to="/auth/login" class="btn-ghost-nav">
             Masuk
           </RouterLink>
-          <RouterLink to="/auth/register" class="px-5 py-2.5 bg-[#334EAC] hover:bg-[#081F5C] text-white rounded-xl font-extrabold text-[14px] transition-all shadow-[0_4px_14px_rgba(51,78,172,0.25)] hover:shadow-[0_6px_20px_rgba(8,31,92,0.3)] hover:-translate-y-0.5">
+          <RouterLink to="/auth/register" class="btn-cta-primary">
             Mulai Belajar
           </RouterLink>
         </div>
@@ -47,102 +46,104 @@
       </div>
     </nav>
 
-    <main class="relative z-10 pt-20">
+    <main class="relative z-10">
       <!-- 2. HERO SECTION -->
-      <section class="max-w-7xl mx-auto px-6 pt-20 pb-24 md:pt-32 md:pb-32 flex flex-col lg:flex-row items-center gap-16">
+      <section class="max-w-7xl mx-auto px-6 pt-8 pb-20 md:pt-12 md:pb-28 flex flex-col lg:flex-row items-center gap-16">
         <!-- Left Content -->
-        <div class="flex-1 text-center lg:text-left">
-          <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#D0E3FF]/50 border border-[#BAD6EB] text-[#334EAC] mb-6 shadow-sm">
-            <span class="w-2 h-2 rounded-full bg-[#334EAC] animate-pulse"></span>
-            <span class="text-[12px] font-extrabold uppercase tracking-widest">Platform Akademik Masa Depan</span>
+        <div class="flex-1 text-center lg:text-left relative">
+          <div class="hero-accent-orb" aria-hidden="true"></div>
+          
+          <div class="hero-badge">
+            <span class="badge-dot"></span>
+            Platform Akademik Masa Depan
           </div>
           
-          <h1 class="text-4xl md:text-6xl lg:text-[4rem] font-extrabold text-[#081F5C] leading-[1.1] mb-6 tracking-tight">
-            Belajar Lebih Fokus dengan <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#334EAC] to-[#7096D1]">Bantuan AI</span>
+          <h1 class="text-4xl md:text-6xl lg:text-[4rem] font-extrabold text-[#081F5C] leading-[1.1] mb-6 tracking-tight relative z-10">
+            Belajar Lebih Fokus dengan <span class="hero-title-ai">Bantuan AI</span>
           </h1>
           
-          <p class="text-lg md:text-xl text-slate-600 mb-8 max-w-2xl mx-auto lg:mx-0 leading-relaxed font-medium">
+          <p class="text-lg md:text-xl text-slate-600 mb-8 max-w-2xl mx-auto lg:mx-0 leading-relaxed font-medium relative z-10">
             Tingkatkan produktivitas akademikmu. FokusIn menggabungkan analisis AI cerdas dengan kolaborasi antar mahasiswa untuk mewujudkan pengalaman belajar yang personal dan terarah.
           </p>
 
-          <div class="flex flex-col sm:flex-row items-center gap-4 justify-center lg:justify-start mb-10">
-            <RouterLink to="/auth/register" class="w-full sm:w-auto px-8 py-4 bg-[#334EAC] hover:bg-[#081F5C] text-white rounded-2xl font-extrabold text-[15px] transition-all shadow-[0_8px_20px_rgba(51,78,172,0.25)] hover:shadow-[0_12px_25px_rgba(8,31,92,0.3)] hover:-translate-y-1 flex items-center justify-center gap-2">
+          <div class="flex flex-col sm:flex-row items-center gap-4 justify-center lg:justify-start mb-10 relative z-10">
+            <RouterLink to="/auth/register" class="w-full sm:w-auto btn-hero-primary">
               Mulai Gratis Sekarang
               <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
             </RouterLink>
-            <a href="#fitur" class="w-full sm:w-auto px-8 py-4 bg-white border border-[#BAD6EB] hover:border-[#7096D1] text-[#081F5C] rounded-2xl font-extrabold text-[15px] transition-all shadow-sm hover:shadow-md hover:bg-slate-50 flex items-center justify-center gap-2">
+            <a href="#fitur" class="w-full sm:w-auto btn-hero-secondary">
               Pelajari Fitur
             </a>
           </div>
 
-          <!-- Quick Benefits -->
-          <div class="flex flex-wrap items-center justify-center lg:justify-start gap-x-6 gap-y-3 text-[13px] font-bold text-slate-500">
-             <div class="flex items-center gap-2">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#334EAC" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-                AI-Powered Studying
-             </div>
-             <div class="flex items-center gap-2">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#334EAC" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-                Collaborative Learning
-             </div>
-             <div class="flex items-center gap-2">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#334EAC" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-                Mentoring Akademik
-             </div>
+          <div class="stats-bar hidden md:flex mx-auto lg:mx-0">
+            <div class="stat-item">
+              <span class="stat-number">2,400+</span>
+              <span class="stat-label">Mahasiswa Aktif</span>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-item">
+              <span class="stat-number">850+</span>
+              <span class="stat-label">Diskusi Forum</span>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-item">
+              <span class="stat-number">120+</span>
+              <span class="stat-label">Mentor</span>
+            </div>
           </div>
         </div>
 
         <!-- Right Visual -->
-        <div class="flex-1 w-full max-w-lg lg:max-w-none relative">
-          <div class="absolute inset-0 bg-gradient-to-tr from-[#334EAC]/20 to-transparent blur-3xl transform rotate-12 rounded-full"></div>
+        <div class="flex-1 w-full max-w-lg lg:max-w-none hero-mockup-wrapper relative z-10">
           
-          <!-- Glass Dashboard Preview -->
-          <div class="relative bg-white/40 backdrop-blur-xl border border-white/60 rounded-[2.5rem] shadow-[0_24px_60px_rgba(8,31,92,0.1)] p-4 md:p-6 rotate-[-2deg] hover:rotate-0 transition-all duration-700">
-            <!-- Mockup Header -->
-            <div class="flex items-center gap-2 mb-4 px-2">
-              <div class="w-3 h-3 rounded-full bg-rose-400"></div>
-              <div class="w-3 h-3 rounded-full bg-amber-400"></div>
-              <div class="w-3 h-3 rounded-full bg-emerald-400"></div>
+          <div class="hero-mockup-frame pb-6">
+            <!-- Mockup Header Dots -->
+            <div class="mockup-dots">
+              <div class="dot-red"></div>
+              <div class="dot-yellow"></div>
+              <div class="dot-green"></div>
             </div>
             
             <!-- Mockup Body -->
-            <div class="bg-white rounded-3xl p-6 shadow-sm border border-slate-100">
+            <div class="p-6">
                <div class="flex items-center justify-between mb-6">
                  <div>
-                   <div class="h-2 w-20 bg-slate-200 rounded-full mb-2"></div>
-                   <div class="h-4 w-32 bg-[#081F5C] rounded-full"></div>
+                   <div class="h-2 w-20 skeleton-bar mb-2"></div>
+                   <div class="h-4 w-32 skeleton-bar"></div>
                  </div>
-                 <div class="w-10 h-10 rounded-full bg-[#EDF1F6] flex items-center justify-center text-[#334EAC] font-bold text-xs">AI</div>
+                 <div class="mockup-ai-badge">AI Active</div>
                </div>
+               
                <div class="space-y-3 mb-6">
-                 <div class="h-16 w-full bg-gradient-to-r from-[#D0E3FF]/50 to-[#BAD6EB]/30 rounded-2xl p-4 flex items-center gap-3">
-                    <div class="w-8 h-8 rounded-lg bg-white/50 backdrop-blur flex items-center justify-center">
+                 <div class="h-16 w-full mockup-upload-zone p-4 flex items-center gap-3">
+                    <div class="w-8 h-8 rounded-lg bg-white/60 flex items-center justify-center">
                       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#334EAC" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg>
                     </div>
                     <div>
-                      <div class="h-2 w-24 bg-[#334EAC]/20 rounded-full mb-1"></div>
-                      <div class="h-1.5 w-16 bg-[#334EAC]/10 rounded-full"></div>
+                      <div class="h-2 w-24 skeleton-bar mb-1.5"></div>
+                      <div class="h-1.5 w-16 skeleton-bar"></div>
                     </div>
                  </div>
-                 <div class="h-16 w-full bg-slate-50 rounded-2xl p-4 flex items-center gap-3">
+                 <div class="h-16 w-full bg-slate-50/50 rounded-2xl border border-slate-100 p-4 flex items-center gap-3">
                     <div class="w-8 h-8 rounded-lg bg-white shadow-sm flex items-center justify-center">
                       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#081F5C" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
                     </div>
                     <div>
-                      <div class="h-2 w-32 bg-slate-200 rounded-full mb-1"></div>
-                      <div class="h-1.5 w-20 bg-slate-100 rounded-full"></div>
+                      <div class="h-2 w-32 skeleton-bar mb-1.5"></div>
+                      <div class="h-1.5 w-20 skeleton-bar"></div>
                     </div>
                  </div>
                </div>
                
                <div class="grid grid-cols-2 gap-3">
-                  <div class="h-24 bg-[#F7F2EB] rounded-2xl p-4 flex flex-col justify-between">
-                     <div class="h-2 w-12 bg-amber-200 rounded-full"></div>
-                     <div class="h-6 w-16 bg-[#081F5C] rounded-full"></div>
+                  <div class="h-24 mockup-card-accent p-4 flex flex-col justify-between">
+                     <div class="h-2 w-12 skeleton-bar"></div>
+                     <div class="h-6 w-16 skeleton-bar"></div>
                   </div>
-                  <div class="h-24 bg-[#F2F0DE] rounded-2xl p-4 flex flex-col justify-between">
-                     <div class="h-2 w-16 bg-emerald-200 rounded-full"></div>
-                     <div class="h-6 w-12 bg-[#081F5C] rounded-full"></div>
+                  <div class="h-24 mockup-card-accent p-4 flex flex-col justify-between">
+                     <div class="h-2 w-16 skeleton-bar"></div>
+                     <div class="h-6 w-12 skeleton-bar"></div>
                   </div>
                </div>
             </div>
@@ -467,3 +468,343 @@
 <script setup>
 import { RouterLink } from 'vue-router'
 </script>
+
+<style scoped>
+/* 1. Background */
+.bg-canvas {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(100px);
+  opacity: 0.14;
+}
+
+.blob-1 { width: 700px; height: 700px; background: #334EAC; top: -250px; left: -200px; }
+.blob-2 { width: 550px; height: 550px; background: #7096D1; top: 150px; right: -150px; }
+.blob-3 { width: 450px; height: 450px; background: #BAD6EB; bottom: -120px; left: 35%; }
+
+.dot-grid {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle, rgba(51, 78, 172, 0.18) 1px, transparent 1px);
+  background-size: 30px 30px;
+  opacity: 0.35;
+}
+
+/* 2. Navbar */
+.navbar {
+  background: rgba(247, 242, 235, 0.80);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(112, 150, 209, 0.15);
+  box-shadow: 0 1px 20px rgba(8, 31, 92, 0.06);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.logo-icon {
+  background: linear-gradient(135deg, #334EAC, #7096D1);
+  border-radius: 10px;
+}
+
+.nav-link {
+  color: #4A5880;
+  font-weight: 500;
+  font-size: 14px;
+  transition: color 0.15s;
+  position: relative;
+}
+.nav-link:hover {
+  color: #334EAC;
+}
+.nav-link.active::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: #334EAC;
+  border-radius: 1px;
+}
+
+.btn-cta-primary {
+  background: linear-gradient(135deg, #334EAC, #5570C9);
+  color: #fff;
+  padding: 10px 22px;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 14px;
+  box-shadow: 0 4px 16px rgba(51, 78, 172, 0.30);
+  transition: all 0.2s;
+}
+.btn-cta-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 22px rgba(51, 78, 172, 0.38);
+}
+
+.btn-ghost-nav {
+  color: #334EAC;
+  font-weight: 600;
+  font-size: 14px;
+  padding: 9px 18px;
+  border-radius: 9px;
+  border: 1px solid rgba(51, 78, 172, 0.20);
+  transition: all 0.18s;
+}
+.btn-ghost-nav:hover {
+  background: rgba(51, 78, 172, 0.06);
+  border-color: rgba(51, 78, 172, 0.35);
+}
+
+/* 3. Hero Section */
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(51, 78, 172, 0.08);
+  border: 1px solid rgba(51, 78, 172, 0.20);
+  color: #334EAC;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  padding: 7px 16px;
+  border-radius: 20px;
+  margin-bottom: 24px;
+}
+
+.badge-dot {
+  width: 7px;
+  height: 7px;
+  background: #334EAC;
+  border-radius: 50%;
+  animation: badge-blink 2s ease-in-out infinite;
+}
+
+@keyframes badge-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+.hero-title-ai {
+  background: linear-gradient(135deg, #334EAC 0%, #7096D1 60%, #334EAC 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  background-size: 200% auto;
+  animation: shimmer 4s linear infinite;
+}
+
+@keyframes shimmer {
+  0% { background-position: 0% center; }
+  100% { background-position: 200% center; }
+}
+
+.hero-accent-orb {
+  position: absolute;
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(51,78,172,0.12), transparent 70%);
+  top: -40px;
+  left: -60px;
+  pointer-events: none;
+}
+
+.btn-hero-primary {
+  background: linear-gradient(135deg, #334EAC, #5570C9);
+  color: #fff;
+  padding: 13px 28px;
+  border-radius: 11px;
+  font-size: 15px;
+  font-weight: 700;
+  box-shadow: 0 6px 24px rgba(51, 78, 172, 0.32);
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.btn-hero-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 32px rgba(51, 78, 172, 0.40);
+}
+
+.btn-hero-secondary {
+  background: rgba(255,255,255,0.6);
+  color: #334EAC;
+  border: 1px solid rgba(51, 78, 172, 0.18);
+  padding: 12px 24px;
+  border-radius: 11px;
+  font-size: 15px;
+  font-weight: 600;
+  backdrop-filter: blur(8px);
+  transition: all 0.18s;
+}
+.btn-hero-secondary:hover {
+  background: rgba(255,255,255,0.85);
+  border-color: rgba(51, 78, 172, 0.30);
+}
+
+/* 4. Hero Mockup */
+.hero-mockup-wrapper {
+  position: relative;
+}
+
+.hero-mockup-wrapper::before {
+  content: '';
+  position: absolute;
+  inset: -30px;
+  background: radial-gradient(ellipse at center, rgba(51,78,172,0.12) 0%, transparent 70%);
+  border-radius: 50%;
+  z-index: -1;
+}
+
+.hero-mockup-frame {
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(112, 150, 209, 0.25);
+  border-radius: 20px;
+  box-shadow:
+    0 24px 60px rgba(8, 31, 92, 0.14),
+    0 4px 16px rgba(8, 31, 92, 0.08),
+    inset 0 1px 0 rgba(255,255,255,0.8);
+  overflow: hidden;
+  transform: perspective(1200px) rotateY(-6deg) rotateX(2deg);
+  transition: transform 0.4s ease;
+}
+
+.hero-mockup-frame:hover {
+  transform: perspective(1200px) rotateY(-2deg) rotateX(1deg);
+}
+
+.mockup-dots {
+  display: flex;
+  gap: 6px;
+  padding: 12px 16px 10px;
+  background: rgba(237, 241, 246, 0.8);
+  border-bottom: 1px solid rgba(112, 150, 209, 0.15);
+}
+.dot-red   { width: 10px; height: 10px; border-radius: 50%; background: #FF5F57; }
+.dot-yellow{ width: 10px; height: 10px; border-radius: 50%; background: #FFBD2E; }
+.dot-green { width: 10px; height: 10px; border-radius: 50%; background: #28CA41; }
+
+.skeleton-bar {
+  background: linear-gradient(90deg, rgba(112,150,209,0.15) 25%, rgba(112,150,209,0.28) 50%, rgba(112,150,209,0.15) 75%);
+  background-size: 200% 100%;
+  animation: skeleton-wave 1.8s ease-in-out infinite;
+  border-radius: 4px;
+}
+
+@keyframes skeleton-wave {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.mockup-ai-badge {
+  background: linear-gradient(135deg, #334EAC, #7096D1);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 4px 8px;
+  border-radius: 6px;
+  letter-spacing: 0.3px;
+}
+
+.mockup-upload-zone {
+  background: rgba(208, 227, 255, 0.35);
+  border: 1.5px dashed rgba(51, 78, 172, 0.25);
+  border-radius: 10px;
+}
+
+.mockup-card-accent {
+  background: linear-gradient(135deg, rgba(51,78,172,0.12), rgba(112,150,209,0.18));
+  border: 1px solid rgba(51, 78, 172, 0.15);
+  border-radius: 10px;
+}
+
+/* 5. Stats Bar */
+.stats-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  margin-top: 32px;
+  padding: 16px 12px;
+  background: rgba(255,255,255,0.55);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(112,150,209,0.18);
+  border-radius: 14px;
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .stats-bar {
+    margin-top: 40px;
+    padding: 18px 28px;
+    width: fit-content;
+  }
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 8px;
+  flex: 1;
+}
+
+@media (min-width: 768px) {
+  .stat-item {
+    padding: 0 28px;
+    flex: initial;
+  }
+}
+
+.stat-number {
+  font-size: 16px;
+  font-weight: 800;
+  color: #081F5C;
+  letter-spacing: -0.5px;
+}
+
+@media (min-width: 768px) {
+  .stat-number {
+    font-size: 20px;
+  }
+}
+
+.stat-label {
+  font-size: 10px;
+  color: #8A9CC0;
+  font-weight: 500;
+  margin-top: 2px;
+  text-align: center;
+}
+
+@media (min-width: 768px) {
+  .stat-label {
+    font-size: 11px;
+  }
+}
+
+.stat-divider {
+  width: 1px;
+  height: 24px;
+  background: rgba(112,150,209,0.20);
+}
+
+@media (min-width: 768px) {
+  .stat-divider {
+    height: 32px;
+  }
+}
+</style>

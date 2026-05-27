@@ -8,14 +8,16 @@
 
   <!-- Sidebar -->
   <aside 
-    class="fixed md:relative inset-y-0 left-0 z-50 bg-[#081F5C] text-slate-300 flex flex-col transition-all duration-300 shadow-[4px_0_24px_rgba(8,31,92,0.08)]"
+    class="fixed md:relative inset-y-0 left-0 z-50 text-slate-300 flex flex-col transition-all duration-300 shadow-[4px_0_24px_rgba(8,31,92,0.08)] bg-[linear-gradient(175deg,#081F5C_0%,#0e2d7e_60%,#1a3a99_100%)]"
     :class="[
       isCollapsed ? 'w-20' : 'w-64',
       isMobileOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'
     ]"
   >
+    <!-- Decorative Blob -->
+    <div class="absolute top-[-80px] right-[-60px] w-[240px] h-[240px] bg-[#BAD6EB]/10 rounded-full pointer-events-none z-0"></div>
     <!-- Header / Branding -->
-    <div class="h-16 flex items-center justify-between px-5 py-4 shrink-0 border-b border-white/5">
+    <div class="h-16 flex items-center justify-between px-5 py-4 shrink-0 border-b border-white/5 relative z-10">
       <div class="flex items-center gap-3 overflow-hidden whitespace-nowrap">
         <div class="w-9 h-9 bg-white/10 backdrop-blur-md rounded-xl flex items-center justify-center shrink-0 border border-white/10">
           <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
@@ -46,22 +48,22 @@
     </div>
     
     <!-- Navigation -->
-    <nav class="flex-1 overflow-y-auto py-6 px-4 custom-scrollbar">
+    <nav class="flex-1 overflow-y-auto py-6 px-4 custom-scrollbar relative z-10">
       <ul class="space-y-1">
         <li v-for="item in menuItems" :key="item.name" class="relative group">
           <RouterLink 
             :to="item.path" 
-            class="flex items-center rounded-xl transition-all duration-200 relative overflow-hidden"
+            class="flex items-center rounded-xl transition-all duration-200 relative"
             :class="[
               isCollapsed ? 'justify-center p-3' : 'px-4 py-2.5',
               isActive(item.path) 
-                ? 'bg-white/5 text-white font-bold' 
+                ? 'bg-[#334EAC]/55 text-white font-bold shadow-[0_2px_12px_rgba(51,78,172,0.3)]' 
                 : 'text-indigo-200 hover:bg-white/5 hover:text-white font-medium'
             ]"
             @click="isMobileOpen = false"
           >
             <!-- Active Indicator -->
-            <div v-if="isActive(item.path)" class="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-5 bg-[#BAD6EB] rounded-r-full shadow-[0_0_8px_rgba(186,214,235,0.4)]"></div>
+            <div v-if="isActive(item.path)" class="absolute -left-2 top-1/2 -translate-y-1/2 w-[3px] h-[18px] bg-[#BAD6EB] rounded-sm"></div>
             
             <svg 
               xmlns="http://www.w3.org/2000/svg" 
@@ -92,7 +94,7 @@
     </nav>
     
     <!-- Bottom Profile Section -->
-    <div class="p-4 mt-auto border-t border-white/10 bg-[#081F5C]/80">
+    <div class="p-4 mt-auto border-t border-white/10 bg-[#081F5C]/80 relative z-10">
       <div 
         class="bg-white/5 rounded-xl border border-white/5 overflow-hidden transition-all duration-300 hover:bg-white/10 cursor-pointer"
         :class="isCollapsed ? 'p-2 flex justify-center' : 'p-2.5'"
@@ -105,7 +107,7 @@
           <!-- Info -->
           <div v-if="!isCollapsed" class="flex-1 min-w-0">
             <p class="text-[13px] font-bold text-white truncate leading-tight mb-0.5">{{ user?.name || 'Pelajar' }}</p>
-            <p class="text-[10px] text-indigo-300 font-medium truncate capitalize leading-none">{{ userRole }}</p>
+            <p class="text-[9.5px] tracking-[1.2px] text-[#BAD6EB]/45 uppercase font-medium truncate leading-none">{{ userRole }}</p>
           </div>
         </div>
         

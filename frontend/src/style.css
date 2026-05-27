@@ -1,1 +1,72 @@
 @import "tailwindcss";
+
+@theme {
+  --color-navy: #081F5C;
+  --color-royal: #334EAC;
+  --color-china: #7096D1;
+  --color-sky: #BAD6EB;
+  --color-dawn: #D0E3FF;
+  --color-moon: #F7F2EB;
+  --color-pear: #F2F0DE;
+  --color-jicama: #FFF9F0;
+  --color-porcelain: #EDF1F6;
+  
+  --font-jakarta: "Plus Jakarta Sans", sans-serif;
+  --font-inter: Inter, sans-serif;
+
+  --radius-card: 14px;
+  --radius-btn: 9px;
+  --radius-tag: 6px;
+
+  --blur-card: 8px;
+}
+
+/* Custom Utilities for FokusIn UI */
+
+.bg-mesh {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+  opacity: 0.15;
+}
+.blob-1 { width: 600px; height: 600px; background: #334EAC; top: -200px; left: -150px; }
+.blob-2 { width: 500px; height: 500px; background: #7096D1; top: 200px; right: -100px; }
+.blob-3 { width: 400px; height: 400px; background: #BAD6EB; bottom: -100px; left: 40%; }
+
+.dot-grid {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle, #33449930 1px, transparent 1px);
+  background-size: 28px 28px;
+  opacity: 0.4;
+}
+
+/* Selective glassmorphism for AI Panels & Highlighted Sections */
+.card-fokus {
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(112, 150, 209, 0.16);
+  border-radius: 14px;
+  transition: all 0.2s ease;
+}
+.card-fokus:hover {
+  border-color: rgba(51, 78, 172, 0.25);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 24px rgba(8, 31, 92, 0.08);
+}
+
+@keyframes ai-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(51,78,172,0.3); }
+  50% { box-shadow: 0 0 0 6px rgba(51,78,172,0); }
+}
+.ai-orb { 
+  animation: ai-pulse 3s ease-in-out infinite; 
+}

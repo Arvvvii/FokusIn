@@ -1,17 +1,17 @@
 <template>
   <div class="space-y-8 animate-in fade-in duration-500">
     
-    <!-- 1. GLASSMORPHIC HEADER SECTION -->
-    <div class="bg-white/60 backdrop-blur-xl rounded-3xl p-7 md:p-8 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-200/60 relative overflow-hidden flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
-      <div class="absolute right-0 top-0 w-1/3 h-full bg-gradient-to-l from-[#EDF1F6]/80 to-transparent pointer-events-none"></div>
+    <!-- 1. HEADER SECTION -->
+    <div class="bg-[linear-gradient(90deg,#0e2370,#1a3aa8,#2d5bbf)] rounded-3xl p-7 md:p-8 shadow-sm border border-[#081F5C] relative overflow-hidden flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8 text-white">
+      <div class="absolute right-0 top-0 w-1/3 h-full bg-gradient-to-l from-white/5 to-transparent pointer-events-none"></div>
       
       <div class="relative z-10 flex items-center gap-4">
-        <span class="w-12 h-12 rounded-2xl bg-indigo-500/10 text-indigo-600 flex items-center justify-center shrink-0">
+        <span class="w-12 h-12 rounded-2xl bg-white/10 text-white flex items-center justify-center shrink-0 border border-white/10">
           <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
         </span>
         <div>
-          <h1 class="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">Analisis Pola AI</h1>
-          <p class="text-[15px] text-slate-600 font-medium mt-2 max-w-xl leading-relaxed">
+          <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-tight">Analisis Pola AI</h1>
+          <p class="text-[15px] text-indigo-100/90 font-medium mt-2 max-w-xl leading-relaxed">
             Unggah ujian sebelumnya atau materi belajar. AI kami akan menganalisis pola historis dan merancang rencana belajar strategis untukmu.
           </p>
         </div>
@@ -19,7 +19,7 @@
 
       <!-- Primary CTA -->
       <div class="relative z-10 flex shrink-0">
-        <RouterLink to="/pelajar/ai-analyzer/create" class="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-[#334EAC] hover:bg-[#081F5C] text-white rounded-2xl font-bold text-[13px] transition-all shadow-sm active:scale-95 shrink-0">
+        <RouterLink to="/pelajar/ai-analyzer/create" class="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-white text-[#081F5C] hover:bg-slate-50 rounded-2xl font-bold text-[13px] transition-all shadow-sm active:scale-95 shrink-0">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg>
           Analisis Baru
         </RouterLink>
@@ -27,11 +27,11 @@
     </div>
 
     <!-- Upload Area -->
-    <RouterLink to="/pelajar/ai-analyzer/create" class="block bg-white/80 backdrop-blur-xl rounded-3xl p-8 md:p-14 mb-12 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-100 group transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-xl relative overflow-hidden">
+    <RouterLink to="/pelajar/ai-analyzer/create" class="block card-fokus rounded-3xl p-8 md:p-14 mb-12 transition-all duration-300 ease-out relative overflow-hidden group">
       <!-- Glow Orb -->
       <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-indigo-500/10 blur-[100px] rounded-full pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
       
-      <div class="max-w-3xl mx-auto flex flex-col items-center justify-center p-12 md:p-16 border-[2.5px] border-dashed border-slate-200 rounded-3xl bg-[#F7F2EB]/30 hover:bg-[#F7F2EB]/80 hover:border-indigo-400 transition-all cursor-pointer relative z-10">
+      <div class="max-w-3xl mx-auto flex flex-col items-center justify-center p-12 md:p-16 border-[2.5px] border-dashed border-[#334EAC]/30 rounded-3xl bg-[rgba(51,78,172,0.02)] hover:bg-[rgba(51,78,172,0.05)] hover:border-[#334EAC]/50 transition-all cursor-pointer relative z-10">
         
         <div class="w-20 h-20 rounded-full bg-gradient-to-br from-indigo-50 to-white flex items-center justify-center text-indigo-600 mb-6 group-hover:-translate-y-2 group-hover:shadow-lg group-hover:shadow-indigo-500/20 transition-all duration-300 border border-indigo-100/50 relative">
           <div class="absolute inset-0 rounded-full bg-indigo-400/20 blur-md animate-pulse"></div>
@@ -53,7 +53,7 @@
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
       
       <!-- Most Frequent Topics -->
-      <div class="lg:col-span-2 bg-white/80 backdrop-blur-xl rounded-3xl p-8 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-100 transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-xl group/card">
+      <div class="lg:col-span-2 card-fokus rounded-3xl p-8 transition-all duration-300 ease-out group/card">
         <div class="flex items-center justify-between mb-8">
           <h3 class="text-[17px] font-bold text-slate-900 flex items-center gap-3 tracking-tight">
             <span class="w-8 h-8 rounded-lg bg-indigo-50 flex items-center justify-center text-indigo-600 border border-indigo-100/50 group-hover/card:scale-110 transition-transform"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg></span>
@@ -106,7 +106,7 @@
       </div>
 
       <!-- Difficulty Chart -->
-      <div class="bg-white/80 backdrop-blur-xl rounded-3xl p-8 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-100 flex flex-col items-center transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-xl group/card relative overflow-hidden">
+      <div class="card-fokus rounded-3xl p-8 flex flex-col items-center transition-all duration-300 ease-out group/card relative overflow-hidden">
         <div class="absolute inset-0 bg-gradient-to-br from-amber-500/5 to-transparent opacity-0 group-hover/card:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
         <h3 class="text-[17px] font-bold text-slate-900 mb-8 w-full text-left flex items-center gap-3 tracking-tight">
           <span class="w-8 h-8 rounded-lg bg-amber-50 flex items-center justify-center text-amber-600 border border-amber-100/50 group-hover/card:scale-110 transition-transform"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></span>
@@ -148,7 +148,7 @@
       </div>
 
       <!-- AI Summary / Intelligence Report -->
-      <div class="lg:col-span-2 bg-white/80 backdrop-blur-xl rounded-3xl p-8 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-100 transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-xl group/card relative overflow-hidden">
+      <div class="lg:col-span-2 card-fokus rounded-3xl p-8 transition-all duration-300 ease-out group/card relative overflow-hidden">
         <div class="absolute inset-0 bg-gradient-to-br from-emerald-500/5 to-transparent opacity-0 group-hover/card:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
         <h3 class="text-[17px] font-bold text-slate-900 mb-6 flex items-center gap-3 tracking-tight">
           <span class="w-8 h-8 rounded-lg bg-emerald-50 flex items-center justify-center text-emerald-600 border border-emerald-100/50 group-hover/card:scale-110 transition-transform"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg></span>
@@ -184,7 +184,7 @@
       </div>
 
       <!-- Important Keywords -->
-      <div class="bg-white/80 backdrop-blur-xl rounded-3xl p-8 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-100 transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-xl group/card relative overflow-hidden">
+      <div class="card-fokus rounded-3xl p-8 transition-all duration-300 ease-out group/card relative overflow-hidden">
         <div class="absolute inset-0 bg-gradient-to-br from-indigo-500/5 to-transparent opacity-0 group-hover/card:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
         <h3 class="text-[17px] font-bold text-slate-900 mb-6 flex items-center gap-3 tracking-tight">
           <span class="w-8 h-8 rounded-lg bg-indigo-50 flex items-center justify-center text-indigo-600 border border-indigo-100/50 group-hover/card:scale-110 transition-transform"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20"/><path d="m17 5-5-3-5 3v14l5 3 5-3Z"/></svg></span>
