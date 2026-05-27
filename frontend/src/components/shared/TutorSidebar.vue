@@ -49,18 +49,16 @@
     <nav class="flex-1 overflow-y-auto py-6 px-3 custom-scrollbar space-y-6">
       <div v-for="(group, index) in menuGroups" :key="index">
         <div v-if="!isCollapsed" class="px-3 mb-2">
-           <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{{ group.title }}</p>
+           <p class="sidebar-section-label">{{ group.title }}</p>
         </div>
         <ul class="space-y-1.5">
           <li v-for="item in group.items" :key="item.name" class="relative group">
             <RouterLink 
               :to="item.path" 
-              class="flex items-center rounded-xl transition-all duration-200"
+              class="nav-item flex items-center rounded-xl transition-all duration-200"
               :class="[
                 isCollapsed ? 'justify-center p-3' : 'px-3.5 py-2.5',
-                isActive(item.path) 
-                  ? (item.isHighlighted ? 'bg-gradient-to-r from-indigo-500 to-indigo-600 text-white shadow-md border border-indigo-400/30' : 'bg-gradient-to-r from-[#334EAC] to-[#334EAC]/80 text-white shadow-sm border border-[#7096D1]/20') 
-                  : (item.isHighlighted ? 'text-indigo-300 hover:bg-indigo-500/10 hover:text-indigo-200 border border-transparent hover:border-indigo-500/20' : 'text-[#BAD6EB] group-hover:bg-[#7096D1]/10 hover:text-white border border-transparent')
+                isActive(item.path) ? 'active text-white' : (item.isHighlighted ? 'text-[#7096D1] hover:bg-[#334EAC]/10 hover:text-[#BAD6EB]' : 'text-[#BAD6EB] group-hover:bg-[#7096D1]/10 hover:text-white')
               ]"
               @click="isMobileOpen = false"
             >
@@ -77,14 +75,14 @@
                 class="shrink-0 transition-transform duration-300"
                 :class="[
                   !isCollapsed && 'mr-3',
-                  isActive(item.path) ? 'scale-105 text-white' : (item.isHighlighted ? 'group-hover:scale-110 text-indigo-400' : 'group-hover:scale-110 text-[#7096D1]')
+                  isActive(item.path) ? 'scale-105 text-white' : (item.isHighlighted ? 'group-hover:scale-110 text-[#7096D1]' : 'group-hover:scale-110 text-[#7096D1]')
                 ]"
                 v-html="item.iconPath"
               ></svg>
               <span v-if="!isCollapsed" class="font-bold text-[13px] whitespace-nowrap">{{ item.name }}</span>
               
               <!-- Notification Badge if needed -->
-              <span v-if="!isCollapsed && item.badge" class="ml-auto bg-rose-500 text-white text-[10px] font-extrabold px-1.5 py-0.5 rounded-md leading-none shadow-sm">
+              <span v-if="!isCollapsed && item.badge" class="nav-badge-count">
                 {{ item.badge }}
               </span>
             </RouterLink>
@@ -102,7 +100,7 @@
     <!-- Bottom Profile Section -->
     <div class="p-4 mt-auto border-t border-white/10 bg-[#081F5C] shrink-0">
       <div 
-        class="bg-[#334EAC]/20 rounded-2xl border border-[#7096D1]/20 overflow-hidden transition-all duration-300 hover:bg-[#334EAC]/30"
+        class="sidebar-user-card transition-all duration-300"
         :class="isCollapsed ? 'p-2 flex justify-center' : 'p-3'"
       >
         <div class="flex items-center gap-3">
@@ -114,7 +112,7 @@
           <div v-if="!isCollapsed" class="flex-1 min-w-0">
             <p class="text-sm font-extrabold text-white truncate leading-tight">{{ user?.name || 'Dr. Sarah R.' }}</p>
             <p class="text-[11px] text-[#BAD6EB] font-bold truncate tracking-wide flex items-center gap-1 mt-0.5">
-              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+              <span class="tutor-status-dot"></span>
               Tutor Aktif
             </p>
           </div>

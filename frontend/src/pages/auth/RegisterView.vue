@@ -19,7 +19,7 @@
 
       <!-- Center: Academic & Calm Hero -->
       <div class="z-10 max-w-lg mt-12">
-        <div class="bg-white/60 backdrop-blur-xl rounded-3xl p-7 md:p-8 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-200/60 relative overflow-hidden items-center gap-2 mb-8">
+        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-[#BAD6EB] text-xs font-semibold uppercase tracking-wider mb-8 backdrop-blur-sm">
           Bergabung dengan komunitas
         </div>
         <h1 class="text-4xl lg:text-5xl font-bold tracking-tight leading-[1.2] mb-6 text-white">
@@ -161,7 +161,7 @@
               <div class="grid grid-cols-2 gap-4">
                 <label 
                   class="relative flex flex-col items-center justify-center p-4 rounded-xl border-2 cursor-pointer transition-all"
-                  :class="form.role === 'pelajar' ? 'border-[#334EAC] bg-[#F2F0DE]/50 shadow-sm' : 'border-transparent bg-[#EDF1F6] hover:bg-slate-100'"
+                  :class="form.role === 'pelajar' ? 'border-[#334EAC] bg-[#EEF3FF] shadow-sm ring-4 ring-[#334EAC]/10' : 'border-transparent bg-[#EDF1F6] hover:bg-slate-100'"
                 >
                   <input type="radio" name="role" value="pelajar" v-model="form.role" class="sr-only" />
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mb-2 transition-colors" :class="form.role === 'pelajar' ? 'text-[#334EAC]' : 'text-slate-400'"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>
@@ -170,7 +170,7 @@
                 
                 <label 
                   class="relative flex flex-col items-center justify-center p-4 rounded-xl border-2 cursor-pointer transition-all"
-                  :class="form.role === 'tutor' ? 'border-[#334EAC] bg-[#F2F0DE]/50 shadow-sm' : 'border-transparent bg-[#EDF1F6] hover:bg-slate-100'"
+                  :class="form.role === 'tutor' ? 'border-[#334EAC] bg-[#EEF3FF] shadow-sm ring-4 ring-[#334EAC]/10' : 'border-transparent bg-[#EDF1F6] hover:bg-slate-100'"
                 >
                   <input type="radio" name="role" value="tutor" v-model="form.role" class="sr-only" />
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mb-2 transition-colors" :class="form.role === 'tutor' ? 'text-[#334EAC]' : 'text-slate-400'"><path d="M21.42 10.922a2 2 0 0 1-.01 3.138l-7.96 7.48a2 2 0 0 1-2.9 0l-7.96-7.48a2 2 0 0 1-.01-3.138l8.39-7.86a2 2 0 0 1 2.82 0Z"/><path d="M22 10v6"/><path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"/></svg>
@@ -262,9 +262,10 @@ const handleRegister = async () => {
   
   try {
     await authStore.register({
-      fullName: form.value.fullName,
+      name: form.value.fullName,
       email: form.value.email,
       password: form.value.password,
+      password_confirmation: form.value.confirmPassword,
       role: form.value.role
     })
     

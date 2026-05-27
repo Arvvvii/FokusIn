@@ -31,7 +31,7 @@
         
         <!-- Profile Column -->
         <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-sm space-y-4 text-center">
-          <div class="w-20 h-20 mx-auto rounded-full bg-gradient-to-br from-indigo-400 to-purple-500 flex items-center justify-center text-white font-bold text-2xl shadow-sm border border-slate-100">
+          <div class="w-20 h-20 mx-auto rounded-full bg-gradient-to-br from-[#7096D1] to-[#7096D1] flex items-center justify-center text-white font-bold text-2xl shadow-sm border border-slate-100">
             AP
           </div>
           <div>

@@ -33,7 +33,7 @@
         <div class="lg:col-span-2 bg-white rounded-xl border border-slate-200 p-5 shadow-sm space-y-4">
           <div class="flex items-center justify-between border-b border-slate-100 pb-2">
             <h3 class="text-base font-semibold text-slate-900">Log Aktivitas Sesi</h3>
-            <span class="px-2.5 py-0.5 bg-indigo-50 text-indigo-700 text-xs font-semibold rounded-md border border-indigo-100 uppercase tracking-widest">Scheduled</span>
+            <span class="px-2.5 py-0.5 bg-[#F7F2EB] text-[#081F5C] text-xs font-semibold rounded-md border border-[#D0E3FF] uppercase tracking-widest">Scheduled</span>
           </div>
           <div class="space-y-4 text-sm text-slate-600">
             <div>

@@ -20,7 +20,7 @@
           <h1 class="text-[26px] md:text-[28px] font-bold tracking-tight mb-2 text-white leading-tight">
             Selamat datang kembali, John.
           </h1>
-          <p class="text-[14px] text-indigo-100/90 font-medium mb-8 max-w-xl leading-relaxed">
+          <p class="text-[14px] text-[#D0E3FF]/90 font-medium mb-8 max-w-xl leading-relaxed">
             Jelajahi, belajar, dan berkembang! Tingkatkan aktivitas di forum, jadwalkan sesi mentoring mendatang, dan pantau progres belajarmu.
           </p>
           
@@ -33,7 +33,7 @@
             <!-- Compact Editorial Progress -->
             <div class="w-full sm:w-auto flex-1 max-w-xs pl-0 sm:pl-5 sm:border-l border-white/10 pt-2 sm:pt-0">
               <div class="flex justify-between items-end mb-2">
-                <span class="text-[12px] font-semibold text-indigo-100/80">Progres Belajar</span>
+                <span class="text-[12px] font-semibold text-[#D0E3FF]/80">Progres Belajar</span>
                 <span class="text-[13px] font-bold text-white">80%</span>
               </div>
               <div class="h-1.5 w-full bg-white/10 rounded-full overflow-hidden">
@@ -100,7 +100,7 @@
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
         <!-- Card 1 -->
         <RouterLink to="/pelajar/forum" class="card-base ecosystem-card p-4 rounded-2xl block group/card">
-          <div class="w-10 h-10 rounded-[10px] bg-indigo-50 border border-indigo-100/50 flex items-center justify-center text-indigo-600 mb-3 group-hover/card:scale-105 transition-transform">
+          <div class="w-10 h-10 rounded-[10px] bg-[#F7F2EB] border border-[#D0E3FF]/50 flex items-center justify-center text-[#081F5C] mb-3 group-hover/card:scale-105 transition-transform">
              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
           </div>
           <h4 class="text-[13px] font-bold text-slate-900 tracking-tight mb-1 group-hover/card:text-[#334EAC] transition-colors">Forum Diskusi</h4>

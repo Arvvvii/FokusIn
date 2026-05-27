@@ -31,7 +31,7 @@
               v-model="form.title"
               type="text" 
               required
-              class="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 transition-all shadow-sm"
+              class="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:border-[#334EAC] focus:ring-4 focus:ring-[#334EAC]/10 transition-all shadow-sm"
               placeholder="Contoh: Kuis Biologi Seluler"
             >
           </div>
@@ -40,7 +40,7 @@
             <select 
               v-model="form.subject"
               required
-              class="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-sm text-slate-900 focus:outline-none focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 transition-all shadow-sm appearance-none cursor-pointer"
+              class="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-sm text-slate-900 focus:outline-none focus:border-[#334EAC] focus:ring-4 focus:ring-[#334EAC]/10 transition-all shadow-sm appearance-none cursor-pointer"
             >
               <option value="biologi">Biologi</option>
               <option value="matematika">Matematika</option>
@@ -70,7 +70,7 @@
           </button>
           <button 
             type="submit"
-            class="text-sm font-medium h-10 px-5 rounded-xl bg-indigo-600 text-white shadow-sm hover:bg-indigo-700 transition-colors"
+            class="text-sm font-medium h-10 px-5 rounded-xl bg-[#081F5C] text-white shadow-sm hover:bg-[#081F5C] transition-colors"
           >
             Impor & Simpan
           </button>

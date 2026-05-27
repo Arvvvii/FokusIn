@@ -596,17 +596,7 @@ import { RouterLink } from 'vue-router'
 }
 
 .hero-title-ai {
-  background: linear-gradient(135deg, #334EAC 0%, #7096D1 60%, #334EAC 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  background-size: 200% auto;
-  animation: shimmer 4s linear infinite;
-}
-
-@keyframes shimmer {
-  0% { background-position: 0% center; }
-  100% { background-position: 200% center; }
+  color: #334EAC;
 }
 
 .hero-accent-orb {

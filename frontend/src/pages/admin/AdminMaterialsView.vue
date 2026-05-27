@@ -11,7 +11,7 @@
         <div class="flex items-center gap-4">
           <button 
             @click="$router.push({ name: 'admin-materials-create' })"
-            class="px-5 py-2.5 bg-indigo-600 text-white rounded-xl font-semibold text-sm shadow-sm hover:bg-indigo-700 transition-all"
+            class="px-5 py-2.5 bg-[#081F5C] text-white rounded-xl font-semibold text-sm shadow-sm hover:bg-[#081F5C] transition-all"
           >
             + Tambah Kategori
           </button>
@@ -37,7 +37,7 @@
           </thead>
           <tbody class="divide-y divide-slate-100">
             <tr v-for="cat in categories" :key="cat.id" class="hover:bg-slate-50/50 transition-colors">
-              <td class="px-6 py-4 text-sm font-bold text-indigo-600">{{ cat.group }}</td>
+              <td class="px-6 py-4 text-sm font-bold text-[#081F5C]">{{ cat.group }}</td>
               <td class="px-6 py-4 text-sm font-bold text-slate-900">{{ cat.name }}</td>
               <td class="px-6 py-4 text-sm text-slate-700 font-medium">{{ cat.modules }} items</td>
               <td class="px-6 py-4 text-right">

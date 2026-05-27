@@ -1,7 +1,5 @@
 <template>
-  <div class="relative min-h-screen pb-12 overflow-hidden bg-[#F7F2EB]">
-    <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
-      
+  <div class="space-y-8 w-full pb-12">
       <!-- HEADER -->
       <div class="bg-white/60 backdrop-blur-xl rounded-3xl p-7 md:p-8 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-200/60 relative overflow-hidden flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div class="absolute right-0 top-0 w-1/3 h-full bg-gradient-to-l from-[#EDF1F6]/80 to-transparent pointer-events-none"></div>
@@ -78,7 +76,6 @@
         </div>
       </div>
 
-    </div>
   </div>
 </template>
 

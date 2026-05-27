@@ -18,13 +18,13 @@
           </p>
         </div>
         <div class="flex items-center gap-4">
-          <select class="px-4 py-2 bg-white border border-slate-200 rounded-xl text-sm font-bold text-slate-600 shadow-sm focus:outline-none focus:border-indigo-500 appearance-none cursor-pointer">
+          <select class="px-4 py-2 bg-white border border-slate-200 rounded-xl text-sm font-bold text-slate-600 shadow-sm focus:outline-none focus:border-[#334EAC] appearance-none cursor-pointer">
             <option value="7">7 Hari Terakhir</option>
             <option value="30" selected>30 Hari Terakhir</option>
             <option value="90">3 Bulan Terakhir</option>
             <option value="year">Tahun Ini</option>
           </select>
-          <button @click="exportCSV" class="px-5 py-2.5 bg-indigo-600 text-white rounded-xl font-semibold text-sm shadow-sm hover:bg-indigo-700 transition-all flex items-center gap-2 active:scale-95">
+          <button @click="exportCSV" class="px-5 py-2.5 bg-[#081F5C] text-white rounded-xl font-semibold text-sm shadow-sm hover:bg-[#081F5C] transition-all flex items-center gap-2 active:scale-95">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
             Export CSV
           </button>
@@ -72,7 +72,7 @@
       <!-- KPI 3 -->
       <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm transition-all hover:shadow-md hover:-translate-y-1 group flex flex-col justify-between">
         <div class="flex items-center justify-between mb-4">
-          <div class="w-10 h-10 rounded-xl bg-indigo-50 flex items-center justify-center text-indigo-500 group-hover:scale-110 transition-transform">
+          <div class="w-10 h-10 rounded-xl bg-[#F7F2EB] flex items-center justify-center text-[#334EAC] group-hover:scale-110 transition-transform">
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4"/><path d="M12 18v4"/><path d="M4.93 4.93l2.83 2.83"/><path d="M16.24 16.24l2.83 2.83"/><path d="M2 12h4"/><path d="M18 12h4"/><path d="M4.93 19.07l2.83-2.83"/><path d="M16.24 7.76l2.83-2.83"/></svg>
           </div>
           <span class="px-2.5 py-1 bg-emerald-50 text-emerald-600 text-[11px] font-extrabold rounded-lg flex items-center gap-1 border border-emerald-100">

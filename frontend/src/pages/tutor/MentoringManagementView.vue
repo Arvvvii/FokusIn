@@ -2,7 +2,7 @@
   <div class="space-y-8 w-full">
     
     <!-- 1. GLASSMORPHIC HEADER SECTION -->
-    <div class="bg-white/60 backdrop-blur-xl rounded-3xl p-7 md:p-8 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-200/60 relative overflow-hidden flex flex-col md:flex-row md:items-center justify-between gap-6">
+    <div class="tutor-page-header flex flex-col md:flex-row md:items-center justify-between gap-6 relative">
       <div class="absolute right-0 top-0 w-1/3 h-full bg-gradient-to-l from-[#EDF1F6]/80 to-transparent pointer-events-none"></div>
       
       <div class="relative z-10 flex items-center gap-4">
@@ -10,19 +10,19 @@
           <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>
         </span>
         <div>
-          <h1 class="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">Kelola Mentoring</h1>
-          <p class="text-[15px] text-slate-600 font-medium mt-2 max-w-xl leading-relaxed">
+          <h1 class="header-title">Kelola Mentoring</h1>
+          <p class="header-desc mt-2 max-w-xl">
             Atur jadwal bimbingan akademik, tinjau permintaan sesi baru dari mahasiswa, dan pantau histori konsultasi terintegrasi.
           </p>
         </div>
       </div>
 
       <div class="relative z-10 flex shrink-0 gap-4">
-        <div class="bg-slate-50 border border-slate-200/60 rounded-2xl p-4 flex flex-col items-center justify-center min-w-[100px] shadow-sm">
+        <div class="header-stat-card">
            <span class="text-2xl font-bold text-amber-500 tracking-tight leading-none mb-1">3</span>
            <span class="text-[11px] font-bold text-slate-400 uppercase tracking-widest">Permintaan</span>
         </div>
-        <div class="bg-slate-50 border border-slate-200/60 rounded-2xl p-4 flex flex-col items-center justify-center min-w-[100px] shadow-sm">
+        <div class="header-stat-card">
            <span class="text-2xl font-bold text-emerald-500 tracking-tight leading-none mb-1">4</span>
            <span class="text-[11px] font-bold text-slate-400 uppercase tracking-widest">Mendatang</span>
         </div>
@@ -73,7 +73,7 @@
           <div 
             v-for="sess in filteredSessions" 
             :key="sess.id"
-            class="bg-white rounded-3xl p-6 md:p-7 border border-slate-200/60 shadow-[0_5px_20px_rgba(15,23,42,0.02)] relative overflow-hidden group/card"
+            class="session-card"
           >
             <div v-if="sess.tab === 'requests'" class="absolute top-0 left-0 w-1.5 h-full bg-amber-400"></div>
             
@@ -99,12 +99,12 @@
                 </div>
 
                 <div class="flex flex-wrap items-center gap-4 text-xs font-bold text-slate-700 pt-1">
-                  <span class="flex items-center gap-1.5 bg-slate-100 px-3 py-1.5 rounded-xl border border-slate-200/50">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>
+                  <span class="flex items-center gap-1.5 text-slate-600">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="text-slate-400"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>
                     {{ sess.time }}
                   </span>
-                  <span class="flex items-center gap-1.5 bg-slate-100 px-3 py-1.5 rounded-xl border border-slate-200/50">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                  <span class="flex items-center gap-1.5 text-slate-600">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="text-slate-400"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
                     Durasi: {{ sess.duration }}
                   </span>
                   <span class="px-2.5 py-1 bg-emerald-50 text-emerald-600 rounded-xl border border-emerald-100 uppercase tracking-widest text-[9px] font-bold">{{ sess.status }}</span>
@@ -114,34 +114,34 @@
               <!-- Quick Actions -->
               <div class="flex flex-row sm:flex-col items-center sm:items-end justify-center sm:justify-start gap-2.5 shrink-0 border-t sm:border-t-0 sm:border-l border-slate-100 pt-4 sm:pt-0 sm:pl-6 min-w-[140px]">
                 <template v-if="sess.tab === 'upcoming'">
-                  <RouterLink :to="`/tutor/mentoring/${sess.id}`" class="w-full text-center px-4 py-2.5 bg-[#334EAC] hover:bg-[#081F5C] text-white rounded-xl font-bold text-xs shadow-sm active:scale-95 transition-all flex items-center justify-center gap-1.5">
+                  <RouterLink :to="`/tutor/mentoring/${sess.id}`" class="btn-primary w-full justify-center">
                     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15.6 11.6 5.4-3.2c.5-.3 1.2 0 1.2.7v5.8c0 .7-.7 1-1.2.7l-5.4-3.2a1.2 1.2 0 0 1 0-2Z"/><rect width="14" height="14" x="2" y="5" rx="3" ry="3"/></svg>
                     Mulai Sesi
                   </RouterLink>
-                  <button @click="showSessionLink(sess.studentName)" class="w-full px-4 py-2.5 bg-white border border-slate-200 hover:border-[#7096D1] text-slate-600 rounded-xl font-bold text-xs shadow-sm active:scale-95 transition-all">
+                  <button @click="showSessionLink(sess.studentName)" class="btn-secondary w-full text-center">
                     Detail Link Sesi
                   </button>
-                  <button @click="cancelSession(sess.id)" class="w-full text-center py-2 text-slate-400 hover:text-rose-500 font-bold text-xs transition-colors mt-auto">
+                  <button @click="cancelSession(sess.id)" class="btn-danger w-full mt-auto">
                     Batalkan Sesi
                   </button>
                 </template>
                 
                 <template v-else-if="sess.tab === 'requests'">
-                  <button @click="acceptRequest(sess.id)" class="w-full px-4 py-2.5 bg-emerald-500 hover:bg-emerald-600 text-white rounded-xl font-bold text-xs shadow-sm active:scale-95 transition-all flex items-center justify-center gap-1.5">
+                  <button @click="acceptRequest(sess.id)" class="px-4 py-2.5 bg-emerald-500 hover:bg-emerald-600 text-white rounded-xl font-bold text-xs shadow-sm active:scale-95 transition-all flex items-center justify-center gap-1.5 w-full">
                     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
                     Setujui Sesi
                   </button>
-                  <button @click="rejectRequest(sess.id)" class="w-full px-4 py-2.5 bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 rounded-xl font-bold text-xs shadow-sm active:scale-95 transition-all">
+                  <button @click="rejectRequest(sess.id)" class="btn-secondary w-full text-center">
                     Jadwalkan Ulang
                   </button>
-                  <button @click="rejectRequest(sess.id)" class="w-full text-center py-2 text-slate-400 hover:text-rose-500 font-bold text-xs transition-colors mt-auto">
+                  <button @click="rejectRequest(sess.id)" class="btn-danger w-full mt-auto">
                     Tolak Sesi
                   </button>
                 </template>
                 
                 <template v-else>
                   <span class="text-[11px] font-bold text-slate-400 mb-2">Selesai pada {{ sess.time }}</span>
-                  <button @click="viewFeedback(sess.id)" class="w-full px-4 py-2.5 bg-white border border-slate-200 hover:border-[#7096D1] text-[#334EAC] rounded-xl font-bold text-xs shadow-sm active:scale-95 transition-all flex items-center justify-center gap-1">
+                  <button @click="viewFeedback(sess.id)" class="btn-secondary w-full flex items-center justify-center gap-1 text-[#334EAC] hover:border-[#7096D1]">
                     Lihat Feedback
                   </button>
                 </template>
@@ -158,11 +158,11 @@
         <div class="bg-white rounded-3xl p-6 border border-slate-200/60 shadow-sm space-y-4">
           <h3 class="text-sm font-bold text-slate-900 tracking-tight flex items-center justify-between">
             <span>Jadwal Hari Ini</span>
-            <span class="px-2 py-0.5 bg-indigo-50 text-[#334EAC] rounded-lg text-xs font-bold">2 Kelas</span>
+            <span class="px-2 py-0.5 bg-[#F7F2EB] text-[#334EAC] rounded-lg text-xs font-bold">2 Kelas</span>
           </h3>
 
           <div class="space-y-3">
-            <div class="p-3.5 rounded-2xl border border-indigo-100 bg-indigo-50/20 flex gap-3">
+            <div class="p-3.5 rounded-2xl border border-[#D0E3FF] bg-[#F7F2EB]/20 flex gap-3">
               <div class="w-1 bg-[#334EAC] rounded-full shrink-0"></div>
               <div>
                 <p class="text-[11px] font-extrabold text-[#334EAC] uppercase tracking-wider">10:00 - 11:30</p>
@@ -182,7 +182,7 @@
       </div>
       <div>
         <h4 class="font-bold text-sm">Berhasil!</h4>
-        <p class="text-xs text-indigo-100 font-medium">{{ successMessage }}</p>
+        <p class="text-xs text-[#D0E3FF] font-medium">{{ successMessage }}</p>
       </div>
     </div>
 

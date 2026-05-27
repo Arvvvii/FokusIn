@@ -68,7 +68,7 @@
                 <p class="text-xs text-slate-400 mt-0.5">{{ session.date }}</p>
               </td>
               <td class="px-5 py-3.5">
-                <span class="px-2 py-0.5 bg-indigo-50 border border-indigo-100 text-indigo-700 text-xs font-semibold rounded-md uppercase tracking-wider">
+                <span class="px-2 py-0.5 bg-[#F7F2EB] border border-[#D0E3FF] text-[#081F5C] text-xs font-semibold rounded-md uppercase tracking-wider">
                   {{ session.status }}
                 </span>
               </td>

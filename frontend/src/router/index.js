@@ -130,12 +130,12 @@ const router = createRouter({
 
 import { useAuthStore } from '@/stores/auth'
 
-router.beforeEach((to, from, next) => {
+router.beforeEach((to, from) => {
   const authStore = useAuthStore()
   
   // Guard for protected routes
   if (to.meta.requiresAuth && !authStore.isAuthenticated) {
-    return next('/auth/login')
+    return '/auth/login'
   }
 
   // Guard for roles
@@ -143,20 +143,18 @@ router.beforeEach((to, from, next) => {
     if (authStore.role !== to.meta.role) {
       // Mismatch role, redirect to their proper dashboard
       if (authStore.role) {
-        return next(`/${authStore.role}/dashboard`)
+        return `/${authStore.role}/dashboard`
       }
-      return next('/auth/login')
+      return '/auth/login'
     }
   }
 
   // Prevent logged-in users from seeing auth pages
   if (to.path.startsWith('/auth') && authStore.isAuthenticated) {
     if (authStore.role) {
-      return next(`/${authStore.role}/dashboard`)
+      return `/${authStore.role}/dashboard`
     }
   }
-
-  next()
 })
 
 export default router

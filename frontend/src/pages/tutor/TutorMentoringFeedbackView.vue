@@ -39,7 +39,7 @@
         <div class="bg-white rounded-3xl p-6 md:p-8 border border-slate-200/60 shadow-[0_5px_20px_rgba(15,23,42,0.02)] space-y-6">
           <div class="flex items-center justify-between border-b border-slate-100 pb-4">
             <div class="flex items-center gap-4">
-              <div class="w-12 h-12 rounded-full bg-indigo-50 border border-indigo-100 flex items-center justify-center font-bold text-base text-[#334EAC]">
+              <div class="w-12 h-12 rounded-full bg-[#F7F2EB] border border-[#D0E3FF] flex items-center justify-center font-bold text-base text-[#334EAC]">
                 {{ feedbackData.initials }}
               </div>
               <div>
@@ -88,7 +88,7 @@
               </div>
             </div>
             
-            <div v-else class="bg-indigo-50/40 border border-indigo-100 p-5 rounded-2xl space-y-2.5">
+            <div v-else class="bg-[#F7F2EB]/40 border border-[#D0E3FF] p-5 rounded-2xl space-y-2.5">
               <div class="flex items-center justify-between">
                 <span class="text-[11px] font-bold text-[#334EAC] uppercase tracking-wider">Telah Dibalas Oleh Anda</span>
                 <span class="text-[10px] text-slate-400 font-medium">Hari Ini</span>
@@ -134,7 +134,7 @@
       </div>
       <div>
         <h4 class="font-bold text-sm">Balasan Terkirim!</h4>
-        <p class="text-xs text-indigo-100 font-medium">Mahasiswa akan menerima notifikasi balasan ulasan Anda.</p>
+        <p class="text-xs text-[#D0E3FF] font-medium">Mahasiswa akan menerima notifikasi balasan ulasan Anda.</p>
       </div>
     </div>
 

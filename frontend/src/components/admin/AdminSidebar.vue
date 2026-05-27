@@ -103,7 +103,7 @@
         :class="isCollapsed ? 'p-2 flex justify-center' : 'p-3'"
       >
         <div class="flex items-center gap-3">
-          <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 shrink-0 flex items-center justify-center overflow-hidden shadow-inner">
+          <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-[#334EAC] to-[#7096D1] shrink-0 flex items-center justify-center overflow-hidden shadow-inner">
             <span class="text-white font-extrabold text-[11px]">ADM</span>
           </div>
           <div v-if="!isCollapsed" class="flex-1 min-w-0">

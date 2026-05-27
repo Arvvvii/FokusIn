@@ -44,7 +44,7 @@ const toastClass = (type) => {
     success: 'bg-green-100 border-green-200 text-green-800',
     error: 'bg-red-100 border-red-200 text-red-800',
     warning: 'bg-amber-100 border-amber-200 text-amber-800',
-    info: 'bg-indigo-100 border-indigo-200 text-indigo-800'
+    info: 'bg-[#D0E3FF] border-[#BAD6EB] text-[#081F5C]'
   }
   return map[type] || map.info
 }

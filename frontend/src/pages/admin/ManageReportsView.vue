@@ -9,7 +9,7 @@
           <p class="text-[15px] text-slate-600 font-medium mt-2 max-w-xl leading-relaxed">Tinjau laporan pengguna, tangani pelanggaran serius, dan kelola eskalasi kasus secara komprehensif.</p>
         </div>
         <div class="flex items-center gap-4">
-          <select class="px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-sm font-bold text-slate-600 shadow-sm focus:outline-none focus:border-indigo-500 appearance-none cursor-pointer">
+          <select class="px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-sm font-bold text-slate-600 shadow-sm focus:outline-none focus:border-[#334EAC] appearance-none cursor-pointer">
             <option>Terbaru</option>
             <option>Prioritas Tinggi</option>
             <option>Diselesaikan</option>
@@ -25,7 +25,7 @@
       <div class="lg:col-span-1 flex flex-col gap-4 max-h-[800px] overflow-y-auto custom-scrollbar pr-2">
         <div v-for="report in reports" :key="report.id" 
              class="bg-white p-5 rounded-2xl border transition-all cursor-pointer shadow-sm group"
-             :class="selectedReport?.id === report.id ? 'border-indigo-500 ring-1 ring-indigo-500 bg-indigo-50/10' : 'border-slate-200 hover:border-indigo-300'"
+             :class="selectedReport?.id === report.id ? 'border-[#334EAC] ring-1 ring-[#334EAC] bg-[#F7F2EB]/10' : 'border-slate-200 hover:border-[#7096D1]'"
              @click="selectedReport = report">
           <div class="flex items-start justify-between mb-3">
             <span class="px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-widest"
@@ -34,7 +34,7 @@
             </span>
             <span class="text-xs font-bold text-slate-400">{{ report.time }}</span>
           </div>
-          <h3 class="text-base font-bold text-slate-900 mb-1 line-clamp-1 group-hover:text-indigo-700 tracking-tight">{{ report.targetTitle }}</h3>
+          <h3 class="text-base font-bold text-slate-900 mb-1 line-clamp-1 group-hover:text-[#081F5C] tracking-tight">{{ report.targetTitle }}</h3>
           <p class="text-xs text-slate-500 mb-3">Dilaporkan oleh: <span class="font-bold text-slate-700">{{ report.reporter }}</span> ({{ report.reason }})</p>
           <div class="flex items-center gap-2">
             <div class="flex -space-x-2">
@@ -61,7 +61,7 @@
             </div>
             <h2 class="text-[28px] font-bold text-slate-900 tracking-tight mb-2">{{ selectedReport.targetTitle }}</h2>
             <div class="flex items-center gap-2 text-sm text-slate-500 font-medium">
-              Ditulis oleh <span class="font-bold text-indigo-600 cursor-pointer hover:underline">{{ selectedReport.author }}</span> pada {{ selectedReport.postDate }}
+              Ditulis oleh <span class="font-bold text-[#081F5C] cursor-pointer hover:underline">{{ selectedReport.author }}</span> pada {{ selectedReport.postDate }}
             </div>
           </div>
 

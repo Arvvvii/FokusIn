@@ -1,6 +1,5 @@
 <template>
-  <div class="relative min-h-screen pb-12 bg-[#F7F2EB] text-slate-900 selection:bg-[#BAD6EB]/40">
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
+  <div class="space-y-8 w-full pb-12">
       
       <!-- Back Navigation -->
       <div class="mb-6 flex items-center gap-2">
@@ -150,7 +149,6 @@
         </div>
       </div>
 
-    </div>
   </div>
 </template>
 

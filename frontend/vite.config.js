@@ -16,14 +16,4 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url))
     },
   },
-  // TAMBAHKAN BLOK SERVER INI:
-  server: {
-    proxy: {
-      '/api': {
-        target: 'https://fokusin-production.up.railway.app',
-        changeOrigin: true,
-        secure: false,
-      }
-    }
-  }
 })

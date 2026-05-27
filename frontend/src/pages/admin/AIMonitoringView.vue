@@ -9,9 +9,9 @@
           <p class="text-[15px] text-slate-600 font-medium mt-2 max-w-xl leading-relaxed">Pantau kinerja sistem ekstraksi AI, tingkat kepercayaan, dan log analisis real-time.</p>
         </div>
         <div class="flex items-center gap-4">
-          <div class="px-4 py-2 bg-indigo-50 border border-indigo-100 rounded-xl text-indigo-700 font-bold text-sm shadow-sm flex items-center gap-2">
-            <span class="w-2 h-2 rounded-full bg-indigo-500 animate-ping absolute"></span>
-            <span class="w-2 h-2 rounded-full bg-indigo-500 relative"></span>
+          <div class="px-4 py-2 bg-[#F7F2EB] border border-[#D0E3FF] rounded-xl text-[#081F5C] font-bold text-sm shadow-sm flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-[#334EAC] animate-ping absolute"></span>
+            <span class="w-2 h-2 rounded-full bg-[#334EAC] relative"></span>
             AI Node: Active
           </div>
         </div>
@@ -65,14 +65,14 @@
         
         <div class="flex-1 bg-slate-50/50 rounded-xl border border-slate-100 flex items-center justify-center p-8 relative overflow-hidden min-h-[300px]">
           <!-- Dummy Chart Graphic -->
-          <div class="absolute bottom-0 inset-x-0 h-1/2 bg-gradient-to-t from-indigo-50 to-transparent"></div>
+          <div class="absolute bottom-0 inset-x-0 h-1/2 bg-gradient-to-t from-[#F7F2EB] to-transparent"></div>
           <svg class="absolute inset-0 w-full h-full" preserveAspectRatio="none" viewBox="0 0 100 100">
             <path d="M0,80 Q20,60 40,70 T80,40 T100,50 L100,100 L0,100 Z" fill="rgba(99, 102, 241, 0.1)" stroke="none"/>
             <path d="M0,80 Q20,60 40,70 T80,40 T100,50" fill="none" stroke="#4F46E5" stroke-width="0.5"/>
           </svg>
           <div class="relative z-10 bg-white/80 backdrop-blur-sm px-4 py-2 border border-slate-200 rounded-lg shadow-sm text-center">
             <p class="text-[10px] font-extrabold text-slate-400 uppercase tracking-widest mb-0.5">Peak Performance</p>
-            <p class="text-lg font-extrabold text-indigo-600">98.5% Accuracy</p>
+            <p class="text-lg font-extrabold text-[#081F5C]">98.5% Accuracy</p>
           </div>
         </div>
       </div>

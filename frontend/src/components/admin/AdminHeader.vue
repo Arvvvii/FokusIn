@@ -34,9 +34,9 @@
       </RouterLink>
 
       <!-- AI Status -->
-      <RouterLink to="/admin/ai-monitoring" class="hidden md:flex items-center gap-2 px-3 py-1.5 bg-indigo-50 border border-indigo-100 rounded-lg cursor-pointer hover:bg-indigo-100/50 transition-colors">
-        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="text-indigo-500"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
-        <span class="text-[11px] font-extrabold text-indigo-600 uppercase tracking-widest">AI Monitoring Active</span>
+      <RouterLink to="/admin/ai-monitoring" class="hidden md:flex items-center gap-2 px-3 py-1.5 bg-[#F7F2EB] border border-[#D0E3FF] rounded-lg cursor-pointer hover:bg-[#D0E3FF]/50 transition-colors">
+        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="text-[#334EAC]"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+        <span class="text-[11px] font-extrabold text-[#081F5C] uppercase tracking-widest">AI Monitoring Active</span>
       </RouterLink>
 
       <div class="w-px h-6 bg-slate-200 hidden sm:block"></div>
@@ -53,7 +53,7 @@
       
       <!-- Profile Dropdown Toggle -->
       <div class="relative">
-        <button @click="showProfile = !showProfile" class="w-8 h-8 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 text-white flex items-center justify-center font-extrabold text-[10px] shadow-sm ml-1 hover:ring-4 hover:ring-indigo-500/20 transition-all cursor-pointer focus:outline-none">
+        <button @click="showProfile = !showProfile" class="w-8 h-8 rounded-full bg-gradient-to-br from-[#334EAC] to-[#7096D1] text-white flex items-center justify-center font-extrabold text-[10px] shadow-sm ml-1 hover:ring-4 hover:ring-[#334EAC]/20 transition-all cursor-pointer focus:outline-none">
           ADM
         </button>
         <!-- Dropdown Menu -->

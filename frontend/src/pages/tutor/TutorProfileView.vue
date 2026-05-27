@@ -1,18 +1,8 @@
 <template>
-  <div class="relative min-h-screen pb-12 overflow-hidden bg-[#F7F2EB]">
-    <!-- Mesh Background / Atmosphere -->
-    <div class="absolute inset-0 pointer-events-none overflow-hidden">
-      <!-- Top Large Blob -->
-      <div class="absolute top-[-20%] left-[10%] w-[60%] h-[60%] bg-[#334EAC]/5 blur-[120px] rounded-full mix-blend-multiply"></div>
-      <div class="absolute top-[20%] right-[-10%] w-[40%] h-[40%] bg-[#7096D1]/10 blur-[120px] rounded-full mix-blend-multiply"></div>
-      <!-- Subtle Grid Texture -->
-      <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCI+CjxyZWN0IHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgZmlsbD0ibm9uZSIvPgo8Y2lyY2xlIGN4PSIyIiBjeT0iMiIgcj0iMSIgZmlsbD0icmdiYSgwLCAwLCAwLCAwLjA1KSIvPgo8L3N2Zz4=')] opacity-50 mix-blend-overlay"></div>
-    </div>
-
-    <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+  <div class="space-y-8 w-full pb-12">
       
       <!-- 1. HERO PROFILE SECTION -->
-      <div class="bg-white/60 backdrop-blur-xl rounded-3xl shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-200/60 overflow-hidden relative transition-all duration-300 ease-out hover:shadow-xl group/card">
+      <div class="profile-hero">
         <!-- Cover Photo -->
         <div class="h-32 md:h-48 bg-gradient-to-r from-[#081F5C] via-[#334EAC] to-[#7096D1] relative">
           <!-- Optional overlay pattern -->
@@ -24,7 +14,7 @@
             
             <!-- Avatar -->
             <div class="-mt-16 md:-mt-20 shrink-0 relative group">
-              <div class="w-32 h-32 md:w-40 md:h-40 bg-gradient-to-br from-[#EDF1F6] to-white rounded-full border-4 border-white shadow-xl flex items-center justify-center overflow-hidden relative z-10">
+              <div class="profile-avatar-container">
                 <span class="text-slate-900 font-bold text-4xl tracking-tight">SR</span>
               </div>
               <button @click="triggerAvatarUpload" class="absolute bottom-2 right-2 w-10 h-10 bg-white rounded-full shadow-lg border border-slate-100 flex items-center justify-center text-slate-400 hover:text-[#334EAC] transition-colors z-20 hover:scale-105 active:scale-95">
@@ -36,13 +26,13 @@
             <div class="flex-1 pt-2 md:pt-4">
               <div class="flex flex-col md:flex-row md:items-start justify-between gap-4">
                 <div>
-                  <h1 class="text-2xl md:text-3xl font-bold text-slate-900 tracking-tight flex items-center gap-2 mb-1">
+                  <h1 class="profile-name">
                     Dr. Sarah Rahman
                     <span class="w-5 h-5 bg-emerald-500 rounded-full flex items-center justify-center shadow-sm" title="Verified Mentor">
                       <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
                     </span>
                   </h1>
-                  <p class="text-[14px] md:text-[15px] font-bold text-slate-500 mb-3">Senior Lecturer in Computer Science</p>
+                  <p class="profile-title">Senior Lecturer in Computer Science</p>
                   
                   <div class="flex flex-wrap items-center gap-3">
                     <span class="px-3 py-1.5 bg-[#EDF1F6] text-[#081F5C] rounded-xl text-[12px] font-bold uppercase tracking-widest flex items-center gap-1.5">
@@ -86,26 +76,26 @@
           
           <!-- 2. ANALYTICS GRID -->
           <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <RouterLink to="/tutor/mentoring" class="bg-white/80 backdrop-blur-xl rounded-3xl p-5 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-100 transition-all duration-300 ease-out hover:shadow-xl group/card block">
+            <RouterLink to="/tutor/mentoring" class="stat-box">
               <p class="text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-1">Total Mentoring</p>
               <h3 class="text-2xl font-bold text-[#334EAC] tracking-tight">148</h3>
             </RouterLink>
-            <RouterLink to="/tutor/verify-answer" class="bg-white/80 backdrop-blur-xl rounded-3xl p-5 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-100 transition-all duration-300 ease-out hover:shadow-xl group/card block">
+            <RouterLink to="/tutor/verify-answer" class="stat-box">
               <p class="text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-1">Jwb Diverifikasi</p>
               <h3 class="text-2xl font-bold text-[#334EAC] tracking-tight">324</h3>
             </RouterLink>
-            <RouterLink to="/tutor/analytics" class="bg-white/80 backdrop-blur-xl rounded-3xl p-5 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-100 transition-all duration-300 ease-out hover:shadow-xl group/card block">
+            <RouterLink to="/tutor/analytics" class="stat-box">
               <p class="text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-1">Kepuasan</p>
               <h3 class="text-2xl font-bold text-[#334EAC] tracking-tight">98%</h3>
             </RouterLink>
-            <RouterLink to="/tutor/student-requests" class="bg-white/80 backdrop-blur-xl rounded-3xl p-5 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-100 transition-all duration-300 ease-out hover:shadow-xl group/card block">
+            <RouterLink to="/tutor/student-requests" class="stat-box">
               <p class="text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-1">Total Siswa</p>
               <h3 class="text-2xl font-bold text-[#334EAC] tracking-tight">86</h3>
             </RouterLink>
           </div>
 
           <!-- 3. EXPERTISE SECTION -->
-          <div class="bg-white/80 backdrop-blur-xl rounded-3xl p-7 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-100 transition-all duration-300 ease-out hover:shadow-xl group/card">
+          <div class="section-card">
             <h3 class="text-[16px] font-bold text-slate-900 tracking-tight mb-5 flex items-center gap-3">
                <span class="w-8 h-8 rounded-lg bg-[#EDF1F6] flex items-center justify-center text-[#334EAC]">
                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
@@ -122,7 +112,7 @@
           </div>
 
           <!-- 4. RECENT ACTIVITY -->
-          <div class="bg-white/80 backdrop-blur-xl rounded-3xl p-7 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-100 transition-all duration-300 ease-out hover:shadow-xl group/card">
+          <div class="section-card">
             <div class="flex items-center justify-between mb-6">
               <h3 class="text-[16px] font-bold text-slate-900 tracking-tight flex items-center gap-3">
                  <span class="w-8 h-8 rounded-lg bg-[#EDF1F6] flex items-center justify-center text-[#334EAC]">
@@ -150,8 +140,8 @@
               </div>
 
               <div class="relative">
-                <div class="absolute -left-[29px] w-5 h-5 rounded-full bg-indigo-50 border-2 border-indigo-500 flex items-center justify-center z-10">
-                  <div class="w-1.5 h-1.5 rounded-full bg-indigo-500"></div>
+                <div class="absolute -left-[29px] w-5 h-5 rounded-full bg-[#F7F2EB] border-2 border-[#334EAC] flex items-center justify-center z-10">
+                  <div class="w-1.5 h-1.5 rounded-full bg-[#334EAC]"></div>
                 </div>
                 <p class="text-[13px] font-bold text-slate-900 tracking-tight mb-1">Menyelesaikan Sesi Mentoring "Review UI/UX"</p>
                 <p class="text-[12px] font-medium text-slate-500">Kemarin, 15:00 WIB</p>
@@ -161,7 +151,7 @@
           </div>
 
           <!-- 5. STUDENT REVIEWS -->
-          <div class="bg-white/80 backdrop-blur-xl rounded-3xl p-7 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-100 transition-all duration-300 ease-out hover:shadow-xl group/card">
+          <div class="section-card">
             <h3 class="text-[16px] font-bold text-slate-900 tracking-tight mb-5 flex items-center gap-3">
                <span class="w-8 h-8 rounded-lg bg-[#EDF1F6] flex items-center justify-center text-[#334EAC]">
                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>
@@ -228,7 +218,7 @@
           </div>
 
           <!-- Profile Completion -->
-          <div class="bg-white/80 backdrop-blur-xl rounded-3xl p-6 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-100 transition-all duration-300 ease-out hover:shadow-xl group/card">
+          <div class="section-card">
              <h3 class="text-[15px] font-bold text-slate-900 tracking-tight mb-4">Kelengkapan Profil</h3>
              
              <div class="mb-5">
@@ -267,7 +257,7 @@
           </div>
 
           <!-- Achievements -->
-          <div class="bg-white/80 backdrop-blur-xl rounded-3xl p-6 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-100 transition-all duration-300 ease-out hover:shadow-xl group/card">
+          <div class="section-card">
              <h3 class="text-[15px] font-bold text-slate-900 tracking-tight mb-4">Pencapaian Mentor</h3>
              
              <div class="space-y-4">
@@ -282,7 +272,7 @@
                 </div>
                 
                 <div class="flex items-center gap-4">
-                  <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-indigo-400 to-indigo-600 shadow-[0_4px_10px_rgba(99,102,241,0.2)] flex items-center justify-center shrink-0 border-2 border-white">
+                  <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#7096D1] to-[#081F5C] shadow-[0_4px_10px_rgba(99,102,241,0.2)] flex items-center justify-center shrink-0 border-2 border-white">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
                   </div>
                   <div>
@@ -305,11 +295,9 @@
       </div>
       <div>
         <h4 class="font-bold text-sm">Berhasil!</h4>
-        <p class="text-xs text-indigo-100 font-medium">{{ successMessage }}</p>
+        <p class="text-xs text-[#D0E3FF] font-medium">{{ successMessage }}</p>
       </div>
     </div>
-
-  </div>
 </template>
 
 <script setup>

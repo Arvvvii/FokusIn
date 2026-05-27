@@ -170,7 +170,7 @@
       </div>
       <div>
         <h4 class="font-bold text-sm">Berhasil!</h4>
-        <p class="text-xs text-indigo-100 font-medium">{{ successMessage }}</p>
+        <p class="text-xs text-[#D0E3FF] font-medium">{{ successMessage }}</p>
       </div>
     </div>
 

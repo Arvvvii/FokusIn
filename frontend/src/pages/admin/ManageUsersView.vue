@@ -11,7 +11,7 @@
         <div class="flex items-center gap-4">
           <button 
             @click="$router.push({ name: 'admin-users-create' })"
-            class="px-5 py-2.5 bg-indigo-600 text-white rounded-xl font-semibold text-sm shadow-sm hover:bg-indigo-700 transition-all flex items-center gap-2"
+            class="px-5 py-2.5 bg-[#081F5C] text-white rounded-xl font-semibold text-sm shadow-sm hover:bg-[#081F5C] transition-all flex items-center gap-2"
           >
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
             Tambah User
@@ -90,7 +90,7 @@
                   <button class="p-1.5 text-slate-400 bg-slate-50 hover:text-[#334EAC] hover:bg-[#D0E3FF] rounded-lg transition-colors border border-slate-100" title="View" @click="openModal('View', user)">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
                   </button>
-                  <button class="p-1.5 text-slate-400 bg-slate-50 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors border border-slate-100" title="Edit" @click="openModal('Edit', user)">
+                  <button class="p-1.5 text-slate-400 bg-slate-50 hover:text-[#081F5C] hover:bg-[#F7F2EB] rounded-lg transition-colors border border-slate-100" title="Edit" @click="openModal('Edit', user)">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/></svg>
                   </button>
                   <button class="p-1.5 text-slate-400 bg-slate-50 hover:text-amber-600 hover:bg-amber-50 rounded-lg transition-colors border border-slate-100" title="Activity" @click="openModal('Activity', user)">
@@ -175,7 +175,7 @@ import { ref } from 'vue'
 
 const users = ref([
   { id: 1, name: 'Dr. Sarah R.', email: 'sarah.r@university.edu', role: 'Tutor', status: 'Active', lastActive: '2 mins ago', initials: 'SR', avatarBg: 'bg-gradient-to-br from-[#334EAC] to-[#081F5C]' },
-  { id: 2, name: 'Andi Pratama', email: 'andi.p@student.edu', role: 'Pelajar', status: 'Active', lastActive: '1 hour ago', initials: 'AP', avatarBg: 'bg-gradient-to-br from-indigo-400 to-purple-500' },
+  { id: 2, name: 'Andi Pratama', email: 'andi.p@student.edu', role: 'Pelajar', status: 'Active', lastActive: '1 hour ago', initials: 'AP', avatarBg: 'bg-gradient-to-br from-[#7096D1] to-[#7096D1]' },
   { id: 3, name: 'Budi Santoso', email: 'budi.s@student.edu', role: 'Pelajar', status: 'Suspended', lastActive: '1 week ago', initials: 'BS', avatarBg: 'bg-gradient-to-br from-slate-400 to-slate-500' },
   { id: 4, name: 'Prof. Anderson', email: 'anderson@university.edu', role: 'Tutor', status: 'Active', lastActive: '3 hours ago', initials: 'PA', avatarBg: 'bg-gradient-to-br from-emerald-400 to-teal-500' },
   { id: 5, name: 'Rina Wijaya', email: 'rina.w@student.edu', role: 'Pelajar', status: 'Active', lastActive: '10 mins ago', initials: 'RW', avatarBg: 'bg-gradient-to-br from-rose-400 to-orange-400' },

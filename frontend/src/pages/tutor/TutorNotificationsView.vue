@@ -1,6 +1,5 @@
 <template>
-  <div class="relative min-h-screen pb-12 bg-[#F7F2EB] text-slate-900 selection:bg-[#BAD6EB]/40">
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
+  <div class="space-y-8 w-full pb-12">
       
       <!-- Page Header -->
       <div class="mb-6 flex items-center justify-between">
@@ -42,7 +41,7 @@
           <!-- Icon container based on category -->
           <div class="w-9 h-9 rounded-xl flex items-center justify-center shrink-0 border"
             :class="{
-              'bg-indigo-50 border-indigo-100 text-indigo-600': notif.type === 'ai',
+              'bg-[#F7F2EB] border-[#D0E3FF] text-[#081F5C]': notif.type === 'ai',
               'bg-emerald-50 border-emerald-100 text-emerald-600': notif.type === 'mentoring',
               'bg-amber-50 border-amber-100 text-amber-600': notif.type === 'forum'
             }"
@@ -82,7 +81,6 @@
         </div>
       </div>
 
-    </div>
   </div>
 </template>
 

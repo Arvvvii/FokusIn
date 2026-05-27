@@ -101,7 +101,7 @@
       <div class="card-panel p-4 flex flex-col justify-between hover:border-[#7096D1]/40 transition-all group">
         <div class="flex items-center justify-between mb-2">
           <span class="text-[9px] font-bold text-slate-400 uppercase tracking-wider">Unggahan</span>
-          <div class="w-6 h-6 rounded bg-indigo-50 flex items-center justify-center text-indigo-500 border border-indigo-100/50">
+          <div class="w-6 h-6 rounded bg-[#F7F2EB] flex items-center justify-center text-[#334EAC] border border-[#D0E3FF]/50">
              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="12" y2="12"/><line x1="15" y1="15" x2="12" y2="12"/></svg>
           </div>
         </div>
@@ -312,8 +312,8 @@
             
             <!-- Timeline Item 3 -->
             <div class="relative">
-              <div class="absolute -left-[29px] w-5 h-5 rounded-full bg-indigo-50 border-2 border-indigo-400 flex items-center justify-center z-10">
-                <div class="w-1.5 h-1.5 rounded-full bg-indigo-400"></div>
+              <div class="absolute -left-[29px] w-5 h-5 rounded-full bg-[#F7F2EB] border-2 border-[#7096D1] flex items-center justify-center z-10">
+                <div class="w-1.5 h-1.5 rounded-full bg-[#7096D1]"></div>
               </div>
               <p class="text-[13px] font-bold text-slate-900 mb-1 tracking-tight">Menjawab pertanyaan forum</p>
               <p class="text-[12px] font-bold text-slate-400 mb-3">3 hari lalu</p>

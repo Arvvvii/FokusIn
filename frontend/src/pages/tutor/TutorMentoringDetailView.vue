@@ -1,7 +1,5 @@
 <template>
-  <div class="relative min-h-screen pb-12 overflow-hidden bg-[#F7F2EB]">
-    <div class="relative z-10 max-w-[1450px] mx-auto px-4 sm:px-6 xl:px-8 py-8 space-y-6">
-      
+  <div class="space-y-6 w-full pb-12">
       <!-- Back Navigation -->
       <div class="mb-6 flex items-center gap-2">
         <RouterLink
@@ -98,7 +96,7 @@
             <div class="space-y-2">
               <div v-for="file in filesList" :key="file.name" class="p-3 bg-slate-50 border border-slate-100 rounded-xl flex items-center justify-between gap-3">
                 <div class="flex items-center gap-2.5 min-w-0">
-                  <div class="w-8 h-8 rounded-lg bg-indigo-50 border border-indigo-100 text-indigo-500 flex items-center justify-center shrink-0">
+                  <div class="w-8 h-8 rounded-lg bg-[#F7F2EB] border border-[#D0E3FF] text-[#334EAC] flex items-center justify-center shrink-0">
                     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>
                   </div>
                   <span class="text-xs font-bold text-slate-700 truncate">{{ file.name }}</span>
@@ -157,7 +155,6 @@
         <h4 class="font-bold text-sm">Aksi Berhasil!</h4>
         <p class="text-xs text-emerald-100 font-medium">Data baru berhasil ditambahkan.</p>
       </div>
-    </div>
   </div>
 </template>
 

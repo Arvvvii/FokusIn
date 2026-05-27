@@ -6,7 +6,7 @@
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 relative z-10">
         <div>
           <div class="flex items-center gap-2 mb-2">
-            <RouterLink to="/admin/quiz-monitoring" class="text-sm font-semibold text-indigo-600 hover:underline">← Back to Quizzes</RouterLink>
+            <RouterLink to="/admin/quiz-monitoring" class="text-sm font-semibold text-[#081F5C] hover:underline">← Back to Quizzes</RouterLink>
           </div>
           <h1 class="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">Quiz Report #{{ id }}</h1>
           <p class="text-[15px] text-slate-600 font-medium mt-2 max-w-xl leading-relaxed">Analitik pengerjaan kuis dan manajemen soal.</p>
@@ -39,13 +39,13 @@
             <p class="text-sm font-bold text-slate-900">Q1: Apa fungsi mitokondria?</p>
             <p class="text-xs text-slate-500 font-medium">Correct answer: B (Respirasi sel)</p>
           </div>
-          <button class="px-3 py-1.5 text-xs font-bold text-indigo-600 bg-indigo-50 rounded-lg">Edit</button>
+          <button class="px-3 py-1.5 text-xs font-bold text-[#081F5C] bg-[#F7F2EB] rounded-lg">Edit</button>
         </div>
         <div class="p-4 border border-slate-200 rounded-xl flex items-center justify-between">
           <div>
             <p class="text-sm font-bold text-slate-900">Q2: ...</p>
           </div>
-          <button class="px-3 py-1.5 text-xs font-bold text-indigo-600 bg-indigo-50 rounded-lg">Edit</button>
+          <button class="px-3 py-1.5 text-xs font-bold text-[#081F5C] bg-[#F7F2EB] rounded-lg">Edit</button>
         </div>
       </div>
     </div>

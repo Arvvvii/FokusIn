@@ -5,15 +5,16 @@
     <div class="relative z-10 space-y-6">
       
       <!-- Page Header -->
-      <div class="page-header-banner p-7 md:p-8 flex flex-col md:flex-row md:items-center justify-between gap-6 mb-6">
+      <div class="tutor-page-header flex flex-col md:flex-row md:items-center justify-between gap-6 relative mb-6">
         <div class="absolute right-0 top-0 w-1/3 h-full bg-gradient-to-l from-[#EDF1F6]/80 to-transparent pointer-events-none"></div>
+        
         <div class="relative z-10 flex items-center gap-4">
-          <span class="page-header-icon w-12 h-12 flex items-center justify-center shrink-0">
+          <span class="w-12 h-12 rounded-2xl bg-[#334EAC]/10 text-[#334EAC] flex items-center justify-center shrink-0">
             <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg>
           </span>
           <div>
-            <h1 class="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">Forum Diskusi Akademik</h1>
-            <p class="text-[15px] text-slate-600 font-medium mt-2 max-w-xl leading-relaxed">
+            <h1 class="header-title">Forum Diskusi Akademik</h1>
+            <p class="header-desc mt-2 max-w-xl">
               Berkolaborasi, bertanya, dan berbagi catatan belajar bersama rekan mahasiswa dan tutor di FokusIn.
             </p>
           </div>
@@ -108,7 +109,7 @@
 
           <!-- Post List: Clean, high readability discussions -->
           <div class="space-y-3">
-            <RouterLink :to="`${baseForumRoute}/${post.id}`" v-for="post in filteredPosts" :key="post.id" class="group card-base forum-card p-5 flex flex-col sm:flex-row gap-5 cursor-pointer relative overflow-hidden">
+            <RouterLink :to="`${baseForumRoute}/${post.id}`" v-for="(post, index) in filteredPosts" :key="post.id" :class="[index === 0 ? 'card-featured' : 'card-supporting', 'group card-base forum-card flex flex-col sm:flex-row gap-5 cursor-pointer relative overflow-hidden']">
               
               <!-- Left Stats: Elegant & compact voting UI -->
               <div class="flex sm:flex-col items-center gap-3 sm:gap-1.5 shrink-0">
@@ -130,7 +131,7 @@
               <!-- Post Content -->
               <div class="flex-1 min-w-0 flex flex-col">
                 <div class="flex items-center gap-2 mb-1.5">
-                  <span class="px-2 py-0.5 bg-[#EDF1F6] text-[#334EAC] text-[9px] font-bold rounded uppercase tracking-wider">{{ post.category }}</span>
+                  <span class="tag-academic">{{ post.category }}</span>
                   <span v-if="post.isResolved" class="flex items-center gap-0.5 text-[9px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded uppercase tracking-wider">
                     <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
                     Selesai
@@ -142,8 +143,8 @@
                 
                 <div class="mt-auto flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-2 border-t border-slate-100">
                   <div class="flex items-center gap-2 flex-wrap">
-                    <span v-for="tag in post.tags" :key="tag" class="text-[10px] font-bold text-slate-400">
-                      {{ tag }}
+                    <span v-for="tag in post.tags" :key="tag" class="tag-academic opacity-70 border-none px-0 text-slate-500">
+                      #{{ tag }}
                     </span>
                   </div>
                   
@@ -179,7 +180,7 @@
         <div class="hidden xl:flex flex-col w-[25%] shrink-0 space-y-6 sticky top-[24px] h-fit">
           
           <!-- Create Post CTA -->
-          <RouterLink :to="`${baseForumRoute}/create`" class="btn-banner-cta w-full flex items-center justify-center gap-1.5 px-4 py-3 group">
+          <RouterLink :to="`${baseForumRoute}/create`" class="btn-solid w-full flex items-center justify-center gap-1.5 px-4 py-3 group">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="group-hover:rotate-90 transition-transform"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
             Mulai Diskusi Baru
           </RouterLink>
@@ -211,11 +212,11 @@
           <div class="card-panel ai-help-panel p-5 relative overflow-hidden">
             <div class="relative z-10">
               <div class="flex items-center gap-2 mb-2">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#BAD6EB" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
-                <h3 class="text-[10px] font-bold tracking-wider uppercase text-[#BAD6EB]">Tanya Fokus AI</h3>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#334EAC" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+                <h3 class="text-[10px] font-bold tracking-wider uppercase text-[#334EAC]">Tanya Fokus AI</h3>
               </div>
-              <p class="text-[11px] text-[#BAD6EB] mb-4 leading-relaxed">Kesulitan menjawab soal? Dapatkan petunjuk instan sebelum bertanya di forum.</p>
-              <RouterLink :to="baseAIAnalyzerRoute" class="w-full py-2 bg-white/10 hover:bg-white/20 border border-white/10 rounded-lg text-white font-bold text-[11px] transition-all flex items-center justify-center">
+              <p class="text-[11px] text-slate-600 mb-4 leading-relaxed font-medium">Kesulitan menjawab soal? Dapatkan petunjuk instan sebelum bertanya di forum.</p>
+              <RouterLink :to="baseAIAnalyzerRoute" class="w-full py-2 bg-white hover:bg-slate-50 border border-slate-200 rounded-lg text-[#334EAC] font-bold text-[11px] transition-all flex items-center justify-center shadow-sm">
                 Mulai Asisten AI
               </RouterLink>
             </div>
@@ -398,10 +399,10 @@ const contributors = [
   background: linear-gradient(135deg, rgba(255,255,255,0.8), rgba(255,249,240,0.8));
 }
 .ai-help-panel {
-  background: linear-gradient(135deg, #081F5C, #334EAC);
-  color: white;
-  border: 1px solid rgba(112, 150, 209, 0.3);
-  box-shadow: 0 10px 30px rgba(8, 31, 92, 0.2);
+  background: rgba(255, 255, 255, 0.78);
+  border: 1px solid rgba(51, 78, 172, 0.14);
+  border-top: 3px solid rgba(51, 78, 172, 0.25);
+
 }
 </style>
 

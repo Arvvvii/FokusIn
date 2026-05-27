@@ -11,7 +11,7 @@
         </span>
         <div>
           <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-tight">Analisis Pola AI</h1>
-          <p class="text-[15px] text-indigo-100/90 font-medium mt-2 max-w-xl leading-relaxed">
+          <p class="text-[15px] text-[#D0E3FF]/90 font-medium mt-2 max-w-xl leading-relaxed">
             Unggah ujian sebelumnya atau materi belajar. AI kami akan menganalisis pola historis dan merancang rencana belajar strategis untukmu.
           </p>
         </div>
@@ -29,12 +29,12 @@
     <!-- Upload Area -->
     <RouterLink to="/pelajar/ai-analyzer/create" class="block card-base rounded-3xl p-8 md:p-14 mb-12 transition-all duration-300 ease-out relative overflow-hidden group">
       <!-- Glow Orb -->
-      <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-indigo-500/10 blur-[100px] rounded-full pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+      <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-[#334EAC]/10 blur-[100px] rounded-full pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
       
       <div class="upload-zone max-w-3xl mx-auto flex flex-col items-center justify-center p-12 md:p-16 rounded-3xl cursor-pointer relative z-10">
         
-        <div class="w-20 h-20 rounded-full bg-gradient-to-br from-indigo-50 to-white flex items-center justify-center text-indigo-600 mb-6 group-hover:-translate-y-2 group-hover:shadow-lg group-hover:shadow-indigo-500/20 transition-all duration-300 border border-indigo-100/50 relative">
-          <div class="absolute inset-0 rounded-full bg-indigo-400/20 blur-md animate-pulse"></div>
+        <div class="w-20 h-20 rounded-full bg-gradient-to-br from-[#F7F2EB] to-white flex items-center justify-center text-[#081F5C] mb-6 group-hover:-translate-y-2 group-hover:shadow-lg group-hover:shadow-[#334EAC]/20 transition-all duration-300 border border-[#D0E3FF]/50 relative">
+          <div class="absolute inset-0 rounded-full bg-[#7096D1]/20 blur-md animate-pulse"></div>
           <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="relative z-10"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg>
         </div>
         
@@ -56,7 +56,7 @@
       <div class="card-panel lg:col-span-2 rounded-3xl p-8 transition-all duration-300 ease-out group/card">
         <div class="flex items-center justify-between mb-8">
           <h3 class="text-[17px] font-bold text-slate-900 flex items-center gap-3 tracking-tight">
-            <span class="w-8 h-8 rounded-lg bg-indigo-50 flex items-center justify-center text-indigo-600 border border-indigo-100/50 group-hover/card:scale-110 transition-transform"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg></span>
+            <span class="w-8 h-8 rounded-lg bg-[#F7F2EB] flex items-center justify-center text-[#081F5C] border border-[#D0E3FF]/50 group-hover/card:scale-110 transition-transform"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg></span>
             Frekuensi Topik
           </h3>
           <span class="text-[12px] font-bold text-slate-400">Berdasarkan unggahan terakhir</span>
@@ -185,9 +185,9 @@
 
       <!-- Important Keywords -->
       <div class="card-panel rounded-3xl p-8 transition-all duration-300 ease-out group/card relative overflow-hidden">
-        <div class="absolute inset-0 bg-gradient-to-br from-indigo-500/5 to-transparent opacity-0 group-hover/card:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
+        <div class="absolute inset-0 bg-gradient-to-br from-[#334EAC]/5 to-transparent opacity-0 group-hover/card:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
         <h3 class="text-[17px] font-bold text-slate-900 mb-6 flex items-center gap-3 tracking-tight">
-          <span class="w-8 h-8 rounded-lg bg-indigo-50 flex items-center justify-center text-indigo-600 border border-indigo-100/50 group-hover/card:scale-110 transition-transform"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20"/><path d="m17 5-5-3-5 3v14l5 3 5-3Z"/></svg></span>
+          <span class="w-8 h-8 rounded-lg bg-[#F7F2EB] flex items-center justify-center text-[#081F5C] border border-[#D0E3FF]/50 group-hover/card:scale-110 transition-transform"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20"/><path d="m17 5-5-3-5 3v14l5 3 5-3Z"/></svg></span>
           Kata Kunci Penting
         </h3>
         
@@ -212,7 +212,7 @@ import { RouterLink } from 'vue-router'
 <style scoped>
 /* AI Analyzer Specific Adjustments */
 .ai-analyzer-hero {
-  background: linear-gradient(135deg, #081F5C 0%, #334EAC 100%);
+  background: linear-gradient(135deg, #081F5C 0%, #0e2370 60%, #1a3aa8 100%);
   box-shadow: inset 0 0 40px rgba(112,150,209,0.2), 0 10px 40px rgba(8,31,92,0.15);
 }
 .ai-hero-icon {
@@ -222,9 +222,9 @@ import { RouterLink } from 'vue-router'
   animation: ai-icon-pulse 3s infinite;
 }
 @keyframes ai-icon-pulse {
-  0% { box-shadow: 0 0 15px rgba(255,255,255,0.2); }
-  50% { box-shadow: 0 0 30px rgba(255,255,255,0.5); }
-  100% { box-shadow: 0 0 15px rgba(255,255,255,0.2); }
+  0% { box-shadow: 0 0 10px rgba(255,255,255,0.1); }
+  50% { box-shadow: 0 0 15px rgba(255,255,255,0.25); }
+  100% { box-shadow: 0 0 10px rgba(255,255,255,0.1); }
 }
 .upload-zone {
   background: linear-gradient(135deg, rgba(255,255,255,0.6), rgba(237,241,246,0.5));

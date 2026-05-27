@@ -87,7 +87,7 @@
           </button>
           <button 
             type="submit"
-            class="text-sm font-medium h-10 px-5 rounded-xl bg-indigo-600 text-white shadow-sm hover:bg-indigo-700 transition-colors"
+            class="text-sm font-medium h-10 px-5 rounded-xl bg-[#081F5C] text-white shadow-sm hover:bg-[#081F5C] transition-colors"
           >
             Simpan Tutor
           </button>

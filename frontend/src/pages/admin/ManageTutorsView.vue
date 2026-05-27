@@ -11,7 +11,7 @@
         <div class="flex items-center gap-4">
           <button 
             @click="$router.push({ name: 'admin-tutors-create' })"
-            class="px-5 py-2.5 bg-indigo-600 text-white rounded-xl font-semibold text-sm shadow-sm hover:bg-indigo-700 transition-all flex items-center gap-2"
+            class="px-5 py-2.5 bg-[#081F5C] text-white rounded-xl font-semibold text-sm shadow-sm hover:bg-[#081F5C] transition-all flex items-center gap-2"
           >
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M19 8v6"/><path d="M22 11h-6"/></svg>
             Tambah Tutor
@@ -24,7 +24,7 @@
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
       <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5">
         <div class="flex items-center gap-3 mb-2">
-          <div class="w-8 h-8 rounded-lg bg-indigo-50 flex items-center justify-center text-indigo-600">
+          <div class="w-8 h-8 rounded-lg bg-[#F7F2EB] flex items-center justify-center text-[#081F5C]">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
           </div>
           <h3 class="text-sm font-medium text-slate-600">Total Tutor Aktif</h3>
@@ -104,7 +104,7 @@
             {{ tutor.initials }}
           </div>
           <div class="flex gap-1">
-            <button class="p-1.5 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors" title="Analitik Tutor" @click="openModal('Analitik', tutor)">
+            <button class="p-1.5 text-slate-400 hover:text-[#081F5C] hover:bg-[#F7F2EB] rounded-lg transition-colors" title="Analitik Tutor" @click="openModal('Analitik', tutor)">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" x2="18" y1="20" y2="10"/><line x1="12" x2="12" y1="20" y2="4"/><line x1="6" x2="6" y1="20" y2="14"/></svg>
             </button>
             <button class="p-1.5 text-slate-400 hover:text-[#081F5C] hover:bg-slate-100 rounded-lg transition-colors" title="Detail Tutor" @click="openModal('Detail', tutor)">
@@ -220,7 +220,7 @@ const tutors = ref([
     name: 'Budi Santoso, M.Si', 
     email: 'budi.s@university.edu', 
     initials: 'BS', 
-    avatarBg: 'bg-gradient-to-br from-indigo-400 to-purple-500',
+    avatarBg: 'bg-gradient-to-br from-[#7096D1] to-[#7096D1]',
     specializations: ['Kimia Organik', 'Biokimia'],
     rating: '4.7',
     reviews: 56,

@@ -11,7 +11,7 @@
         <div class="flex items-center gap-4">
           <button 
             @click="$router.push({ name: 'admin-quiz-monitoring-create' })"
-            class="px-5 py-2.5 bg-indigo-600 text-white rounded-xl font-semibold text-sm shadow-sm hover:bg-indigo-700 transition-all"
+            class="px-5 py-2.5 bg-[#081F5C] text-white rounded-xl font-semibold text-sm shadow-sm hover:bg-[#081F5C] transition-all"
           >
             + Tambah Quiz Dataset
           </button>

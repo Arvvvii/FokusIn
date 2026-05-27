@@ -155,7 +155,7 @@
       </div>
       <div>
         <h4 class="font-bold text-sm">Berhasil!</h4>
-        <p class="text-xs text-indigo-100 font-medium">{{ toastMessage }}</p>
+        <p class="text-xs text-[#D0E3FF] font-medium">{{ toastMessage }}</p>
       </div>
     </div>
 

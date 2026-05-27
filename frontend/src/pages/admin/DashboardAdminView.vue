@@ -9,7 +9,7 @@
           <p class="text-[15px] text-slate-600 font-medium mt-2 max-w-xl leading-relaxed">Pusat Kendali FokusIn: Pantau sistem, moderasi, dan metrik akademik secara real-time.</p>
         </div>
         <div class="flex items-center gap-3">
-          <button @click="exportReport" class="px-5 py-2.5 bg-indigo-600 text-white rounded-xl font-semibold text-sm shadow-sm hover:bg-indigo-700 transition-all flex items-center gap-2">
+          <button @click="exportReport" class="px-5 py-2.5 bg-[#081F5C] text-white rounded-xl font-semibold text-sm shadow-sm hover:bg-[#081F5C] transition-all flex items-center gap-2">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
             Export Report
           </button>
@@ -79,7 +79,7 @@
     <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 mb-8">
       <div class="flex items-center justify-between mb-6">
         <h2 class="text-lg font-bold text-slate-900 tracking-tight">Recent Moderation Queue</h2>
-        <RouterLink to="/admin/moderation" class="text-sm font-semibold text-indigo-600 hover:text-indigo-700">Lihat Semua Antrean</RouterLink>
+        <RouterLink to="/admin/moderation" class="text-sm font-semibold text-[#081F5C] hover:text-[#081F5C]">Lihat Semua Antrean</RouterLink>
       </div>
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
         <div v-for="mod in moderationQueue" :key="mod.id" class="p-5 rounded-xl border border-slate-200 hover:border-slate-300 bg-white transition-all">
@@ -114,7 +114,7 @@ const overviewStats = [
 ]
 
 const healthMetrics = [
-  { name: 'AI Analyzer Status', desc: 'Latency: 124ms', status: 'Optimal', colorClass: 'bg-indigo-100 text-indigo-700', icon: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>' },
+  { name: 'AI Analyzer Status', desc: 'Latency: 124ms', status: 'Optimal', colorClass: 'bg-[#D0E3FF] text-[#081F5C]', icon: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>' },
   { name: 'Mentoring Stability', desc: 'Uptime: 99.9%', status: 'Optimal', colorClass: 'bg-emerald-100 text-emerald-700', icon: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>' },
   { name: 'Quiz Engagement', desc: 'Completion: 84%', status: 'Optimal', colorClass: 'bg-sky-100 text-sky-700', icon: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" x2="12.01" y1="17" y2="17"/></svg>' },
   { name: 'Forum Integrity', desc: 'Flagged: 0.2%', status: 'Warning', colorClass: 'bg-amber-100 text-amber-700', icon: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" x2="12" y1="9" y2="13"/><line x1="12" x2="12.01" y1="17" y2="17"/></svg>' },
@@ -128,7 +128,7 @@ const moderationQueue = [
 
 const liveActivity = [
   { id: 1, title: 'Budi S. registrasi sebagai Pelajar', time: 'Baru saja', colorClass: 'bg-emerald-500', icon: '<circle cx="12" cy="12" r="10"/>' },
-  { id: 2, title: 'Tutor Sarah memverifikasi 3 jawaban', time: '5m ago', colorClass: 'bg-indigo-500', icon: '<circle cx="12" cy="12" r="10"/>' },
+  { id: 2, title: 'Tutor Sarah memverifikasi 3 jawaban', time: '5m ago', colorClass: 'bg-[#334EAC]', icon: '<circle cx="12" cy="12" r="10"/>' },
   { id: 3, title: 'Sistem memblokir 1 spam bot', time: '12m ago', colorClass: 'bg-rose-500', icon: '<circle cx="12" cy="12" r="10"/>' },
   { id: 4, title: 'Mentoring #402 dijadwalkan ulang', time: '28m ago', colorClass: 'bg-sky-500', icon: '<circle cx="12" cy="12" r="10"/>' },
 ]

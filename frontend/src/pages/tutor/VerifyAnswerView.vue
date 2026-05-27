@@ -3,7 +3,7 @@
     
 
     <!-- 1. GLASSMORPHIC HEADER SECTION -->
-    <div class="bg-white/60 backdrop-blur-xl rounded-3xl p-7 md:p-8 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-200/60 relative overflow-hidden flex flex-col md:flex-row md:items-center justify-between gap-6">
+    <div class="tutor-page-header flex flex-col md:flex-row md:items-center justify-between gap-6 relative">
       <div class="absolute right-0 top-0 w-1/3 h-full bg-gradient-to-l from-[#EDF1F6]/80 to-transparent pointer-events-none"></div>
       
       <div class="relative z-10 flex items-center gap-4">
@@ -11,19 +11,19 @@
           <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
         </span>
         <div>
-          <h1 class="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">Verifikasi Jawaban Mahasiswa</h1>
-          <p class="text-[15px] text-slate-600 font-medium mt-2 max-w-xl leading-relaxed">
+          <h1 class="header-title">Verifikasi Jawaban Mahasiswa</h1>
+          <p class="header-desc mt-2 max-w-xl">
             Tinjau, nilai, dan berikan persetujuan untuk diskusi mahasiswa guna meningkatkan kualitas akademik komunitas FokusIn.
           </p>
         </div>
       </div>
 
       <div class="relative z-10 flex shrink-0 gap-4">
-        <div class="bg-slate-50 border border-slate-200/60 rounded-2xl p-4 flex flex-col items-center justify-center min-w-[100px] shadow-sm">
+        <div class="header-stat-card">
            <span class="text-2xl font-bold text-amber-500 tracking-tight leading-none mb-1">{{ answers.filter(a => a.status === 'Pending').length }}</span>
            <span class="text-[11px] font-bold text-slate-400 uppercase tracking-widest">Pending</span>
         </div>
-        <div class="bg-slate-50 border border-slate-200/60 rounded-2xl p-4 flex flex-col items-center justify-center min-w-[100px] shadow-sm">
+        <div class="header-stat-card">
            <span class="text-2xl font-bold text-emerald-500 tracking-tight leading-none mb-1">86</span>
            <span class="text-[11px] font-bold text-slate-400 uppercase tracking-widest">Diverifikasi</span>
         </div>
@@ -59,8 +59,7 @@
               v-for="filter in ['Pending', 'Semua', 'Diverifikasi', 'Leaderboard']" 
               :key="filter"
               @click="currentFilter = filter"
-              :class="currentFilter === filter ? 'bg-[#334EAC] text-white shadow-sm' : 'text-slate-500 hover:text-[#081F5C] hover:bg-slate-100'"
-              class="px-4 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap active:scale-95"
+              :class="['tutor-tab', currentFilter === filter ? 'active' : '']"
             >
               {{ filter === 'Leaderboard' ? '🏆 Leaderboard' : filter }}
             </button>
@@ -72,12 +71,12 @@
           <div 
             v-for="post in filteredAnswers" 
             :key="post.id" 
-            class="bg-white rounded-3xl p-6 md:p-7 border border-slate-200/60 shadow-[0_5px_20px_rgba(15,23,42,0.02)] transition-all duration-300 ease-out hover:shadow-md group/card"
+            class="discussion-card"
           >
             <!-- Card Header Meta -->
             <div class="flex flex-wrap items-center justify-between gap-3 mb-4 border-b border-slate-100 pb-4">
               <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-full bg-indigo-50 border border-indigo-100 flex items-center justify-center shrink-0 text-[#334EAC] font-bold text-sm">
+                <div class="w-10 h-10 rounded-full bg-[#F7F2EB] border border-[#D0E3FF] flex items-center justify-center shrink-0 text-[#334EAC] font-bold text-sm">
                   {{ post.initials }}
                 </div>
                 <div>
@@ -91,12 +90,11 @@
               </div>
               
               <div class="flex items-center gap-2">
-                <span class="px-2.5 py-0.5 bg-indigo-50 text-indigo-600 rounded-lg text-[10px] font-bold border border-indigo-100/60 flex items-center gap-1">
+                <span class="px-2.5 py-0.5 bg-[#F7F2EB] text-[#081F5C] rounded-lg text-[10px] font-bold border border-[#D0E3FF]/60 flex items-center gap-1">
                   AI: {{ post.match }}% Cocok
                 </span>
                 <span 
-                  class="px-2.5 py-0.5 rounded-lg text-[10px] font-bold border"
-                  :class="post.status === 'Pending' ? 'bg-amber-50 text-amber-600 border-amber-100' : post.status === 'Diverifikasi' ? 'bg-emerald-50 text-emerald-600 border-emerald-100' : 'bg-rose-50 text-rose-600 border-rose-100'"
+                  :class="['px-2.5 py-0.5 rounded-lg text-[10px] font-bold border', post.status === 'Pending' ? 'badge-pending' : post.status === 'Diverifikasi' ? 'badge-verified' : 'badge-rejected']"
                 >
                   {{ post.status }}
                 </span>
@@ -134,11 +132,11 @@
               ></textarea>
 
               <div class="flex flex-wrap items-center gap-2.5">
-                <button @click="handleVerify(post.id)" class="px-4 py-2 bg-[#334EAC] hover:bg-[#081F5C] text-white rounded-xl font-bold text-xs shadow-sm active:scale-95 transition-all flex items-center gap-1.5">
+                <button @click="handleVerify(post.id)" class="btn-verify">
                   <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
                   Verifikasi Jawaban
                 </button>
-                <button @click="handleReject(post.id)" class="px-4 py-2 bg-white hover:bg-rose-50 text-slate-600 hover:text-rose-600 border border-slate-200 rounded-xl font-bold text-xs shadow-sm active:scale-95 transition-all flex items-center gap-1.5">
+                <button @click="handleReject(post.id)" class="btn-reject">
                   <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
                   Tolak Jawaban
                 </button>
@@ -163,7 +161,7 @@
         </div>
 
         <!-- 3. INTERACTIVE LEADERBOARD SUB-PAGE -->
-        <div v-else class="bg-white rounded-3xl border border-slate-200/60 p-6 md:p-8 shadow-[0_5px_20px_rgba(15,23,42,0.02)] space-y-8">
+        <div v-else class="leaderboard-container">
           <div class="flex items-center justify-between">
             <div>
               <h2 class="text-lg font-bold text-slate-950">Leaderboard Mahasiswa Teraktif</h2>
@@ -177,7 +175,7 @@
             <!-- 2nd Place -->
             <div class="flex flex-col items-center bg-slate-50 border border-slate-200/60 rounded-3xl p-5 relative overflow-hidden order-2 md:order-1 h-[200px] justify-end">
               <div class="absolute top-4 w-9 h-9 rounded-full bg-slate-200 border-2 border-white flex items-center justify-center font-bold text-xs text-slate-600 shadow-sm">2</div>
-              <div class="w-12 h-12 rounded-full bg-indigo-50 border border-slate-200 flex items-center justify-center font-bold text-sm text-[#334EAC] mb-2">SA</div>
+              <div class="w-12 h-12 rounded-full bg-[#F7F2EB] border border-slate-200 flex items-center justify-center font-bold text-sm text-[#334EAC] mb-2">SA</div>
               <h4 class="text-xs font-bold text-slate-900">Siti Aminah</h4>
               <p class="text-[11px] font-semibold text-slate-400">18 Jawaban Valid</p>
               <div class="mt-3 text-xs font-extrabold text-slate-700 bg-slate-100 px-2.5 py-0.5 rounded-lg border border-slate-200/40">310 Poin</div>
@@ -203,28 +201,37 @@
           </div>
 
           <!-- Leaderboard Table Rank 4+ -->
-          <div class="border border-slate-100 rounded-2xl overflow-hidden mt-4">
-            <table class="w-full text-left text-xs font-medium text-slate-700">
-              <thead class="bg-slate-50 border-b border-slate-100 text-slate-400 uppercase tracking-widest font-bold text-[10px]">
-                <tr>
-                  <th class="py-3 px-4">Peringkat</th>
-                  <th class="py-3 px-4">Mahasiswa</th>
-                  <th class="py-3 px-4">Jawaban Terverifikasi</th>
-                  <th class="py-3 px-4">Total Reputasi</th>
-                </tr>
-              </thead>
-              <tbody class="divide-y divide-slate-100 font-semibold text-slate-700">
-                <tr v-for="student in activeStudentsList" :key="student.rank" class="hover:bg-slate-50/50">
-                  <td class="py-3 px-4 font-bold text-slate-400">#{{ student.rank }}</td>
-                  <td class="py-3 px-4 flex items-center gap-3">
-                    <span class="w-7 h-7 rounded-full bg-[#EDF1F6] text-[#081F5C] font-bold text-[10px] flex items-center justify-center">{{ student.initials }}</span>
-                    <span>{{ student.name }}</span>
-                  </td>
-                  <td class="py-3 px-4 text-slate-500">{{ student.answersCount }} Jawaban</td>
-                  <td class="py-3 px-4 text-[#334EAC]">{{ student.points }} Poin</td>
-                </tr>
-              </tbody>
-            </table>
+          <div class="table-container mt-8">
+            <div class="table-header p-5 flex items-center justify-between">
+              <h3 class="table-title">Peringkat Selanjutnya</h3>
+            </div>
+            <div class="overflow-x-auto">
+              <table class="w-full text-left text-sm text-slate-600">
+                <thead class="bg-slate-50/50 border-b border-slate-100 text-xs uppercase tracking-wider text-slate-500 font-bold">
+                  <tr>
+                    <th class="py-4 px-6">Peringkat</th>
+                    <th class="py-4 px-6">Mahasiswa</th>
+                    <th class="py-4 px-6">Jawaban Terverifikasi</th>
+                    <th class="py-4 px-6">Total Reputasi</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100/80 font-medium">
+                  <tr v-for="student in activeStudentsList" :key="student.rank" class="hover:bg-slate-50/50 transition-colors">
+                    <td class="py-4 px-6 font-bold text-slate-400">#{{ student.rank }}</td>
+                    <td class="py-4 px-6 flex items-center gap-3">
+                      <span class="w-8 h-8 rounded-full bg-[#EDF1F6] text-[#081F5C] font-bold text-xs flex items-center justify-center border border-[#D0E3FF]/60">{{ student.initials }}</span>
+                      <span class="font-bold text-slate-800">{{ student.name }}</span>
+                    </td>
+                    <td class="py-4 px-6 font-semibold text-slate-600">{{ student.answersCount }} Jawaban</td>
+                    <td class="py-4 px-6">
+                      <span class="bg-[#F7F2EB] text-[#081F5C] px-2.5 py-1 rounded-lg text-xs font-bold border border-[#D0E3FF]/60">
+                        {{ student.points }} Poin
+                      </span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
 
@@ -291,7 +298,7 @@
       </div>
       <div>
         <h4 class="font-bold text-sm">Berhasil!</h4>
-        <p class="text-xs text-indigo-100 font-medium">{{ successMessage }}</p>
+        <p class="text-xs text-[#D0E3FF] font-medium">{{ successMessage }}</p>
       </div>
     </div>
 

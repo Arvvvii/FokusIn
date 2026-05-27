@@ -2,23 +2,23 @@
   <div class="space-y-6 animate-in fade-in duration-500">
     
     <!-- 1. GLASSMORPHIC HEADER SECTION -->
-    <div class="page-header-banner p-7 md:p-8 flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
+    <div class="tutor-page-header flex flex-col md:flex-row md:items-center justify-between gap-6 relative mb-8">
       <div class="absolute right-0 top-0 w-1/3 h-full bg-gradient-to-l from-[#EDF1F6]/80 to-transparent pointer-events-none"></div>
       
       <div class="relative z-10 flex items-center gap-4">
-        <span class="page-header-icon w-12 h-12 flex items-center justify-center shrink-0">
+        <span class="w-12 h-12 rounded-2xl bg-[#334EAC]/10 text-[#334EAC] flex items-center justify-center shrink-0">
           <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>
         </span>
         <div>
-          <h1 class="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">Materi Akademik</h1>
-          <p class="text-[15px] text-slate-600 font-medium mt-2 max-w-xl leading-relaxed">
+          <h1 class="header-title">Materi Akademik</h1>
+          <p class="header-desc mt-2 max-w-xl">
             Akses perpustakaan catatan kuliah, soal ujian, dan sumber daya akademik terverifikasi yang dikurasi oleh para tutor ahli FokusIn.
           </p>
         </div>
       </div>
 
       <div class="relative z-10 flex shrink-0">
-        <RouterLink :to="`${baseMaterialsRoute}/create`" class="btn-banner-cta px-5 py-2.5 flex items-center gap-2">
+        <RouterLink :to="`${baseMaterialsRoute}/create`" class="btn-solid px-5 py-2.5 flex items-center gap-2">
           <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg>
           Unggah Materi Baru
         </RouterLink>
@@ -75,12 +75,12 @@
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 lg:gap-8">
       
       <!-- Material Card 1 -->
-      <RouterLink :to="`${baseMaterialsRoute}/1`" class="card-base p-5 group flex flex-col h-full cursor-pointer block">
+      <RouterLink :to="`${baseMaterialsRoute}/1`" class="card-base card-featured group flex flex-col h-full cursor-pointer block">
         <div class="material-thumb material-pdf w-full h-44 rounded-2xl mb-5 relative overflow-hidden">
           <div class="absolute inset-0 flex flex-col items-center justify-center text-slate-400 group-hover:scale-105 transition-transform duration-500">
             <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="mb-2"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>
           </div>
-          <div class="absolute top-3 right-3 format-badge badge-pdf px-2.5 py-1 rounded-lg text-[10px] font-bold uppercase tracking-widest">
+          <div class="absolute top-3 right-3 format-badge badge-pdf px-2.5 py-1 rounded-lg tag-content-type">
             PDF
           </div>
         </div>
@@ -109,12 +109,12 @@
       </RouterLink>
 
       <!-- Material Card 2 -->
-      <RouterLink :to="`${baseMaterialsRoute}/2`" class="card-base p-5 group flex flex-col h-full cursor-pointer block">
+      <RouterLink :to="`${baseMaterialsRoute}/2`" class="card-base card-supporting group flex flex-col h-full cursor-pointer block">
         <div class="material-thumb material-docx w-full h-44 rounded-2xl mb-5 relative overflow-hidden">
           <div class="absolute inset-0 flex flex-col items-center justify-center text-slate-400 group-hover:scale-105 transition-transform duration-500">
             <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="mb-2"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>
           </div>
-          <div class="absolute top-3 right-3 format-badge badge-docx px-2.5 py-1 rounded-lg text-[10px] font-bold uppercase tracking-widest">
+          <div class="absolute top-3 right-3 format-badge badge-docx px-2.5 py-1 rounded-lg tag-content-type">
             DOCX
           </div>
         </div>
@@ -143,12 +143,12 @@
       </RouterLink>
 
       <!-- Material Card 3 -->
-      <RouterLink :to="`${baseMaterialsRoute}/3`" class="card-base p-5 group flex flex-col h-full cursor-pointer block">
+      <RouterLink :to="`${baseMaterialsRoute}/3`" class="card-base card-supporting group flex flex-col h-full cursor-pointer block">
         <div class="material-thumb material-vid w-full h-44 rounded-2xl mb-5 relative overflow-hidden">
           <div class="absolute inset-0 flex flex-col items-center justify-center text-emerald-300 group-hover:scale-105 transition-transform duration-500">
             <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="mb-2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
           </div>
-          <div class="absolute top-3 right-3 format-badge badge-vid px-2.5 py-1 rounded-lg text-[10px] font-bold uppercase tracking-widest">
+          <div class="absolute top-3 right-3 format-badge badge-vid px-2.5 py-1 rounded-lg tag-content-type">
             VIDEO
           </div>
         </div>

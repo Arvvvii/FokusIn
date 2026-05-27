@@ -9,6 +9,15 @@
         <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
       </button>
 
+      <!-- Academic Breadcrumb -->
+      <div class="academic-breadcrumb hidden xl:flex rounded-full border border-slate-200/50 shrink-0">
+        <span class="breadcrumb-faculty">Teknik Vokasi</span>
+        <span class="breadcrumb-sep">›</span>
+        <span class="breadcrumb-semester">Semester 4</span>
+        <span class="breadcrumb-sep">›</span>
+        <span class="breadcrumb-current">{{ $route.name || 'Dashboard' }}</span>
+      </div>
+
       <!-- Search Bar (Desktop) -->
       <div class="hidden md:flex relative w-full max-w-md group">
         <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400 group-focus-within:text-[#334EAC] transition-colors">
