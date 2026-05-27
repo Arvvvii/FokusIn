@@ -18,7 +18,7 @@
             👑 Expert Mentor
           </span>
         </div>
-        <h1 class="hero-name">Selamat pagi, Dr. Sarah</h1>
+        <h1 class="hero-name">Selamat pagi, {{ authStore.user?.name || 'Tutor' }}</h1>
         <p class="hero-greeting mt-2 max-w-xl">
           Ada <span class="hero-highlight-amber">4 sesi mentoring</span> dan <span class="hero-highlight-green">12 jawaban pending</span> yang menunggu verifikasi Anda hari ini.
         </p>
@@ -228,4 +228,7 @@
 
 <script setup>
 import { RouterLink } from 'vue-router'
+import { useAuthStore } from '@/stores/auth'
+
+const authStore = useAuthStore()
 </script>

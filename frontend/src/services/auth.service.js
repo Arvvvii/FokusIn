@@ -8,7 +8,7 @@ export const authService = {
   // Login ke server asli
   async login(email, password) {
     try {
-      const response = await api.post('/login', { email, password })
+      const response = await api.post('/auth/login', { email, password })
       
       // Simpan token dan data user dari response Laravel
       if (response.data.token) {
@@ -25,7 +25,7 @@ export const authService = {
   // Register ke server asli
   async register(data) {
     try {
-      const response = await api.post('/register', data)
+      const response = await api.post('/auth/register', data)
       return response.data
     } catch (error) {
       throw error.response?.data?.message || 'Registrasi gagal.'
@@ -35,7 +35,7 @@ export const authService = {
   // Logout (panggil endpoint logout jika ada di Laravel)
   async logout() {
     try {
-      await api.post('/logout')
+      await api.post('/auth/logout')
     } finally {
       // Selalu hapus token dari local storage apapun hasil request-nya
       localStorage.removeItem('fokusin_token')
@@ -46,7 +46,7 @@ export const authService = {
   // Ambil profil user yang sedang login dari server
   async fetchUser() {
     try {
-      const response = await api.get('/user')
+      const response = await api.get('/auth/user')
       localStorage.setItem('fokusin_user', JSON.stringify(response.data))
       return response.data
     } catch (error) {

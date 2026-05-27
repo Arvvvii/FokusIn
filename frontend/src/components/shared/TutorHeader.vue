@@ -95,9 +95,9 @@
       <!-- User Profile Dropdown Toggle -->
       <div class="relative">
         <button @click="showProfile = !showProfile" class="flex items-center gap-3 p-1 pr-2 hover:bg-[#EDF1F6] rounded-xl transition-colors focus:outline-none border border-transparent hover:border-slate-200/50">
-          <div class="tutor-avatar-topbar shrink-0">SR</div>
+          <div class="tutor-avatar-topbar shrink-0">{{ (authStore.user?.name || 'T').charAt(0).toUpperCase() }}</div>
           <div class="hidden lg:flex flex-col items-start mr-1">
-            <span class="text-sm font-bold text-[#081F5C] leading-none mb-1">Dr. Sarah R.</span>
+            <span class="text-sm font-bold text-[#081F5C] leading-none mb-1">{{ authStore.user?.name || 'Tutor' }}</span>
             <span class="text-[10px] font-bold text-[#334EAC] uppercase tracking-wider leading-none">Mentor Level 8</span>
           </div>
           <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="text-slate-400 hidden lg:block"><path d="m6 9 6 6 6-6"/></svg>

@@ -27,7 +27,7 @@
               Ilmu Komputer '24
             </span>
           </div>
-          <h1 class="text-2xl md:text-3xl font-bold tracking-tight mb-1 text-white">John Doe</h1>
+          <h1 class="text-2xl md:text-3xl font-bold tracking-tight mb-1 text-white">{{ authStore.user?.name || 'Pelajar' }}</h1>
           <p class="text-xs md:text-sm text-[#BAD6EB] font-normal max-w-xl leading-relaxed mb-3">
             Mahasiswa S1 dengan fokus pada Kecerdasan Buatan dan Sistem Terdistribusi. Aktif mengeksplorasi persimpangan antara Data Science dan Software Engineering.
           </p>
@@ -417,4 +417,7 @@
 
 <script setup>
 import { RouterLink } from 'vue-router'
+import { useAuthStore } from '@/stores/auth'
+
+const authStore = useAuthStore()
 </script>

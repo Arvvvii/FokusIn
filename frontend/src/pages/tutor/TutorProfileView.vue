@@ -15,7 +15,7 @@
             <!-- Avatar -->
             <div class="-mt-16 md:-mt-20 shrink-0 relative group">
               <div class="profile-avatar-container">
-                <span class="text-slate-900 font-bold text-4xl tracking-tight">SR</span>
+                <span class="text-slate-900 font-bold text-4xl tracking-tight">{{ (authStore.user?.name || 'T').charAt(0).toUpperCase() }}</span>
               </div>
               <button @click="triggerAvatarUpload" class="absolute bottom-2 right-2 w-10 h-10 bg-white rounded-full shadow-lg border border-slate-100 flex items-center justify-center text-slate-400 hover:text-[#334EAC] transition-colors z-20 hover:scale-105 active:scale-95">
                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg>
@@ -27,7 +27,7 @@
               <div class="flex flex-col md:flex-row md:items-start justify-between gap-4">
                 <div>
                   <h1 class="profile-name">
-                    Dr. Sarah Rahman
+                    {{ authStore.user?.name || 'Tutor' }}
                     <span class="w-5 h-5 bg-emerald-500 rounded-full flex items-center justify-center shadow-sm" title="Verified Mentor">
                       <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
                     </span>
@@ -303,6 +303,9 @@
 <script setup>
 import { ref } from 'vue'
 import { RouterLink } from 'vue-router'
+import { useAuthStore } from '@/stores/auth'
+
+const authStore = useAuthStore()
 
 const showSuccess = ref(false)
 const successMessage = ref('')

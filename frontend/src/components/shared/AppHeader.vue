@@ -88,10 +88,10 @@
       <div class="relative">
         <button @click="showProfile = !showProfile" class="flex items-center gap-3 p-1 pr-2 hover:bg-[#EDF1F6] rounded-xl transition-colors focus:outline-none border border-transparent hover:border-slate-200/50">
           <div class="w-9 h-9 rounded-full bg-[#EDF1F6] border-2 border-white shadow-sm shrink-0 flex items-center justify-center overflow-hidden">
-            <span class="text-[#081F5C] font-bold text-sm">JD</span>
+            <span class="text-[#081F5C] font-bold text-sm">{{ (authStore.user?.name || 'P').charAt(0).toUpperCase() }}</span>
           </div>
           <div class="hidden lg:flex items-center gap-2">
-            <span class="text-sm font-bold text-slate-700">John Doe</span>
+            <span class="text-sm font-bold text-slate-700">{{ authStore.user?.name || 'Pelajar' }}</span>
             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="text-slate-400"><path d="m6 9 6 6 6-6"/></svg>
           </div>
         </button>

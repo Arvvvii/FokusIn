@@ -18,7 +18,7 @@
           </div>
           
           <h1 class="text-[26px] md:text-[28px] font-bold tracking-tight mb-2 text-white leading-tight">
-            Selamat datang kembali, John.
+            Selamat datang kembali, {{ authStore.user?.name || 'Pelajar' }}.
           </h1>
           <p class="text-[14px] text-[#D0E3FF]/90 font-medium mb-8 max-w-xl leading-relaxed">
             Jelajahi, belajar, dan berkembang! Tingkatkan aktivitas di forum, jadwalkan sesi mentoring mendatang, dan pantau progres belajarmu.
@@ -236,6 +236,9 @@
 
 <script setup>
 import { RouterLink } from 'vue-router'
+import { useAuthStore } from '@/stores/auth'
+
+const authStore = useAuthStore()
 
 const stats = [
   { label: 'Reputasi', value: '1,240', change: '+12%', trend: 'up', icon: '<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>', color: 'text-amber-500', bg: 'bg-amber-50 border-amber-100/50' },
