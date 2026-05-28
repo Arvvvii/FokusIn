@@ -28,16 +28,16 @@
       <div class="overflow-x-auto">
         <table class="w-full text-left border-collapse">
           <thead>
-            <tr class="bg-slate-50 border-b border-slate-100">
-              <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Quiz ID</th>
-              <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Title</th>
-              <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Subject</th>
-              <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Participants</th>
-              <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider text-right">Action</th>
+            <tr class="admin-table-header">
+              <th class="admin-table-col-label px-6 py-4">Quiz ID</th>
+              <th class="admin-table-col-label px-6 py-4">Title</th>
+              <th class="admin-table-col-label px-6 py-4">Subject</th>
+              <th class="admin-table-col-label px-6 py-4">Participants</th>
+              <th class="admin-table-col-label px-6 py-4 text-right">Action</th>
             </tr>
           </thead>
           <tbody class="divide-y divide-slate-100">
-            <tr v-for="quiz in quizzes" :key="quiz.id" class="hover:bg-slate-50/50 transition-colors">
+            <tr v-for="quiz in quizzes" :key="quiz.id" class="admin-table-row">
               <td class="px-6 py-4 text-sm font-bold text-slate-900">#{{ quiz.id }}</td>
               <td class="px-6 py-4 text-sm font-semibold text-slate-900">{{ quiz.title }}</td>
               <td class="px-6 py-4 text-sm text-slate-700 font-medium">{{ quiz.subject }}</td>

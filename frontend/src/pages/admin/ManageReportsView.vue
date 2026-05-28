@@ -2,14 +2,14 @@
   <div class="p-6 md:p-8 xl:p-10 max-w-[1600px] mx-auto animate-in fade-in duration-500">
     
     <!-- Header -->
-    <div class="bg-white/60 backdrop-blur-xl rounded-3xl p-7 md:p-8 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-200/60 relative overflow-hidden mb-8">
+    <div class="admin-dashboard-hero mb-8">
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 relative z-10">
         <div>
           <h1 class="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">User Reports & Escalation</h1>
           <p class="text-[15px] text-slate-600 font-medium mt-2 max-w-xl leading-relaxed">Tinjau laporan pengguna, tangani pelanggaran serius, dan kelola eskalasi kasus secara komprehensif.</p>
         </div>
         <div class="flex items-center gap-4">
-          <select class="px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-sm font-bold text-slate-600 shadow-sm focus:outline-none focus:border-[#334EAC] appearance-none cursor-pointer">
+          <select class="filter-dropdown appearance-none">
             <option>Terbaru</option>
             <option>Prioritas Tinggi</option>
             <option>Diselesaikan</option>
@@ -24,12 +24,11 @@
       <!-- Left Column: Queue List -->
       <div class="lg:col-span-1 flex flex-col gap-4 max-h-[800px] overflow-y-auto custom-scrollbar pr-2">
         <div v-for="report in reports" :key="report.id" 
-             class="bg-white p-5 rounded-2xl border transition-all cursor-pointer shadow-sm group"
-             :class="selectedReport?.id === report.id ? 'border-[#334EAC] ring-1 ring-[#334EAC] bg-[#F7F2EB]/10' : 'border-slate-200 hover:border-[#7096D1]'"
+             class="report-card group"
+             :class="{ 'selected': selectedReport?.id === report.id }"
              @click="selectedReport = report">
           <div class="flex items-start justify-between mb-3">
-            <span class="px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-widest"
-                  :class="report.severity === 'High' ? 'bg-rose-50 text-rose-700' : (report.severity === 'Medium' ? 'bg-amber-50 text-amber-700' : 'bg-sky-50 text-sky-700')">
+            <span :class="report.type === 'Spam' ? 'badge-spam' : (report.type === 'Plagiarisme' ? 'badge-plagiarisme' : 'badge-spam')">
               {{ report.type }}
             </span>
             <span class="text-xs font-bold text-slate-400">{{ report.time }}</span>
@@ -48,12 +47,12 @@
 
       <!-- Right Column: Detail & Action Panel -->
       <div class="lg:col-span-2">
-        <div v-if="selectedReport" class="bg-white rounded-2xl border border-slate-200 shadow-sm h-full flex flex-col overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+        <div v-if="selectedReport" class="admin-card h-full flex flex-col overflow-hidden animate-in fade-in zoom-in-95 duration-200">
           
           <!-- Detail Header -->
           <div class="p-6 border-b border-slate-100 bg-slate-50/50">
             <div class="flex items-center gap-3 mb-2">
-              <span class="px-2.5 py-1 bg-rose-100 text-rose-700 rounded-md text-[10px] font-bold uppercase tracking-widest">
+              <span class="badge-dilaporkan">
                 <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="inline-block mr-1 -mt-0.5"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" x2="12" y1="9" y2="13"/><line x1="12" x2="12.01" y1="17" y2="17"/></svg>
                 Dilaporkan {{ selectedReport.flagCount }} kali
               </span>
@@ -68,7 +67,7 @@
           <!-- Content Review -->
           <div class="p-6 flex-1 overflow-y-auto">
             <h3 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">Konten yang Dilaporkan</h3>
-            <div class="p-5 bg-slate-50 rounded-xl border border-slate-200 text-sm text-slate-700 leading-relaxed mb-6 font-medium">
+            <div class="reported-content-box mb-6">
               {{ selectedReport.content }}
             </div>
             
@@ -105,12 +104,12 @@
         </div>
 
         <!-- Empty State -->
-        <div v-else class="h-full bg-white rounded-2xl border border-slate-200 shadow-sm flex flex-col items-center justify-center p-10 text-center">
-          <div class="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center mb-4 text-slate-400">
+        <div v-else class="admin-card report-empty-state">
+          <div class="report-empty-icon">
             <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="m9 12 2 2 4-4"/></svg>
           </div>
-          <h3 class="text-lg font-bold text-slate-700 tracking-tight mb-2">Tidak ada laporan yang dipilih</h3>
-          <p class="text-sm text-slate-500 max-w-sm">Pilih laporan dari daftar di sebelah kiri untuk meninjau dan mengambil tindakan operasional.</p>
+          <h3 class="report-empty-title">Tidak ada laporan yang dipilih</h3>
+          <p class="report-empty-desc">Pilih laporan dari daftar di sebelah kiri untuk meninjau dan mengambil tindakan operasional.</p>
         </div>
       </div>
       

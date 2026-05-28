@@ -39,13 +39,13 @@
             <p class="text-sm font-bold text-slate-900">Q1: Apa fungsi mitokondria?</p>
             <p class="text-xs text-slate-500 font-medium">Correct answer: B (Respirasi sel)</p>
           </div>
-          <button class="px-3 py-1.5 text-xs font-bold text-[#081F5C] bg-[#F7F2EB] rounded-lg">Edit</button>
+          <RouterLink :to="`/admin/quiz-monitoring/${id}/edit`" class="px-3 py-1.5 text-xs font-bold text-[#081F5C] bg-[#F7F2EB] rounded-lg">Edit</RouterLink>
         </div>
         <div class="p-4 border border-slate-200 rounded-xl flex items-center justify-between">
           <div>
             <p class="text-sm font-bold text-slate-900">Q2: ...</p>
           </div>
-          <button class="px-3 py-1.5 text-xs font-bold text-[#081F5C] bg-[#F7F2EB] rounded-lg">Edit</button>
+          <RouterLink :to="`/admin/quiz-monitoring/${id}/edit`" class="px-3 py-1.5 text-xs font-bold text-[#081F5C] bg-[#F7F2EB] rounded-lg">Edit</RouterLink>
         </div>
       </div>
     </div>

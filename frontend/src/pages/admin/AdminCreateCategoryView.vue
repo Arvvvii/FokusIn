@@ -2,7 +2,7 @@
   <div class="p-6 md:p-8 xl:p-10 max-w-4xl mx-auto animate-in fade-in duration-500">
     
     <!-- Header -->
-    <div class="bg-white/60 backdrop-blur-xl rounded-3xl p-7 md:p-8 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-200/60 relative overflow-hidden mb-8">
+    <div class="admin-dashboard-hero mb-8">
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 relative z-10">
         <div class="flex items-center gap-4">
           <button 
@@ -20,27 +20,27 @@
     </div>
 
     <!-- Form Section -->
-    <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 md:p-8">
-      <h3 class="text-xl font-bold text-slate-900 mb-6 border-b border-slate-100 pb-4">Detail Kategori</h3>
+    <div class="admin-card p-6 md:p-8">
+      <h3 class="settings-form-title border-b border-slate-100 pb-4">Detail Kategori</h3>
       <form @submit.prevent="submitForm" class="space-y-6">
         
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
           <div class="space-y-2">
-            <label class="text-sm font-semibold text-slate-900 block">Nama Kategori</label>
+            <label class="admin-label">Nama Kategori</label>
             <input 
               v-model="form.name"
               type="text" 
               required
-              class="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:border-[#334EAC] focus:ring-4 focus:ring-[#334EAC]/10 transition-all shadow-sm"
+              class="admin-input"
               placeholder="Contoh: Kalkulus Lanjut"
             >
           </div>
           <div class="space-y-2">
-            <label class="text-sm font-semibold text-slate-900 block">Grup Taksonomi</label>
+            <label class="admin-label">Grup Taksonomi</label>
             <select 
               v-model="form.group"
               required
-              class="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-sm text-slate-900 focus:outline-none focus:border-[#334EAC] focus:ring-4 focus:ring-[#334EAC]/10 transition-all shadow-sm appearance-none cursor-pointer"
+              class="admin-input appearance-none cursor-pointer"
             >
               <option value="stem">STEM</option>
               <option value="social">Social Sciences</option>
@@ -51,11 +51,11 @@
         </div>
 
         <div class="space-y-2">
-          <label class="text-sm font-semibold text-slate-900 block">Deskripsi Kategori</label>
+          <label class="admin-label">Deskripsi Kategori</label>
           <textarea 
             v-model="form.description"
             rows="4"
-            class="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:border-[#334EAC] focus:ring-4 focus:ring-[#334EAC]/10 transition-all shadow-sm resize-none"
+            class="admin-input resize-none"
             placeholder="Deskripsi opsional terkait kategori ini"
           ></textarea>
         </div>

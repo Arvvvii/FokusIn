@@ -1,5 +1,5 @@
 @import "tailwindcss";
-
+@import "./admin.css";
 @theme {
   --color-navy: #081F5C;
   --color-royal: #334EAC;

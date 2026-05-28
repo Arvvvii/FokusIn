@@ -13,7 +13,7 @@
     </div>
 
     <!-- Header -->
-    <div class="bg-white/60 backdrop-blur-xl rounded-3xl p-7 md:p-8 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-200/60 relative overflow-hidden mb-8">
+    <div class="admin-dashboard-hero mb-8">
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 relative z-10">
         <div class="flex items-center gap-4">
           <div>
@@ -25,29 +25,29 @@
     </div>
 
     <!-- Form Section -->
-    <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 md:p-8">
-      <h3 class="text-xl font-bold text-slate-900 mb-6 border-b border-slate-100 pb-4">Informasi Akun</h3>
+    <div class="admin-card p-6 md:p-8">
+      <h3 class="settings-form-title border-b border-slate-100 pb-4">Informasi Akun</h3>
       <form @submit.prevent="submitForm" class="space-y-6">
         
         <!-- Name & Email -->
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
           <div class="space-y-2">
-            <label class="text-sm font-semibold text-slate-900 block">Nama Lengkap</label>
+            <label class="admin-label">Nama Lengkap</label>
             <input 
               v-model="form.name"
               type="text" 
               required
-              class="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:border-[#334EAC] focus:ring-4 focus:ring-[#334EAC]/10 transition-all shadow-sm"
+              class="admin-input"
               placeholder="Masukkan nama lengkap"
             >
           </div>
           <div class="space-y-2">
-            <label class="text-sm font-semibold text-slate-900 block">Email Address</label>
+            <label class="admin-label">Email Address</label>
             <input 
               v-model="form.email"
               type="email" 
               required
-              class="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:border-[#334EAC] focus:ring-4 focus:ring-[#334EAC]/10 transition-all shadow-sm"
+              class="admin-input"
               placeholder="email@example.com"
             >
           </div>
@@ -56,11 +56,11 @@
         <!-- Role & Status -->
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
           <div class="space-y-2">
-            <label class="text-sm font-semibold text-slate-900 block">Role Akun</label>
+            <label class="admin-label">Role Akun</label>
             <select 
               v-model="form.role"
               required
-              class="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-sm text-slate-900 focus:outline-none focus:border-[#334EAC] focus:ring-4 focus:ring-[#334EAC]/10 transition-all shadow-sm appearance-none cursor-pointer"
+              class="admin-input appearance-none cursor-pointer"
             >
               <option value="pelajar">Pelajar</option>
               <option value="tutor">Tutor</option>
@@ -68,11 +68,11 @@
             </select>
           </div>
           <div class="space-y-2">
-            <label class="text-sm font-semibold text-slate-900 block">Status Awal</label>
+            <label class="admin-label">Status Awal</label>
             <select 
               v-model="form.status"
               required
-              class="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-sm text-slate-900 focus:outline-none focus:border-[#334EAC] focus:ring-4 focus:ring-[#334EAC]/10 transition-all shadow-sm appearance-none cursor-pointer"
+              class="admin-input appearance-none cursor-pointer"
             >
               <option value="active">Active</option>
               <option value="suspended">Suspended</option>
@@ -82,23 +82,23 @@
 
         <!-- Specialization (Only for Tutor) -->
         <div v-if="form.role === 'tutor'" class="space-y-2">
-          <label class="text-sm font-semibold text-slate-900 block">Spesialisasi <span class="text-slate-400 font-normal">(Opsional)</span></label>
+          <label class="admin-label">Spesialisasi <span class="text-slate-400 font-normal">(Opsional)</span></label>
           <input 
             v-model="form.specialization"
             type="text" 
-            class="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:border-[#7096D1] focus:ring-4 focus:ring-[#7096D1]/10 transition-all shadow-sm"
+            class="admin-input"
             placeholder="Contoh: Matematika, Fisika, dll."
           >
         </div>
 
         <!-- Password -->
         <div class="space-y-2">
-          <label class="text-sm font-semibold text-slate-900 block">Password Setup</label>
+          <label class="admin-label">Password Setup</label>
           <input 
             v-model="form.password"
             type="password" 
             required
-            class="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:border-[#7096D1] focus:ring-4 focus:ring-[#7096D1]/10 transition-all shadow-sm"
+            class="admin-input"
             placeholder="Buat password awal"
           >
         </div>

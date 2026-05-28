@@ -2,16 +2,16 @@
   <div class="p-6 md:p-8 xl:p-10 max-w-[1600px] mx-auto animate-in fade-in duration-500">
     
     <!-- Header -->
-    <div class="bg-white/60 backdrop-blur-xl rounded-3xl p-7 md:p-8 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-200/60 relative overflow-hidden mb-8">
+    <div class="admin-dashboard-hero mb-8">
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 relative z-10">
         <div>
           <h1 class="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">AI Monitoring Workspace</h1>
           <p class="text-[15px] text-slate-600 font-medium mt-2 max-w-xl leading-relaxed">Pantau kinerja sistem ekstraksi AI, tingkat kepercayaan, dan log analisis real-time.</p>
         </div>
         <div class="flex items-center gap-4">
-          <div class="px-4 py-2 bg-[#F7F2EB] border border-[#D0E3FF] rounded-xl text-[#081F5C] font-bold text-sm shadow-sm flex items-center gap-2">
-            <span class="w-2 h-2 rounded-full bg-[#334EAC] animate-ping absolute"></span>
-            <span class="w-2 h-2 rounded-full bg-[#334EAC] relative"></span>
+          <div class="pill-ai-monitoring">
+            <span class="live-dot animate-ping absolute"></span>
+            <span class="live-dot relative"></span>
             AI Node: Active
           </div>
         </div>
@@ -20,29 +20,29 @@
 
     <!-- Analytics Cards -->
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-      <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
+      <div class="admin-card p-5 stat-panel">
         <p class="text-[11px] font-extrabold text-slate-400 uppercase tracking-widest mb-1">Total Analysis Today</p>
         <h3 class="text-3xl font-extrabold text-[#081F5C] tracking-tight">8,431</h3>
-        <p class="text-xs font-bold text-emerald-500 mt-2 flex items-center gap-1">
+        <p class="change-up mt-2 flex items-center gap-1">
           <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
           +14% vs yesterday
         </p>
       </div>
-      <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
+      <div class="admin-card p-5 stat-panel">
         <p class="text-[11px] font-extrabold text-slate-400 uppercase tracking-widest mb-1">Avg Confidence Score</p>
         <h3 class="text-3xl font-extrabold text-[#081F5C] tracking-tight">94.2%</h3>
         <p class="text-xs font-bold text-slate-400 mt-2 flex items-center gap-1">
           Target: >90% (Optimal)
         </p>
       </div>
-      <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
+      <div class="admin-card p-5 stat-panel">
         <p class="text-[11px] font-extrabold text-slate-400 uppercase tracking-widest mb-1">Pending AI Validation</p>
         <h3 class="text-3xl font-extrabold text-[#081F5C] tracking-tight">42</h3>
         <p class="text-xs font-bold text-amber-500 mt-2 flex items-center gap-1">
           Waiting for Tutor Review
         </p>
       </div>
-      <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
+      <div class="admin-card p-5 stat-panel">
         <p class="text-[11px] font-extrabold text-slate-400 uppercase tracking-widest mb-1">Failed Parsing</p>
         <h3 class="text-3xl font-extrabold text-[#081F5C] tracking-tight">18</h3>
         <p class="text-xs font-bold text-rose-500 mt-2 flex items-center gap-1">
@@ -54,7 +54,7 @@
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
       
       <!-- Chart Area (Dummy representation) -->
-      <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 lg:col-span-2 flex flex-col">
+      <div class="admin-card p-6 lg:col-span-2 flex flex-col panel-chart">
         <div class="flex items-center justify-between mb-6">
           <h2 class="text-lg font-extrabold text-[#081F5C]">AI Confidence Trends</h2>
           <div class="flex gap-2">
@@ -63,7 +63,7 @@
           </div>
         </div>
         
-        <div class="flex-1 bg-slate-50/50 rounded-xl border border-slate-100 flex items-center justify-center p-8 relative overflow-hidden min-h-[300px]">
+        <div class="chart-display-area min-h-[300px]">
           <!-- Dummy Chart Graphic -->
           <div class="absolute bottom-0 inset-x-0 h-1/2 bg-gradient-to-t from-[#F7F2EB] to-transparent"></div>
           <svg class="absolute inset-0 w-full h-full" preserveAspectRatio="none" viewBox="0 0 100 100">
@@ -78,11 +78,11 @@
       </div>
 
       <!-- Live AI Logs -->
-      <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 flex flex-col h-full">
+      <div class="admin-card p-6 flex flex-col h-full panel-logs">
         <h2 class="text-lg font-extrabold text-[#081F5C] mb-6">Live AI Logs</h2>
         <div class="flex-1 space-y-3 overflow-y-auto custom-scrollbar pr-2 max-h-[350px]">
           
-          <div v-for="log in aiLogs" :key="log.id" class="p-3 rounded-xl border bg-slate-50 text-sm font-mono relative overflow-hidden group" :class="log.status === 'Success' ? 'border-emerald-100' : (log.status === 'Warning' ? 'border-amber-100' : 'border-rose-100')">
+          <div v-for="log in aiLogs" :key="log.id" class="ai-log-item" :class="log.status === 'Success' ? 'status-success' : (log.status === 'Warning' ? 'status-warning' : 'status-error')">
             <!-- decorative gradient line -->
             <div class="absolute left-0 top-0 bottom-0 w-1" :class="log.status === 'Success' ? 'bg-emerald-400' : (log.status === 'Warning' ? 'bg-amber-400' : 'bg-rose-400')"></div>
             

@@ -2,13 +2,13 @@
   <div class="p-6 md:p-8 xl:p-10 max-w-[1600px] mx-auto animate-in fade-in duration-500">
     
     <!-- Header -->
-    <div class="bg-white/60 backdrop-blur-xl rounded-3xl p-7 md:p-8 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-200/60 relative overflow-hidden flex flex-col sm:flex-row sm:items-start justify-between gap-5 mb-6">
+    <div class="admin-dashboard-hero mb-6 flex flex-col sm:flex-row sm:items-start justify-between gap-5">
       <div>
         <h1 class="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">Arsip & Kurasi Materi</h1>
         <p class="text-[15px] text-slate-600 font-medium mt-2 max-w-xl leading-relaxed">Verifikasi, setujui, atau tolak materi ilmiah dan modul ajar yang diunggah oleh tutor.</p>
       </div>
       <div class="flex items-center gap-4">
-        <button class="text-sm font-medium h-10 px-5 bg-white text-slate-700 border border-slate-200 rounded-xl hover:bg-slate-50 transition-all flex items-center gap-2 shadow-sm">
+        <button class="btn-export px-5 h-10 flex items-center gap-2">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
           Ekspor CSV
         </button>
@@ -24,18 +24,18 @@
         <input 
           type="text" 
           v-model="searchQuery"
-          class="w-full pl-10 pr-4 py-2.5 bg-white border border-slate-200 rounded-xl text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:border-[#7096D1] focus:ring-4 focus:ring-[#7096D1]/10 transition-all shadow-sm" 
+          class="admin-input w-full pl-10" 
           placeholder="Cari judul materi, pengunggah, atau subjek..."
         >
       </div>
       <div class="flex items-center gap-2">
-        <select v-model="filterSubject" class="px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-sm font-medium text-slate-600 focus:outline-none focus:border-[#7096D1] shadow-sm cursor-pointer">
+        <select v-model="filterSubject" class="period-selector appearance-none h-10">
           <option value="">Semua Subjek</option>
           <option value="Fisika">Fisika</option>
           <option value="Ilmu Komputer">Ilmu Komputer</option>
           <option value="Matematika">Matematika</option>
         </select>
-        <select v-model="filterStatus" class="px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-sm font-medium text-slate-600 focus:outline-none focus:border-[#7096D1] shadow-sm cursor-pointer">
+        <select v-model="filterStatus" class="period-selector appearance-none h-10">
           <option value="">Semua Status</option>
           <option value="Pending">Menunggu Verifikasi</option>
           <option value="Approved">Disetujui</option>
@@ -44,7 +44,7 @@
     </div>
 
     <!-- Materials List -->
-    <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+    <div class="admin-table-container">
       <div class="overflow-x-auto">
         <table class="w-full text-left border-collapse">
           <thead>

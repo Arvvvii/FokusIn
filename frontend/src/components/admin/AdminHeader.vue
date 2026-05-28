@@ -1,5 +1,5 @@
 <template>
-  <header class="sticky top-0 z-30 bg-white/70 backdrop-blur-xl border-b border-slate-200/50 h-16 flex items-center justify-between px-4 sm:px-6 lg:px-8 shadow-[0_4px_30px_rgba(0,0,0,0.02)]">
+  <header class="admin-topbar flex items-center justify-between px-4 sm:px-6 lg:px-8">
     
     <!-- LEFT: Search -->
     <div class="flex-1 flex items-center max-w-md">
@@ -12,7 +12,7 @@
           class="w-full pl-10 pr-4 py-2 bg-slate-50/50 border border-slate-200 rounded-xl text-[13px] font-bold text-slate-700 placeholder-slate-400 focus:outline-none focus:bg-white focus:border-[#7096D1] focus:ring-4 focus:ring-[#7096D1]/10 transition-all" 
           placeholder="Cari user, laporan, atau topik..."
         >
-        <div class="absolute inset-y-0 right-0 pr-2 flex items-center pointer-events-none">
+        <div class="absolute inset-y-0 right-0 pr-2 hidden sm:flex items-center pointer-events-none">
           <span class="px-1.5 py-0.5 bg-slate-100 border border-slate-200 rounded text-[9px] font-bold text-slate-400">Ctrl K</span>
         </div>
       </div>
@@ -22,21 +22,21 @@
     <div class="flex items-center gap-3 sm:gap-4 shrink-0 ml-4">
       
       <!-- Analytics -->
-      <RouterLink to="/admin/analytics" class="hidden lg:flex items-center gap-2 px-3 py-1.5 text-slate-500 hover:text-[#081F5C] hover:bg-slate-100 rounded-lg cursor-pointer transition-colors font-bold text-xs">
+      <RouterLink to="/admin/analytics" class="pill-analytics hidden lg:flex" :class="[ isActive('/admin/analytics') ? 'active' : '' ]">
         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" x2="18" y1="20" y2="10"/><line x1="12" x2="12" y1="20" y2="4"/><line x1="6" x2="6" y1="20" y2="14"/></svg>
         Analytics
       </RouterLink>
 
       <!-- Moderation Queue -->
-      <RouterLink to="/admin/moderation" class="hidden lg:flex items-center gap-2 px-3 py-1.5 text-slate-500 hover:text-[#081F5C] hover:bg-slate-100 rounded-lg cursor-pointer transition-colors font-bold text-xs">
+      <RouterLink to="/admin/moderation" class="pill-moderation hidden lg:flex" :class="[ isActive('/admin/moderation') ? 'active' : '' ]">
         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" x2="12" y1="9" y2="13"/><line x1="12" x2="12.01" y1="17" y2="17"/></svg>
         Moderation
       </RouterLink>
 
       <!-- AI Status -->
-      <RouterLink to="/admin/ai-monitoring" class="hidden md:flex items-center gap-2 px-3 py-1.5 bg-[#F7F2EB] border border-[#D0E3FF] rounded-lg cursor-pointer hover:bg-[#D0E3FF]/50 transition-colors">
-        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="text-[#334EAC]"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
-        <span class="text-[11px] font-extrabold text-[#081F5C] uppercase tracking-widest">AI Monitoring Active</span>
+      <RouterLink to="/admin/ai-monitoring" class="pill-ai-monitoring hidden md:flex">
+        <span class="live-dot"></span>
+        AI MONITORING ACTIVE
       </RouterLink>
 
       <div class="w-px h-6 bg-slate-200 hidden sm:block"></div>
@@ -84,12 +84,18 @@
 
 <script setup>
 import { ref } from 'vue'
-import { RouterLink, useRouter } from 'vue-router'
+import { useRoute, RouterLink, useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 
+const route = useRoute()
 const router = useRouter()
 const authStore = useAuthStore()
 const showProfile = ref(false)
+
+const isActive = (path) => {
+  if (!route) return false
+  return route.path === path || route.path.startsWith(path + '/')
+}
 
 const handleLogout = async () => {
   await authStore.logout()

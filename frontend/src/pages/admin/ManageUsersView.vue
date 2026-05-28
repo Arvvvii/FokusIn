@@ -2,7 +2,7 @@
   <div class="p-6 md:p-8 xl:p-10 max-w-[1600px] mx-auto animate-in fade-in duration-500">
     
     <!-- Header -->
-    <div class="bg-white/60 backdrop-blur-xl rounded-3xl p-7 md:p-8 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-200/60 relative overflow-hidden mb-8">
+    <div class="admin-dashboard-hero mb-8">
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 relative z-10">
         <div>
           <h1 class="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">Manajemen Pengguna</h1>
@@ -11,7 +11,7 @@
         <div class="flex items-center gap-4">
           <button 
             @click="$router.push({ name: 'admin-users-create' })"
-            class="px-5 py-2.5 bg-[#081F5C] text-white rounded-xl font-semibold text-sm shadow-sm hover:bg-[#081F5C] transition-all flex items-center gap-2"
+            class="btn-tambah-user px-5 py-2.5"
           >
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
             Tambah User
@@ -21,25 +21,25 @@
     </div>
 
     <!-- Filters & Search -->
-    <div class="flex flex-col md:flex-row gap-4 mb-6">
-      <div class="relative flex-1 max-w-md">
-        <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400">
+    <div class="admin-filter-bar mb-6 p-3 flex flex-col md:flex-row gap-4 items-center">
+      <div class="relative flex-1 w-full max-w-md">
+        <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-[#8A9CC0]">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
         </div>
         <input 
           type="text" 
-          class="w-full pl-11 pr-4 py-2.5 bg-white border border-slate-200 rounded-xl text-sm font-medium text-slate-700 placeholder-slate-400 focus:outline-none focus:border-[#7096D1] focus:ring-4 focus:ring-[#7096D1]/10 transition-all shadow-sm" 
+          class="admin-search-input pl-11 pr-4 py-1.5" 
           placeholder="Cari nama, email..."
         >
       </div>
-      <div class="flex items-center gap-2">
-        <select class="px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-sm font-medium text-slate-600 focus:outline-none focus:border-[#7096D1] shadow-sm appearance-none cursor-pointer">
+      <div class="flex items-center gap-2 w-full md:w-auto ml-auto">
+        <select class="filter-dropdown appearance-none">
           <option value="">Semua Role</option>
           <option value="pelajar">Pelajar</option>
           <option value="tutor">Tutor</option>
           <option value="admin">Admin</option>
         </select>
-        <select class="px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-sm font-medium text-slate-600 focus:outline-none focus:border-[#7096D1] shadow-sm appearance-none cursor-pointer">
+        <select class="filter-dropdown appearance-none">
           <option value="">Semua Status</option>
           <option value="active">Active</option>
           <option value="suspended">Suspended</option>
@@ -48,20 +48,20 @@
     </div>
 
     <!-- Table Container -->
-    <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+    <div class="admin-table-container">
       <div class="overflow-x-auto">
         <table class="w-full text-left border-collapse">
           <thead>
-            <tr class="bg-slate-50 border-b border-slate-200">
-              <th class="px-6 py-4 text-xs font-semibold text-slate-500">Name</th>
-              <th class="px-6 py-4 text-xs font-semibold text-slate-500">Role</th>
-              <th class="px-6 py-4 text-xs font-semibold text-slate-500">Status</th>
-              <th class="px-6 py-4 text-xs font-semibold text-slate-500">Last Active</th>
-              <th class="px-6 py-4 text-xs font-semibold text-slate-500 text-right">Actions</th>
+            <tr class="admin-table-header">
+              <th class="admin-table-col-label px-6 py-4">Name</th>
+              <th class="admin-table-col-label px-6 py-4">Role</th>
+              <th class="admin-table-col-label px-6 py-4">Status</th>
+              <th class="admin-table-col-label px-6 py-4">Last Active</th>
+              <th class="admin-table-col-label px-6 py-4 text-right">Actions</th>
             </tr>
           </thead>
           <tbody class="divide-y divide-slate-100">
-            <tr v-for="user in users" :key="user.id" class="hover:bg-slate-50/50 transition-colors group">
+            <tr v-for="user in users" :key="user.id" class="admin-table-row group">
               <td class="px-6 py-4">
                 <div class="flex items-center gap-3">
                   <div class="w-9 h-9 rounded-full flex items-center justify-center text-white font-bold text-xs shrink-0" :class="user.avatarBg">
@@ -74,13 +74,10 @@
                 </div>
               </td>
               <td class="px-6 py-4">
-                <span class="px-2.5 py-1 bg-slate-100 text-slate-700 text-xs font-medium rounded-md capitalize">{{ user.role }}</span>
+                <span :class="user.role === 'Pelajar' ? 'role-badge-pelajar' : (user.role === 'Tutor' ? 'role-badge-tutor' : 'px-2.5 py-1 bg-slate-100 text-slate-700 text-xs font-medium rounded-md capitalize')">{{ user.role }}</span>
               </td>
               <td class="px-6 py-4">
-                <div class="flex items-center gap-1.5">
-                  <span class="w-1.5 h-1.5 rounded-full" :class="user.status === 'Active' ? 'bg-emerald-500' : 'bg-rose-500'"></span>
-                  <span class="text-xs font-medium" :class="user.status === 'Active' ? 'text-emerald-700' : 'text-rose-700'">{{ user.status }}</span>
-                </div>
+                <span :class="user.status === 'Active' ? 'status-active' : 'status-suspended'">{{ user.status }}</span>
               </td>
               <td class="px-6 py-4 text-sm text-slate-600">
                 {{ user.lastActive }}
@@ -127,15 +124,15 @@
         <div class="absolute inset-0 bg-slate-900/40 backdrop-blur-sm" @click="closeModal"></div>
         
         <!-- Modal Panel -->
-        <div class="relative bg-white rounded-2xl shadow-xl w-full max-w-md overflow-hidden animate-in zoom-in-95 duration-200">
-          <div class="p-6 border-b border-slate-100 flex items-center justify-between">
-            <h3 class="text-lg font-bold text-slate-900">{{ modalAction }} User</h3>
-            <button @click="closeModal" class="p-2 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-xl transition-colors">
+        <div class="admin-modal relative w-full overflow-hidden animate-in zoom-in-95 duration-200">
+          <div class="admin-modal-header">
+            <h3 class="admin-modal-title">{{ modalAction }} User</h3>
+            <button @click="closeModal" class="admin-modal-close">
               <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
             </button>
           </div>
           
-          <div class="p-6">
+          <div class="admin-modal-body">
             <div class="flex items-center gap-4 mb-6">
               <div class="w-12 h-12 rounded-full flex items-center justify-center text-white font-bold text-lg shrink-0" :class="selectedUser?.avatarBg">
                 {{ selectedUser?.initials }}
@@ -154,11 +151,11 @@
             </p>
 
             <div class="flex items-center justify-end gap-3">
-              <button @click="closeModal" class="px-4 py-2 bg-white text-slate-700 border border-slate-200 rounded-xl text-sm font-medium hover:bg-slate-50 transition-colors">Batal</button>
+              <button @click="closeModal" class="btn-modal-secondary">Batal</button>
               <button 
                 @click="confirmAction" 
-                class="px-4 py-2 text-white rounded-xl text-sm font-medium transition-colors"
-                :class="modalAction === 'Suspend' ? 'bg-rose-600 hover:bg-rose-700' : 'bg-[#334EAC] hover:bg-[#081F5C]'"
+                class="btn-modal-primary"
+                :class="modalAction === 'Suspend' ? '!bg-rose-600 hover:!bg-rose-700 !shadow-rose-600/25' : ''"
               >
                 Konfirmasi {{ modalAction }}
               </button>

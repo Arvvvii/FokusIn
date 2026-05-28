@@ -2,14 +2,14 @@
   <div class="p-6 md:p-8 xl:p-10 max-w-[1600px] mx-auto animate-in fade-in duration-500 space-y-8 min-w-0">
     
     <!-- 1. Analytics Hero -->
-    <section class="bg-white/60 backdrop-blur-xl rounded-3xl p-7 md:p-8 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-200/60 relative overflow-hidden mb-8 group">
+    <section class="admin-dashboard-hero mb-8 group">
       <!-- Decorative background -->
       <div class="absolute -right-20 -top-20 w-64 h-64 bg-gradient-to-bl from-[#7096D1]/10 to-transparent blur-3xl pointer-events-none rounded-full"></div>
       
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 relative z-10">
         <div>
-          <div class="flex items-center gap-2 text-[13px] font-bold text-slate-400 mb-2 uppercase tracking-widest">
-            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+          <div class="badge-live-data mb-2">
+            <span class="live-data-dot"></span>
             Live Data
           </div>
           <h1 class="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">Platform Analytics</h1>
@@ -18,13 +18,13 @@
           </p>
         </div>
         <div class="flex items-center gap-4">
-          <select class="px-4 py-2 bg-white border border-slate-200 rounded-xl text-sm font-bold text-slate-600 shadow-sm focus:outline-none focus:border-[#334EAC] appearance-none cursor-pointer">
+          <select class="period-selector appearance-none">
             <option value="7">7 Hari Terakhir</option>
             <option value="30" selected>30 Hari Terakhir</option>
             <option value="90">3 Bulan Terakhir</option>
             <option value="year">Tahun Ini</option>
           </select>
-          <button @click="exportCSV" class="px-5 py-2.5 bg-[#081F5C] text-white rounded-xl font-semibold text-sm shadow-sm hover:bg-[#081F5C] transition-all flex items-center gap-2 active:scale-95">
+          <button @click="exportCSV" class="btn-export px-5 py-2.5 active:scale-95">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
             Export CSV
           </button>
@@ -36,12 +36,12 @@
     <section class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
       
       <!-- KPI 1 -->
-      <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm transition-all hover:shadow-md hover:-translate-y-1 group flex flex-col justify-between">
+      <div class="admin-card p-6 stat-total-users flex flex-col justify-between group">
         <div class="flex items-center justify-between mb-4">
           <div class="w-10 h-10 rounded-xl bg-[#EDF1F6] flex items-center justify-center text-[#334EAC] group-hover:scale-110 transition-transform">
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
           </div>
-          <span class="px-2.5 py-1 bg-emerald-50 text-emerald-600 text-[11px] font-extrabold rounded-lg flex items-center gap-1 border border-emerald-100">
+          <span class="change-up flex items-center gap-1">
             <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg>
             12.5%
           </span>
@@ -53,12 +53,12 @@
       </div>
 
       <!-- KPI 2 -->
-      <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm transition-all hover:shadow-md hover:-translate-y-1 group flex flex-col justify-between">
+      <div class="admin-card p-6 stat-daily-sessions flex flex-col justify-between group">
         <div class="flex items-center justify-between mb-4">
           <div class="w-10 h-10 rounded-xl bg-amber-50 flex items-center justify-center text-amber-500 group-hover:scale-110 transition-transform">
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
           </div>
-          <span class="px-2.5 py-1 bg-emerald-50 text-emerald-600 text-[11px] font-extrabold rounded-lg flex items-center gap-1 border border-emerald-100">
+          <span class="change-up flex items-center gap-1">
             <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg>
             8.2%
           </span>
@@ -70,12 +70,12 @@
       </div>
 
       <!-- KPI 3 -->
-      <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm transition-all hover:shadow-md hover:-translate-y-1 group flex flex-col justify-between">
+      <div class="admin-card p-6 stat-ai-tokens flex flex-col justify-between group">
         <div class="flex items-center justify-between mb-4">
           <div class="w-10 h-10 rounded-xl bg-[#F7F2EB] flex items-center justify-center text-[#334EAC] group-hover:scale-110 transition-transform">
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4"/><path d="M12 18v4"/><path d="M4.93 4.93l2.83 2.83"/><path d="M16.24 16.24l2.83 2.83"/><path d="M2 12h4"/><path d="M18 12h4"/><path d="M4.93 19.07l2.83-2.83"/><path d="M16.24 7.76l2.83-2.83"/></svg>
           </div>
-          <span class="px-2.5 py-1 bg-emerald-50 text-emerald-600 text-[11px] font-extrabold rounded-lg flex items-center gap-1 border border-emerald-100">
+          <span class="change-up flex items-center gap-1">
             <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg>
             24.1%
           </span>
@@ -87,12 +87,12 @@
       </div>
 
       <!-- KPI 4 -->
-      <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm transition-all hover:shadow-md hover:-translate-y-1 group flex flex-col justify-between">
+      <div class="admin-card p-6 stat-materials-down flex flex-col justify-between group">
         <div class="flex items-center justify-between mb-4">
           <div class="w-10 h-10 rounded-xl bg-rose-50 flex items-center justify-center text-rose-500 group-hover:scale-110 transition-transform">
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>
           </div>
-          <span class="px-2.5 py-1 bg-rose-50 text-rose-600 text-[11px] font-extrabold rounded-lg flex items-center gap-1 border border-rose-100">
+          <span class="change-down flex items-center gap-1">
             <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
             1.4%
           </span>
@@ -109,15 +109,15 @@
     <section class="grid grid-cols-1 xl:grid-cols-3 gap-6">
       
       <!-- Main Chart (Activity) -->
-      <div class="xl:col-span-2 bg-white rounded-2xl border border-slate-200 shadow-sm p-6 xl:p-8 flex flex-col transition-all duration-300 ease-out hover:shadow-md group/card">
+      <div class="xl:col-span-2 admin-card p-6 xl:p-8 flex flex-col group/card">
         <div class="flex items-center justify-between mb-8">
           <div>
             <h3 class="text-xl font-bold text-slate-900 mb-1 tracking-tight">Aktivitas Platform</h3>
             <p class="text-sm font-medium text-slate-500">Total sesi pembelajaran (30 Hari Terakhir)</p>
           </div>
-          <div class="flex gap-2 bg-[#EDF1F6] p-1 rounded-xl">
-            <button @click="chartTab = 'sesi'" :class="chartTab === 'sesi' ? 'bg-white text-[#081F5C] shadow-sm' : 'text-slate-500 hover:text-[#081F5C]'" class="px-4 py-1.5 text-[12px] font-extrabold rounded-lg transition-colors">Sesi</button>
-            <button @click="chartTab = 'users'" :class="chartTab === 'users' ? 'bg-white text-[#081F5C] shadow-sm' : 'text-slate-500 hover:text-[#081F5C]'" class="px-4 py-1.5 text-[12px] font-extrabold rounded-lg transition-colors">Users</button>
+          <div class="flex gap-2">
+            <button @click="chartTab = 'sesi'" :class="chartTab === 'sesi' ? 'active' : ''" class="chart-tab-pill">Sesi</button>
+            <button @click="chartTab = 'users'" :class="chartTab === 'users' ? 'active' : ''" class="chart-tab-pill">Users</button>
           </div>
         </div>
 
@@ -141,7 +141,7 @@
       </div>
 
       <!-- Secondary Chart (Demographics/Distribution) -->
-      <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 xl:p-8 flex flex-col transition-all duration-300 ease-out hover:shadow-md group/card">
+      <div class="admin-card p-6 xl:p-8 flex flex-col group/card">
         <h3 class="text-xl font-bold text-slate-900 mb-1 tracking-tight">Distribusi Pengguna</h3>
         <p class="text-sm font-medium text-slate-500 mb-8">Berdasarkan role di ekosistem</p>
 

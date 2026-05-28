@@ -8,7 +8,7 @@
 
   <!-- Sidebar -->
   <aside 
-    class="fixed md:relative inset-y-0 left-0 z-50 bg-[#081F5C] text-slate-300 flex flex-col transition-all duration-300 shadow-[4px_0_24px_rgba(8,31,92,0.1)] border-r border-white/5"
+    class="admin-sidebar fixed md:relative inset-y-0 left-0 z-50 text-slate-300 flex flex-col transition-all duration-300 shadow-[4px_0_24px_rgba(8,31,92,0.1)] border-r border-white/5"
     :class="[
       isCollapsed ? 'w-20' : 'w-[280px]',
       isMobileOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'
@@ -50,26 +50,20 @@
     <!-- Navigation -->
     <nav class="flex-1 overflow-y-auto py-6 px-3 custom-scrollbar space-y-6">
       <div v-for="(group, index) in menuGroups" :key="index">
-        <div v-if="!isCollapsed" class="px-3 mb-2 flex items-center gap-2">
-           <div class="h-px flex-1 bg-white/5"></div>
-           <p class="text-[9px] font-extrabold text-[#7096D1] uppercase tracking-[0.2em] whitespace-nowrap">{{ group.title }}</p>
-           <div class="h-px flex-1 bg-white/5"></div>
+        <div v-if="!isCollapsed" class="mb-1">
+           <p class="admin-sidebar-section">{{ group.title }}</p>
         </div>
         <ul class="space-y-1">
           <li v-for="item in group.items" :key="item.name" class="relative group">
             <RouterLink 
               :to="item.path" 
-              class="flex items-center rounded-xl transition-all duration-300 relative overflow-hidden"
+              class="admin-nav-item flex items-center rounded-xl transition-all duration-300 relative overflow-hidden"
               :class="[
                 isCollapsed ? 'justify-center p-3' : 'px-3 py-2.5',
-                isActive(item.path) 
-                  ? 'bg-[#334EAC]/20 text-white shadow-sm' 
-                  : 'text-slate-400 hover:text-white hover:bg-white/5'
+                isActive(item.path) ? 'active text-white' : 'text-slate-400 hover:text-white hover:bg-white/5'
               ]"
               @click="isMobileOpen = false"
             >
-              <!-- Active Indicator Line -->
-              <div v-if="isActive(item.path) && !isCollapsed" class="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-1/2 bg-[#7096D1] rounded-r-full shadow-[0_0_10px_rgba(112,150,209,0.8)]"></div>
               
               <div 
                 class="shrink-0 transition-transform duration-300"
@@ -81,7 +75,7 @@
               ></div>
               <span v-if="!isCollapsed" class="font-bold text-[13px] whitespace-nowrap">{{ item.name }}</span>
               
-              <span v-if="!isCollapsed && item.badge" class="ml-auto bg-rose-500/20 border border-rose-500/30 text-rose-300 text-[10px] font-extrabold px-1.5 py-0.5 rounded-md leading-none">
+              <span v-if="!isCollapsed && item.badge" class="admin-nav-badge-urgent">
                 {{ item.badge }}
               </span>
             </RouterLink>
@@ -97,9 +91,9 @@
     </nav>
     
     <!-- Bottom Profile Area -->
-    <div class="p-4 mt-auto shrink-0 relative z-20 bg-gradient-to-t from-[#081F5C] via-[#081F5C] to-transparent pt-8">
+    <div class="p-4 mt-auto shrink-0 relative z-20">
       <div 
-        class="bg-white/5 backdrop-blur-md rounded-2xl border border-white/10 overflow-hidden transition-all duration-300 hover:bg-white/10 hover:border-white/20 shadow-lg"
+        class="admin-user-card transition-all duration-300 hover:bg-white/10"
         :class="isCollapsed ? 'p-2 flex justify-center' : 'p-3'"
       >
         <div class="flex items-center gap-3">
@@ -109,8 +103,8 @@
           <div v-if="!isCollapsed" class="flex-1 min-w-0">
             <p class="text-[13px] font-extrabold text-white truncate leading-tight">System Admin</p>
             <p class="text-[10px] text-slate-400 font-bold truncate flex items-center gap-1 mt-0.5">
-              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.8)]"></span>
-              All Systems Go
+              <span class="admin-status-dot"></span>
+              <span class="admin-status-ok">All Systems Go</span>
             </p>
           </div>
           <button v-if="!isCollapsed" @click="handleLogout" class="text-rose-400 hover:text-rose-300 p-1.5 rounded-lg transition-colors ml-auto" title="Keluar">

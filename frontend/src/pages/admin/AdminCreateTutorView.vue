@@ -13,7 +13,7 @@
     </div>
 
     <!-- Header -->
-    <div class="bg-white/60 backdrop-blur-xl rounded-3xl p-7 md:p-8 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-200/60 relative overflow-hidden mb-8">
+    <div class="admin-dashboard-hero mb-8">
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 relative z-10">
         <div class="flex items-center gap-4">
           <div>
@@ -25,53 +25,53 @@
     </div>
 
     <!-- Form Section -->
-    <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 md:p-8">
-      <h3 class="text-xl font-bold text-slate-900 mb-6 border-b border-slate-100 pb-4">Informasi Akademik</h3>
+    <div class="admin-card p-6 md:p-8">
+      <h3 class="settings-form-title border-b border-slate-100 pb-4">Informasi Akademik</h3>
       <form @submit.prevent="submitForm" class="space-y-6">
         
         <!-- Name & Email -->
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
           <div class="space-y-2">
-            <label class="text-sm font-semibold text-slate-900 block">Nama Lengkap beserta Gelar</label>
+            <label class="admin-label">Nama Lengkap beserta Gelar</label>
             <input 
               v-model="form.name"
               type="text" 
               required
-              class="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:border-[#7096D1] focus:ring-4 focus:ring-[#7096D1]/10 transition-all shadow-sm"
+              class="admin-input"
               placeholder="Contoh: Dr. Sarah Rahman, S.Si."
             >
           </div>
           <div class="space-y-2">
-            <label class="text-sm font-semibold text-slate-900 block">Email Institusi / Pribadi</label>
+            <label class="admin-label">Email Institusi / Pribadi</label>
             <input 
               v-model="form.email"
               type="email" 
               required
-              class="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:border-[#7096D1] focus:ring-4 focus:ring-[#7096D1]/10 transition-all shadow-sm"
+              class="admin-input"
               placeholder="email@university.edu"
             >
           </div>
         </div>
 
         <div class="space-y-2">
-          <label class="text-sm font-semibold text-slate-900 block">Spesialisasi Mengajar</label>
+          <label class="admin-label">Spesialisasi Mengajar</label>
           <input 
             v-model="form.specialization"
             type="text" 
             required
-            class="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:border-[#7096D1] focus:ring-4 focus:ring-[#7096D1]/10 transition-all shadow-sm"
+            class="admin-input"
             placeholder="Contoh: Fisika Kuantum, Matematika Dasar"
           >
         </div>
 
         <!-- Password -->
         <div class="space-y-2">
-          <label class="text-sm font-semibold text-slate-900 block">Password Setup</label>
+          <label class="admin-label">Password Setup</label>
           <input 
             v-model="form.password"
             type="password" 
             required
-            class="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:border-[#7096D1] focus:ring-4 focus:ring-[#7096D1]/10 transition-all shadow-sm"
+            class="admin-input"
             placeholder="Buat password awal"
           >
         </div>
