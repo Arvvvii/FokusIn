@@ -34,10 +34,15 @@ class ExamUploadController extends Controller
      */
     public function store(Request $request)
     {
+        // Cek Role (Hanya Admin dan Tutor yang boleh upload)
+        if (!in_array(auth()->user()->role, ['admin', 'tutor'])) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
+
         // 1. Validasi input
         $request->validate([
             'category_id' => 'required|exists:categories,id',
-            'file' => 'required|file|max:10240', // Max 10MB
+            'file' => 'required|file|max:10240|mimes:pdf', // Max 10MB
             'extracted_text' => 'nullable|string',
         ]);
 

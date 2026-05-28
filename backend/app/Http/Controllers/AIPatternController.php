@@ -31,10 +31,10 @@ class AIPatternController extends Controller
             $summary = $this->aiPatternService->getSummary($request->category_id);
             return response()->json($summary);
         } catch (\Exception $e) {
+            \Log::error('AI Pattern Error', ['exception' => $e->getMessage(), 'user_id' => auth()->id()]);
             return response()->json([
-                'message' => 'Gagal memproses analisis AI.',
-                'error' => $e->getMessage()
-            ], 500);
+                'message' => 'Layanan AI sedang tidak tersedia. Coba lagi nanti.'
+            ], 503);
         }
     }
 
@@ -66,10 +66,10 @@ class AIPatternController extends Controller
                 'data' => $newSummary
             ]);
         } catch (\Exception $e) {
+            \Log::error('AI Pattern Refresh Error', ['exception' => $e->getMessage(), 'user_id' => auth()->id()]);
             return response()->json([
-                'message' => 'Gagal memperbarui analisis AI.',
-                'error' => $e->getMessage()
-            ], 500);
+                'message' => 'Layanan AI sedang tidak tersedia. Coba lagi nanti.'
+            ], 503);
         }
     }
 }

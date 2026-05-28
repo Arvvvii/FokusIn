@@ -15,10 +15,8 @@ use Illuminate\Support\Facades\Route;
 // ==========================================
 Route::get('/', function () {
     return response()->json([
-        'message' => 'FokusIn API is running successfully.',
-        'status' => 'up',
-        'timestamp' => now()->toIso8601String()
-    ], 200);
+        'message' => 'FokusIn API Running'
+    ]);
 });
 
 
@@ -27,7 +25,7 @@ Route::get('/', function () {
 // ── PUBLIC ROUTES (Tidak Perlu Login) ──────
 // ==========================================
 
-Route::prefix('auth')->group(function () {
+Route::prefix('auth')->middleware('throttle:10,1')->group(function () {
     Route::post('/register', [AuthController::class, 'register']);
     Route::post('/login', [AuthController::class, 'login']);
 });

@@ -3,7 +3,10 @@
 return [
     'paths' => ['api/*', 'sanctum/csrf-cookie'],
     'allowed_methods' => ['*'],
-    'allowed_origins' => ['http://localhost:5173', 'https://fokusin-production.up.railway.app'],
+    'allowed_origins' => array_filter([
+        env('FRONTEND_URL'),
+        env('APP_ENV') === 'local' ? 'http://localhost:5173' : null,
+    ]),
     'allowed_origins_patterns' => [],
     'allowed_headers' => ['*'],
     'exposed_headers' => [],
