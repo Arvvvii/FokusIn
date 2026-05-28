@@ -1,55 +1,71 @@
 <template>
   <div class="space-y-8 animate-in fade-in duration-500">
     
-    <!-- Header Section -->
-    <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-12">
-      <div class="max-w-2xl">
-        <h1 class="text-3xl md:text-4xl font-extrabold text-[#081F5C] tracking-tight mb-3">AI Pattern Analyzer</h1>
-        <p class="text-slate-500 font-medium text-[16px] leading-relaxed">Upload past exams or study materials. Our AI will analyze historical patterns and tailor a strategic learning plan for you.</p>
+    <!-- 1. HEADER SECTION -->
+    <div class="ai-analyzer-hero rounded-3xl p-7 md:p-8 relative overflow-hidden flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8 text-white">
+      <div class="absolute right-0 top-0 w-1/3 h-full bg-gradient-to-l from-white/5 to-transparent pointer-events-none"></div>
+      
+      <div class="relative z-10 flex items-center gap-4">
+        <span class="ai-hero-icon w-12 h-12 rounded-2xl text-white flex items-center justify-center shrink-0">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+        </span>
+        <div>
+          <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-tight">Analisis Pola AI</h1>
+          <p class="text-[15px] text-[#D0E3FF]/90 font-medium mt-2 max-w-xl leading-relaxed">
+            Unggah ujian sebelumnya atau materi belajar. AI kami akan menganalisis pola historis dan merancang rencana belajar strategis untukmu.
+          </p>
+        </div>
       </div>
+
       <!-- Primary CTA -->
-      <RouterLink to="/pelajar/ai-analyzer/create" class="inline-flex items-center justify-center gap-2.5 px-7 py-3.5 bg-[#334EAC] hover:bg-[#081F5C] text-white rounded-2xl font-extrabold transition-all shadow-[0_4px_15px_rgba(51,78,172,0.15)] active:scale-95 shrink-0">
-        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg>
-        New Analysis
-      </RouterLink>
+      <div class="relative z-10 flex shrink-0">
+        <RouterLink to="/pelajar/ai-analyzer/create" class="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-white text-[#081F5C] hover:bg-slate-50 rounded-2xl font-bold text-[13px] transition-all shadow-sm active:scale-95 shrink-0">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg>
+          Analisis Baru
+        </RouterLink>
+      </div>
     </div>
 
     <!-- Upload Area -->
-    <div class="bg-white rounded-[2rem] p-8 md:p-14 mb-12 shadow-[0_4px_24px_rgba(0,0,0,0.02)] border border-slate-100/80 group transition-all">
-      <div class="max-w-3xl mx-auto flex flex-col items-center justify-center p-12 md:p-16 border-[2.5px] border-dashed border-slate-200 rounded-[2rem] bg-[#F7F2EB]/30 hover:bg-[#F7F2EB]/80 hover:border-[#7096D1] transition-all cursor-pointer relative overflow-hidden">
+    <RouterLink to="/pelajar/ai-analyzer/create" class="block card-base rounded-3xl p-8 md:p-14 mb-12 transition-all duration-300 ease-out relative overflow-hidden group">
+      <!-- Glow Orb -->
+      <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-[#334EAC]/10 blur-[100px] rounded-full pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+      
+      <div class="upload-zone max-w-3xl mx-auto flex flex-col items-center justify-center p-12 md:p-16 rounded-3xl cursor-pointer relative z-10">
         
-        <div class="w-20 h-20 rounded-full bg-[#EDF1F6] flex items-center justify-center text-[#334EAC] mb-6 group-hover:-translate-y-2 group-hover:shadow-md transition-all duration-300 border border-slate-100/50">
-          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg>
+        <div class="w-20 h-20 rounded-full bg-gradient-to-br from-[#F7F2EB] to-white flex items-center justify-center text-[#081F5C] mb-6 group-hover:-translate-y-2 group-hover:shadow-lg group-hover:shadow-[#334EAC]/20 transition-all duration-300 border border-[#D0E3FF]/50 relative">
+          <div class="absolute inset-0 rounded-full bg-[#7096D1]/20 blur-md animate-pulse"></div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="relative z-10"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg>
         </div>
         
-        <h3 class="text-[22px] font-extrabold text-[#081F5C] text-center mb-3">Drag and drop your document here</h3>
-        <p class="text-[15px] font-medium text-slate-500 text-center max-w-md mb-8 leading-relaxed">We accept PDF, DOCX, and TXT files containing exam papers, lecture notes, or textbook chapters.</p>
+        <h3 class="text-[22px] font-bold text-slate-900 text-center mb-3 tracking-tight">Tarik dan lepaskan dokumenmu di sini</h3>
+        <p class="text-[15px] font-medium text-slate-500 text-center max-w-md mb-8 leading-relaxed">Kami menerima file PDF, DOCX, dan TXT yang berisi lembar ujian, catatan kuliah, atau bab buku.</p>
         
-        <div class="flex items-center gap-3">
+        <div class="flex items-center gap-4">
           <span class="px-4 py-1.5 bg-white text-slate-400 text-[11px] font-extrabold rounded-xl shadow-sm border border-slate-200/60 uppercase tracking-widest">PDF</span>
           <span class="px-4 py-1.5 bg-white text-slate-400 text-[11px] font-extrabold rounded-xl shadow-sm border border-slate-200/60 uppercase tracking-widest">DOCX</span>
-          <span class="px-4 py-1.5 bg-[#EDF1F6] text-[#334EAC] text-[11px] font-extrabold rounded-xl shadow-sm border border-slate-200/60 uppercase tracking-widest">Max 10MB</span>
+          <span class="px-4 py-1.5 bg-[#EDF1F6] text-[#334EAC] text-[11px] font-extrabold rounded-xl shadow-sm border border-slate-200/60 uppercase tracking-widest">Maks 10MB</span>
         </div>
       </div>
-    </div>
+    </RouterLink>
 
     <!-- Analytics Grid Layout (Compact & Clean) -->
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
       
       <!-- Most Frequent Topics -->
-      <div class="lg:col-span-2 bg-white rounded-[2rem] p-8 shadow-[0_4px_24px_rgba(0,0,0,0.02)] border border-slate-100/80 hover:shadow-md transition-shadow">
+      <div class="card-panel lg:col-span-2 rounded-3xl p-8 transition-all duration-300 ease-out group/card">
         <div class="flex items-center justify-between mb-8">
-          <h3 class="text-[17px] font-extrabold text-[#081F5C] flex items-center gap-3">
-            <span class="w-8 h-8 rounded-lg bg-[#EDF1F6] flex items-center justify-center text-[#334EAC]"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg></span>
-            Topic Frequency
+          <h3 class="text-[17px] font-bold text-slate-900 flex items-center gap-3 tracking-tight">
+            <span class="w-8 h-8 rounded-lg bg-[#F7F2EB] flex items-center justify-center text-[#081F5C] border border-[#D0E3FF]/50 group-hover/card:scale-110 transition-transform"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg></span>
+            Frekuensi Topik
           </h3>
-          <span class="text-[12px] font-bold text-slate-400">Based on recent upload</span>
+          <span class="text-[12px] font-bold text-slate-400">Berdasarkan unggahan terakhir</span>
         </div>
         
         <div class="space-y-6">
           <div class="group cursor-pointer">
             <div class="flex justify-between items-center text-[14px] font-bold mb-2">
-              <span class="text-[#081F5C] group-hover:text-[#334EAC] transition-colors">Kinematics & Dynamics</span>
+              <span class="text-[#081F5C] group-hover:text-[#334EAC] transition-colors">Kinematika & Dinamika</span>
               <span class="text-slate-500 font-extrabold">32%</span>
             </div>
             <div class="w-full h-2.5 bg-[#EDF1F6] rounded-full overflow-hidden">
@@ -59,7 +75,7 @@
 
           <div class="group cursor-pointer">
             <div class="flex justify-between items-center text-[14px] font-bold mb-2">
-              <span class="text-[#081F5C] group-hover:text-[#334EAC] transition-colors">Electromagnetism</span>
+              <span class="text-[#081F5C] group-hover:text-[#334EAC] transition-colors">Elektromagnetisme</span>
               <span class="text-slate-500 font-extrabold">24%</span>
             </div>
             <div class="w-full h-2.5 bg-[#EDF1F6] rounded-full overflow-hidden">
@@ -69,7 +85,7 @@
 
           <div class="group cursor-pointer">
             <div class="flex justify-between items-center text-[14px] font-bold mb-2">
-              <span class="text-[#081F5C] group-hover:text-[#334EAC] transition-colors">Thermodynamics</span>
+              <span class="text-[#081F5C] group-hover:text-[#334EAC] transition-colors">Termodinamika</span>
               <span class="text-slate-500 font-extrabold">18%</span>
             </div>
             <div class="w-full h-2.5 bg-[#EDF1F6] rounded-full overflow-hidden">
@@ -79,7 +95,7 @@
 
           <div class="group cursor-pointer">
             <div class="flex justify-between items-center text-[14px] font-bold mb-2">
-              <span class="text-[#081F5C] group-hover:text-[#334EAC] transition-colors">Modern Physics</span>
+              <span class="text-[#081F5C] group-hover:text-[#334EAC] transition-colors">Fisika Modern</span>
               <span class="text-slate-500 font-extrabold">15%</span>
             </div>
             <div class="w-full h-2.5 bg-[#EDF1F6] rounded-full overflow-hidden">
@@ -90,10 +106,11 @@
       </div>
 
       <!-- Difficulty Chart -->
-      <div class="bg-white rounded-[2rem] p-8 shadow-[0_4px_24px_rgba(0,0,0,0.02)] border border-slate-100/80 flex flex-col items-center hover:shadow-md transition-shadow">
-        <h3 class="text-[17px] font-extrabold text-[#081F5C] mb-8 w-full text-left flex items-center gap-3">
-          <span class="w-8 h-8 rounded-lg bg-[#F7F2EB] flex items-center justify-center text-amber-600"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></span>
-          Difficulty Mix
+      <div class="card-panel rounded-3xl p-8 flex flex-col items-center transition-all duration-300 ease-out group/card relative overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-br from-amber-500/5 to-transparent opacity-0 group-hover/card:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
+        <h3 class="text-[17px] font-bold text-slate-900 mb-8 w-full text-left flex items-center gap-3 tracking-tight">
+          <span class="w-8 h-8 rounded-lg bg-amber-50 flex items-center justify-center text-amber-600 border border-amber-100/50 group-hover/card:scale-110 transition-transform"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></span>
+          Tingkat Kesulitan
         </h3>
         
         <!-- Clean Donut Mockup -->
@@ -110,75 +127,77 @@
           </svg>
           <div class="absolute inset-0 flex flex-col items-center justify-center">
             <span class="text-3xl font-extrabold text-[#081F5C]">45%</span>
-            <span class="text-[10px] font-extrabold text-slate-400 uppercase tracking-widest mt-0.5">Hard</span>
+            <span class="text-[10px] font-extrabold text-slate-400 uppercase tracking-widest mt-0.5">Sulit</span>
           </div>
         </div>
         
         <div class="flex justify-center gap-5 w-full mt-auto">
           <div class="flex items-center gap-1.5">
             <div class="w-2.5 h-2.5 rounded-full bg-rose-400"></div>
-            <span class="text-[12px] font-bold text-slate-500">Hard</span>
+            <span class="text-[12px] font-bold text-slate-500">Sulit</span>
           </div>
           <div class="flex items-center gap-1.5">
             <div class="w-2.5 h-2.5 rounded-full bg-[#7096D1]"></div>
-            <span class="text-[12px] font-bold text-slate-500">Medium</span>
+            <span class="text-[12px] font-bold text-slate-500">Sedang</span>
           </div>
           <div class="flex items-center gap-1.5">
             <div class="w-2.5 h-2.5 rounded-full bg-[#BAD6EB]"></div>
-            <span class="text-[12px] font-bold text-slate-500">Easy</span>
+            <span class="text-[12px] font-bold text-slate-500">Mudah</span>
           </div>
         </div>
       </div>
 
       <!-- AI Summary / Intelligence Report -->
-      <div class="lg:col-span-2 bg-white rounded-[2rem] p-8 shadow-[0_4px_24px_rgba(0,0,0,0.02)] border border-slate-100/80 hover:shadow-md transition-shadow">
-        <h3 class="text-[17px] font-extrabold text-[#081F5C] mb-6 flex items-center gap-3">
-          <span class="w-8 h-8 rounded-lg bg-emerald-50 flex items-center justify-center text-emerald-600"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg></span>
-          AI Intelligence Report
+      <div class="card-panel lg:col-span-2 rounded-3xl p-8 transition-all duration-300 ease-out group/card relative overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-br from-emerald-500/5 to-transparent opacity-0 group-hover/card:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
+        <h3 class="text-[17px] font-bold text-slate-900 mb-6 flex items-center gap-3 tracking-tight">
+          <span class="w-8 h-8 rounded-lg bg-emerald-50 flex items-center justify-center text-emerald-600 border border-emerald-100/50 group-hover/card:scale-110 transition-transform"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg></span>
+          Laporan Kecerdasan AI
         </h3>
         
         <p class="text-[14px] font-medium text-slate-600 leading-relaxed mb-8">
-          The analyzed document is heavily focused on <strong class="text-[#081F5C]">Kinematics & Dynamics</strong> (32%), specifically testing your understanding of Angular Momentum and Rigid Body Dynamics. Historical data suggests these topics are often the most challenging sections in the OSN Physics examinations.
+          Dokumen yang dianalisis sangat berfokus pada <strong class="text-[#081F5C]">Kinematika & Dinamika</strong> (32%), secara spesifik menguji pemahamanmu tentang Momentum Sudut dan Dinamika Benda Tegar. Data historis menunjukkan topik ini sering menjadi bagian paling menantang dalam ujian Fisika Dasar.
         </p>
 
-        <h4 class="text-[13px] font-extrabold text-[#081F5C] mb-4">Recommended Learning Path</h4>
+        <h4 class="text-[13px] font-extrabold text-[#081F5C] mb-4">Rekomendasi Jalur Belajar</h4>
         <ul class="space-y-4 mb-6">
           <li class="flex items-start gap-3.5">
             <div class="w-6 h-6 rounded-md bg-[#EDF1F6] flex items-center justify-center text-[#334EAC] font-extrabold text-[12px] shrink-0 mt-0.5">1</div>
             <div>
-              <p class="text-[14px] font-bold text-[#081F5C] mb-0.5">Review Angular Momentum Conservation</p>
-              <p class="text-[13px] text-slate-500">Focus on problems involving non-uniform mass distribution.</p>
+              <p class="text-[14px] font-bold text-[#081F5C] mb-0.5">Ulangi Konservasi Momentum Sudut</p>
+              <p class="text-[13px] text-slate-500">Fokus pada masalah yang melibatkan distribusi massa tidak seragam.</p>
             </div>
           </li>
           <li class="flex items-start gap-3.5">
             <div class="w-6 h-6 rounded-md bg-[#EDF1F6] flex items-center justify-center text-[#334EAC] font-extrabold text-[12px] shrink-0 mt-0.5">2</div>
             <div>
-              <p class="text-[14px] font-bold text-[#081F5C] mb-0.5">Practice Vector Algebra for Electromagnetism</p>
-              <p class="text-[13px] text-slate-500">Specifically targeting Lorentz Force calculations.</p>
+              <p class="text-[14px] font-bold text-[#081F5C] mb-0.5">Latihan Aljabar Vektor untuk Elektromagnetisme</p>
+              <p class="text-[13px] text-slate-500">Secara khusus menargetkan perhitungan Gaya Lorentz.</p>
             </div>
           </li>
         </ul>
 
-        <button class="mt-2 inline-flex items-center gap-2 text-[14px] font-extrabold text-[#334EAC] hover:text-[#081F5C] transition-colors">
-          View full personalized syllabus
+        <RouterLink to="/pelajar/materials" class="mt-2 inline-flex items-center gap-2 text-[14px] font-extrabold text-[#334EAC] hover:text-[#081F5C] transition-colors">
+          Lihat silabus personal penuh
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
-        </button>
+        </RouterLink>
       </div>
 
       <!-- Important Keywords -->
-      <div class="bg-white rounded-[2rem] p-8 shadow-[0_4px_24px_rgba(0,0,0,0.02)] border border-slate-100/80 hover:shadow-md transition-shadow">
-        <h3 class="text-[17px] font-extrabold text-[#081F5C] mb-6 flex items-center gap-3">
-          <span class="w-8 h-8 rounded-lg bg-[#F7F2EB] flex items-center justify-center text-[#334EAC]"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20"/><path d="m17 5-5-3-5 3v14l5 3 5-3Z"/></svg></span>
-          Important Keywords
+      <div class="card-panel rounded-3xl p-8 transition-all duration-300 ease-out group/card relative overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-br from-[#334EAC]/5 to-transparent opacity-0 group-hover/card:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
+        <h3 class="text-[17px] font-bold text-slate-900 mb-6 flex items-center gap-3 tracking-tight">
+          <span class="w-8 h-8 rounded-lg bg-[#F7F2EB] flex items-center justify-center text-[#081F5C] border border-[#D0E3FF]/50 group-hover/card:scale-110 transition-transform"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20"/><path d="m17 5-5-3-5 3v14l5 3 5-3Z"/></svg></span>
+          Kata Kunci Penting
         </h3>
         
         <div class="flex flex-wrap gap-2.5">
-          <span class="px-3.5 py-1.5 bg-slate-50 hover:bg-[#EDF1F6] text-slate-600 hover:text-[#081F5C] text-[12px] font-bold rounded-lg border border-slate-200/60 shadow-sm transition-colors cursor-pointer">Angular Momentum</span>
-          <span class="px-3.5 py-1.5 bg-slate-50 hover:bg-[#EDF1F6] text-slate-600 hover:text-[#081F5C] text-[12px] font-bold rounded-lg border border-slate-200/60 shadow-sm transition-colors cursor-pointer">Lorentz Force</span>
-          <span class="px-3.5 py-1.5 bg-slate-50 hover:bg-[#EDF1F6] text-slate-600 hover:text-[#081F5C] text-[12px] font-bold rounded-lg border border-slate-200/60 shadow-sm transition-colors cursor-pointer">Entropy</span>
-          <span class="px-3.5 py-1.5 bg-slate-50 hover:bg-[#EDF1F6] text-slate-600 hover:text-[#081F5C] text-[12px] font-bold rounded-lg border border-slate-200/60 shadow-sm transition-colors cursor-pointer">Relativity</span>
-          <span class="px-3.5 py-1.5 bg-slate-50 hover:bg-[#EDF1F6] text-slate-600 hover:text-[#081F5C] text-[12px] font-bold rounded-lg border border-slate-200/60 shadow-sm transition-colors cursor-pointer">Maxwell's Eqs</span>
-          <span class="px-3.5 py-1.5 bg-slate-50 hover:bg-[#EDF1F6] text-slate-600 hover:text-[#081F5C] text-[12px] font-bold rounded-lg border border-slate-200/60 shadow-sm transition-colors cursor-pointer">Thermodynamics</span>
+          <span class="px-3.5 py-1.5 bg-slate-50 hover:bg-[#EDF1F6] text-slate-600 hover:text-[#081F5C] text-[12px] font-bold rounded-lg border border-slate-200/60 shadow-sm transition-colors cursor-pointer">Momentum Sudut</span>
+          <span class="px-3.5 py-1.5 bg-slate-50 hover:bg-[#EDF1F6] text-slate-600 hover:text-[#081F5C] text-[12px] font-bold rounded-lg border border-slate-200/60 shadow-sm transition-colors cursor-pointer">Gaya Lorentz</span>
+          <span class="px-3.5 py-1.5 bg-slate-50 hover:bg-[#EDF1F6] text-slate-600 hover:text-[#081F5C] text-[12px] font-bold rounded-lg border border-slate-200/60 shadow-sm transition-colors cursor-pointer">Entropi</span>
+          <span class="px-3.5 py-1.5 bg-slate-50 hover:bg-[#EDF1F6] text-slate-600 hover:text-[#081F5C] text-[12px] font-bold rounded-lg border border-slate-200/60 shadow-sm transition-colors cursor-pointer">Relativitas</span>
+          <span class="px-3.5 py-1.5 bg-slate-50 hover:bg-[#EDF1F6] text-slate-600 hover:text-[#081F5C] text-[12px] font-bold rounded-lg border border-slate-200/60 shadow-sm transition-colors cursor-pointer">Persamaan Maxwell</span>
+          <span class="px-3.5 py-1.5 bg-slate-50 hover:bg-[#EDF1F6] text-slate-600 hover:text-[#081F5C] text-[12px] font-bold rounded-lg border border-slate-200/60 shadow-sm transition-colors cursor-pointer">Termodinamika</span>
         </div>
       </div>
 
@@ -188,5 +207,32 @@
 
 <script setup>
 import { RouterLink } from 'vue-router'
-// Minimalist Academic AI Analyzer Dashboard
 </script>
+
+<style scoped>
+/* AI Analyzer Specific Adjustments */
+.ai-analyzer-hero {
+  background: linear-gradient(135deg, #081F5C 0%, #0e2370 60%, #1a3aa8 100%);
+  box-shadow: inset 0 0 40px rgba(112,150,209,0.2), 0 10px 40px rgba(8,31,92,0.15);
+}
+.ai-hero-icon {
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.2);
+  box-shadow: 0 0 15px rgba(255,255,255,0.2);
+  animation: ai-icon-pulse 3s infinite;
+}
+@keyframes ai-icon-pulse {
+  0% { box-shadow: 0 0 10px rgba(255,255,255,0.1); }
+  50% { box-shadow: 0 0 15px rgba(255,255,255,0.25); }
+  100% { box-shadow: 0 0 10px rgba(255,255,255,0.1); }
+}
+.upload-zone {
+  background: linear-gradient(135deg, rgba(255,255,255,0.6), rgba(237,241,246,0.5));
+  border: 2px dashed rgba(112,150,209,0.4);
+  transition: all 0.3s ease;
+}
+.upload-zone:hover {
+  background: rgba(255,255,255,0.9);
+  border-color: #334EAC;
+}
+</style>

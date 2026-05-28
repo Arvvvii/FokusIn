@@ -1,35 +1,41 @@
 <template>
   <div class="space-y-8 animate-in fade-in duration-500 min-w-0">
     
-    <!-- 1. Breadcrumbs -->
-    <div class="mb-8">
-      <div class="flex items-center gap-2 text-[13px] font-bold text-slate-400 mb-4 flex-wrap">
-        <RouterLink to="/pelajar/materials" class="hover:text-[#334EAC] transition-colors shrink-0">Materials</RouterLink>
-        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="shrink-0"><path d="m9 18 6-6-6-6"/></svg>
-        <RouterLink to="/pelajar/materials" class="hover:text-[#334EAC] transition-colors shrink-0">Physics</RouterLink>
-        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="shrink-0"><path d="m9 18 6-6-6-6"/></svg>
-        <span class="text-[#081F5C] shrink-0 truncate max-w-[200px] md:max-w-none">OSN Physics National Final...</span>
-      </div>
+    <!-- 1. Back Navigation -->
+    <div class="mb-6 flex items-center gap-2">
+      <RouterLink
+        :to="baseMaterialsRoute"
+        class="text-sm font-bold text-slate-400 hover:text-[#334EAC] transition-colors flex items-center gap-1 w-fit bg-white/50 px-3 py-1.5 rounded-lg border border-slate-200/50"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"></path></svg>
+        Kembali ke Materi
+      </RouterLink>
     </div>
 
     <!-- 2. Hero / Header Section -->
-    <div class="bg-white rounded-[2.5rem] p-8 md:p-12 shadow-[0_4px_24px_rgba(0,0,0,0.02)] border border-slate-100/80 mb-8 relative overflow-hidden flex flex-col lg:flex-row gap-8 items-start lg:items-center min-w-0">
+    <div class="bg-white/80 backdrop-blur-xl rounded-3xl p-8 md:p-12 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-100 mb-8 relative overflow-hidden flex flex-col lg:flex-row gap-8 items-start lg:items-center min-w-0 transition-all duration-300 ease-out hover:shadow-xl group/card">
       <div class="absolute top-0 right-0 w-64 h-64 bg-[#7096D1] rounded-full blur-3xl opacity-10 pointer-events-none -translate-y-1/2 translate-x-1/4"></div>
       
       <!-- Icon/Badge -->
-      <div class="w-24 h-24 rounded-[1.5rem] bg-[#F7F2EB] flex items-center justify-center text-rose-500 shrink-0 border border-slate-200/60 shadow-sm relative z-10">
+      <div v-if="materialType === 'pdf'" class="w-24 h-24 rounded-[1.5rem] bg-[#F7F2EB] flex items-center justify-center text-rose-500 shrink-0 border border-slate-200/60 shadow-sm relative z-10">
         <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>
-        <div class="absolute -bottom-2 -right-2 px-2.5 py-1 bg-white border border-slate-100 shadow-sm rounded-lg text-[10px] font-extrabold text-[#081F5C] uppercase tracking-widest">
+        <div class="bg-white/60 backdrop-blur-xl rounded-3xl p-7 md:p-8 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-200/60 relative overflow-hidden">
           PDF
+        </div>
+      </div>
+      <div v-else-if="materialType === 'video'" class="w-24 h-24 rounded-[1.5rem] bg-emerald-50 flex items-center justify-center text-emerald-500 shrink-0 border border-emerald-100/60 shadow-sm relative z-10">
+        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        <div class="absolute -bottom-2 -right-2 px-2.5 py-1 bg-white border border-slate-100 shadow-sm rounded-lg text-[10px] font-bold text-slate-900 uppercase tracking-widest">
+          VIDEO
         </div>
       </div>
 
       <div class="flex-1 relative z-10 min-w-0">
         <div class="flex flex-wrap gap-2 mb-4">
-          <span class="px-3 py-1 bg-[#EDF1F6] text-[#334EAC] text-[10px] font-extrabold uppercase tracking-widest rounded-md border border-[#BAD6EB]">Physics</span>
-          <span class="px-3 py-1 bg-white text-slate-500 text-[10px] font-extrabold uppercase tracking-widest rounded-md border border-slate-200">OSN Prep</span>
+          <span class="px-3 py-1 bg-[#EDF1F6] text-[#334EAC] text-[10px] font-bold uppercase tracking-widest rounded-md border border-[#BAD6EB]">Fisika</span>
+          <span class="px-3 py-1 bg-white text-slate-500 text-[10px] font-bold uppercase tracking-widest rounded-md border border-slate-200">Persiapan OSN</span>
         </div>
-        <h1 class="text-3xl md:text-4xl font-extrabold text-[#081F5C] tracking-tight mb-4 leading-snug">OSN Physics National Final Exam 2023 - Complete Solution</h1>
+        <h1 class="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">Soal & Pembahasan Lengkap Final OSN Fisika Nasional 2023</h1>
         
         <div class="flex flex-wrap items-center gap-6 text-[13px] font-bold text-slate-500">
           <div class="flex items-center gap-2">
@@ -40,29 +46,33 @@
           </div>
           <div class="flex items-center gap-1.5">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>
-            Oct 12, 2024
+            12 Okt 2024
           </div>
           <div class="flex items-center gap-1.5">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
-            1,245 Downloads
+            1.245 Unduhan
           </div>
           <div class="flex items-center gap-1.5">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h20"/><path d="m15 5 7 7-7 7"/></svg>
-            45 Pages
+            45 Halaman
           </div>
         </div>
       </div>
 
       <div class="flex flex-col sm:flex-row lg:flex-col gap-3 w-full lg:w-auto relative z-10 shrink-0">
-        <button class="w-full lg:w-48 py-4 bg-[#334EAC] hover:bg-[#081F5C] text-white rounded-[1.25rem] font-extrabold text-[15px] transition-all shadow-[0_4px_15px_rgba(51,78,172,0.15)] active:scale-95 flex items-center justify-center gap-2">
+        <button v-if="materialType === 'pdf'" class="w-full lg:w-48 py-4 bg-[#334EAC] hover:bg-[#081F5C] text-white rounded-2xl font-bold text-[15px] transition-all shadow-[0_4px_15px_rgba(51,78,172,0.15)] active:scale-95 flex items-center justify-center gap-2">
           <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
-          Download PDF
+          Unduh PDF
+        </button>
+        <button v-else-if="materialType === 'video'" class="w-full lg:w-48 py-4 bg-[#334EAC] hover:bg-[#081F5C] text-white rounded-2xl font-bold text-[15px] transition-all shadow-[0_4px_15px_rgba(51,78,172,0.15)] active:scale-95 flex items-center justify-center gap-2">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          Tonton Video
         </button>
         <div class="flex gap-3 w-full lg:w-48">
-          <button class="flex-1 py-3.5 bg-white border border-slate-200 hover:border-[#334EAC] text-slate-500 hover:text-[#334EAC] rounded-[1.25rem] font-extrabold text-[14px] transition-colors active:scale-95 flex items-center justify-center gap-2">
+          <button class="flex-1 py-3.5 bg-white border border-slate-200 hover:border-[#334EAC] text-slate-500 hover:text-[#334EAC] rounded-2xl font-bold text-[14px] transition-colors active:scale-95 flex items-center justify-center gap-2">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"/></svg>
           </button>
-          <button class="flex-1 py-3.5 bg-white border border-slate-200 hover:border-[#334EAC] text-slate-500 hover:text-[#334EAC] rounded-[1.25rem] font-extrabold text-[14px] transition-colors active:scale-95 flex items-center justify-center gap-2">
+          <button class="flex-1 py-3.5 bg-white border border-slate-200 hover:border-[#334EAC] text-slate-500 hover:text-[#334EAC] rounded-2xl font-bold text-[14px] transition-colors active:scale-95 flex items-center justify-center gap-2">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" x2="15.42" y1="13.51" y2="17.49"/><line x1="15.41" x2="8.59" y1="6.51" y2="10.49"/></svg>
           </button>
         </div>
@@ -76,20 +86,20 @@
       <div class="w-full xl:w-[65%] space-y-8 min-w-0">
         
         <!-- Description -->
-        <div class="bg-white rounded-[2rem] p-8 shadow-[0_4px_24px_rgba(0,0,0,0.02)] border border-slate-100/80">
-          <h3 class="text-[17px] font-extrabold text-[#081F5C] mb-4">Description</h3>
+        <div class="bg-white/80 backdrop-blur-xl rounded-3xl p-8 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-100 transition-all duration-300 ease-out hover:shadow-xl group/card">
+          <h3 class="text-[17px] font-bold text-slate-900 mb-4 tracking-tight">Deskripsi</h3>
           <div class="prose prose-slate prose-p:text-[14px] prose-p:font-medium prose-p:leading-relaxed prose-p:text-slate-500 max-w-none">
-            <p>This document contains the fully verified solutions for the 2023 OSN (Olimpiade Sains Nasional) Physics Final Examination. It covers advanced topics including Rigid Body Dynamics, Thermodynamics, Electromagnetism, and Quantum Mechanics introductions.</p>
-            <p>Ideal for high school students preparing for national-level competitions or university freshmen reviewing advanced mechanics. Step-by-step mathematical proofs are included for every question.</p>
+            <p>Dokumen ini berisi pembahasan terverifikasi untuk Final OSN (Olimpiade Sains Nasional) Fisika 2023. Mencakup topik lanjutan termasuk Dinamika Benda Tegar, Termodinamika, Elektromagnetisme, dan pengantar Mekanika Kuantum.</p>
+            <p>Sangat cocok untuk siswa SMA yang mempersiapkan kompetisi tingkat nasional atau mahasiswa baru yang meninjau mekanika lanjutan. Bukti matematis langkah-demi-langkah disertakan untuk setiap pertanyaan.</p>
           </div>
         </div>
 
-        <!-- Document Preview Area (Mockup) -->
-        <div class="bg-slate-50 rounded-[2rem] p-4 shadow-[inset_0_4px_24px_rgba(0,0,0,0.02)] border border-slate-200 h-[600px] flex flex-col relative overflow-hidden">
-          <div class="flex items-center justify-between p-3 bg-white rounded-[1.25rem] border border-slate-200 shadow-sm mb-4">
+        <!-- Document Preview Area (Mockup) for PDF -->
+        <div v-if="materialType === 'pdf'" class="bg-slate-50/80 backdrop-blur-xl rounded-3xl p-4 shadow-[inset_0_4px_24px_rgba(0,0,0,0.02)] border border-slate-200 h-[600px] flex flex-col relative overflow-hidden">
+          <div class="flex items-center justify-between p-3 bg-white/80 backdrop-blur-md rounded-2xl border border-slate-200 shadow-sm mb-4">
             <div class="flex items-center gap-2 text-slate-500">
               <button class="p-1.5 hover:bg-slate-100 rounded-lg transition-colors"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg></button>
-              <span class="text-[12px] font-bold">Page 1 / 45</span>
+              <span class="text-[12px] font-bold">Halaman 1 / 45</span>
               <button class="p-1.5 hover:bg-slate-100 rounded-lg transition-colors"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></button>
             </div>
             <div class="flex items-center gap-2 text-slate-500">
@@ -116,10 +126,47 @@
             </div>
             
             <div class="absolute inset-0 bg-gradient-to-t from-white via-white/80 to-transparent flex flex-col items-center justify-end pb-12">
-              <button class="px-6 py-3.5 bg-white border border-slate-200 hover:border-[#334EAC] text-[#081F5C] hover:text-[#334EAC] shadow-lg rounded-xl font-extrabold text-[14px] transition-all flex items-center gap-2">
+              <button class="px-6 py-3.5 bg-white border border-slate-200 hover:border-[#334EAC] text-[#081F5C] hover:text-[#334EAC] shadow-lg rounded-2xl font-bold text-[14px] transition-all flex items-center gap-2">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
-                Download to Read Full
+                Unduh untuk Baca Penuh
               </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Video Player Layout -->
+        <div v-else-if="materialType === 'video'" class="bg-[#081F5C] rounded-3xl p-2 md:p-4 shadow-[0_15px_40px_rgba(8,31,92,0.15)] flex flex-col transition-all duration-300 ease-out hover:shadow-2xl">
+          <div class="relative w-full aspect-video bg-black rounded-2xl overflow-hidden flex items-center justify-center group">
+            <!-- Simulated Video Thumbnail -->
+            <div class="absolute inset-0 bg-gradient-to-tr from-[#334EAC]/40 to-transparent opacity-50 mix-blend-overlay"></div>
+            <div class="text-white/20">
+              <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            </div>
+
+            <!-- Play Button Overlay -->
+            <button class="absolute z-10 w-20 h-20 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white shadow-xl hover:scale-110 hover:bg-white/20 transition-all cursor-pointer">
+              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ml-2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            </button>
+
+            <!-- Video Controls Bar -->
+            <div class="absolute bottom-0 inset-x-0 h-16 bg-gradient-to-t from-black/80 to-transparent flex items-end px-4 pb-3 opacity-0 group-hover:opacity-100 transition-opacity">
+              <div class="w-full flex items-center gap-4 text-white text-[13px] font-bold">
+                <button><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg></button>
+                <span>12:04 / 45:00</span>
+                <div class="flex-1 h-1.5 bg-white/20 rounded-full cursor-pointer relative">
+                  <div class="absolute left-0 top-0 h-full w-1/3 bg-rose-500 rounded-full"></div>
+                </div>
+                <button><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></button>
+                <button><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg></button>
+              </div>
+            </div>
+          </div>
+          
+          <div class="mt-4 px-2 pb-2">
+            <div class="flex gap-4 overflow-x-auto pb-2 scrollbar-hide">
+              <button class="px-4 py-2 bg-white/10 hover:bg-white/20 rounded-lg text-white text-[12px] font-bold whitespace-nowrap transition-colors border border-white/5 active:scale-95">Bab 1: Pendahuluan</button>
+              <button class="px-4 py-2 bg-[#334EAC] text-white rounded-lg text-[12px] font-bold whitespace-nowrap shadow-sm active:scale-95">Bab 2: Dinamika Rotasi</button>
+              <button class="px-4 py-2 bg-white/10 hover:bg-white/20 rounded-lg text-white text-[12px] font-bold whitespace-nowrap transition-colors border border-white/5 active:scale-95">Bab 3: Hukum Kekekalan</button>
             </div>
           </div>
         </div>
@@ -130,62 +177,62 @@
       <div class="w-full xl:w-[35%] shrink-0 space-y-6 min-w-0">
         
         <!-- AI Summary Widget -->
-        <div class="bg-gradient-to-br from-[#334EAC] to-[#081F5C] rounded-[2rem] p-8 shadow-lg relative overflow-hidden">
+        <div class="bg-gradient-to-br from-[#334EAC] to-[#081F5C] rounded-3xl p-8 shadow-lg relative overflow-hidden transition-all duration-300 ease-out hover:shadow-xl group/card">
           <div class="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full blur-2xl pointer-events-none -translate-y-1/2 translate-x-1/3"></div>
           
-          <h3 class="text-[15px] font-extrabold text-white mb-4 flex items-center gap-2 relative z-10">
+          <h3 class="text-[15px] font-bold text-white mb-4 flex items-center gap-2 relative z-10 tracking-tight">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4"/><path d="M12 18v4"/><path d="M4.93 4.93l2.83 2.83"/><path d="M16.24 16.24l2.83 2.83"/><path d="M2 12h4"/><path d="M18 12h4"/><path d="M4.93 19.07l2.83-2.83"/><path d="M16.24 7.76l2.83-2.83"/></svg>
-            AI Document Summary
+            Ringkasan Dokumen AI
           </h3>
 
           <div class="bg-white/10 backdrop-blur-sm rounded-[1.25rem] p-5 border border-white/20 relative z-10">
             <ul class="space-y-3">
               <li class="flex items-start gap-2 text-[12px] font-medium text-[#BAD6EB]">
                 <div class="w-1.5 h-1.5 rounded-full bg-white mt-1.5 shrink-0"></div>
-                <span class="leading-relaxed">Primarily focuses on classical mechanics and thermodynamics.</span>
+                <span class="leading-relaxed">Fokus utama pada mekanika klasik dan termodinamika.</span>
               </li>
               <li class="flex items-start gap-2 text-[12px] font-medium text-[#BAD6EB]">
                 <div class="w-1.5 h-1.5 rounded-full bg-white mt-1.5 shrink-0"></div>
-                <span class="leading-relaxed">Contains 15 complex essay questions with proofs.</span>
+                <span class="leading-relaxed">Berisi 15 pertanyaan esai kompleks dengan pembuktian.</span>
               </li>
               <li class="flex items-start gap-2 text-[12px] font-medium text-[#BAD6EB]">
                 <div class="w-1.5 h-1.5 rounded-full bg-white mt-1.5 shrink-0"></div>
-                <span class="leading-relaxed">Matches your current study weakness: Rigid Body Dynamics.</span>
+                <span class="leading-relaxed">Cocok dengan kelemahan belajarmu saat ini: Dinamika Benda Tegar.</span>
               </li>
             </ul>
           </div>
         </div>
 
         <!-- Related Materials -->
-        <div class="bg-white rounded-[2rem] p-6 shadow-[0_4px_24px_rgba(0,0,0,0.02)] border border-slate-100/80">
-          <h3 class="text-[15px] font-extrabold text-[#081F5C] mb-5">Related Materials</h3>
+        <div class="bg-white/80 backdrop-blur-xl rounded-3xl p-6 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-100 transition-all duration-300 ease-out hover:shadow-xl group/card">
+          <h3 class="text-[15px] font-bold text-slate-900 tracking-tight mb-5">Materi Terkait</h3>
           
           <div class="space-y-4">
             <!-- Item 1 -->
-            <RouterLink to="/pelajar/materials/2" class="flex gap-4 group p-3 -m-3 rounded-2xl hover:bg-[#F7F2EB] transition-colors">
+            <RouterLink :to="`${baseMaterialsRoute}/2`" class="flex gap-4 group p-3 -m-3 rounded-2xl hover:bg-[#F7F2EB] transition-colors">
               <div class="w-12 h-12 rounded-xl bg-[#EDF1F6] flex items-center justify-center text-[#334EAC] shrink-0 border border-slate-200/60">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>
               </div>
               <div class="min-w-0 flex-1">
-                <h4 class="text-[13px] font-extrabold text-[#081F5C] truncate group-hover:text-[#334EAC] transition-colors">OSN 2022 Solutions</h4>
-                <p class="text-[11px] font-bold text-slate-400 mt-1">Physics • 12 Pages</p>
+                <h4 class="text-[13px] font-bold text-slate-900 truncate group-hover:text-[#334EAC] transition-colors">Pembahasan OSN 2022</h4>
+                <p class="text-[11px] font-bold text-slate-400 mt-1">Fisika • 12 Halaman</p>
               </div>
             </RouterLink>
 
             <!-- Item 2 -->
-            <RouterLink to="/pelajar/materials/3" class="flex gap-4 group p-3 -m-3 rounded-2xl hover:bg-[#F7F2EB] transition-colors">
+            <RouterLink :to="`${baseMaterialsRoute}/3`" class="flex gap-4 group p-3 -m-3 rounded-2xl hover:bg-[#F7F2EB] transition-colors">
               <div class="w-12 h-12 rounded-xl bg-rose-50 flex items-center justify-center text-rose-500 shrink-0 border border-rose-100/60">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg>
               </div>
               <div class="min-w-0 flex-1">
-                <h4 class="text-[13px] font-extrabold text-[#081F5C] truncate group-hover:text-[#334EAC] transition-colors">Thermodynamics Formula Sheet</h4>
-                <p class="text-[11px] font-bold text-slate-400 mt-1">Physics • 2 Pages</p>
+                <h4 class="text-[13px] font-bold text-slate-900 truncate group-hover:text-[#334EAC] transition-colors">Lembar Rumus Termodinamika</h4>
+                <p class="text-[11px] font-bold text-slate-400 mt-1">Fisika • 2 Halaman</p>
               </div>
             </RouterLink>
           </div>
           
-          <RouterLink to="/pelajar/materials" class="mt-6 block text-center text-[12px] font-extrabold text-[#334EAC] hover:text-[#081F5C] transition-colors">
-            View more in Physics
+          <RouterLink :to="baseMaterialsRoute" class="mt-6 block text-center text-[12px] font-bold text-[#334EAC] hover:text-slate-900 transition-colors">
+            Lihat lebih banyak di Fisika
           </RouterLink>
         </div>
 
@@ -195,6 +242,14 @@
 </template>
 
 <script setup>
-import { RouterLink } from 'vue-router'
-// Material Detail View
+import { ref, computed } from 'vue'
+import { RouterLink, useRoute } from 'vue-router'
+
+const route = useRoute()
+const baseMaterialsRoute = computed(() => {
+  return route.path.startsWith('/tutor') ? '/tutor/materials' : '/pelajar/materials'
+})
+
+// Tipe materi: 'pdf', 'docx', atau 'video'
+const materialType = ref('video') // Set 'video' untuk mencoba tampilan course style, 'pdf' untuk view default
 </script>

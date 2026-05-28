@@ -8,14 +8,19 @@
 
   <!-- Sidebar -->
   <aside 
-    class="fixed md:relative inset-y-0 left-0 z-50 bg-[#081F5C] text-slate-300 flex flex-col transition-all duration-300 shadow-[4px_0_24px_rgba(8,31,92,0.08)]"
+    class="sidebar shrink-0 fixed md:relative inset-y-0 left-0 z-50 text-slate-300 flex flex-col transition-all duration-300 shadow-[4px_0_24px_rgba(8,31,92,0.08)] bg-[linear-gradient(175deg,#081F5C_0%,#0e2d7e_60%,#1a3a99_100%)]"
     :class="[
       isCollapsed ? 'w-20' : 'w-64',
       isMobileOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'
     ]"
   >
+    <!-- Decorative Blob Container -->
+    <div class="absolute inset-0 overflow-hidden pointer-events-none z-0">
+      <!-- Decorative Blob -->
+      <div class="absolute top-[-80px] right-[-60px] w-[240px] h-[240px] bg-[#BAD6EB]/10 rounded-full"></div>
+    </div>
     <!-- Header / Branding -->
-    <div class="h-16 flex items-center justify-between px-5 py-4 shrink-0 border-b border-white/5">
+    <div class="h-16 flex items-center justify-between px-5 py-4 shrink-0 border-b border-white/5 relative z-10">
       <div class="flex items-center gap-3 overflow-hidden whitespace-nowrap">
         <div class="w-9 h-9 bg-white/10 backdrop-blur-md rounded-xl flex items-center justify-center shrink-0 border border-white/10">
           <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
@@ -46,20 +51,22 @@
     </div>
     
     <!-- Navigation -->
-    <nav class="flex-1 overflow-y-auto py-6 px-3 custom-scrollbar">
-      <ul class="space-y-1.5">
+    <nav class="flex-1 overflow-y-auto py-6 px-4 custom-scrollbar relative z-10">
+      <ul class="space-y-1">
         <li v-for="item in menuItems" :key="item.name" class="relative group">
           <RouterLink 
             :to="item.path" 
-            class="flex items-center rounded-xl transition-all duration-200 group-hover:bg-[#7096D1]/10"
+            class="nav-item flex items-center rounded-xl transition-all duration-200 relative"
             :class="[
-              isCollapsed ? 'justify-center p-3' : 'px-3.5 py-2.5',
+              isCollapsed ? 'justify-center p-3' : 'px-4 py-2.5',
               isActive(item.path) 
-                ? 'bg-[#334EAC] text-white shadow-sm' 
-                : 'text-[#BAD6EB] hover:text-white'
+                ? 'active text-white font-bold' 
+                : 'text-[#BAD6EB] hover:text-white font-medium'
             ]"
             @click="isMobileOpen = false"
           >
+            <!-- Active Indicator (Handled by CSS now) -->
+            
             <svg 
               xmlns="http://www.w3.org/2000/svg" 
               width="20" 
@@ -72,12 +79,12 @@
               stroke-linejoin="round" 
               class="shrink-0 transition-transform duration-300"
               :class="[
-                !isCollapsed && 'mr-3',
-                isActive(item.path) ? 'scale-105' : 'group-hover:scale-110'
+                !isCollapsed && 'mr-3.5',
+                isActive(item.path) ? 'scale-105 opacity-100' : 'group-hover:scale-110 opacity-70 group-hover:opacity-100'
               ]"
               v-html="item.iconPath"
             ></svg>
-            <span v-if="!isCollapsed" class="font-medium text-[14px] whitespace-nowrap">{{ item.name }}</span>
+            <span v-if="!isCollapsed" class="text-[13px] whitespace-nowrap" :class="isActive(item.path) ? 'tracking-tight' : ''">{{ item.name }}</span>
           </RouterLink>
           
           <!-- Tooltip for collapsed state -->
@@ -89,37 +96,37 @@
     </nav>
     
     <!-- Bottom Profile Section -->
-    <div class="p-4 mt-auto border-t border-white/5 bg-[#081F5C]">
+    <div class="p-4 mt-auto border-t border-white/10 bg-[#081F5C]/80 relative z-10">
       <div 
-        class="bg-white/5 rounded-2xl border border-white/10 overflow-hidden transition-all duration-300 hover:bg-white/10"
-        :class="isCollapsed ? 'p-2 flex justify-center' : 'p-3'"
+        class="sidebar-user-card overflow-hidden transition-all duration-300 cursor-pointer"
+        :class="isCollapsed ? 'p-2 flex justify-center' : 'p-2.5'"
       >
         <div class="flex items-center gap-3">
           <!-- Avatar -->
-          <div class="w-10 h-10 rounded-full bg-[#EDF1F6] border-2 border-[#7096D1] shrink-0 flex items-center justify-center overflow-hidden">
-            <img :src="avatarUrl" alt="Avatar" class="w-full h-full object-cover" />
+          <div class="w-8 h-8 rounded-lg bg-[#334EAC]/30 border border-[#7096D1]/50 shrink-0 flex items-center justify-center overflow-hidden">
+            <span class="text-[#D0E3FF] font-bold text-[11px]">JD</span>
           </div>
           <!-- Info -->
           <div v-if="!isCollapsed" class="flex-1 min-w-0">
-            <p class="text-sm font-bold text-white truncate">{{ userName }}</p>
-            <p class="text-xs text-[#BAD6EB] font-medium truncate capitalize">{{ userRole }}</p>
+            <p class="text-[13px] font-bold text-white truncate leading-tight mb-0.5">{{ user?.name || 'Pelajar' }}</p>
+            <p class="text-[9.5px] tracking-[1.2px] text-[#BAD6EB]/45 uppercase font-medium truncate leading-none">{{ userRole }}</p>
           </div>
         </div>
         
         <!-- Action Buttons inside profile box (if expanded) -->
-        <div v-if="!isCollapsed" class="mt-3 pt-3 border-t border-white/10 flex items-center justify-between">
-          <div class="flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider text-[#7096D1] bg-[#7096D1]/10 px-2 py-1 rounded-md">
+        <div v-if="!isCollapsed" class="mt-2.5 pt-2.5 border-t border-white/10 flex items-center justify-between">
+          <div class="flex items-center gap-1 text-[9px] font-bold uppercase tracking-widest text-[#BAD6EB] bg-white/5 border border-white/10 px-2 py-0.5 rounded-md">
             <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
             Pro
           </div>
-          <button @click="handleLogout" class="text-[#BAD6EB] hover:text-white hover:bg-white/10 p-1.5 rounded-lg transition-colors" title="Log out">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/></svg>
+          <button @click="handleLogout" class="text-[#BAD6EB] hover:text-white hover:bg-white/10 p-1.5 rounded-lg transition-colors" title="Keluar">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/></svg>
           </button>
         </div>
       </div>
       
       <!-- Logout button when collapsed -->
-      <button v-if="isCollapsed" @click="handleLogout" class="mt-3 w-full flex items-center justify-center p-3 rounded-xl text-[#BAD6EB] hover:bg-white/10 hover:text-white transition-colors" title="Log out">
+      <button @click="handleLogout" v-if="isCollapsed" class="mt-3 w-full flex items-center justify-center p-3 rounded-xl text-[#BAD6EB] hover:bg-white/10 hover:text-white transition-colors" title="Keluar">
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/></svg>
       </button>
     </div>
@@ -138,64 +145,32 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import { useAuthStore } from '@/stores/auth'
 
 const route = useRoute()
 const router = useRouter()
+const authStore = useAuthStore()
+
 const isCollapsed = ref(false)
 const isMobileOpen = ref(false)
 
-const user = JSON.parse(localStorage.getItem('user') || '{}')
-const userName = user.name || 'User'
-const userRole = localStorage.getItem('role') || 'pelajar'
+const userRole = computed(() => authStore.role || 'pelajar')
+const user = computed(() => authStore.user)
 
-const userInitials = computed(() => {
-  return userName
-    .split(' ')
-    .map(n => n[0])
-    .slice(0, 2)
-    .join('')
-    .toUpperCase()
-})
-
-const avatarUrl = computed(() => {
-  return `https://ui-avatars.com/api/?name=${encodeURIComponent(userName)}&background=BAD6EB&color=081F5C&bold=true`
-})
-
-const menuItems = computed(() => {
-  if (userRole === 'admin') {
-    return [
-      { name: 'Dashboard', path: '/admin/dashboard', iconPath: '<rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/>' },
-      { name: 'Manage Users', path: '/admin/users', iconPath: '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>' },
-      { name: 'Categories', path: '/admin/categories', iconPath: '<path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/>' },
-      { name: 'Reports', path: '/admin/reports', iconPath: '<path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" x2="12" y1="9" y2="13"/><line x1="12" x2="12.01" y1="17" y2="17"/>' },
-      { name: 'Analytics', path: '/admin/analytics', iconPath: '<path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/>' },
-    ]
-  } else if (userRole === 'tutor') {
-    return [
-      { name: 'Dashboard', path: '/tutor/dashboard', iconPath: '<rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/>' },
-      { name: 'Verify Answers', path: '/tutor/verify-answer', iconPath: '<polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>' },
-      { name: 'Mentoring', path: '/tutor/mentoring', iconPath: '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>' },
-      { name: 'Profile', path: '/tutor/profile', iconPath: '<path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>' },
-    ]
-  } else {
-    return [
-      { name: 'Dashboard', path: '/pelajar/dashboard', iconPath: '<rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/>' },
-      { name: 'Forum', path: '/pelajar/forum', iconPath: '<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>' },
-      { name: 'AI Analyzer', path: '/pelajar/ai-analyzer', iconPath: '<path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/><path d="M5 3v4"/><path d="M19 17v4"/><path d="M3 5h4"/><path d="M17 19h4"/>' },
-      { name: 'Materials', path: '/pelajar/materials', iconPath: '<path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>' },
-      { name: 'Mentoring', path: '/pelajar/mentoring', iconPath: '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>' },
-      { name: 'Quiz', path: '/pelajar/quiz', iconPath: '<polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>' },
-      { name: 'Profile', path: '/pelajar/profile', iconPath: '<path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>' }
-    ]
-  }
-})
-
-const handleLogout = () => {
-  localStorage.removeItem('token')
-  localStorage.removeItem('user')
-  localStorage.removeItem('role')
+const handleLogout = async () => {
+  await authStore.logout()
   router.push('/auth/login')
 }
+
+const menuItems = computed(() => [
+  { name: 'Dashboard', path: `/${userRole.value}/dashboard`, iconPath: '<rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/>' },
+  { name: 'Forum', path: `/${userRole.value}/forum`, iconPath: '<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>' },
+  { name: 'Analisis AI', path: `/${userRole.value}/ai-analyzer`, iconPath: '<path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/><path d="M5 3v4"/><path d="M19 17v4"/><path d="M3 5h4"/><path d="M17 19h4"/>' },
+  { name: 'Materi', path: `/${userRole.value}/materials`, iconPath: '<path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>' },
+  { name: 'Mentoring', path: `/${userRole.value}/mentoring`, iconPath: '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>' },
+  { name: 'Kuis', path: `/${userRole.value}/quiz`, iconPath: '<polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>' },
+  { name: 'Profil', path: `/${userRole.value}/profile`, iconPath: '<path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>' }
+])
 
 // Determine if the current route matches the navigation item
 const isActive = (path) => {
