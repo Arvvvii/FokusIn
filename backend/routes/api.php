@@ -72,6 +72,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('/exam-uploads/{id}', [ExamUploadController::class, 'destroy']);
 
     // Pola Rekomendasi Soal Belajar AI (Groq API)
+    Route::post('/ai/analyze', [AIPatternController::class, 'analyze']);
     Route::get('/ai-pattern/summary', [AIPatternController::class, 'summary']); // Menggunakan query param ?category_id=X
     Route::post('/ai-pattern/refresh', [AIPatternController::class, 'refresh']);
 
