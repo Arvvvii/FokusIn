@@ -19,27 +19,27 @@
     </div>
 
     <!-- RIGHT: Actions & Profile -->
-    <div class="flex items-center gap-3 sm:gap-4 shrink-0 ml-4">
-      
+    <div class="flex items-center gap-1.5 sm:gap-3 shrink-0 ml-2 sm:ml-4">
       <!-- Analytics -->
-      <RouterLink to="/admin/analytics" class="pill-analytics hidden lg:flex" :class="[ isActive('/admin/analytics') ? 'active' : '' ]">
+      <RouterLink to="/admin/analytics" class="pill-analytics flex px-2.5 py-1.5 md:px-3.5 md:py-1.5" :class="[ isActive('/admin/analytics') ? 'active' : '' ]">
         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" x2="18" y1="20" y2="10"/><line x1="12" x2="12" y1="20" y2="4"/><line x1="6" x2="6" y1="20" y2="14"/></svg>
-        Analytics
+        <span class="hidden md:inline">Analytics</span>
       </RouterLink>
 
       <!-- Moderation Queue -->
-      <RouterLink to="/admin/moderation" class="pill-moderation hidden lg:flex" :class="[ isActive('/admin/moderation') ? 'active' : '' ]">
+      <RouterLink to="/admin/moderation" class="pill-moderation flex px-2.5 py-1.5 md:px-3.5 md:py-1.5" :class="[ isActive('/admin/moderation') ? 'active' : '' ]">
         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" x2="12" y1="9" y2="13"/><line x1="12" x2="12.01" y1="17" y2="17"/></svg>
-        Moderation
+        <span class="hidden md:inline">Moderation</span>
       </RouterLink>
 
       <!-- AI Status -->
-      <RouterLink to="/admin/ai-monitoring" class="pill-ai-monitoring hidden md:flex">
+      <RouterLink to="/admin/ai-monitoring" class="pill-ai-monitoring flex px-2.5 py-1.5 md:px-4 md:py-1.5">
         <span class="live-dot"></span>
-        AI MONITORING ACTIVE
+        <span class="hidden md:inline">AI MONITORING ACTIVE</span>
+        <span class="md:hidden text-[10px] font-bold">AI</span>
       </RouterLink>
 
-      <div class="w-px h-6 bg-slate-200 hidden sm:block"></div>
+      <div class="w-px h-6 bg-slate-200 hidden md:block"></div>
 
       <!-- Notifications -->
       <RouterLink to="/admin/reports" class="relative p-2 text-slate-400 hover:text-[#081F5C] hover:bg-slate-100 rounded-xl transition-all">

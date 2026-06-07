@@ -7,27 +7,32 @@
         :to="baseMaterialsRoute"
         class="text-sm font-bold text-slate-400 hover:text-[#334EAC] transition-colors flex items-center gap-1 w-fit bg-white/50 px-3 py-1.5 rounded-lg border border-slate-200/50"
       >
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"></path></svg>
-        Kembali ke Materi
+        ← Kembali ke Materi
       </RouterLink>
     </div>
 
     <!-- 2. Hero / Header Section -->
-    <div class="bg-white/80 backdrop-blur-xl rounded-3xl p-8 md:p-12 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-100 mb-8 relative overflow-hidden flex flex-col lg:flex-row gap-8 items-start lg:items-center min-w-0 transition-all duration-300 ease-out hover:shadow-xl group/card">
-      <div class="absolute top-0 right-0 w-64 h-64 bg-[#7096D1] rounded-full blur-3xl opacity-10 pointer-events-none -translate-y-1/2 translate-x-1/4"></div>
+    <div 
+      :class="[
+        route.path.startsWith('/tutor') 
+          ? 'bg-white border border-slate-200 shadow-sm rounded-2xl p-7 md:p-8 flex flex-col lg:flex-row gap-8 items-start lg:items-center min-w-0 mb-8 relative overflow-hidden' 
+          : 'bg-white/80 backdrop-blur-xl rounded-3xl p-8 md:p-12 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-100 mb-8 relative overflow-hidden flex flex-col lg:flex-row gap-8 items-start lg:items-center min-w-0 transition-all duration-300 ease-out hover:shadow-xl group/card'
+      ]"
+    >
+      <div 
+        :class="[
+          route.path.startsWith('/tutor')
+            ? 'absolute right-0 top-0 w-1/3 h-full bg-gradient-to-l from-[#EDF1F6]/50 to-transparent pointer-events-none'
+            : 'absolute top-0 right-0 w-64 h-64 bg-[#7096D1] rounded-full blur-3xl opacity-10 pointer-events-none -translate-y-1/2 translate-x-1/4'
+        ]"
+      ></div>
       
       <!-- Icon/Badge -->
-      <div v-if="materialType === 'pdf'" class="w-24 h-24 rounded-[1.5rem] bg-[#F7F2EB] flex items-center justify-center text-rose-500 shrink-0 border border-slate-200/60 shadow-sm relative z-10">
-        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>
-        <div class="bg-white/60 backdrop-blur-xl rounded-3xl p-7 md:p-8 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-200/60 relative overflow-hidden">
-          PDF
-        </div>
+      <div v-if="materialType === 'pdf'" class="w-20 h-20 rounded-2xl bg-rose-50 flex items-center justify-center text-rose-500 shrink-0 border border-rose-100/60 shadow-sm relative z-10">
+        <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>
       </div>
-      <div v-else-if="materialType === 'video'" class="w-24 h-24 rounded-[1.5rem] bg-emerald-50 flex items-center justify-center text-emerald-500 shrink-0 border border-emerald-100/60 shadow-sm relative z-10">
-        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-        <div class="absolute -bottom-2 -right-2 px-2.5 py-1 bg-white border border-slate-100 shadow-sm rounded-lg text-[10px] font-bold text-slate-900 uppercase tracking-widest">
-          VIDEO
-        </div>
+      <div v-else-if="materialType === 'video'" class="w-20 h-20 rounded-2xl bg-emerald-50 flex items-center justify-center text-emerald-500 shrink-0 border border-emerald-100/60 shadow-sm relative z-10">
+        <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
       </div>
 
       <div class="flex-1 relative z-10 min-w-0">
@@ -35,7 +40,15 @@
           <span class="px-3 py-1 bg-[#EDF1F6] text-[#334EAC] text-[10px] font-bold uppercase tracking-widest rounded-md border border-[#BAD6EB]">Fisika</span>
           <span class="px-3 py-1 bg-white text-slate-500 text-[10px] font-bold uppercase tracking-widest rounded-md border border-slate-200">Persiapan OSN</span>
         </div>
-        <h1 class="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">Soal & Pembahasan Lengkap Final OSN Fisika Nasional 2023</h1>
+        <h1 
+          :class="[
+            route.path.startsWith('/tutor')
+              ? 'text-2xl font-extrabold text-[#081F5C] tracking-tight leading-tight'
+              : 'text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight'
+          ]"
+        >
+          Soal & Pembahasan Lengkap Final OSN Fisika Nasional 2023
+        </h1>
         
         <div class="flex flex-wrap items-center gap-6 text-[13px] font-bold text-slate-500">
           <div class="flex items-center gap-2">

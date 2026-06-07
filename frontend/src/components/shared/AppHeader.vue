@@ -1,16 +1,26 @@
 <template>
-  <header class="topbar h-[72px] flex items-center justify-between px-5 lg:px-8 shrink-0 transition-all">
+  <header class="topbar h-[72px] flex items-center justify-between px-4 sm:px-5 lg:px-8 shrink-0 transition-all">
     
     <!-- Left Section: Search & Breadcrumb -->
-    <div class="flex items-center gap-4 flex-1">
+    <div class="flex items-center gap-2 sm:gap-4 flex-1 min-w-0">
       
       <!-- Mobile Search Icon (Instead of Hamburger, since Sidebar has FAB) -->
-      <button class="md:hidden p-2 -ml-2 text-slate-400 hover:text-[#081F5C] hover:bg-slate-100 rounded-lg transition-colors focus:outline-none">
-        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+      <button @click="isMobileSearchOpen = !isMobileSearchOpen" class="md:hidden p-2 -ml-2 text-slate-400 hover:text-[#081F5C] hover:bg-slate-100 rounded-lg transition-colors focus:outline-none shrink-0" aria-label="Cari">
+        <svg v-if="!isMobileSearchOpen" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        <svg v-else xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
       </button>
 
+      <!-- Mobile Search Bar (Only shown on mobile when activated) -->
+      <div v-if="isMobileSearchOpen" class="flex md:hidden relative w-full min-w-0 group animate-in fade-in duration-200">
+        <input 
+          type="text" 
+          class="topbar-search w-full pl-4 pr-10 py-1.5 text-[13px] text-slate-800 placeholder-slate-400 focus:outline-none transition-all" 
+          placeholder="Cari diskusi, materi, mentor..."
+        >
+      </div>
+
       <!-- Academic Breadcrumb -->
-      <div class="academic-breadcrumb hidden xl:flex rounded-full border border-slate-200/50 shrink-0">
+      <div v-if="!isMobileSearchOpen" class="academic-breadcrumb hidden xl:flex rounded-full border border-slate-200/50 shrink-0">
         <span class="breadcrumb-faculty">Teknik Vokasi</span>
         <span class="breadcrumb-sep">›</span>
         <span class="breadcrumb-semester">Semester 4</span>
@@ -18,8 +28,8 @@
         <span class="breadcrumb-current">{{ $route.name || 'Dashboard' }}</span>
       </div>
 
-      <!-- Search Bar (Desktop) -->
-      <div class="hidden md:flex relative w-full max-w-md group">
+      <!-- Search Bar (Desktop - responsive max-w to avoid overlap on md/lg screens) -->
+      <div class="hidden md:flex relative w-full max-w-[200px] lg:max-w-md group shrink-0">
         <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400 group-focus-within:text-[#334EAC] transition-colors">
           <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
         </div>
@@ -34,13 +44,13 @@
       </div>
     </div>
 
-    <!-- Right Section: Actions & Profile -->
-    <div class="flex items-center gap-3 sm:gap-4 ml-4">
+    <!-- Right Section: Actions & Profile (Hides on mobile when search is open to prevent overlap) -->
+    <div :class="[isMobileSearchOpen ? 'hidden md:flex' : 'flex', 'items-center gap-2 sm:gap-4 ml-2 sm:ml-4 shrink-0']">
       
       <!-- AI Assistant Button -->
-      <RouterLink to="/pelajar/ai-analyzer" class="hidden sm:flex items-center gap-2 px-4 py-2.5 btn-tanya-ai text-white rounded-xl font-bold text-sm active:scale-95">
+      <RouterLink to="/pelajar/ai-analyzer" class="flex items-center justify-center gap-1.5 px-2.5 py-2 sm:px-4 sm:py-2.5 btn-tanya-ai text-white rounded-xl font-bold text-xs sm:text-sm active:scale-95 shrink-0">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/><path d="M5 3v4"/><path d="M19 17v4"/><path d="M3 5h4"/><path d="M17 19h4"/></svg>
-        Tanya AI
+        <span class="hidden sm:inline">Tanya AI</span>
       </RouterLink>
 
       <!-- Notification -->
@@ -86,7 +96,7 @@
 
       <!-- User Profile Dropdown Toggle -->
       <div class="relative">
-        <button @click="showProfile = !showProfile" class="flex items-center gap-3 p-1 pr-2 hover:bg-[#EDF1F6] rounded-xl transition-colors focus:outline-none border border-transparent hover:border-slate-200/50">
+        <button @click="showProfile = !showProfile" class="flex items-center gap-1.5 sm:gap-3 p-1 pr-1 sm:pr-2 hover:bg-[#EDF1F6] rounded-xl transition-colors focus:outline-none border border-transparent hover:border-slate-200/50">
           <div class="w-9 h-9 rounded-full bg-[#EDF1F6] border-2 border-white shadow-sm shrink-0 flex items-center justify-center overflow-hidden">
             <span class="text-[#081F5C] font-bold text-sm">{{ (authStore.user?.name || 'P').charAt(0).toUpperCase() }}</span>
           </div>
@@ -153,4 +163,5 @@ const handleLogout = async () => {
 const showNotif = ref(false)
 const showProfile = ref(false)
 const showComingSoon = ref(false)
+const isMobileSearchOpen = ref(false)
 </script>

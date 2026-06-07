@@ -2,6 +2,16 @@
   <div class="relative min-h-screen bg-[#F7F2EB]">
     <div class="max-w-[1000px] mx-auto px-6 py-6 space-y-6 animate-in fade-in duration-500">
       
+      <!-- Back Navigation -->
+      <div class="mb-6 flex items-center gap-2">
+        <RouterLink
+          to="/pelajar/mentoring"
+          class="text-sm font-bold text-slate-400 hover:text-[#334EAC] transition-colors flex items-center gap-1 w-fit bg-white/50 px-3 py-1.5 rounded-lg border border-slate-200/50"
+        >
+          ← Kembali ke Mentoring
+        </RouterLink>
+      </div>
+
       <!-- 1. Breadcrumb & Header -->
       <div class="space-y-2">
         <div class="flex items-center gap-2 text-xs font-bold text-slate-400 uppercase tracking-widest">

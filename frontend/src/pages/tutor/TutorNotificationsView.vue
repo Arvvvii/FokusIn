@@ -1,18 +1,30 @@
 <template>
   <div class="space-y-8 w-full pb-12">
       
-      <!-- Page Header -->
-      <div class="mb-6 flex items-center justify-between">
-        <div class="flex items-center gap-3">
-          <RouterLink to="/tutor/dashboard" class="w-8 h-8 rounded-lg bg-white border border-slate-200 text-slate-500 hover:text-[#334EAC] hover:border-[#7096D1] flex items-center justify-center transition-colors shrink-0 shadow-sm active:scale-95" title="Kembali">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
-          </RouterLink>
+      <!-- Back Navigation -->
+      <div class="mb-6 flex items-center gap-2">
+        <RouterLink
+          to="/tutor/dashboard"
+          class="text-sm font-bold text-slate-400 hover:text-[#334EAC] transition-colors flex items-center gap-1 w-fit bg-white/50 px-3 py-1.5 rounded-lg border border-slate-200/50"
+        >
+          ← Kembali ke Dashboard
+        </RouterLink>
+      </div>
+
+      <!-- 1. EDITORIAL WORKSPACE HEADER SECTION -->
+      <div class="bg-white border border-slate-200 shadow-sm rounded-2xl p-7 md:p-8 flex flex-col md:flex-row md:items-center justify-between gap-6 relative mb-6">
+        <div class="absolute right-0 top-0 w-1/3 h-full bg-gradient-to-l from-[#EDF1F6]/50 to-transparent pointer-events-none"></div>
+        
+        <div class="relative z-10 flex items-center gap-4">
+          <span class="w-12 h-12 rounded-2xl bg-[#334EAC]/10 text-[#334EAC] flex items-center justify-center shrink-0">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
+          </span>
           <div>
-            <h1 class="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">Notifikasi Pendidik</h1>
-            <p class="text-[15px] text-slate-600 font-medium mt-2 max-w-xl leading-relaxed">Pantau aktivitas mahasiswa, permohonan bimbingan baru, serta notifikasi sistem ekstraksi AI.</p>
+            <h1 class="text-2xl font-extrabold text-[#081F5C] tracking-tight leading-tight">Notifikasi Pendidik</h1>
+            <p class="text-[13px] text-slate-500 font-medium mt-2 max-w-xl leading-relaxed">Pantau aktivitas mahasiswa, permohonan bimbingan baru, serta notifikasi sistem ekstraksi AI.</p>
           </div>
         </div>
-        <button @click="markAllRead" class="px-3.5 py-2 bg-white hover:bg-slate-50 text-slate-600 border border-slate-200 rounded-xl font-bold text-xs transition-colors shadow-sm active:scale-[0.98]">
+        <button @click="markAllRead" class="relative z-10 px-3.5 py-2 bg-white hover:bg-slate-50 text-slate-600 border border-slate-200 rounded-xl font-bold text-xs transition-colors shadow-sm active:scale-[0.98] shrink-0">
           Tandai Semua Dibaca
         </button>
       </div>

@@ -83,7 +83,7 @@
                 {{ user.lastActive }}
               </td>
               <td class="px-6 py-4 text-right">
-                <div class="flex items-center justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                <div class="flex items-center justify-end gap-1 md:opacity-0 md:group-hover:opacity-100 transition-opacity">
                   <button class="p-1.5 text-slate-400 bg-slate-50 hover:text-[#334EAC] hover:bg-[#D0E3FF] rounded-lg transition-colors border border-slate-100" title="View" @click="openModal('View', user)">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
                   </button>

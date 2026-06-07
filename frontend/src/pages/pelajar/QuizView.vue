@@ -2,26 +2,28 @@
   <div class="space-y-6 animate-in fade-in duration-500">
     
     <!-- 1. GLASSMORPHIC HEADER SECTION -->
-    <div class="page-header-banner p-7 md:p-8 flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
+    <div class="page-header-banner p-6 md:p-8 flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8 relative">
       <div class="absolute right-0 top-0 w-1/3 h-full bg-gradient-to-l from-[#EDF1F6]/80 to-transparent pointer-events-none"></div>
       
       <div class="relative z-10 flex items-center gap-4">
-        <span class="page-header-icon bg-amber-500/10 text-amber-600 w-12 h-12 flex items-center justify-center shrink-0">
+        <span class="page-header-icon w-12 h-12 flex items-center justify-center shrink-0">
           <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
         </span>
         <div>
-          <h1 class="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">Ekosistem Kuis AI</h1>
-          <p class="text-[15px] text-slate-600 font-medium mt-2 max-w-xl leading-relaxed">
+          <h1 class="text-2xl md:text-3xl font-extrabold text-[#081F5C] tracking-tight">Ekosistem Kuis AI</h1>
+          <p class="text-xs md:text-sm text-[#4A5880]/90 font-medium mt-1.5 max-w-xl leading-relaxed">
             Uji pengetahuanmu dengan kuis yang dihasilkan AI, disesuaikan dengan kelemahanmu dan persyaratan silabus.
           </p>
         </div>
       </div>
       
       <div class="relative z-10 w-full md:w-72 shrink-0">
-        <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400">
-          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        <div class="relative">
+          <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+          </div>
+          <input type="text" v-model="searchQuery" class="w-full pl-12 pr-4 py-3 bg-white/70 border border-slate-200 hover:border-[#7096D1] rounded-2xl text-[13px] font-bold text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#7096D1]/20 focus:border-[#7096D1] transition-all shadow-sm" placeholder="Cari kuis...">
         </div>
-        <input type="text" v-model="searchQuery" class="w-full pl-12 pr-4 py-3 bg-white/50 border border-slate-200 hover:border-[#7096D1] rounded-2xl text-[13px] font-bold text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#7096D1]/20 focus:border-[#7096D1] transition-all shadow-sm" placeholder="Cari kuis...">
       </div>
     </div>
 

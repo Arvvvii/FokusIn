@@ -1,20 +1,59 @@
 <template>
   <div class="space-y-8 animate-in fade-in duration-500">
     
-    <!-- 1. GLASSMORPHIC HEADER SECTION -->
-    <div class="page-header-banner p-7 md:p-8 flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
-      <div class="absolute right-0 top-0 w-1/3 h-full bg-gradient-to-l from-[#EDF1F6]/80 to-transparent pointer-events-none"></div>
+    <!-- 1. Back Navigation -->
+    <div class="mb-6 flex items-center gap-2">
+      <RouterLink
+        :to="baseMaterialsRoute"
+        class="text-sm font-bold text-slate-400 hover:text-[#334EAC] transition-colors flex items-center gap-1 w-fit bg-white/50 px-3 py-1.5 rounded-lg border border-slate-200/50"
+      >
+        ← Kembali ke Materi
+      </RouterLink>
+    </div>
+
+    <!-- 2. CONDITIONAL HEADER SECTION -->
+    <div 
+      :class="[
+        route.path.startsWith('/tutor') 
+          ? 'bg-white border border-slate-200 shadow-sm rounded-2xl p-7 md:p-8 flex flex-col md:flex-row md:items-center justify-between gap-6 relative' 
+          : 'page-header-banner p-7 md:p-8 flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8'
+      ]"
+    >
+      <div 
+        :class="[
+          route.path.startsWith('/tutor') 
+            ? 'absolute right-0 top-0 w-1/3 h-full bg-gradient-to-l from-[#EDF1F6]/50 to-transparent pointer-events-none' 
+            : 'absolute right-0 top-0 w-1/3 h-full bg-gradient-to-l from-[#EDF1F6]/80 to-transparent pointer-events-none'
+        ]"
+      ></div>
       
       <div class="relative z-10 flex items-center gap-4">
-        <RouterLink :to="baseMaterialsRoute" class="w-10 h-10 rounded-xl bg-white border border-slate-200 text-slate-500 hover:text-[#334EAC] hover:border-[#7096D1] flex items-center justify-center transition-all shadow-sm active:scale-95 shrink-0" title="Kembali">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
-        </RouterLink>
-        <span class="page-header-icon w-12 h-12 flex items-center justify-center shrink-0">
+        <span 
+          :class="[
+            route.path.startsWith('/tutor') 
+              ? 'w-12 h-12 rounded-2xl bg-[#334EAC]/10 text-[#334EAC] flex items-center justify-center shrink-0' 
+              : 'page-header-icon w-12 h-12 flex items-center justify-center shrink-0'
+          ]"
+        >
           <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg>
         </span>
         <div>
-          <h1 class="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">Publikasikan Materi Akademik</h1>
-          <p class="text-[15px] text-slate-600 font-medium mt-2 max-w-xl leading-relaxed">
+          <h1 
+            :class="[
+              route.path.startsWith('/tutor') 
+                ? 'text-2xl font-extrabold text-[#081F5C] tracking-tight leading-tight' 
+                : 'text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight'
+            ]"
+          >
+            Publikasikan Materi Akademik
+          </h1>
+          <p 
+            :class="[
+              route.path.startsWith('/tutor') 
+                ? 'text-[13px] text-slate-500 font-medium mt-2 max-w-xl leading-relaxed' 
+                : 'text-[15px] text-slate-600 font-medium mt-2 max-w-xl leading-relaxed'
+            ]"
+          >
             Bagikan catatan kuliah, ringkasan, dan persiapan ujianmu dengan komunitas FokusIn.
           </p>
         </div>

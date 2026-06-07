@@ -39,11 +39,37 @@
           </RouterLink>
         </div>
 
-        <!-- Mobile Menu Toggle (Placeholder) -->
-        <button class="md:hidden p-2 text-[#081F5C]">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+        <!-- Mobile Menu Toggle -->
+        <button @click="toggleMobileMenu" class="md:hidden p-2 text-[#081F5C] focus:outline-none" aria-label="Toggle Menu">
+          <svg v-if="!isMobileMenuOpen" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+          <svg v-else xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
         </button>
       </div>
+
+      <!-- Mobile Menu Dropdown (Slide Down Glassmorphism) -->
+      <transition
+        enter-active-class="transition duration-200 ease-out"
+        enter-from-class="opacity-0 -translate-y-4"
+        enter-to-class="opacity-100 translate-y-0"
+        leave-active-class="transition duration-150 ease-in"
+        leave-from-class="opacity-100 translate-y-0"
+        leave-to-class="opacity-0 -translate-y-4"
+      >
+        <div v-if="isMobileMenuOpen" class="md:hidden absolute top-20 left-0 right-0 bg-[#F7F2EB]/95 backdrop-blur-xl border-b border-[#7096D1]/15 shadow-lg z-50 px-6 py-6 flex flex-col gap-2">
+          <RouterLink to="/" class="nav-link-mobile" @click="isMobileMenuOpen = false">Home</RouterLink>
+          <a href="#fitur" class="nav-link-mobile" @click="isMobileMenuOpen = false">Fitur</a>
+          <a href="#testimoni" class="nav-link-mobile" @click="isMobileMenuOpen = false">Testimoni</a>
+          <RouterLink to="/about" class="nav-link-mobile" @click="isMobileMenuOpen = false">Tentang</RouterLink>
+          <RouterLink to="/faq" class="nav-link-mobile" @click="isMobileMenuOpen = false">FAQ</RouterLink>
+          <hr class="border-slate-200 my-2">
+          <RouterLink to="/auth/login" class="btn-ghost-nav text-center" @click="isMobileMenuOpen = false">
+            Masuk
+          </RouterLink>
+          <RouterLink to="/auth/register" class="btn-cta-primary text-center mt-2" @click="isMobileMenuOpen = false">
+            Mulai Belajar
+          </RouterLink>
+        </div>
+      </transition>
     </nav>
 
     <main class="relative z-10">
@@ -66,12 +92,12 @@
             Tingkatkan produktivitas akademikmu. FokusIn menggabungkan analisis AI cerdas dengan kolaborasi antar mahasiswa untuk mewujudkan pengalaman belajar yang personal dan terarah.
           </p>
 
-          <div class="flex flex-col sm:flex-row items-center gap-4 justify-center lg:justify-start mb-10 relative z-10">
-            <RouterLink to="/auth/register" class="w-full sm:w-auto btn-hero-primary">
+          <div class="flex flex-col sm:flex-row items-center gap-4 justify-center lg:justify-start mb-10 relative z-10 w-full">
+            <RouterLink to="/auth/register" class="w-full sm:w-auto btn-hero-primary justify-center">
               Mulai Gratis Sekarang
               <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
             </RouterLink>
-            <a href="#fitur" class="w-full sm:w-auto btn-hero-secondary">
+            <a href="#fitur" class="w-full sm:w-auto btn-hero-secondary justify-center">
               Pelajari Fitur
             </a>
           </div>
@@ -466,7 +492,13 @@
 </template>
 
 <script setup>
+import { ref } from 'vue'
 import { RouterLink } from 'vue-router'
+
+const isMobileMenuOpen = ref(false)
+const toggleMobileMenu = () => {
+  isMobileMenuOpen.value = !isMobileMenuOpen.value
+}
 </script>
 
 <style scoped>
@@ -621,6 +653,7 @@ import { RouterLink } from 'vue-router'
   transition: all 0.2s;
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
 }
 .btn-hero-primary:hover {
@@ -638,10 +671,27 @@ import { RouterLink } from 'vue-router'
   font-weight: 600;
   backdrop-filter: blur(8px);
   transition: all 0.18s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 .btn-hero-secondary:hover {
   background: rgba(255,255,255,0.85);
   border-color: rgba(51, 78, 172, 0.30);
+}
+
+.nav-link-mobile {
+  color: #4A5880;
+  font-weight: 600;
+  font-size: 15px;
+  padding: 10px 16px;
+  border-radius: 10px;
+  transition: all 0.2s;
+  display: block;
+}
+.nav-link-mobile:hover {
+  background: rgba(51, 78, 172, 0.08);
+  color: #334EAC;
 }
 
 /* 4. Hero Mockup */

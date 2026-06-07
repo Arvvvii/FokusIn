@@ -1,16 +1,26 @@
 <template>
   <div class="space-y-8 w-full pb-12">
-    <!-- 1. GLASSMORPHIC HEADER SECTION -->
-    <div class="bg-white/60 backdrop-blur-xl rounded-3xl p-7 md:p-8 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-200/60 relative overflow-hidden flex flex-col md:flex-row md:items-center justify-between gap-6">
-        <div class="absolute right-0 top-0 w-1/3 h-full bg-gradient-to-l from-[#EDF1F6]/80 to-transparent pointer-events-none"></div>
+    <!-- Back Navigation -->
+    <div class="mb-6 flex items-center gap-2">
+      <RouterLink
+        to="/tutor/mentoring"
+        class="text-sm font-bold text-slate-400 hover:text-[#334EAC] transition-colors flex items-center gap-1 w-fit bg-white/50 px-3 py-1.5 rounded-lg border border-slate-200/50"
+      >
+        ← Kembali ke Kelola Mentoring
+      </RouterLink>
+    </div>
+
+    <!-- 1. EDITORIAL WORKSPACE HEADER SECTION -->
+    <div class="bg-white border border-slate-200 shadow-sm rounded-2xl p-7 md:p-8 flex flex-col md:flex-row md:items-center justify-between gap-6 relative">
+        <div class="absolute right-0 top-0 w-1/3 h-full bg-gradient-to-l from-[#EDF1F6]/50 to-transparent pointer-events-none"></div>
         
         <div class="relative z-10 flex items-center gap-4">
           <span class="w-12 h-12 rounded-2xl bg-[#334EAC]/10 text-[#334EAC] flex items-center justify-center shrink-0">
             <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>
           </span>
           <div>
-            <h1 class="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">Jadwal & Kalender Mentoring</h1>
-            <p class="text-[15px] text-slate-600 font-medium mt-2 max-w-xl leading-relaxed">
+            <h1 class="text-2xl font-extrabold text-[#081F5C] tracking-tight leading-tight">Jadwal & Kalender Mentoring</h1>
+            <p class="text-[13px] text-slate-500 font-medium mt-2 max-w-xl leading-relaxed">
               Kelola slot ketersediaan mengajar Anda, atur konsultasi terjadwal, dan integrasikan dengan Google Calendar.
             </p>
           </div>
@@ -47,32 +57,32 @@
             </div>
 
             <!-- Calendar Grid -->
-            <div class="grid grid-cols-7 gap-2 text-center text-xs font-bold text-slate-400 mb-2">
+            <div class="grid grid-cols-7 gap-1 sm:gap-2 text-center text-[10px] sm:text-xs font-bold text-slate-400 mb-2">
               <span>MIN</span><span>SEN</span><span>SEL</span><span>RAB</span><span>KAM</span><span>JUM</span><span>SAB</span>
             </div>
-            <div class="grid grid-cols-7 gap-2">
+            <div class="grid grid-cols-7 gap-1 sm:gap-2">
               <!-- Calendar days (simulation of May 2026, starts Friday) -->
-              <div v-for="i in 4" :key="'empty-'+i" class="h-20 bg-slate-50/50 border border-slate-100 rounded-xl opacity-30"></div>
+              <div v-for="i in 4" :key="'empty-'+i" class="h-12 sm:h-20 bg-slate-50/50 border border-slate-100 rounded-xl opacity-30"></div>
               
               <!-- Real Days -->
               <div 
                 v-for="day in 31" 
                 :key="day" 
                 @click="selectedDay = day"
-                class="h-20 p-2 border rounded-xl flex flex-col justify-between cursor-pointer transition-all hover:border-[#334EAC]/30 group"
+                class="h-12 sm:h-20 p-1 sm:p-2 border rounded-xl flex flex-col justify-between cursor-pointer transition-all hover:border-[#334EAC]/30 group"
                 :class="[
                   selectedDay === day ? 'bg-[#EEF3FF] border-[#334EAC] text-[#081F5C] shadow-inner' : 'bg-white border-slate-200 text-slate-800',
                   hasSessions(day) ? 'ring-2 ring-emerald-500/20' : ''
                 ]"
               >
-                <span class="text-xs font-bold" :class="selectedDay === day ? 'text-[#334EAC]' : 'text-slate-500'">{{ day }}</span>
+                <span class="text-[10px] sm:text-xs font-bold" :class="selectedDay === day ? 'text-[#334EAC]' : 'text-slate-500'">{{ day }}</span>
                 
                 <!-- Dot Session Indicators -->
-                <div class="flex flex-wrap gap-1 mt-auto">
-                  <span v-if="day === 25" class="w-1.5 h-1.5 bg-[#334EAC] rounded-full" title="2 Sesi Mentoring"></span>
-                  <span v-if="day === 25" class="w-1.5 h-1.5 bg-[#334EAC] rounded-full"></span>
-                  <span v-if="day === 26" class="w-1.5 h-1.5 bg-amber-500 rounded-full" title="1 Request Pending"></span>
-                  <span v-if="day === 28" class="w-1.5 h-1.5 bg-emerald-500 rounded-full" title="1 Sesi Selesai"></span>
+                <div class="flex flex-wrap gap-0.5 sm:gap-1 mt-auto justify-center sm:justify-start">
+                  <span v-if="day === 25" class="w-1 h-1 sm:w-1.5 sm:h-1.5 bg-[#334EAC] rounded-full" title="2 Sesi Mentoring"></span>
+                  <span v-if="day === 25" class="w-1 h-1 sm:w-1.5 sm:h-1.5 bg-[#334EAC] rounded-full"></span>
+                  <span v-if="day === 26" class="w-1 h-1 sm:w-1.5 sm:h-1.5 bg-amber-500 rounded-full" title="1 Request Pending"></span>
+                  <span v-if="day === 28" class="w-1 h-1 sm:w-1.5 sm:h-1.5 bg-emerald-500 rounded-full" title="1 Sesi Selesai"></span>
                 </div>
               </div>
             </div>

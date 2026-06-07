@@ -2,6 +2,16 @@
   <div class="relative min-h-screen pb-12 bg-[#F7F2EB]">
     <div class="max-w-[1450px] mx-auto px-4 sm:px-6 xl:px-8 py-6 space-y-5 animate-in fade-in duration-500">
       
+      <!-- Back Navigation -->
+      <div class="mb-6 flex items-center gap-2">
+        <RouterLink
+          to="/admin/materials"
+          class="text-sm font-bold text-slate-400 hover:text-[#334EAC] transition-colors flex items-center gap-1 w-fit bg-white/50 px-3 py-1.5 rounded-lg border border-slate-200/50"
+        >
+          ← Kembali ke Daftar Materi
+        </RouterLink>
+      </div>
+
       <!-- Compact Editorial Header -->
       <div class="bg-white/60 backdrop-blur-xl rounded-3xl p-7 md:p-8 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-200/60 relative overflow-hidden flex flex-col sm:flex-row sm:items-center justify-between gap-5 mb-6">
         <div class="flex items-center gap-4">
@@ -12,11 +22,6 @@
             <h1 class="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">Detail Materi Akademik</h1>
             <p class="text-[15px] text-slate-600 font-medium mt-2 max-w-xl leading-relaxed">Informasi berkas, pengarang, subjek pengajaran, dan validasi keaslian dokumen.</p>
           </div>
-        </div>
-        <div class="flex shrink-0 gap-2">
-          <RouterLink to="/admin/materials" class="px-5 h-10 rounded-xl bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 text-sm font-medium transition-all shadow-sm flex items-center justify-center">
-            Kembali ke Daftar
-          </RouterLink>
         </div>
       </div>
 

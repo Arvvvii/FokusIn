@@ -2,30 +2,30 @@
   <div class="space-y-8 w-full">
     
 
-    <!-- 1. GLASSMORPHIC HEADER SECTION -->
-    <div class="tutor-page-header flex flex-col md:flex-row md:items-center justify-between gap-6 relative">
-      <div class="absolute right-0 top-0 w-1/3 h-full bg-gradient-to-l from-[#EDF1F6]/80 to-transparent pointer-events-none"></div>
+    <!-- 1. EDITORIAL WORKSPACE HEADER SECTION -->
+    <div class="bg-white border border-slate-200 shadow-sm rounded-2xl p-7 md:p-8 flex flex-col md:flex-row md:items-center justify-between gap-6 relative">
+      <div class="absolute right-0 top-0 w-1/3 h-full bg-gradient-to-l from-[#EDF1F6]/50 to-transparent pointer-events-none"></div>
       
       <div class="relative z-10 flex items-center gap-4">
         <span class="w-12 h-12 rounded-2xl bg-[#334EAC]/10 text-[#334EAC] flex items-center justify-center shrink-0">
           <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
         </span>
         <div>
-          <h1 class="header-title">Verifikasi Jawaban Mahasiswa</h1>
-          <p class="header-desc mt-2 max-w-xl">
+          <h1 class="text-2xl font-extrabold text-[#081F5C] tracking-tight leading-tight">Verifikasi Jawaban Mahasiswa</h1>
+          <p class="text-[13px] text-slate-500 font-medium mt-2 max-w-xl leading-relaxed">
             Tinjau, nilai, dan berikan persetujuan untuk diskusi mahasiswa guna meningkatkan kualitas akademik komunitas FokusIn.
           </p>
         </div>
       </div>
 
       <div class="relative z-10 flex shrink-0 gap-4">
-        <div class="header-stat-card">
+        <div class="bg-white border border-slate-200/80 shadow-sm rounded-xl px-5 py-3 flex flex-col items-center min-w-[90px]">
            <span class="text-2xl font-bold text-amber-500 tracking-tight leading-none mb-1">{{ answers.filter(a => a.status === 'Pending').length }}</span>
-           <span class="text-[11px] font-bold text-slate-400 uppercase tracking-widest">Pending</span>
+           <span class="text-[11px] font-bold text-slate-500 uppercase tracking-widest">Pending</span>
         </div>
-        <div class="header-stat-card">
+        <div class="bg-white border border-slate-200/80 shadow-sm rounded-xl px-5 py-3 flex flex-col items-center min-w-[90px]">
            <span class="text-2xl font-bold text-emerald-500 tracking-tight leading-none mb-1">86</span>
-           <span class="text-[11px] font-bold text-slate-400 uppercase tracking-widest">Diverifikasi</span>
+           <span class="text-[11px] font-bold text-slate-500 uppercase tracking-widest">Diverifikasi</span>
         </div>
       </div>
     </div>

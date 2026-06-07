@@ -1,11 +1,18 @@
 <template>
   <div class="p-6 md:p-8 xl:p-10 max-w-[1600px] mx-auto animate-in fade-in duration-500">
+    <!-- Back Navigation -->
+    <div class="mb-6 flex items-center gap-2">
+      <RouterLink
+        :to="`/admin/quiz-monitoring/${id}`"
+        class="text-sm font-bold text-slate-400 hover:text-[#334EAC] transition-colors flex items-center gap-1 w-fit bg-white/50 px-3 py-1.5 rounded-lg border border-slate-200/50"
+      >
+        ← Kembali ke Laporan Kuis
+      </RouterLink>
+    </div>
+
     <div class="admin-dashboard-hero mb-8">
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 relative z-10">
         <div>
-          <div class="flex items-center gap-2 mb-2">
-            <RouterLink :to="`/admin/quiz-monitoring/${id}`" class="text-sm font-semibold text-[#081F5C] hover:underline">← Back to Report</RouterLink>
-          </div>
           <h1 class="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">Edit Question</h1>
           <p class="text-[15px] text-slate-600 font-medium mt-2 max-w-xl leading-relaxed">Perbarui teks soal, jawaban, atau tingkat kesulitan.</p>
         </div>

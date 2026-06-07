@@ -2,17 +2,17 @@
   <div class="space-y-8 w-full">
     
 
-    <!-- 1. GLASSMORPHIC HEADER SECTION -->
-    <div class="tutor-page-header flex flex-col md:flex-row md:items-center justify-between gap-6 relative">
-      <div class="absolute right-0 top-0 w-1/3 h-full bg-gradient-to-l from-[#EDF1F6]/80 to-transparent pointer-events-none"></div>
+    <!-- 1. EDITORIAL WORKSPACE HEADER SECTION -->
+    <div class="bg-white border border-slate-200 shadow-sm rounded-2xl p-7 md:p-8 flex flex-col md:flex-row md:items-center justify-between gap-6 relative">
+      <div class="absolute right-0 top-0 w-1/3 h-full bg-gradient-to-l from-[#EDF1F6]/50 to-transparent pointer-events-none"></div>
       
       <div class="relative z-10 flex items-center gap-4">
         <span class="w-12 h-12 rounded-2xl bg-[#334EAC]/10 text-[#334EAC] flex items-center justify-center shrink-0">
           <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg>
         </span>
         <div>
-          <h1 class="header-title">Upload Arsip Soal</h1>
-          <p class="header-desc mt-2 max-w-xl">
+          <h1 class="text-2xl font-extrabold text-[#081F5C] tracking-tight leading-tight">Upload Arsip Soal</h1>
+          <p class="text-[13px] text-slate-500 font-medium mt-2 max-w-xl leading-relaxed">
             Unggah berkas ujian, kuis, atau tugas mandiri. AI kami akan secara otomatis memindai teks, mendeteksi mata kuliah, dan memformat materi.
           </p>
         </div>

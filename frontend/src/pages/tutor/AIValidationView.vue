@@ -2,29 +2,29 @@
   <div class="space-y-8 w-full">
 
     <!-- 1. GLASSMORPHIC HEADER SECTION -->
-    <div class="tutor-page-header flex flex-col md:flex-row md:items-center justify-between gap-6 relative">
-      <div class="absolute right-0 top-0 w-1/3 h-full bg-gradient-to-l from-[#EDF1F6]/80 to-transparent pointer-events-none"></div>
+    <div class="bg-white border border-slate-200 shadow-sm rounded-2xl p-7 md:p-8 flex flex-col md:flex-row md:items-center justify-between gap-6 relative">
+      <div class="absolute right-0 top-0 w-1/3 h-full bg-gradient-to-l from-[#EDF1F6]/50 to-transparent pointer-events-none"></div>
       
       <div class="relative z-10 flex items-center gap-4">
         <span class="w-12 h-12 rounded-2xl bg-[#334EAC]/10 text-[#334EAC] flex items-center justify-center shrink-0">
           <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
         </span>
         <div>
-          <h1 class="header-title">Antrean Validasi AI</h1>
-          <p class="header-desc mt-2 max-w-xl">
+          <h1 class="text-2xl font-extrabold text-[#081F5C] tracking-tight leading-tight">Antrean Validasi AI</h1>
+          <p class="text-[13px] text-slate-500 font-medium mt-2 max-w-xl leading-relaxed">
             Verifikasi hasil ekstraksi OCR dan struktur soal ujian yang diproses oleh AI sebelum diterbitkan ke bank soal FokusIn.
           </p>
         </div>
       </div>
 
       <div class="relative z-10 flex shrink-0 gap-4">
-        <div class="header-stat-card">
+        <div class="bg-white border border-slate-200/80 shadow-sm rounded-xl px-5 py-3 flex flex-col items-center min-w-[90px]">
            <span class="text-2xl font-bold text-amber-500 tracking-tight leading-none mb-1">3</span>
-           <span class="text-[11px] font-bold text-slate-400 uppercase tracking-widest">Antrean</span>
+           <span class="text-[11px] font-bold text-slate-500 uppercase tracking-widest">Antrean</span>
         </div>
-        <div class="header-stat-card">
+        <div class="bg-white border border-slate-200/80 shadow-sm rounded-xl px-5 py-3 flex flex-col items-center min-w-[90px]">
            <span class="text-2xl font-bold text-emerald-500 tracking-tight leading-none mb-1">42</span>
-           <span class="text-[11px] font-bold text-slate-400 uppercase tracking-widest">Selesai</span>
+           <span class="text-[11px] font-bold text-slate-500 uppercase tracking-widest">Selesai</span>
         </div>
       </div>
     </div>
@@ -32,7 +32,7 @@
     <!-- 2. METADATA & INSTRUCTIONS -->
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
       <!-- Info Card -->
-      <div class="tutor-card">
+      <div class="bg-white border border-slate-200 shadow-sm rounded-2xl p-6 transition-all duration-300 hover:shadow-md">
         <h3 class="text-sm font-bold text-slate-900 mb-3 flex items-center gap-2">
           <span class="w-6 h-6 rounded-lg bg-[#F7F2EB] text-[#334EAC] flex items-center justify-center"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="16" y2="12"/><line x1="12" x2="12.01" y1="8" y2="8"/></svg></span>
           Panduan Validasi AI
@@ -57,8 +57,8 @@
       </div>
 
       <!-- AI Performance -->
-      <div class="tutor-card">
-        <h3 class="text-sm font-bold text-slate-900 mb-4 uppercase tracking-wider text-[11px] text-slate-400">Efisiensi Ekstraksi AI</h3>
+      <div class="bg-white border border-slate-200 shadow-sm rounded-2xl p-6 transition-all duration-300 hover:shadow-md">
+        <h3 class="text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-4">Efisiensi Ekstraksi AI</h3>
         <div class="space-y-4">
           <div>
             <div class="flex justify-between text-xs font-bold text-slate-700 mb-1">
@@ -83,9 +83,9 @@
     </div>
 
     <!-- 3. QUEUE TABLE -->
-    <div class="table-container flex-1 flex flex-col w-full">
-      <div class="table-header">
-        <h2 class="table-title">Dokumen Menunggu Validasi</h2>
+    <div class="bg-white border border-slate-200 shadow-sm rounded-2xl flex-1 flex flex-col w-full overflow-hidden">
+      <div class="px-6 py-5 border-b border-slate-200 flex items-center justify-between bg-white">
+        <h2 class="text-[16px] font-extrabold text-[#081F5C]">Dokumen Menunggu Validasi</h2>
         <span class="badge-action">
           <span class="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse"></span>
           Perlu Tindakan

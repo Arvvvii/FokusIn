@@ -2,6 +2,16 @@
   <div class="relative min-h-screen bg-[#F7F2EB]">
     <div class="max-w-[1000px] mx-auto px-6 py-6 space-y-6 animate-in fade-in duration-500">
       
+      <!-- Back Navigation -->
+      <div class="mb-6 flex items-center gap-2">
+        <RouterLink
+          to="/pelajar/mentoring"
+          class="text-sm font-bold text-slate-400 hover:text-[#334EAC] transition-colors flex items-center gap-1 w-fit bg-white/50 px-3 py-1.5 rounded-lg border border-slate-200/50"
+        >
+          ← Kembali ke Mentoring
+        </RouterLink>
+      </div>
+
       <!-- Breadcrumb & Header -->
       <div class="space-y-2">
         <div class="flex items-center gap-2 text-xs font-bold text-slate-400 uppercase tracking-widest">
@@ -70,7 +80,7 @@
         <div class="md:col-span-2 space-y-6">
           
           <div class="bg-white rounded-xl p-6 shadow-sm border border-slate-200 space-y-5">
-            <h3 class="text-base font-bold text-[#081F5C] border-b border-slate-100 pb-2.5 flex items-center gap-2">
+            <h3 class="text-base font-bold text-slate-900 border-b border-slate-100 pb-2.5 flex items-center gap-2">
               <span class="w-2.5 h-2.5 rounded-full bg-[#334EAC]"></span>
               Tentang Mentor
             </h3>
@@ -78,7 +88,7 @@
           </div>
 
           <div class="bg-white rounded-xl p-6 shadow-sm border border-slate-200 space-y-5">
-            <h3 class="text-base font-bold text-[#081F5C] border-b border-slate-100 pb-2.5 flex items-center gap-2">
+            <h3 class="text-base font-bold text-slate-900 border-b border-slate-100 pb-2.5 flex items-center gap-2">
               <span class="w-2.5 h-2.5 rounded-full bg-[#334EAC]"></span>
               Keahlian Utama
             </h3>
@@ -91,7 +101,7 @@
 
           <!-- Reviews Section -->
           <div class="bg-white rounded-xl p-6 shadow-sm border border-slate-200 space-y-5">
-            <h3 class="text-base font-bold text-[#081F5C] border-b border-slate-100 pb-2.5 flex items-center gap-2">
+            <h3 class="text-base font-bold text-slate-900 border-b border-slate-100 pb-2.5 flex items-center gap-2">
               <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
               Ulasan Siswa
             </h3>
@@ -129,7 +139,7 @@
       <div class="absolute inset-0 bg-slate-900/40 backdrop-blur-sm" @click="showBookingModal = false"></div>
       <div class="bg-white rounded-xl border border-slate-200 w-full max-w-lg relative z-10 shadow-lg animate-in zoom-in-95 duration-200 overflow-hidden flex flex-col max-h-[90vh]">
         <div class="p-6 md:p-8 border-b border-slate-100 overflow-y-auto">
-          <h2 class="text-2xl font-bold text-[#081F5C] mb-2">Booking Mentor</h2>
+          <h2 class="text-2xl font-bold text-slate-900 mb-2">Booking Mentor</h2>
           <p class="text-sm font-medium text-slate-500 mb-6">Jadwalkan sesi 1-on-1 dengan <span class="font-semibold text-slate-900">{{ mentor.name }}</span></p>
           
           <div class="space-y-5">

@@ -2,7 +2,7 @@
   <div class="space-y-6 animate-in fade-in duration-500 max-w-7xl mx-auto">
     
     <!-- 1. GLASSMORPHIC HEADER SECTION -->
-    <div class="page-header-banner p-7 md:p-8 flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
+    <div class="page-header-banner p-6 md:p-8 flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8 relative">
       <div class="absolute right-0 top-0 w-1/3 h-full bg-gradient-to-l from-[#EDF1F6]/80 to-transparent pointer-events-none"></div>
       
       <div class="relative z-10 flex items-center gap-4">
@@ -10,8 +10,8 @@
           <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
         </span>
         <div>
-          <h1 class="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">Workspace Mentoring Akademik</h1>
-          <p class="text-[15px] text-slate-600 font-medium mt-2 max-w-xl leading-relaxed">
+          <h1 class="text-2xl md:text-3xl font-extrabold text-[#081F5C] tracking-tight">Workspace Mentoring Akademik</h1>
+          <p class="text-xs md:text-sm text-[#4A5880]/90 font-medium mt-1.5 max-w-xl leading-relaxed">
             Jadwalkan asistensi dan bimbingan belajar 1-on-1 bersama tutor universitas dan asisten mahasiswa pilihan untuk menunjang capaian akademismu.
           </p>
         </div>
@@ -69,7 +69,7 @@
       <!-- LEFT WORKSPACE: Recommended Mentors -->
       <div class="space-y-6 flex-1 self-stretch">
         <div class="flex items-center justify-between">
-          <h2 class="text-base font-bold text-[#081F5C]">Rekomendasi Pembimbing Akademik</h2>
+          <h2 class="text-base font-bold text-slate-900">Rekomendasi Pembimbing Akademik</h2>
           <span class="text-xs text-slate-400 font-medium">124 tutor aktif</span>
         </div>
 
@@ -255,7 +255,7 @@
         <!-- Upcoming Session Card: Styled as academic schedule panel -->
         <div class="card-panel p-5 transition-all duration-200 relative overflow-hidden">
           <div class="flex items-center justify-between mb-4">
-            <h3 class="text-xs font-bold text-slate-400 uppercase tracking-widest flex items-center gap-2">
+            <h3 class="text-xs font-bold text-slate-900 uppercase tracking-widest flex items-center gap-2">
               <span class="w-2 h-2 rounded-full bg-rose-500 animate-pulse"></span>
               Jadwal Sesi Terdekat
             </h3>
@@ -293,7 +293,7 @@
         <!-- Session History Panel -->
         <div class="card-panel p-5 transition-all duration-200">
           <div class="flex items-center justify-between mb-4">
-            <h3 class="text-xs font-bold text-[#081F5C] uppercase tracking-wider">Riwayat Sesi Selesai</h3>
+            <h3 class="text-xs font-bold text-slate-900 uppercase tracking-wider">Riwayat Sesi Selesai</h3>
             <button @click="showInfoToast('Menampilkan semua riwayat sesi...')" class="text-[11px] font-bold text-[#334EAC] hover:text-[#081F5C] transition-colors">Lihat Semua</button>
           </div>
 
