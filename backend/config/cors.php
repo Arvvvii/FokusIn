@@ -3,13 +3,17 @@
 return [
     'paths' => ['api/*', 'sanctum/csrf-cookie'],
     'allowed_methods' => ['*'],
-    'allowed_origins' => array_filter([
-        env('FRONTEND_URL'),
-        env('APP_ENV') === 'local' ? 'http://localhost:5173' : null,
-    ]),
+    
+    // ✅ Tambahkan langsung URL lokal dan Vercel di array ini agar juri/tim tidak terkena CORS
+    'allowed_origins' => [
+        'http://localhost:5173', 
+        'https://fokus-in-fmas.vercel.app',
+        'https://fokusin.vercel.app'
+    ],
+    
     'allowed_origins_patterns' => [],
     'allowed_headers' => ['*'],
     'exposed_headers' => [],
-    'max_age' => 0,
+    'max_age' => 86400, // ✅ Optimasi: Cache preflight selama 24 jam biar performa API di lomba lebih cepat
     'supports_credentials' => true,
 ];
