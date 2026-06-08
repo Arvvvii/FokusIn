@@ -141,6 +141,11 @@ router.beforeEach((to, from) => {
     return '/auth/login'
   }
 
+  // Pelajar role restriction for materials upload
+  if ((to.name === 'pelajar-materials-create' || to.path === '/pelajar/materials/create') && authStore.role === 'pelajar') {
+    return '/pelajar/materials'
+  }
+
   // Guard for roles
   if (to.meta.requiresAuth && to.meta.role) {
     if (authStore.role !== to.meta.role) {

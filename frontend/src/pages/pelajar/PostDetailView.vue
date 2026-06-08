@@ -11,7 +11,37 @@
             </RouterLink>
           </div>
 
-          <div class="flex flex-col xl:flex-row gap-8">
+          <!-- Loading State -->
+          <div v-if="loading" class="bg-white/60 backdrop-blur-xl rounded-3xl p-12 text-center border border-slate-200/60 shadow-lg">
+            <div class="inline-block animate-spin rounded-full h-8 w-8 border-4 border-[#334EAC] border-t-transparent mb-4"></div>
+            <p class="text-slate-600 font-semibold">Memuat detail diskusi...</p>
+          </div>
+
+          <!-- Error State -->
+          <div v-else-if="error" class="bg-rose-50/60 backdrop-blur-xl rounded-3xl p-12 text-center border border-rose-200/60 shadow-lg max-w-2xl mx-auto">
+            <div class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-rose-100 text-rose-600 mb-4">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            </div>
+            <h3 class="text-lg font-bold text-slate-900 mb-2">Gagal Memuat Diskusi</h3>
+            <p class="text-slate-600 text-sm mb-6">{{ error }}</p>
+            <button @click="fetchPost" class="px-6 py-2.5 bg-[#334EAC] hover:bg-[#081F5C] text-white font-bold rounded-xl transition-all shadow-sm active:scale-95">
+              Coba Lagi
+            </button>
+          </div>
+
+          <!-- Not Found State -->
+          <div v-else-if="!post" class="bg-white/60 backdrop-blur-xl rounded-3xl p-12 text-center border border-slate-200/60 shadow-lg max-w-2xl mx-auto">
+            <div class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-slate-100 text-slate-500 mb-4">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            </div>
+            <h3 class="text-lg font-bold text-slate-900 mb-2">Diskusi Tidak Ditemukan</h3>
+            <p class="text-slate-600 text-sm mb-6">Diskusi yang Anda cari tidak dapat ditemukan atau telah dihapus.</p>
+            <RouterLink :to="baseForumRoute" class="px-6 py-2.5 bg-[#334EAC] hover:bg-[#081F5C] text-white font-bold rounded-xl transition-all shadow-sm inline-block">
+              Kembali ke Forum
+            </RouterLink>
+          </div>
+
+          <div v-else class="flex flex-col xl:flex-row gap-8">
             
             <!-- MAIN LEFT CONTENT (xl:w-[75%]) -->
             <div class="w-full xl:w-[75%] space-y-8">
@@ -40,7 +70,7 @@
                   <!-- Question Body -->
                   <div class="flex-1 min-w-0">
                     <div class="flex items-center justify-between mb-4">
-                      <span class="px-3 py-1.5 bg-[#EDF1F6] text-[#334EAC] text-[10px] font-extrabold rounded-lg uppercase tracking-widest shadow-sm">Ilmu Komputer</span>
+                      <span class="px-3 py-1.5 bg-[#EDF1F6] text-[#334EAC] text-[10px] font-extrabold rounded-lg uppercase tracking-widest shadow-sm">{{ post.category?.name || 'Kategori' }}</span>
                       
                       <!-- Mobile Voting -->
                       <div class="bg-white/60 backdrop-blur-xl rounded-3xl p-7 md:p-8 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-200/60 relative overflow-hidden flex items-center gap-3">
@@ -50,31 +80,30 @@
                       </div>
                     </div>
 
-                    <h1 class="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">Bagaimana sebenarnya algoritma Dijkstra bekerja?</h1>
+                    <h1 class="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">{{ post.title }}</h1>
                     
-                    <!-- Content (Rich Text Mock) -->
-                    <div class="prose prose-slate max-w-none text-[15px] leading-relaxed text-slate-600 mb-6 font-medium">
-                      <p>Saya paham konsep dasar pencarian jalur terpendek, tapi kesulitan menerapkan antrean prioritas (priority queue) di C++. Adakah yang punya penjelasan sederhana?</p>
-                      <pre class="bg-[#081F5C] text-[#BAD6EB] p-5 rounded-2xl text-[13px] font-mono overflow-x-auto shadow-[inset_0_4px_15px_rgba(0,0,0,0.2)] border border-[#081F5C] my-5 leading-snug"><code>priority_queue&lt;pair&lt;int, int&gt;, vector&lt;pair&lt;int, int&gt;&gt;, greater&lt;pair&lt;int, int&gt;&gt;&gt; pq;</code></pre>
-                      <p>Apakah ini cara paling optimal untuk mendeklarasikannya? Terasa sangat panjang. Saran sangat dinantikan!</p>
-                    </div>
+                    <!-- Content -->
+                    <div class="prose prose-slate max-w-none text-[15px] leading-relaxed text-slate-600 mb-6 font-medium whitespace-pre-wrap">{{ post.content }}</div>
 
                     <!-- Meta & Author -->
                     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-6 border-t border-slate-100/80">
-                      <div class="flex items-center gap-2">
-                        <span class="text-[11px] font-bold text-[#334EAC] bg-[#EDF1F6]/50 hover:bg-[#EDF1F6] px-2.5 py-1 rounded-md cursor-pointer transition-colors">#algoritma</span>
-                        <span class="text-[11px] font-bold text-[#334EAC] bg-[#EDF1F6]/50 hover:bg-[#EDF1F6] px-2.5 py-1 rounded-md cursor-pointer transition-colors">#c++</span>
-                      </div>
+                      <div></div>
 
                       <div class="flex items-center gap-3 bg-[#F7F2EB] px-4 py-3 rounded-[1.25rem] border border-slate-200/50 hover:shadow-sm transition-all cursor-pointer">
-                        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-[#334EAC] to-[#081F5C] flex items-center justify-center text-white text-[13px] font-extrabold shadow-sm border-2 border-white">
-                          AJ
+                        <img 
+                          v-if="post.user?.avatar_url" 
+                          :src="post.user.avatar_url" 
+                          :alt="post.user?.name"
+                          class="w-10 h-10 rounded-full object-cover shadow-sm border-2 border-white"
+                        />
+                        <div v-else class="w-10 h-10 rounded-full bg-gradient-to-br from-[#334EAC] to-[#081F5C] flex items-center justify-center text-white text-[13px] font-extrabold shadow-sm border-2 border-white">
+                          {{ post.user?.name ? post.user.name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase() : '?' }}
                         </div>
                         <div class="flex flex-col">
-                          <span class="text-[13px] font-bold text-slate-900 leading-none mb-1.5 tracking-tight">Alex Johnson</span>
+                          <span class="text-[13px] font-bold text-slate-900 leading-none mb-1.5 tracking-tight">{{ post.user?.name }}</span>
                           <div class="flex items-center gap-1.5">
-                            <span class="text-[10px] font-extrabold text-amber-500 leading-none">1.2k rep</span>
-                            <span class="text-[10px] text-slate-400 font-bold leading-none">• Ditanyakan 2 jam lalu</span>
+                            <span class="text-[10px] font-extrabold text-amber-500 leading-none">{{ post.user?.role }}</span>
+                            <span class="text-[10px] text-slate-400 font-bold leading-none">• Ditanyakan {{ formatDate(post.created_at) }}</span>
                           </div>
                         </div>
                       </div>
@@ -256,8 +285,9 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { RouterLink, useRoute } from 'vue-router'
+import { forumService } from '@/services/forum.service'
 
 const route = useRoute()
 const baseForumRoute = computed(() => {
@@ -267,6 +297,42 @@ const baseForumRoute = computed(() => {
 const baseMaterialsRoute = computed(() => {
   return route.path.startsWith('/tutor') ? '/tutor/materials' : '/pelajar/materials'
 })
+
+const post = ref(null)
+const loading = ref(true)
+const error = ref(null)
+
+const fetchPost = async () => {
+  loading.value = true
+  error.value = null
+  try {
+    const data = await forumService.getPostById(route.params.id)
+    post.value = data
+  } catch (err) {
+    console.error(err)
+    error.value = err || 'Gagal mengambil detail postingan.'
+  } finally {
+    loading.value = false
+  }
+}
+
+onMounted(() => {
+  fetchPost()
+})
+
+const formatDate = (dateString) => {
+  if (!dateString) return ''
+  try {
+    const date = new Date(dateString)
+    return date.toLocaleDateString('id-ID', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    })
+  } catch (e) {
+    return dateString
+  }
+}
 
 const questionVote = ref(42)
 const questionVoted = ref(null)
@@ -302,3 +368,4 @@ const handleAnswerVote = (index, type) => {
   }
 }
 </script>
+

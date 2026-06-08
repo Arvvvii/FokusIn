@@ -90,7 +90,7 @@
                   
                   <div class="min-w-0 flex-1">
                     <span class="block text-xs font-bold leading-tight" :class="cat.active ? 'text-[#081F5C]' : 'text-slate-700'">{{ cat.name }}</span>
-                    <span class="block text-[10px] text-slate-400 font-semibold mt-1">{{ cat.count }} diskusi aktif</span>
+                    <span class="block text-[10px] text-slate-400 font-semibold mt-1">{{ cat.count !== undefined ? cat.count : 'Lihat diskusi' }}</span>
                   </div>
                 </button>
               </li>
@@ -153,8 +153,48 @@
             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="absolute left-3 top-2.5 text-slate-400"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
           </div>
 
-          <!-- Post List: Clean, high readability discussions -->
-          <div class="space-y-3">
+          <!-- Loading State -->
+          <div v-if="isLoading" class="flex flex-col items-center justify-center py-12 card-base space-y-3 bg-white/50 backdrop-blur-sm border border-slate-200/60 rounded-2xl">
+            <svg class="animate-spin text-[#334EAC]" xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 12a9 9 0 1 1-6.219-8.56"/>
+            </svg>
+            <p class="text-sm font-bold text-[#081F5C]">Memuat daftar diskusi...</p>
+          </div>
+
+          <!-- Error State -->
+          <div v-else-if="error" class="flex flex-col items-center justify-center py-12 card-base space-y-4 bg-rose-50/50 border border-rose-200/60 rounded-2xl">
+            <div class="w-12 h-12 rounded-full bg-rose-100 flex items-center justify-center text-rose-600">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/>
+              </svg>
+            </div>
+            <div class="text-center">
+              <h3 class="text-base font-bold text-rose-800">Gagal Memuat Diskusi</h3>
+              <p class="text-xs text-rose-600/80 font-medium mt-1">{{ error }}</p>
+            </div>
+            <button @click="fetchPostsData(true)" class="px-5 py-2.5 bg-[#334EAC] hover:bg-[#081F5C] text-white rounded-xl font-bold text-xs shadow-sm transition-all active:scale-95">
+              Coba Lagi
+            </button>
+          </div>
+
+          <!-- Empty State -->
+          <div v-else-if="filteredPosts.length === 0" class="flex flex-col items-center justify-center py-16 card-base space-y-4 bg-white/50 backdrop-blur-sm border border-slate-200/60 rounded-2xl">
+            <div class="w-16 h-16 rounded-2xl bg-[#334EAC]/5 text-[#334EAC] flex items-center justify-center">
+              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+              </svg>
+            </div>
+            <div class="text-center max-w-sm">
+              <h3 class="text-base font-bold text-[#081F5C]">Belum Ada Diskusi</h3>
+              <p class="text-xs text-slate-500 font-medium mt-1.5 leading-relaxed">Jadilah yang pertama untuk memulai diskusi atau mengajukan pertanyaan tentang topik ini!</p>
+            </div>
+            <RouterLink :to="`${baseForumRoute}/create`" class="px-5 py-2.5 bg-[#334EAC] hover:bg-[#081F5C] text-white rounded-xl font-bold text-xs shadow-sm transition-all active:scale-95">
+              Mulai Diskusi
+            </RouterLink>
+          </div>
+
+          <!-- Post List -->
+          <div v-else class="space-y-3">
             <RouterLink :to="`${baseForumRoute}/${post.id}`" v-for="(post, index) in filteredPosts" :key="post.id" :class="[index === 0 ? 'card-featured' : 'card-supporting', 'group card-base forum-card flex flex-col sm:flex-row gap-5 cursor-pointer relative overflow-hidden']">
               
               <!-- Left Stats: Elegant & compact voting UI -->
@@ -213,7 +253,7 @@
           </div>
           
           <!-- Pagination -->
-          <div class="mt-8 flex justify-center">
+          <div v-if="!isLoading && !error && filteredPosts.length > 0 && hasMore" class="mt-8 flex justify-center">
             <button @click="loadMore" class="px-6 py-2.5 bg-white border border-slate-200 text-slate-800 rounded-xl font-bold text-xs shadow-sm hover:bg-slate-50 transition-all active:scale-95 flex items-center gap-2">
               <svg v-if="isLoadingMore" class="animate-spin" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>
               {{ isLoadingMore ? 'Memuat...' : 'Muat Lebih Banyak' }}
@@ -293,8 +333,9 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { RouterLink, useRoute } from 'vue-router'
+import { forumService } from '@/services/forum.service'
 
 const route = useRoute()
 const baseForumRoute = computed(() => {
@@ -305,114 +346,175 @@ const baseAIAnalyzerRoute = computed(() => {
   return route.path.startsWith('/tutor') ? '/tutor/ai-validation' : '/pelajar/ai-analyzer'
 })
 
-const categories = ref([
-  { name: 'Semua Topik', count: '1,240', active: true, icon: '<rect width="18" height="18" x="3" y="3" rx="2"/><path d="m7 8 3 3-3 3"/><path d="M12 14h4"/>' },
-  { name: 'Ilmu Komputer', count: '420', active: false, icon: '<rect width="18" height="18" x="3" y="3" rx="2"/><path d="m9 10 3 3-3 3"/><path d="M14 16h2"/>' },
-  { name: 'Matematika', count: '315', active: false, icon: '<path d="M19 4H5.8a1 1 0 0 0-.7 1.7L11.8 12l-6.7 6.3a1 1 0 0 0 .7 1.7H19"/>' },
-  { name: 'Fisika', count: '180', active: false, icon: '<path d="M5 22h14"/><path d="M9 2h6"/><path d="M14 22a7 7 0 0 0-4 0"/><path d="M9 2v6L4.5 16.5a2 2 0 0 0-.3 1.5 2 2 0 0 0 1.8 1.4h12c1 0 1.7-.6 1.8-1.5.1-.5 0-1-.3-1.4L15 8V2z"/>' },
-  { name: 'Bahasa Inggris', count: '95', active: false, icon: '<path d="m5 8 6 6"/><path d="m4 14 6-6"/><path d="M2 5h12"/><path d="M7 2h1"/><path d="M22 22l-5-10-5 10"/><path d="M14 18h6"/>' },
-])
+const categories = ref([])
+const posts = ref([])
+const isLoading = ref(false)
+const isLoadingMore = ref(false)
+const error = ref(null)
+const currentPage = ref(1)
+const lastPage = ref(1)
 
-const tags = ['#algoritma', '#vue3', '#kalkulus', '#machine-learning', '#ielts']
+const hasMore = computed(() => currentPage.value < lastPage.value)
+
+const tags = computed(() => {
+  return categories.value
+    .filter(c => c.id !== null)
+    .map(c => `#${c.name.toLowerCase().replace(/\s+/g, '-')}`)
+})
+
+const getCategoryIcon = (name) => {
+  const lowercaseName = name.toLowerCase()
+  if (lowercaseName.includes('pemrograman') || lowercaseName.includes('komputer') || lowercaseName.includes('dasar')) {
+    return '<rect width="18" height="18" x="3" y="3" rx="2"/><path d="m9 10 3 3-3 3"/><path d="M14 16h2"/>'
+  } else if (lowercaseName.includes('matematika')) {
+    return '<path d="M19 4H5.8a1 1 0 0 0-.7 1.7L11.8 12l-6.7 6.3a1 1 0 0 0 .7 1.7H19"/>'
+  } else if (lowercaseName.includes('elektronika') || lowercaseName.includes('listrik') || lowercaseName.includes('mikrokontroler') || lowercaseName.includes('embedded') || lowercaseName.includes('sistem')) {
+    return '<path d="M5 22h14"/><path d="M9 2h6"/><path d="M14 22a7 7 0 0 0-4 0"/><path d="M9 2v6L4.5 16.5a2 2 0 0 0-.3 1.5 2 2 0 0 0 1.8 1.4h12c1 0 1.7-.6 1.8-1.5.1-.5 0-1-.3-1.4L15 8V2z"/>'
+  } else if (lowercaseName.includes('inggris') || lowercaseName.includes('bahasa')) {
+    return '<path d="m5 8 6 6"/><path d="m4 14 6-6"/><path d="M2 5h12"/><path d="M7 2h1"/><path d="M22 22l-5-10-5 10"/><path d="M14 18h6"/>'
+  } else {
+    return '<path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/><path d="M6 6h10M6 10h10"/>'
+  }
+}
+
+const getAvatarInitials = (name) => {
+  if (!name) return '?'
+  const parts = name.trim().split(/\s+/)
+  if (parts.length >= 2) {
+    return (parts[0][0] + parts[1][0]).toUpperCase()
+  }
+  return parts[0].substring(0, 2).toUpperCase()
+}
+
+const formatTime = (dateString) => {
+  if (!dateString) return ''
+  const date = new Date(dateString)
+  const now = new Date()
+  const diffMs = now - date
+  const diffMins = Math.floor(diffMs / 60000)
+  const diffHours = Math.floor(diffMins / 60)
+  const diffDays = Math.floor(diffHours / 24)
+
+  if (diffMins < 1) return 'Baru saja'
+  if (diffMins < 60) return `${diffMins} menit lalu`
+  if (diffHours < 24) return `${diffHours} jam lalu`
+  return `${diffDays} hari lalu`
+}
+
+const mapBackendPost = (post) => {
+  return {
+    id: post.id,
+    title: post.title,
+    preview: post.content,
+    category: post.category ? post.category.name : 'Umum',
+    tags: post.category ? [post.category.name] : [],
+    author: {
+      name: post.user ? post.user.name : 'Anonim',
+      avatar: post.user ? getAvatarInitials(post.user.name) : 'A'
+    },
+    time: formatTime(post.created_at),
+    upvotes: post.votes_count || 0,
+    answers: post.answers_count || 0,
+    isResolved: post.is_verified || false
+  }
+}
+
+const fetchCategories = async () => {
+  try {
+    const data = await forumService.getCategories()
+    const mapped = data.map(c => ({
+      id: c.id,
+      name: c.name,
+      active: false,
+      icon: getCategoryIcon(c.name)
+    }))
+    categories.value = [
+      { id: null, name: 'Semua Topik', active: true, icon: '<rect width="18" height="18" x="3" y="3" rx="2"/><path d="m7 8 3 3-3 3"/><path d="M12 14h4"/>' },
+      ...mapped
+    ]
+  } catch (err) {
+    console.error('Error fetching categories:', err)
+  }
+}
+
+const fetchPostsData = async (isReset = false) => {
+  if (isReset) {
+    currentPage.value = 1
+    posts.value = []
+  }
+
+  if (currentPage.value === 1) {
+    isLoading.value = true
+  } else {
+    isLoadingMore.value = true
+  }
+
+  error.value = null
+
+  try {
+    const activeCat = categories.value.find(c => c.active)
+    const params = {
+      page: currentPage.value
+    }
+    if (activeCat && activeCat.id !== null) {
+      params.category_id = activeCat.id
+    }
+
+    const response = await forumService.getPosts(params)
+    const newPosts = response.data.map(mapBackendPost)
+
+    if (isReset) {
+      posts.value = newPosts
+    } else {
+      posts.value = [...posts.value, ...newPosts]
+    }
+
+    currentPage.value = response.current_page
+    lastPage.value = response.last_page
+  } catch (err) {
+    error.value = err || 'Gagal memuat diskusi.'
+    console.error('Error fetching posts:', err)
+  } finally {
+    isLoading.value = false
+    isLoadingMore.value = false
+  }
+}
 
 const selectCategory = (category) => {
   categories.value.forEach(c => {
-    c.active = c.name === category.name
+    c.active = c.id === category.id
   })
+  fetchPostsData(true)
 }
 
-const posts = ref([
-  {
-    id: 1,
-    title: 'Bagaimana sebenarnya algoritma Dijkstra bekerja?',
-    preview: 'Saya paham konsep dasar pencarian jalur terpendek, tapi kesulitan menerapkan antrean prioritas (priority queue) di C++. Adakah yang punya penjelasan sederhana?',
-    category: 'Ilmu Komputer',
-    tags: ['#algoritma', '#c++'],
-    author: { name: 'Alex Johnson', avatar: 'AJ', rep: '1.2k' },
-    time: '2 jam lalu',
-    upvotes: 42,
-    answers: 5,
-    isResolved: true
-  },
-  {
-    id: 2,
-    title: 'Integral Parsial: Kapan menggunakan metode tabular?',
-    preview: 'Adakah aturan pasti kapan metode tabular (DI method) lebih baik digunakan dibanding rumus standar u-dv? Saya sering bingung saat ujian.',
-    category: 'Matematika',
-    tags: ['#kalkulus'],
-    author: { name: 'Maria Garcia', avatar: 'MG', rep: '850' },
-    time: '5 jam lalu',
-    upvotes: 18,
-    answers: 2,
-    isResolved: false
-  },
-  {
-    id: 3,
-    title: 'Memahami Reaktivitas di Vue 3 Composition API',
-    preview: 'Apa perbedaan pasti antara ref() dan reactive()? Kapan saya harus memilih salah satu dibanding yang lain untuk aplikasi skala besar?',
-    category: 'Ilmu Komputer',
-    tags: ['#vue3', '#javascript'],
-    author: { name: 'Budi Santoso', avatar: 'BS', rep: '3.4k' },
-    time: '1 hari lalu',
-    upvotes: 156,
-    answers: 12,
-    isResolved: true
-  },
-  {
-    id: 4,
-    title: 'Strategi terbaik untuk bagian Reading TOEFL?',
-    preview: 'Saya selalu kehabisan waktu saat berhadapan dengan bacaan panjang. Haruskah membaca soal terlebih dahulu atau sekilas membaca keseluruhan teks?',
-    category: 'Bahasa Inggris',
-    tags: ['#toefl', '#reading'],
-    author: { name: 'Dian Sastro', avatar: 'DS', rep: '120' },
-    time: '2 hari lalu',
-    upvotes: 8,
-    answers: 0,
-    isResolved: false
-  }
-])
-
 const searchQuery = ref('')
-const isLoadingMore = ref(false)
 const showInfo = ref(false)
 const infoMessage = ref('')
 
-const activeCategoryName = computed(() => {
-  const active = categories.value.find(c => c.active)
-  return active ? active.name : 'Semua Topik'
-})
-
 const filteredPosts = computed(() => {
+  if (!searchQuery.value.trim()) {
+    return posts.value
+  }
+  const query = searchQuery.value.toLowerCase()
   return posts.value.filter(post => {
-    let matchCat = true
-    let matchSearch = true
-
-    if (activeCategoryName.value !== 'Semua Topik' && post.category !== activeCategoryName.value) {
-      matchCat = false
-    }
-
-    if (searchQuery.value) {
-      const query = searchQuery.value.toLowerCase()
-      matchSearch = post.title.toLowerCase().includes(query) || 
-                    post.preview.toLowerCase().includes(query) || 
-                    post.tags.some(t => t.toLowerCase().includes(query))
-    }
-
-    return matchCat && matchSearch
+    return post.title.toLowerCase().includes(query) || 
+           post.preview.toLowerCase().includes(query) || 
+           post.tags.some(t => t.toLowerCase().includes(query))
   })
 })
 
 const selectTag = (tag) => {
-  searchQuery.value = tag
-  showInfoToast(`Menyaring tag: ${tag}`)
+  searchQuery.value = tag.startsWith('#') ? tag : `#${tag}`
+  showInfoToast(`Menyaring tag: ${searchQuery.value}`)
 }
 
 const loadMore = () => {
-  isLoadingMore.value = true
-  setTimeout(() => {
-    isLoadingMore.value = false
+  if (currentPage.value < lastPage.value) {
+    currentPage.value += 1
+    fetchPostsData(false)
+  } else {
     showInfoToast('Tidak ada diskusi lama yang tersedia.')
-  }, 800)
+  }
 }
 
 const showInfoToast = (msg) => {
@@ -428,6 +530,11 @@ const contributors = [
   { name: 'Budi Santoso', rep: '3.4k', role: 'Pelajar', avatar: 'BS' },
   { name: 'Prof. Anderson', rep: '12.1k', role: 'Tutor', avatar: 'PA' },
 ]
+
+onMounted(async () => {
+  await fetchCategories()
+  await fetchPostsData(true)
+})
 </script>
 
 <style scoped>

@@ -49,7 +49,7 @@
         </div>
       </div>
 
-      <div class="relative z-10 flex shrink-0 w-full md:w-auto">
+      <div v-if="authStore.role === 'tutor' || authStore.role === 'admin'" class="relative z-10 flex shrink-0 w-full md:w-auto">
         <RouterLink 
           :to="`${baseMaterialsRoute}/create`" 
           :class="[
@@ -79,9 +79,7 @@
       <div class="relative min-w-[180px]">
         <select v-model="selectedCategory" class="w-full pl-5 pr-10 py-3.5 bg-slate-50 hover:bg-white border border-transparent hover:border-slate-200 rounded-2xl text-[14px] font-bold text-slate-900 appearance-none focus:outline-none focus:ring-4 focus:ring-[#7096D1]/20 transition-all cursor-pointer">
           <option value="">Semua Subjek</option>
-          <option value="physics">Fisika</option>
-          <option value="cs">Ilmu Komputer</option>
-          <option value="math">Matematika</option>
+          <option v-for="cat in categories" :key="cat.id" :value="cat.id">{{ cat.name }}</option>
         </select>
         <div class="absolute inset-y-0 right-0 pr-5 flex items-center pointer-events-none text-slate-400">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
@@ -102,7 +100,7 @@
       </div>
 
       <!-- Filter Button -->
-      <button @click="applyFilter" :disabled="isFiltering" class="px-8 py-3.5 bg-white border border-slate-200 hover:border-[#334EAC] text-slate-900 hover:text-[#334EAC] rounded-2xl font-bold text-[14px] transition-all shadow-sm active:scale-95 shrink-0 flex items-center justify-center gap-2" :class="isFiltering ? 'opacity-70 cursor-wait' : ''">
+      <button @click="applyFilter" :disabled="isFiltering || loading" class="px-8 py-3.5 bg-white border border-slate-200 hover:border-[#334EAC] text-slate-900 hover:text-[#334EAC] rounded-2xl font-bold text-[14px] transition-all shadow-sm active:scale-95 shrink-0 flex items-center justify-center gap-2" :class="isFiltering ? 'opacity-70 cursor-wait' : ''">
         <svg v-if="!isFiltering" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M22 3H2l8 9.46V19l4 2v-8.54L22 3z"/></svg>
         <svg v-else class="animate-spin" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>
         {{ isFiltering ? 'Menyaring...' : 'Filter' }}
@@ -113,100 +111,95 @@
     <!-- 3. Material Grid -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 lg:gap-8">
       
-      <!-- Material Card 1 -->
-      <RouterLink :to="`${baseMaterialsRoute}/1`" class="card-base card-featured group flex flex-col h-full cursor-pointer block">
-        <div class="material-thumb material-pdf w-full h-44 rounded-2xl mb-5 relative overflow-hidden">
+      <!-- Loading State -->
+      <div v-if="loading" v-for="n in 4" :key="n" class="card-base flex flex-col h-full opacity-70 animate-pulse">
+        <div class="w-full h-44 bg-slate-200 rounded-2xl mb-5"></div>
+        <div class="h-4 bg-slate-200 rounded w-1/3 mb-2"></div>
+        <div class="h-6 bg-slate-200 rounded w-full mb-2"></div>
+        <div class="h-6 bg-slate-200 rounded w-2/3 mb-6"></div>
+        <div class="flex items-center gap-2 mt-auto pt-3 border-t border-slate-100">
+          <div class="w-6 h-6 rounded-full bg-slate-200"></div>
+          <div class="h-4 bg-slate-200 rounded w-1/2"></div>
+        </div>
+      </div>
+
+      <!-- Error State -->
+      <div v-else-if="error" class="col-span-full py-12 flex flex-col items-center justify-center bg-rose-50/50 border border-rose-100 rounded-3xl p-8">
+        <div class="w-16 h-16 rounded-full bg-rose-100 text-rose-600 flex items-center justify-center mb-4">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+          </svg>
+        </div>
+        <h3 class="text-lg font-bold text-rose-950 mb-2">Gagal Memuat Data</h3>
+        <p class="text-sm text-rose-800 text-center max-w-md mb-6">{{ error }}</p>
+        <button @click="fetchMaterials" class="px-6 py-2.5 bg-[#334EAC] hover:bg-[#081F5C] text-white rounded-xl font-bold text-xs shadow-sm transition-all active:scale-95">
+          Coba Lagi
+        </button>
+      </div>
+
+      <!-- Empty State -->
+      <div v-else-if="filteredMaterials.length === 0" class="col-span-full">
+        <EmptyState
+          title="Tidak Ada Materi"
+          description="Tidak ditemukan materi akademik yang cocok dengan kriteria pencarian Anda."
+        >
+          <template #icon>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-[#334EAC]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+            </svg>
+          </template>
+        </EmptyState>
+      </div>
+
+      <!-- Materials List -->
+      <RouterLink 
+        v-else
+        v-for="material in filteredMaterials" 
+        :key="material.id" 
+        :to="`${baseMaterialsRoute}/${material.id}`" 
+        class="card-base card-supporting group flex flex-col h-full cursor-pointer block"
+      >
+        <div 
+          :class="[
+            'material-thumb w-full h-44 rounded-2xl mb-5 relative overflow-hidden',
+            getFileType(material.file_url) === 'pdf' ? 'material-pdf' : 
+            getFileType(material.file_url) === 'docx' ? 'material-docx' : 'material-vid'
+          ]"
+        >
           <div class="absolute inset-0 flex flex-col items-center justify-center text-slate-400 group-hover:scale-105 transition-transform duration-500">
-            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="mb-2"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>
+            <svg v-if="getFileType(material.file_url) !== 'video'" xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="mb-2"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>
+            <svg v-else xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="mb-2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
           </div>
-          <div class="absolute top-3 right-3 format-badge badge-pdf px-2.5 py-1 rounded-lg tag-content-type">
-            PDF
+          <div 
+            :class="[
+              'absolute top-3 right-3 format-badge px-2.5 py-1 rounded-lg tag-content-type',
+              getFileType(material.file_url) === 'pdf' ? 'badge-pdf' : 
+              getFileType(material.file_url) === 'docx' ? 'badge-docx' : 'badge-vid'
+            ]"
+          >
+            {{ getFileType(material.file_url).toUpperCase() }}
           </div>
         </div>
 
         <div class="flex-1 flex flex-col">
-          <span class="text-[#334EAC] text-[10px] font-bold uppercase tracking-widest mb-2">Fisika</span>
-          <h3 class="text-[16px] font-bold text-slate-900 mb-2 leading-snug group-hover:text-[#334EAC] transition-colors line-clamp-2 tracking-tight">Soal & Pembahasan Lengkap Final OSN Fisika Nasional 2023</h3>
+          <span class="text-[#334EAC] text-[10px] font-bold uppercase tracking-widest mb-2">
+            {{ material.category?.name || 'Materi' }}
+          </span>
+          <h3 class="text-[16px] font-bold text-slate-900 mb-2 leading-snug group-hover:text-[#334EAC] transition-colors line-clamp-2 tracking-tight">
+            {{ material.title }}
+          </h3>
           
           <div class="flex items-center gap-2 mb-4 mt-auto pt-3">
             <div class="w-6 h-6 rounded-full bg-[#EDF1F6] flex items-center justify-center font-bold text-slate-900 text-[10px] border border-slate-200">
-              PA
+              {{ getInitials(material.user?.name) }}
             </div>
-            <span class="text-[12px] font-bold text-slate-500">Prof. Anderson</span>
+            <span class="text-[12px] font-bold text-slate-500">{{ material.user?.name || 'Tutor' }}</span>
           </div>
 
           <div class="flex items-center justify-between pt-4 border-t border-slate-100/80">
             <div class="flex items-center gap-1.5 text-slate-400">
               <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
-              <span class="text-[12px] font-bold">1.2k</span>
-            </div>
-            <div class="text-[#334EAC] font-bold text-[13px] hover:text-[#081F5C] transition-colors flex items-center gap-1">
-              Buka <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
-            </div>
-          </div>
-        </div>
-      </RouterLink>
-
-      <!-- Material Card 2 -->
-      <RouterLink :to="`${baseMaterialsRoute}/2`" class="card-base card-supporting group flex flex-col h-full cursor-pointer block">
-        <div class="material-thumb material-docx w-full h-44 rounded-2xl mb-5 relative overflow-hidden">
-          <div class="absolute inset-0 flex flex-col items-center justify-center text-slate-400 group-hover:scale-105 transition-transform duration-500">
-            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="mb-2"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>
-          </div>
-          <div class="absolute top-3 right-3 format-badge badge-docx px-2.5 py-1 rounded-lg tag-content-type">
-            DOCX
-          </div>
-        </div>
-
-        <div class="flex-1 flex flex-col">
-          <span class="text-[#334EAC] text-[10px] font-bold uppercase tracking-widest mb-2">Ilmu Komputer</span>
-          <h3 class="text-[16px] font-bold text-slate-900 mb-2 leading-snug group-hover:text-[#334EAC] transition-colors line-clamp-2 tracking-tight">Struktur Data & Algoritma - Ringkasan UTS</h3>
-          
-          <div class="flex items-center gap-2 mb-4 mt-auto pt-3">
-            <div class="w-6 h-6 rounded-full bg-[#EDF1F6] flex items-center justify-center font-bold text-slate-900 text-[10px] border border-slate-200">
-              BS
-            </div>
-            <span class="text-[12px] font-bold text-slate-500">Budi Santoso</span>
-          </div>
-
-          <div class="flex items-center justify-between pt-4 border-t border-slate-100/80">
-            <div class="flex items-center gap-1.5 text-slate-400">
-              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
-              <span class="text-[12px] font-bold">850</span>
-            </div>
-            <div class="text-[#334EAC] font-bold text-[13px] hover:text-[#081F5C] transition-colors flex items-center gap-1">
-              Buka <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
-            </div>
-          </div>
-        </div>
-      </RouterLink>
-
-      <!-- Material Card 3 -->
-      <RouterLink :to="`${baseMaterialsRoute}/3`" class="card-base card-supporting group flex flex-col h-full cursor-pointer block">
-        <div class="material-thumb material-vid w-full h-44 rounded-2xl mb-5 relative overflow-hidden">
-          <div class="absolute inset-0 flex flex-col items-center justify-center text-emerald-300 group-hover:scale-105 transition-transform duration-500">
-            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="mb-2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-          </div>
-          <div class="absolute top-3 right-3 format-badge badge-vid px-2.5 py-1 rounded-lg tag-content-type">
-            VIDEO
-          </div>
-        </div>
-
-        <div class="flex-1 flex flex-col">
-          <span class="text-[#334EAC] text-[10px] font-bold uppercase tracking-widest mb-2">Matematika</span>
-          <h3 class="text-[16px] font-bold text-slate-900 mb-2 leading-snug group-hover:text-[#334EAC] transition-colors line-clamp-2 tracking-tight">Kalkulus III: Visualisasi Integral Lipat</h3>
-          
-          <div class="flex items-center gap-2 mb-4 mt-auto pt-3">
-            <div class="w-6 h-6 rounded-full bg-[#EDF1F6] flex items-center justify-center font-bold text-slate-900 text-[10px] border border-slate-200">
-              SS
-            </div>
-            <span class="text-[12px] font-bold text-slate-500">Dr. Sarah Smith</span>
-          </div>
-
-          <div class="flex items-center justify-between pt-4 border-t border-slate-100/80">
-            <div class="flex items-center gap-1.5 text-slate-400">
-              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
-              <span class="text-[12px] font-bold">3.4k</span>
+              <span class="text-[12px] font-bold">120</span>
             </div>
             <div class="text-[#334EAC] font-bold text-[13px] hover:text-[#081F5C] transition-colors flex items-center gap-1">
               Buka <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
@@ -233,10 +226,14 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { RouterLink, useRoute } from 'vue-router'
+import { materialService } from '@/services/material.service'
+import { useAuthStore } from '@/stores/auth'
+import EmptyState from '@/components/shared/EmptyState.vue'
 
 const route = useRoute()
+const authStore = useAuthStore()
 const baseMaterialsRoute = computed(() => {
   return route.path.startsWith('/tutor') ? '/tutor/materials' : '/pelajar/materials'
 })
@@ -246,6 +243,72 @@ const selectedCategory = ref('')
 const selectedFileType = ref('')
 const isFiltering = ref(false)
 const showSuccess = ref(false)
+
+const loading = ref(false)
+const error = ref(null)
+const categories = ref([])
+const materials = ref([])
+
+const fetchCategories = async () => {
+  try {
+    const res = await materialService.getCategories()
+    categories.value = res
+  } catch (err) {
+    console.error('Gagal mengambil kategori:', err)
+  }
+}
+
+const fetchMaterials = async () => {
+  loading.value = true
+  error.value = null
+  try {
+    const res = await materialService.getMaterials()
+    // Laravel paginated list structure has data field containing the items
+    materials.value = res.data || []
+  } catch (err) {
+    error.value = err
+  } finally {
+    loading.value = false
+  }
+}
+
+onMounted(() => {
+  fetchCategories()
+  fetchMaterials()
+})
+
+const filteredMaterials = computed(() => {
+  return materials.value.filter(material => {
+    const matchSearch = !searchQuery.value || 
+      material.title.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
+      (material.user?.name && material.user.name.toLowerCase().includes(searchQuery.value.toLowerCase()))
+    
+    const matchCat = !selectedCategory.value || 
+      String(material.category_id) === String(selectedCategory.value)
+    
+    let matchType = true
+    if (selectedFileType.value) {
+      const type = getFileType(material.file_url)
+      matchType = type === selectedFileType.value
+    }
+    
+    return matchSearch && matchCat && matchType
+  })
+})
+
+const getFileType = (fileUrl) => {
+  if (!fileUrl) return 'pdf'
+  const ext = fileUrl.split('.').pop().toLowerCase()
+  if (ext === 'pdf') return 'pdf'
+  if (ext === 'docx' || ext === 'doc') return 'docx'
+  if (['mp4', 'mkv', 'avi', 'mov', 'webm'].includes(ext)) return 'video'
+  return 'pdf'
+}
+
+const getInitials = (name) => {
+  if (!name) return 'U'
+  return name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase()
+}
 
 const applyFilter = () => {
   isFiltering.value = true

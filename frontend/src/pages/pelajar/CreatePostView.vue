@@ -80,10 +80,9 @@
               <div class="relative">
                 <select v-model="postCategory" class="w-full px-5 py-4 bg-[#F7F2EB]/50 border-2 border-slate-100 rounded-2xl text-[15px] font-bold text-slate-900 focus:outline-none focus:border-[#7096D1] focus:bg-white focus:ring-4 focus:ring-[#7096D1]/10 transition-all appearance-none cursor-pointer shadow-sm hover:border-slate-200">
                   <option value="" disabled selected>Pilih kategori...</option>
-                  <option>Ilmu Komputer</option>
-                  <option>Matematika</option>
-                  <option>Fisika</option>
-                  <option>Bahasa Inggris</option>
+                  <option v-for="cat in categories" :key="cat.id" :value="cat.id">
+                    {{ cat.name }}
+                  </option>
                 </select>
                 <div class="absolute inset-y-0 right-5 flex items-center pointer-events-none text-slate-400">
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
@@ -148,8 +147,13 @@
             <button @click="saveDraft" class="w-full sm:w-auto px-6 py-3.5 text-slate-600 hover:text-[#334EAC] hover:bg-slate-50 font-bold text-[15px] rounded-xl transition-colors">
               Simpan sebagai Draf
             </button>
-            <button @click="publishPost" class="w-full sm:w-auto px-10 py-3.5 bg-[#334EAC] hover:bg-[#081F5C] text-white rounded-2xl font-bold text-[15px] transition-all active:scale-95 text-center">
-              Publikasikan Diskusi
+            <button 
+              @click="publishPost" 
+              :disabled="isSubmitting"
+              class="w-full sm:w-auto px-10 py-3.5 bg-[#334EAC] hover:bg-[#081F5C] text-white rounded-2xl font-bold text-[15px] transition-all active:scale-95 text-center disabled:opacity-75 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+            >
+              <svg v-if="isSubmitting" class="animate-spin text-white" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>
+              {{ isSubmitting ? 'Mempublikasikan...' : 'Publikasikan Diskusi' }}
             </button>
           </div>
           
@@ -195,12 +199,26 @@
       </div>
     </div>
 
+    <!-- Error Toast -->
+    <div v-if="showError" class="fixed bottom-6 right-6 z-50 bg-rose-600 text-white px-6 py-4 rounded-2xl shadow-xl flex items-center gap-3 animate-in slide-in-from-bottom-5">
+      <div class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center shrink-0">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/>
+        </svg>
+      </div>
+      <div>
+        <h4 class="font-bold text-sm">Gagal!</h4>
+        <p class="text-xs text-rose-100 font-medium">{{ errorMessage }}</p>
+      </div>
+    </div>
+
   </div>
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { RouterLink, useRoute, useRouter } from 'vue-router'
+import { forumService } from '@/services/forum.service'
 
 const route = useRoute()
 const router = useRouter()
@@ -213,9 +231,25 @@ const newTagInput = ref('')
 
 const showSuccess = ref(false)
 const toastMessage = ref('')
+const showError = ref(false)
+const errorMessage = ref('')
+const isSubmitting = ref(false)
+const categories = ref([])
 
 const baseForumRoute = computed(() => {
   return route.path.startsWith('/tutor') ? '/tutor/forum' : '/pelajar/forum'
+})
+
+const fetchCategories = async () => {
+  try {
+    categories.value = await forumService.getCategories()
+  } catch (err) {
+    console.error('Error fetching categories:', err)
+  }
+}
+
+onMounted(() => {
+  fetchCategories()
 })
 
 const addTag = () => {
@@ -257,16 +291,38 @@ const saveDraft = () => {
   setTimeout(() => { showSuccess.value = false }, 3000)
 }
 
-const publishPost = () => {
-  if (!postTitle.value.trim() || !postCategory.value) {
-    alert('Harap lengkapi judul dan kategori terlebih dahulu.')
+const publishPost = async () => {
+  if (!postTitle.value.trim() || !postCategory.value || !postBody.value.trim()) {
+    alert('Harap lengkapi judul, kategori, dan detail diskusi terlebih dahulu.')
     return
   }
-  toastMessage.value = 'Diskusi baru berhasil diterbitkan di forum!'
-  showSuccess.value = true
-  setTimeout(() => {
-    showSuccess.value = false
-    router.push(baseForumRoute.value)
-  }, 1500)
+  
+  isSubmitting.value = true
+  showSuccess.value = false
+  showError.value = false
+
+  try {
+    const payload = {
+      category_id: postCategory.value,
+      title: postTitle.value.trim(),
+      content: postBody.value.trim()
+    }
+    await forumService.createPost(payload)
+    
+    toastMessage.value = 'Diskusi baru berhasil diterbitkan di forum!'
+    showSuccess.value = true
+    setTimeout(() => {
+      showSuccess.value = false
+      router.push(baseForumRoute.value)
+    }, 1500)
+  } catch (err) {
+    errorMessage.value = err || 'Gagal menerbitkan diskusi baru.'
+    showError.value = true
+    setTimeout(() => {
+      showError.value = false
+    }, 3000)
+  } finally {
+    isSubmitting.value = false
+  }
 }
 </script>
