@@ -8,6 +8,7 @@ use App\Http\Controllers\AIPatternController;
 use App\Http\Controllers\MaterialController;
 use App\Http\Controllers\MentoringController;
 use App\Http\Controllers\QuizController;
+use App\Http\Controllers\TestimonialController;
 use Illuminate\Support\Facades\Route;
 
 // ==========================================
@@ -48,6 +49,9 @@ Route::get('/quizzes/{id}', [QuizController::class, 'show']);
 // Mentoring - Daftar Tutor (Publik)
 Route::get('/tutors', [MentoringController::class, 'listTutors']);
 
+// Kisah Sukses Mahasiswa / Testimonials (Publik)
+Route::get('/testimonials/featured', [TestimonialController::class, 'getFeatured']);
+
 // ==========================================
 // ── PROTECTED ROUTES (Wajib Token Sanctum) ─
 // ==========================================
@@ -86,4 +90,7 @@ Route::middleware('auth:sanctum')->group(function () {
     // Mentoring Sessions (Booking & Update Status)
     Route::post('/mentoring/sessions', [MentoringController::class, 'store']);
     Route::patch('/mentoring/sessions/{id}/status', [MentoringController::class, 'updateStatus']);
+
+    // Kisah Sukses Mahasiswa / Testimonials (Protected)
+    Route::post('/testimonials', [TestimonialController::class, 'store']);
 });
