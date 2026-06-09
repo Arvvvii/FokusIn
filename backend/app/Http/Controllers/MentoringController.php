@@ -66,7 +66,7 @@ class MentoringController extends Controller
     {
         // 1. Validasi input
         $request->validate([
-            'tutor_id'        => 'nullable|exists:users,id',
+            'tutor_id'        => 'required|exists:users,id',
             'title'           => 'required|string|max:255',
             'description'     => 'required|string|min:20',
             'duration_minutes' => 'required|in:30,60,90',
@@ -74,23 +74,21 @@ class MentoringController extends Controller
         ]);
 
         // 2. Validasi bisnis: tidak boleh booking diri sendiri
-        if ($request->tutor_id && $request->tutor_id == auth()->id()) {
+        if ($request->tutor_id == auth()->id()) {
             return response()->json([
                 'message' => 'Anda tidak dapat memesan sesi mentoring dengan diri sendiri.'
             ], 422);
         }
 
-        // 3. Pastikan target user memang tutor jika tutor_id ada
-        if ($request->tutor_id) {
-            $tutor = User::where('id', $request->tutor_id)
-                ->where('role', 'tutor')
-                ->first();
+        // 3. Pastikan target user memang tutor
+        $tutor = User::where('id', $request->tutor_id)
+            ->where('role', 'tutor')
+            ->first();
 
-            if (!$tutor) {
-                return response()->json([
-                    'message' => 'User yang dipilih bukan seorang tutor.'
-                ], 422);
-            }
+        if (!$tutor) {
+            return response()->json([
+                'message' => 'User yang dipilih bukan seorang tutor.'
+            ], 422);
         }
 
         // 4. Buat sesi mentoring baru
@@ -123,7 +121,7 @@ class MentoringController extends Controller
     {
         // 1. Validasi input
         $request->validate([
-            'status' => 'required|in:confirmed,completed,cancelled,rejected',
+            'status' => 'required|in:confirmed,completed,cancelled',
         ]);
 
         // 2. Ambil data sesi
@@ -139,17 +137,17 @@ class MentoringController extends Controller
                     'message' => 'Hanya tutor yang dapat mengonfirmasi atau menyelesaikan sesi ini.'
                 ], 403);
             }
-        } elseif (in_array($newStatus, ['cancelled', 'rejected'])) {
-            // Student atau Tutor boleh cancel / reject, dan hanya jika status masih pending
-            if (auth()->id() !== $session->student_id && auth()->id() !== $session->tutor_id) {
+        } elseif ($newStatus === 'cancelled') {
+            // Hanya student yang boleh cancel, dan hanya jika status masih pending
+            if (auth()->id() !== $session->student_id) {
                 return response()->json([
-                    'message' => 'Anda tidak memiliki akses untuk membatalkan atau menolak sesi ini.'
+                    'message' => 'Hanya pelajar yang dapat membatalkan sesi ini.'
                 ], 403);
             }
 
             if ($session->status !== 'pending') {
                 return response()->json([
-                    'message' => 'Sesi hanya dapat dibatalkan/ditolak jika statusnya masih pending.'
+                    'message' => 'Sesi hanya dapat dibatalkan jika statusnya masih pending.'
                 ], 403);
             }
         }
@@ -163,35 +161,6 @@ class MentoringController extends Controller
 
         return response()->json([
             'message' => 'Status sesi berhasil diperbarui.',
-            'session' => $session,
-        ]);
-    }
-
-    /**
-     * Update detail sesi mentoring (notes, agenda, files).
-     * PROTECTED — memerlukan auth:sanctum.
-     * PATCH /api/mentoring/sessions/{id}/update-details
-     */
-    public function updateDetails(Request $request, $id)
-    {
-        $session = MentoringSession::findOrFail($id);
-
-        if (auth()->id() !== $session->student_id && auth()->id() !== $session->tutor_id) {
-            return response()->json([
-                'message' => 'Anda tidak memiliki akses untuk mengubah detail sesi ini.'
-            ], 403);
-        }
-
-        $validated = $request->validate([
-            'notes' => 'nullable|string',
-            'agenda_checklist' => 'nullable|array',
-            'files' => 'nullable|array',
-        ]);
-
-        $session->update($validated);
-
-        return response()->json([
-            'message' => 'Detail sesi berhasil diperbarui.',
             'session' => $session,
         ]);
     }

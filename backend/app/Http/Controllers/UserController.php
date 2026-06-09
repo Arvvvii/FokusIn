@@ -6,7 +6,6 @@ use App\Models\User;
 use App\Models\Post;
 use App\Models\ExamUpload;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Schema;
 
 class UserController extends Controller
@@ -39,69 +38,6 @@ class UserController extends Controller
             ->findOrFail($id);
 
         return response()->json($user);
-    }
-
-    /**
-     * Update profil user (name, bio, password opsional).
-     * PROTECTED — memerlukan auth:sanctum.
-     * PUT /api/users/{id}
-     */
-    public function updateProfile(Request $request, $id)
-    {
-        try {
-            $user = User::findOrFail($id);
-
-            // Authorization: hanya boleh update profil milik sendiri
-            if ((int) $id !== auth()->id()) {
-                return response()->json([
-                    'message' => 'Anda hanya dapat mengubah profil milik sendiri.'
-                ], 403);
-            }
-
-            // Validasi input
-            $rules = [
-                'name'     => 'sometimes|string|max:255',
-                'password' => 'sometimes|string|min:8|confirmed',
-            ];
-
-            // Tambahkan validasi bio hanya jika kolom tersedia di tabel users
-            if (Schema::hasColumn('users', 'bio')) {
-                $rules['bio'] = 'sometimes|nullable|string|max:1000';
-            }
-
-            $validated = $request->validate($rules);
-
-            // Update name jika ada
-            if (isset($validated['name'])) {
-                $user->name = $validated['name'];
-            }
-
-            // Update bio jika ada dan kolom tersedia
-            if (isset($validated['bio']) && Schema::hasColumn('users', 'bio')) {
-                $user->bio = $validated['bio'];
-            }
-
-            // Update password jika diisi
-            if (isset($validated['password'])) {
-                $user->password = Hash::make($validated['password']);
-            }
-
-            $user->save();
-
-            return response()->json([
-                'message' => 'Profil berhasil diperbarui.',
-                'user'    => $user,
-            ]);
-        } catch (\Illuminate\Validation\ValidationException $e) {
-            throw $e;
-        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
-            return response()->json(['message' => 'User tidak ditemukan.'], 404);
-        } catch (\Exception $e) {
-            return response()->json([
-                'message' => 'Gagal memperbarui profil.',
-                'error'   => $e->getMessage(),
-            ], 500);
-        }
     }
 
     /**

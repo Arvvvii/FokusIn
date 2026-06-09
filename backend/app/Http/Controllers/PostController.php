@@ -57,43 +57,6 @@ class PostController extends Controller
     }
 
     /**
-     * Detail satu Post beserta relasi user, category, votes, dan comments (jawaban).
-     * PUBLIC — tidak memerlukan autentikasi.
-     */
-    public function show($id)
-    {
-        try {
-            $post = Post::with([
-                'user' => function ($q) {
-                    $columns = ['id', 'name', 'role'];
-                    if (Schema::hasColumn('users', 'avatar_url')) {
-                        $columns[] = 'avatar_url';
-                    }
-                    $q->select($columns);
-                },
-                'category',
-                'votes',
-                'comments' => function ($q) {
-                    $q->with([
-                        'user' => function ($q2) {
-                            $columns = ['id', 'name', 'role'];
-                            if (Schema::hasColumn('users', 'avatar_url')) {
-                                $columns[] = 'avatar_url';
-                            }
-                            $q2->select($columns);
-                        },
-                        'votes',
-                    ])->latest();
-                },
-            ])->findOrFail($id);
-
-            return response()->json($post);
-        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
-            return response()->json(['message' => 'Post tidak ditemukan.'], 404);
-        }
-    }
-
-    /**
      * Simpan Post baru (type = 'question', is_verified = false, user_id = auth()->id()).
      */
     public function store(Request $request)
