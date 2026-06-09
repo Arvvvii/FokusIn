@@ -33,77 +33,109 @@
     </section>
 
     <!-- 2. KPI Grid -->
-    <section class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
-      
-      <!-- KPI 1 -->
-      <div class="admin-card p-6 stat-total-users flex flex-col justify-between group">
-        <div class="flex items-center justify-between mb-4">
-          <div class="w-10 h-10 rounded-xl bg-[#EDF1F6] flex items-center justify-center text-[#334EAC] group-hover:scale-110 transition-transform">
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+    <template v-if="loading">
+      <section class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
+        <div v-for="n in 4" :key="n" class="admin-card p-6 flex flex-col justify-between opacity-70 animate-pulse h-[138px]">
+          <div class="flex items-center justify-between mb-4">
+            <div class="w-10 h-10 rounded-xl bg-slate-200"></div>
+            <div class="w-12 h-4 bg-slate-200 rounded"></div>
           </div>
-          <span class="change-up flex items-center gap-1">
-            <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg>
-            12.5%
-          </span>
-        </div>
-        <div>
-          <h4 class="text-sm font-semibold text-slate-500 mb-1">Total Pengguna</h4>
-          <p class="text-[28px] font-bold text-slate-900 tracking-tight">14,208</p>
-        </div>
-      </div>
-
-      <!-- KPI 2 -->
-      <div class="admin-card p-6 stat-daily-sessions flex flex-col justify-between group">
-        <div class="flex items-center justify-between mb-4">
-          <div class="w-10 h-10 rounded-xl bg-amber-50 flex items-center justify-center text-amber-500 group-hover:scale-110 transition-transform">
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+          <div>
+            <div class="h-4 bg-slate-200 rounded w-1/2 mb-2"></div>
+            <div class="h-8 bg-slate-200 rounded w-3/4"></div>
           </div>
-          <span class="change-up flex items-center gap-1">
-            <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg>
-            8.2%
-          </span>
         </div>
-        <div>
-          <h4 class="text-sm font-semibold text-slate-500 mb-1">Sesi Aktif Harian</h4>
-          <p class="text-[28px] font-bold text-slate-900 tracking-tight">3,842</p>
+      </section>
+    </template>
+    
+    <template v-else-if="error">
+      <section class="p-6 flex flex-col items-center justify-center bg-rose-50/50 border border-rose-100 rounded-3xl animate-in fade-in duration-300">
+        <div class="w-12 h-12 rounded-full bg-rose-100 text-rose-600 flex items-center justify-center mb-3">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+          </svg>
         </div>
-      </div>
+        <h3 class="text-base font-bold text-rose-950 mb-1">Gagal Memuat Analitik</h3>
+        <p class="text-xs text-rose-800 text-center max-w-md mb-4">{{ error }}</p>
+        <button @click="fetchStats" class="px-4 py-2 bg-[#334EAC] hover:bg-[#081F5C] text-white rounded-xl font-bold text-xs shadow-sm transition-all active:scale-95">
+          Coba Lagi
+        </button>
+      </section>
+    </template>
 
-      <!-- KPI 3 -->
-      <div class="admin-card p-6 stat-ai-tokens flex flex-col justify-between group">
-        <div class="flex items-center justify-between mb-4">
-          <div class="w-10 h-10 rounded-xl bg-[#F7F2EB] flex items-center justify-center text-[#334EAC] group-hover:scale-110 transition-transform">
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4"/><path d="M12 18v4"/><path d="M4.93 4.93l2.83 2.83"/><path d="M16.24 16.24l2.83 2.83"/><path d="M2 12h4"/><path d="M18 12h4"/><path d="M4.93 19.07l2.83-2.83"/><path d="M16.24 7.76l2.83-2.83"/></svg>
+    <template v-else>
+      <section class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
+        
+        <!-- KPI 1 -->
+        <div class="admin-card p-6 stat-total-users flex flex-col justify-between group">
+          <div class="flex items-center justify-between mb-4">
+            <div class="w-10 h-10 rounded-xl bg-[#EDF1F6] flex items-center justify-center text-[#334EAC] group-hover:scale-110 transition-transform">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            </div>
+            <span class="change-up flex items-center gap-1">
+              <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg>
+              12.5%
+            </span>
           </div>
-          <span class="change-up flex items-center gap-1">
-            <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg>
-            24.1%
-          </span>
-        </div>
-        <div>
-          <h4 class="text-sm font-semibold text-slate-500 mb-1">Permintaan AI (Tokens)</h4>
-          <p class="text-[28px] font-bold text-slate-900 tracking-tight">1.2M</p>
-        </div>
-      </div>
-
-      <!-- KPI 4 -->
-      <div class="admin-card p-6 stat-materials-down flex flex-col justify-between group">
-        <div class="flex items-center justify-between mb-4">
-          <div class="w-10 h-10 rounded-xl bg-rose-50 flex items-center justify-center text-rose-500 group-hover:scale-110 transition-transform">
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>
+          <div>
+            <h4 class="text-sm font-semibold text-slate-500 mb-1">Total Pengguna</h4>
+            <p class="text-[28px] font-bold text-slate-900 tracking-tight">{{ statsData.total_users?.toLocaleString() || 0 }}</p>
           </div>
-          <span class="change-down flex items-center gap-1">
-            <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
-            1.4%
-          </span>
         </div>
-        <div>
-          <h4 class="text-sm font-semibold text-slate-500 mb-1">Materi Diunduh</h4>
-          <p class="text-[28px] font-bold text-slate-900 tracking-tight">8,405</p>
-        </div>
-      </div>
 
-    </section>
+        <!-- KPI 2 -->
+        <div class="admin-card p-6 stat-daily-sessions flex flex-col justify-between group">
+          <div class="flex items-center justify-between mb-4">
+            <div class="w-10 h-10 rounded-xl bg-amber-50 flex items-center justify-center text-amber-500 group-hover:scale-110 transition-transform">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            </div>
+            <span class="change-up flex items-center gap-1">
+              <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg>
+              8.2%
+            </span>
+          </div>
+          <div>
+            <h4 class="text-sm font-semibold text-slate-500 mb-1">Total Forum Diskusi</h4>
+            <p class="text-[28px] font-bold text-slate-900 tracking-tight">{{ statsData.total_posts?.toLocaleString() || 0 }}</p>
+          </div>
+        </div>
+
+        <!-- KPI 3 -->
+        <div class="admin-card p-6 stat-ai-tokens flex flex-col justify-between group">
+          <div class="flex items-center justify-between mb-4">
+            <div class="w-10 h-10 rounded-xl bg-[#F7F2EB] flex items-center justify-center text-[#334EAC] group-hover:scale-110 transition-transform">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>
+            </div>
+            <span class="change-up flex items-center gap-1">
+              <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg>
+              24.1%
+            </span>
+          </div>
+          <div>
+            <h4 class="text-sm font-semibold text-slate-500 mb-1">Total Arsip Ujian</h4>
+            <p class="text-[28px] font-bold text-slate-900 tracking-tight">{{ statsData.total_exam_uploads?.toLocaleString() || 0 }}</p>
+          </div>
+        </div>
+
+        <!-- KPI 4 -->
+        <div class="admin-card p-6 stat-materials-down flex flex-col justify-between group">
+          <div class="flex items-center justify-between mb-4">
+            <div class="w-10 h-10 rounded-xl bg-rose-50 flex items-center justify-center text-rose-500 group-hover:scale-110 transition-transform">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>
+            </div>
+            <span class="change-down flex items-center gap-1">
+              <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+              1.4%
+            </span>
+          </div>
+          <div>
+            <h4 class="text-sm font-semibold text-slate-500 mb-1">Materi Diunduh</h4>
+            <p class="text-[28px] font-bold text-slate-900 tracking-tight">8,405</p>
+          </div>
+        </div>
+
+      </section>
+    </template>
 
     <!-- 3. Charts Section -->
     <section class="grid grid-cols-1 xl:grid-cols-3 gap-6">
@@ -219,9 +251,34 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
+import { statsService } from '@/services/stats.service'
 
 const chartTab = ref('sesi')
+const loading = ref(false)
+const error = ref(null)
+const statsData = ref({
+  total_users: 0,
+  total_posts: 0,
+  total_exam_uploads: 0
+})
+
+const fetchStats = async () => {
+  loading.value = true
+  error.value = null
+  try {
+    const data = await statsService.getGlobalStats()
+    statsData.value = data
+  } catch (err) {
+    error.value = err
+  } finally {
+    loading.value = false
+  }
+}
+
+onMounted(() => {
+  fetchStats()
+})
 
 const exportCSV = () => {
   alert('Sedang menyiapkan file CSV... Laporan Analisis berhasil diunduh.')

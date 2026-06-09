@@ -22,7 +22,7 @@
         <div>
           <h1 class="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">Kuis Selesai!</h1>
           <p class="text-[15px] text-slate-600 font-medium mt-2 max-w-xl leading-relaxed">
-            Kerja bagus telah menyelesaikan Cek Penguasaan Kinematika. Tinjau analitik performa dan wawasan AI-mu di bawah ini.
+            Kerja bagus telah menyelesaikan {{ quizData?.title || 'Kuis' }}. Tinjau analitik performa dan wawasan AI-mu di bawah ini.
           </p>
         </div>
       </div>
@@ -39,10 +39,10 @@
         <div class="relative w-36 h-36 flex items-center justify-center mb-2">
           <svg viewBox="0 0 36 36" class="w-full h-full transform -rotate-90">
             <path class="text-[#EDF1F6]" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-width="2.5" />
-            <path class="text-[#334EAC]" stroke-dasharray="85, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
+            <path class="text-[#334EAC]" :stroke-dasharray="`${score}, 100`" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
           </svg>
           <div class="absolute inset-0 flex flex-col items-center justify-center">
-            <span class="text-4xl font-bold text-slate-900 tracking-tight">85</span>
+            <span class="text-4xl font-bold text-slate-900 tracking-tight">{{ score }}</span>
             <span class="text-[12px] font-bold text-slate-400 mt-1">dari 100</span>
           </div>
         </div>
@@ -56,7 +56,7 @@
           </div>
           <div>
             <p class="text-[13px] font-bold text-slate-400 uppercase tracking-widest mb-1">Akurasi</p>
-            <p class="text-2xl font-bold text-slate-900 mb-1 tracking-tight">13 <span class="text-slate-400 text-[16px]">/ 15</span></p>
+            <p class="text-2xl font-bold text-slate-900 mb-1 tracking-tight">{{ correctAnswersCount }} <span class="text-slate-400 text-[16px]">/ {{ totalQuestions }}</span></p>
             <p class="text-[12px] font-bold text-emerald-500">Jawaban benar</p>
           </div>
         </div>
@@ -89,7 +89,7 @@
         </div>
 
         <div class="flex flex-col gap-3 mt-8">
-          <button class="w-full py-3.5 bg-slate-50 border border-slate-200 hover:border-[#334EAC] text-slate-900 hover:text-[#334EAC] rounded-2xl font-bold text-[14px] transition-colors active:scale-95 flex items-center justify-center gap-2">
+          <button @click="retryQuiz" class="w-full py-3.5 bg-slate-50 border border-slate-200 hover:border-[#334EAC] text-slate-900 hover:text-[#334EAC] rounded-2xl font-bold text-[14px] transition-colors active:scale-95 flex items-center justify-center gap-2">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
             Coba Lagi Kuis
           </button>
@@ -99,73 +99,22 @@
 
     <div class="flex flex-col xl:flex-row gap-8">
       
-      <!-- Main Content (Review) -->
+      <!-- Main Content (Summary) -->
       <div class="w-full xl:w-[65%] space-y-6">
-        <h2 class="text-2xl font-bold text-slate-900 mb-2 tracking-tight">Tinjauan Pertanyaan</h2>
-        
-        <!-- Correct Answer Review -->
-        <div class="bg-white/80 backdrop-blur-xl rounded-3xl p-8 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-emerald-100/60 relative overflow-hidden transition-all duration-300 ease-out hover:shadow-xl group/card">
-          <div class="absolute top-0 left-0 w-2 h-full bg-emerald-400"></div>
-          
-          <div class="flex items-center justify-between mb-4 pl-4">
-            <span class="text-[14px] font-bold text-slate-400">Pertanyaan 1</span>
-            <span class="px-3 py-1 bg-emerald-50 text-emerald-600 text-[11px] font-bold rounded-md uppercase tracking-widest border border-emerald-100">Benar</span>
-          </div>
-          
-          <h3 class="text-[17px] font-bold text-slate-900 mb-6 pl-4 leading-relaxed tracking-tight">
-            Apa prinsip kekekalan momentum sudut?
-          </h3>
-
-          <div class="pl-4 space-y-3 mb-6">
-            <div class="flex items-center gap-4 p-4 rounded-2xl border-2 border-emerald-500 bg-emerald-50/30">
-              <div class="w-6 h-6 rounded-md bg-emerald-500 text-white flex items-center justify-center shrink-0">
-                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
-              </div>
-              <span class="text-[15px] font-bold text-slate-900 tracking-tight">Momentum sudut tetap konstan jika tidak ada torsi bersih eksternal yang bekerja pada sistem.</span>
-              <span class="ml-auto text-[11px] font-bold text-emerald-600 uppercase tracking-widest bg-emerald-100 px-2.5 py-1 rounded-md">Jawabanmu</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Wrong Answer Review -->
-        <div class="bg-white/80 backdrop-blur-xl rounded-3xl p-8 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-rose-100/60 relative overflow-hidden transition-all duration-300 ease-out hover:shadow-xl group/card">
-          <div class="absolute top-0 left-0 w-2 h-full bg-rose-400"></div>
-          
-          <div class="flex items-center justify-between mb-4 pl-4">
-            <span class="text-[14px] font-bold text-slate-400">Pertanyaan 4</span>
-            <span class="px-3 py-1 bg-rose-50 text-rose-600 text-[11px] font-bold rounded-md uppercase tracking-widest border border-rose-100">Salah</span>
-          </div>
-          
-          <h3 class="text-[17px] font-bold text-slate-900 mb-6 pl-4 leading-relaxed tracking-tight">
-            Sebuah silinder pejal bermassa M dan berjari-jari R menggelinding tanpa slip menuruni bidang miring dengan sudut θ. Berapakah percepatan linearnya?
-          </h3>
-
-          <div class="pl-4 space-y-3 mb-6">
-            <!-- Wrong Selected -->
-            <div class="flex items-center gap-4 p-4 rounded-2xl border-2 border-rose-300 bg-rose-50/30 opacity-75">
-              <div class="w-6 h-6 rounded-md bg-rose-400 text-white flex items-center justify-center shrink-0">
-                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
-              </div>
-              <span class="text-[15px] font-bold text-slate-600 line-through decoration-rose-300">(1/2) g sin(θ)</span>
-              <span class="ml-auto text-[11px] font-bold text-rose-500 uppercase tracking-widest bg-rose-100 px-2.5 py-1 rounded-md">Jawabanmu</span>
-            </div>
-
-            <!-- Correct Option -->
-            <div class="flex items-center gap-4 p-4 rounded-2xl border-2 border-emerald-500 bg-emerald-50/30">
-              <div class="w-6 h-6 rounded-md bg-emerald-500 text-white flex items-center justify-center shrink-0">
-                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
-              </div>
-              <span class="text-[15px] font-bold text-slate-900 tracking-tight">(2/3) g sin(θ)</span>
-              <span class="ml-auto text-[11px] font-bold text-emerald-600 uppercase tracking-widest bg-emerald-100 px-2.5 py-1 rounded-md">Jawaban Benar</span>
-            </div>
-          </div>
-
-          <!-- Explanation Box -->
-          <div class="ml-4 p-5 bg-[#F7F2EB]/50 rounded-2xl border border-slate-200/60 flex items-start gap-3">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F59E0B" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="shrink-0 mt-0.5"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+        <div class="bg-white/80 backdrop-blur-xl rounded-3xl p-8 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-200/60 relative overflow-hidden transition-all duration-300 ease-out hover:shadow-xl group/card">
+          <h2 class="text-2xl font-bold text-slate-900 mb-4 tracking-tight">Ringkasan Hasil Evaluasi</h2>
+          <p class="text-slate-600 text-[14px] leading-relaxed mb-6 font-medium">
+            Kuis ini telah selesai dikerjakan dan hasil evaluasi Anda telah berhasil disimpan di server FokusIn. Nilai akhir Anda adalah <strong class="text-[#334EAC]">{{ score }}</strong>.
+          </p>
+          <div class="p-6 bg-[#EDF1F6]/50 rounded-2xl border border-slate-200/60 flex items-start gap-4">
+            <span class="w-10 h-10 rounded-xl bg-blue-100 text-[#334EAC] flex items-center justify-center shrink-0">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+            </span>
             <div>
-              <p class="text-[13px] font-bold text-slate-900 mb-1 tracking-tight">Penjelasan AI</p>
-              <p class="text-[13px] text-slate-600 leading-relaxed font-medium">Untuk silinder pejal, momen inersia <span class="font-mono bg-white px-1 border border-slate-200 rounded text-[#334EAC]">I = (1/2)MR²</span>. Saat menggelinding tanpa slip, <span class="font-mono bg-white px-1 border border-slate-200 rounded text-[#334EAC]">v = ωR</span> dan <span class="font-mono bg-white px-1 border border-slate-200 rounded text-[#334EAC]">a = αR</span>. Menggunakan hukum kedua Newton untuk translasi dan rotasi menghasilkan percepatan <span class="font-mono bg-white px-1 border border-slate-200 rounded text-[#334EAC]">a = (2/3) g sin(θ)</span>.</p>
+              <h4 class="text-[14px] font-bold text-slate-900 mb-1">Informasi Kuis</h4>
+              <p class="text-xs text-slate-500 font-medium leading-relaxed">
+                Anda menjawab benar <strong>{{ correctAnswersCount }}</strong> pertanyaan dari total <strong>{{ totalQuestions }}</strong> pertanyaan yang disediakan. Wawasan performa dan grafik penguasaan Anda akan diupdate di dashboard utama pelajar.
+              </p>
             </div>
           </div>
         </div>
@@ -219,5 +168,44 @@
 </template>
 
 <script setup>
-import { RouterLink } from 'vue-router'
+import { ref, onMounted } from 'vue'
+import { RouterLink, useRoute, useRouter } from 'vue-router'
+import { quizService } from '@/services/quiz.service'
+
+const route = useRoute()
+const router = useRouter()
+
+const quizData = ref(null)
+const attemptData = ref(null)
+const score = ref(0)
+const correctAnswersCount = ref(0)
+const totalQuestions = ref(0)
+
+const fetchQuiz = async () => {
+  try {
+    const res = await quizService.getQuizById(route.params.id)
+    quizData.value = res
+  } catch (err) {
+    console.error('Gagal memuat detail kuis:', err)
+  }
+}
+
+onMounted(() => {
+  fetchQuiz()
+  const stored = sessionStorage.getItem(`quiz_attempt_${route.params.id}`)
+  if (stored) {
+    attemptData.value = JSON.parse(stored)
+    score.value = attemptData.value.score ?? 0
+    correctAnswersCount.value = attemptData.value.correct_answers_count ?? 0
+    totalQuestions.value = attemptData.value.total_questions ?? 0
+  } else {
+    alert('Hasil kuis tidak ditemukan.')
+    router.push('/pelajar/quiz')
+  }
+})
+
+const retryQuiz = () => {
+  sessionStorage.removeItem(`quiz_attempt_${route.params.id}`)
+  router.push(`/pelajar/quiz/${route.params.id}`)
+}
 </script>

@@ -18,23 +18,55 @@
     </div>
 
     <!-- 1. HERO OVERVIEW (Stat Cards) -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-      <div v-for="(stat, index) in overviewStats" :key="stat.title" class="admin-card p-6" :class="[index === 0 ? 'stat-users' : index === 1 ? 'stat-tutors' : index === 2 ? 'stat-ai-validation' : 'stat-mentoring']">
-        <div class="flex items-start justify-between mb-4">
-          <div class="w-10 h-10 rounded-xl bg-slate-50 flex items-center justify-center text-slate-600 shrink-0" v-html="stat.icon"></div>
-          <span v-if="stat.trendUp" class="change-up flex items-center gap-1">
-            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
-            {{ stat.trend }}
-          </span>
-          <span v-else class="text-rose-600 bg-rose-50 text-xs font-bold px-2 py-1 rounded-md flex items-center gap-1">
-            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 17 13.5 8.5 8.5 13.5 2 7"/><polyline points="16 17 22 17 22 11"/></svg>
-            {{ stat.trend }}
-          </span>
+    <template v-if="loading">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+        <div v-for="n in 4" :key="n" class="admin-card p-6 flex flex-col justify-between opacity-70 animate-pulse h-[138px]">
+          <div class="flex items-center justify-between mb-4">
+            <div class="w-10 h-10 rounded-xl bg-slate-200"></div>
+            <div class="w-12 h-4 bg-slate-200 rounded"></div>
+          </div>
+          <div>
+            <div class="h-8 bg-slate-200 rounded w-1/2 mb-2"></div>
+            <div class="h-4 bg-slate-200 rounded w-3/4"></div>
+          </div>
         </div>
-        <h3 class="text-[28px] font-bold text-slate-900 tracking-tight mb-1">{{ stat.value }}</h3>
-        <p class="text-sm font-semibold text-slate-500">{{ stat.title }}</p>
       </div>
-    </div>
+    </template>
+    
+    <template v-else-if="error">
+      <div class="mb-8 p-6 flex flex-col items-center justify-center bg-rose-50/50 border border-rose-100 rounded-3xl animate-in fade-in duration-300">
+        <div class="w-12 h-12 rounded-full bg-rose-100 text-rose-600 flex items-center justify-center mb-3">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+          </svg>
+        </div>
+        <h3 class="text-base font-bold text-rose-950 mb-1">Gagal Memuat Statistik</h3>
+        <p class="text-xs text-rose-800 text-center max-w-md mb-4">{{ error }}</p>
+        <button @click="fetchStats" class="px-4 py-2 bg-[#334EAC] hover:bg-[#081F5C] text-white rounded-xl font-bold text-xs shadow-sm transition-all active:scale-95">
+          Coba Lagi
+        </button>
+      </div>
+    </template>
+
+    <template v-else>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+        <div v-for="(stat, index) in overviewStats" :key="stat.title" class="admin-card p-6" :class="[index === 0 ? 'stat-users' : index === 1 ? 'stat-tutors' : index === 2 ? 'stat-ai-validation' : 'stat-mentoring']">
+          <div class="flex items-start justify-between mb-4">
+            <div class="w-10 h-10 rounded-xl bg-slate-50 flex items-center justify-center text-slate-600 shrink-0" v-html="stat.icon"></div>
+            <span v-if="stat.trendUp" class="change-up flex items-center gap-1">
+              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
+              {{ stat.trend }}
+            </span>
+            <span v-else class="text-rose-600 bg-rose-50 text-xs font-bold px-2 py-1 rounded-md flex items-center gap-1">
+              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 17 13.5 8.5 8.5 13.5 2 7"/><polyline points="16 17 22 17 22 11"/></svg>
+              {{ stat.trend }}
+            </span>
+          </div>
+          <h3 class="text-[28px] font-bold text-slate-900 tracking-tight mb-1">{{ stat.value }}</h3>
+          <p class="text-sm font-semibold text-slate-500">{{ stat.title }}</p>
+        </div>
+      </div>
+    </template>
 
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
       <!-- 2. PLATFORM HEALTH -->
@@ -102,18 +134,69 @@
 </template>
 
 <script setup>
+import { ref, computed, onMounted } from 'vue'
 import { RouterLink } from 'vue-router'
+import { statsService } from '@/services/stats.service'
 
 const exportReport = () => {
   alert('Report sedang di-generate dan akan segera diunduh.')
 }
 
-const overviewStats = [
-  { title: 'Total Registered Users', value: '14,205', trend: '12%', trendUp: true, icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>' },
-  { title: 'Active Verified Tutors', value: '342', trend: '4%', trendUp: true, icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 21a8 8 0 0 1 13.292-6"/><circle cx="10" cy="8" r="5"/><path d="m16 19 2 2 4-4"/></svg>' },
-  { title: 'AI Validation Requests', value: '8,431', trend: '24%', trendUp: true, icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>' },
-  { title: 'Ongoing Mentoring', value: '1,204', trend: '8%', trendUp: true, icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>' }
-]
+const loading = ref(false)
+const error = ref(null)
+const statsData = ref({
+  total_users: 0,
+  total_posts: 0,
+  total_exam_uploads: 0
+})
+
+const fetchStats = async () => {
+  loading.value = true
+  error.value = null
+  try {
+    const data = await statsService.getGlobalStats()
+    statsData.value = data
+  } catch (err) {
+    error.value = err
+  } finally {
+    loading.value = false
+  }
+}
+
+onMounted(() => {
+  fetchStats()
+})
+
+const overviewStats = computed(() => [
+  { 
+    title: 'Total Registered Users', 
+    value: statsData.value.total_users?.toLocaleString() || '0', 
+    trend: '12%', 
+    trendUp: true, 
+    icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>' 
+  },
+  { 
+    title: 'Total Forum Discussions', 
+    value: statsData.value.total_posts?.toLocaleString() || '0', 
+    trend: '4%', 
+    trendUp: true, 
+    icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>' 
+  },
+  { 
+    title: 'Total Exam Archives', 
+    value: statsData.value.total_exam_uploads?.toLocaleString() || '0', 
+    trend: '24%', 
+    trendUp: true, 
+    icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>' 
+  },
+  { 
+    title: 'Ongoing Mentoring', 
+    value: '1,204', 
+    trend: '8%', 
+    trendUp: true, 
+    icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>' 
+  }
+])
 
 const healthMetrics = [
   { name: 'AI Analyzer Status', desc: 'Latency: 124ms', status: 'Optimal', colorClass: 'bg-[#D0E3FF] text-[#081F5C]', icon: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>' },

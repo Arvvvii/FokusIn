@@ -1,7 +1,38 @@
 <template>
   <div class="space-y-6 animate-in fade-in duration-500">
     
-    <div class="flex flex-col xl:flex-row gap-8 items-start">
+    <!-- Loading State -->
+    <div v-if="loading" class="card-base p-8 text-center flex flex-col items-center justify-center min-h-[300px]">
+      <svg class="animate-spin h-10 w-10 text-[#334EAC] mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+      </svg>
+      <span class="text-sm font-bold text-slate-500">Memuat detail kuis...</span>
+    </div>
+
+    <!-- Error State -->
+    <div v-else-if="error" class="card-base p-8 text-center flex flex-col items-center justify-center min-h-[300px] border-rose-100 bg-rose-50/50">
+      <div class="w-16 h-16 rounded-full bg-rose-100 text-rose-600 flex items-center justify-center mb-4">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+        </svg>
+      </div>
+      <h3 class="text-lg font-bold text-rose-950 mb-2">Gagal Memuat Kuis</h3>
+      <p class="text-sm text-rose-800 mb-6">{{ error }}</p>
+      <button @click="fetchQuiz" class="px-6 py-2.5 bg-[#334EAC] hover:bg-[#081F5C] text-white rounded-xl font-bold text-xs shadow-sm transition-all active:scale-95">
+        Coba Lagi
+      </button>
+    </div>
+
+    <!-- Empty State -->
+    <div v-else-if="!quizData || !questions.length" class="card-base p-8 text-center flex flex-col items-center justify-center min-h-[300px]">
+      <p class="text-sm font-bold text-slate-500">Kuis tidak memiliki pertanyaan.</p>
+      <button @click="saveAndExit" class="mt-4 px-6 py-2 bg-slate-900 hover:bg-slate-800 text-white rounded-xl font-bold text-xs shadow-sm">
+        Kembali ke Daftar Kuis
+      </button>
+    </div>
+    
+    <div v-else class="flex flex-col xl:flex-row gap-8 items-start">
       
       <!-- Left Panel: Main Exam Area -->
       <div class="w-full xl:w-[70%] space-y-6">
@@ -20,15 +51,15 @@
           
           <div class="flex items-center gap-3 px-5 py-3 bg-[#F7F2EB] rounded-2xl border border-amber-100 shrink-0">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F59E0B" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-            <span class="text-[17px] font-bold text-slate-900 tracking-tight">24:15</span>
+            <span class="text-[17px] font-bold text-slate-900 tracking-tight">{{ formattedTime }}</span>
           </div>
         </div>
 
         <!-- Question Content -->
         <div class="card-base p-7 md:p-8 relative overflow-hidden">
           <div class="flex items-start justify-between gap-4 mb-8">
-            <h1 class="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">
-              Sebuah silinder pejal bermassa <span class="font-mono text-[#334EAC] bg-[#EDF1F6] px-1.5 py-0.5 rounded">M</span> dan berjari-jari <span class="font-mono text-[#334EAC] bg-[#EDF1F6] px-1.5 py-0.5 rounded">R</span> menggelinding tanpa slip menuruni bidang miring dengan sudut <span class="font-mono text-[#334EAC] bg-[#EDF1F6] px-1.5 py-0.5 rounded">θ</span>. Berapakah percepatan linearnya?
+            <h1 class="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight" v-if="currentQuestionData">
+              {{ currentQuestionData.content }}
             </h1>
             <button @click="toggleFlag" class="w-10 h-10 rounded-xl bg-slate-50 border flex items-center justify-center transition-colors shrink-0" :class="isFlagged ? 'border-rose-200 text-rose-500 bg-rose-50' : 'border-slate-200 text-slate-400 hover:text-rose-500 hover:bg-rose-50 hover:border-rose-200'" title="Tandai untuk ditinjau">
               <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" :class="{ 'fill-rose-500': isFlagged }"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" x2="4" y1="22" y2="15"/></svg>
@@ -36,33 +67,20 @@
           </div>
 
           <!-- Answer Options -->
-          <div class="space-y-4 mb-10">
-            <!-- Option A -->
-            <label class="flex items-center gap-4 p-5 rounded-2xl border-[2px] cursor-pointer transition-all group" :class="selectedAnswer === 'A' ? 'border-[#334EAC] bg-[#EDF1F6] shadow-sm' : 'border-slate-100 bg-white hover:border-[#7096D1] hover:bg-[#F7F2EB]/30'">
-              <div class="w-8 h-8 rounded-lg flex items-center justify-center text-[13px] font-bold transition-colors" :class="selectedAnswer === 'A' ? 'bg-[#334EAC] border-[#081F5C] text-white shadow-inner' : 'bg-slate-100 border-slate-200 text-slate-500 group-hover:bg-white group-hover:text-[#334EAC]'">A</div>
-              <input type="radio" name="answer" value="A" v-model="selectedAnswer" class="sr-only" @change="markAnswered">
-              <span class="text-[16px] font-bold transition-colors" :class="selectedAnswer === 'A' ? 'text-slate-900' : 'text-slate-600 group-hover:text-slate-900'">g sin(θ)</span>
-            </label>
-
-            <!-- Option B -->
-            <label class="flex items-center gap-4 p-5 rounded-2xl border-[2px] cursor-pointer transition-all group" :class="selectedAnswer === 'B' ? 'border-[#334EAC] bg-[#EDF1F6] shadow-sm' : 'border-slate-100 bg-white hover:border-[#7096D1] hover:bg-[#F7F2EB]/30'">
-              <div class="w-8 h-8 rounded-lg flex items-center justify-center text-[13px] font-bold transition-colors" :class="selectedAnswer === 'B' ? 'bg-[#334EAC] border-[#081F5C] text-white shadow-inner' : 'bg-slate-100 border-slate-200 text-slate-500 group-hover:bg-white group-hover:text-[#334EAC]'">B</div>
-              <input type="radio" name="answer" value="B" v-model="selectedAnswer" class="sr-only" @change="markAnswered">
-              <span class="text-[16px] font-bold transition-colors" :class="selectedAnswer === 'B' ? 'text-slate-900' : 'text-slate-600 group-hover:text-slate-900'">(1/2) g sin(θ)</span>
-            </label>
-
-            <!-- Option C -->
-            <label class="flex items-center gap-4 p-5 rounded-2xl border-[2px] cursor-pointer transition-all group" :class="selectedAnswer === 'C' ? 'border-[#334EAC] bg-[#EDF1F6] shadow-sm' : 'border-slate-100 bg-white hover:border-[#7096D1] hover:bg-[#F7F2EB]/30'">
-              <div class="w-8 h-8 rounded-lg flex items-center justify-center text-[13px] font-bold transition-colors" :class="selectedAnswer === 'C' ? 'bg-[#334EAC] border-[#081F5C] text-white shadow-inner' : 'bg-slate-100 border-slate-200 text-slate-500 group-hover:bg-white group-hover:text-[#334EAC]'">C</div>
-              <input type="radio" name="answer" value="C" v-model="selectedAnswer" class="sr-only" @change="markAnswered">
-              <span class="text-[16px] font-bold transition-colors" :class="selectedAnswer === 'C' ? 'text-slate-900' : 'text-slate-600 group-hover:text-slate-900'">(2/3) g sin(θ)</span>
-            </label>
-
-            <!-- Option D -->
-            <label class="flex items-center gap-4 p-5 rounded-2xl border-[2px] cursor-pointer transition-all group" :class="selectedAnswer === 'D' ? 'border-[#334EAC] bg-[#EDF1F6] shadow-sm' : 'border-slate-100 bg-white hover:border-[#7096D1] hover:bg-[#F7F2EB]/30'">
-              <div class="w-8 h-8 rounded-lg flex items-center justify-center text-[13px] font-bold transition-colors" :class="selectedAnswer === 'D' ? 'bg-[#334EAC] border-[#081F5C] text-white shadow-inner' : 'bg-slate-100 border-slate-200 text-slate-500 group-hover:bg-white group-hover:text-[#334EAC]'">D</div>
-              <input type="radio" name="answer" value="D" v-model="selectedAnswer" class="sr-only" @change="markAnswered">
-              <span class="text-[16px] font-bold transition-colors" :class="selectedAnswer === 'D' ? 'text-slate-900' : 'text-slate-600 group-hover:text-slate-900'">(3/4) g sin(θ)</span>
+          <div class="space-y-4 mb-10" v-if="currentQuestionData">
+            <label 
+              v-for="(optionText, optionKey) in currentQuestionData.options" 
+              :key="optionKey"
+              class="flex items-center gap-4 p-5 rounded-2xl border-[2px] cursor-pointer transition-all group" 
+              :class="selectedAnswer === optionKey ? 'border-[#334EAC] bg-[#EDF1F6] shadow-sm' : 'border-slate-100 bg-white hover:border-[#7096D1] hover:bg-[#F7F2EB]/30'"
+            >
+              <div class="w-8 h-8 rounded-lg flex items-center justify-center text-[13px] font-bold transition-colors" :class="selectedAnswer === optionKey ? 'bg-[#334EAC] border-[#081F5C] text-white shadow-inner' : 'bg-slate-100 border-slate-200 text-slate-500 group-hover:bg-white group-hover:text-[#334EAC]'">
+                {{ optionKey }}
+              </div>
+              <input type="radio" :name="'answer_' + currentQuestionData.id" :value="optionKey" v-model="selectedAnswer" class="sr-only" @change="markAnswered">
+              <span class="text-[16px] font-bold transition-colors" :class="selectedAnswer === optionKey ? 'text-slate-900' : 'text-slate-600 group-hover:text-slate-900'">
+                {{ optionText }}
+              </span>
             </label>
           </div>
 
@@ -76,9 +94,10 @@
               Pertanyaan Selanjutnya
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
             </button>
-            <button v-else @click="submitQuiz" class="px-8 py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-bold text-[14px] transition-all shadow-[0_4px_15px_rgba(5,150,105,0.15)] flex items-center gap-2 active:scale-95">
-              Selesaikan Kuis
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            <button v-else @click="submitQuiz" :disabled="submitting" class="px-8 py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-bold text-[14px] transition-all shadow-[0_4px_15px_rgba(5,150,105,0.15)] flex items-center gap-2 active:scale-95 disabled:opacity-50">
+              <span v-if="!submitting">Selesaikan Kuis</span>
+              <span v-else>Mengirim...</span>
+              <svg v-if="!submitting" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
             </button>
           </div>
         </div>
@@ -127,18 +146,19 @@
           </h3>
           <p class="text-[12px] font-medium text-slate-500 mb-4 relative z-10 leading-relaxed">Terkendala pada masalah ini? Minta petunjuk struktural tanpa kehilangan poin penuh.</p>
           <button v-if="!showHint" @click="showHint = true" class="w-full py-2.5 bg-white border border-amber-200 hover:border-amber-400 text-amber-600 rounded-xl font-bold text-[12px] transition-colors shadow-sm relative z-10 active:scale-95">
-            Tampilkan Petunjuk (-5 poin)
+            Tampilkan Petunjuk
           </button>
           <div v-else class="p-3 bg-amber-50 border border-amber-200 text-amber-800 text-[12px] rounded-xl font-medium animate-in slide-in-from-top-2">
-            <strong>Petunjuk:</strong> Gunakan hukum kekekalan energi mekanik, di mana energi potensial awal sama dengan jumlah energi kinetik translasi dan rotasi di akhir.
+            <strong>Petunjuk:</strong> Pikirkan tentang prinsip dasar dari topik ini untuk menemukan jawaban yang paling logis.
           </div>
         </div>
 
         <!-- Submit CTA -->
         <div class="pt-4 space-y-3">
-          <button @click="submitQuiz" class="w-full py-4 bg-[#334EAC] hover:bg-[#081F5C] text-white rounded-2xl font-bold text-[15px] transition-all shadow-[0_4px_15px_rgba(51,78,172,0.15)] active:scale-95 flex items-center justify-center gap-2">
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="m9 11 3 3L22 4"/></svg>
-            Kumpulkan Kuis
+          <button @click="submitQuiz" :disabled="submitting" class="w-full py-4 bg-[#334EAC] hover:bg-[#081F5C] text-white rounded-2xl font-bold text-[15px] transition-all shadow-[0_4px_15px_rgba(51,78,172,0.15)] active:scale-95 flex items-center justify-center gap-2 disabled:opacity-50">
+            <span v-if="!submitting">Kumpulkan Kuis</span>
+            <span v-else>Mengirim...</span>
+            <svg v-if="!submitting" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="m9 11 3 3L22 4"/></svg>
           </button>
           <button @click="saveAndExit" class="w-full py-3.5 bg-white border border-slate-200 hover:border-slate-300 hover:text-[#081F5C] text-slate-500 rounded-2xl font-bold text-[13px] transition-all shadow-sm active:scale-95">
             Simpan & Keluar
@@ -152,25 +172,96 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
+import { quizService } from '@/services/quiz.service'
 
 const router = useRouter()
 const route = useRoute()
 
-const totalQuestions = 15
-const currentQuestion = ref(4)
+const loading = ref(false)
+const error = ref(null)
+const quizData = ref(null)
+const questions = ref([])
+const userAnswers = ref({})
+
+const totalQuestions = computed(() => questions.value.length)
+const currentQuestion = ref(1)
 const showHint = ref(false)
-const flaggedQuestions = ref([5])
-const answeredQuestions = ref([1, 2, 3])
-const selectedAnswer = ref('C') 
+const flaggedQuestions = ref([])
+const answeredQuestions = ref([])
+
+const currentQuestionData = computed(() => {
+  return questions.value[currentQuestion.value - 1] || null
+})
 
 const progressPercentage = computed(() => {
-  return Math.round((currentQuestion.value / totalQuestions) * 100)
+  if (totalQuestions.value === 0) return 0
+  return Math.round((currentQuestion.value / totalQuestions.value) * 100)
 })
 
 const isFlagged = computed(() => {
   return flaggedQuestions.value.includes(currentQuestion.value)
+})
+
+const selectedAnswer = computed({
+  get() {
+    return currentQuestionData.value ? (userAnswers.value[currentQuestionData.value.id] || '') : ''
+  },
+  set(val) {
+    if (currentQuestionData.value) {
+      userAnswers.value[currentQuestionData.value.id] = val
+    }
+  }
+})
+
+// Timer state (30 minutes default)
+const timeLeft = ref(1800)
+const formattedTime = computed(() => {
+  const minutes = Math.floor(timeLeft.value / 60)
+  const seconds = timeLeft.value % 60
+  return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`
+})
+
+let timerInterval = null
+
+const startTimer = () => {
+  timerInterval = setInterval(() => {
+    if (timeLeft.value > 0) {
+      timeLeft.value--
+    } else {
+      clearInterval(timerInterval)
+      submitQuiz()
+    }
+  }, 1000)
+}
+
+const fetchQuiz = async () => {
+  loading.value = true
+  error.value = null
+  try {
+    const res = await quizService.getQuizById(route.params.id)
+    quizData.value = res
+    questions.value = res.questions || []
+    
+    // Automatically set timer: 2 minutes per question
+    timeLeft.value = (res.questions?.length || 10) * 120
+    startTimer()
+  } catch (err) {
+    error.value = err
+  } finally {
+    loading.value = false
+  }
+}
+
+onMounted(() => {
+  fetchQuiz()
+})
+
+onUnmounted(() => {
+  if (timerInterval) {
+    clearInterval(timerInterval)
+  }
 })
 
 const getGridClass = (n) => {
@@ -187,7 +278,7 @@ const getGridClass = (n) => {
 }
 
 const markAnswered = () => {
-  if (!answeredQuestions.value.includes(currentQuestion.value)) {
+  if (currentQuestionData.value && !answeredQuestions.value.includes(currentQuestion.value)) {
     answeredQuestions.value.push(currentQuestion.value)
   }
 }
@@ -202,40 +293,49 @@ const toggleFlag = () => {
 }
 
 const nextQuestion = () => {
-  if (currentQuestion.value < totalQuestions) {
+  if (currentQuestion.value < totalQuestions.value) {
     currentQuestion.value++
-    resetLocalState()
+    showHint.value = false
   }
 }
 
 const prevQuestion = () => {
   if (currentQuestion.value > 1) {
     currentQuestion.value--
-    resetLocalState()
+    showHint.value = false
   }
 }
 
 const goToQuestion = (n) => {
   currentQuestion.value = n
-  resetLocalState()
+  showHint.value = false
 }
 
-const resetLocalState = () => {
-  showHint.value = false
-  // Logic to preserve selected answer would go here in a real app
-  if (!answeredQuestions.value.includes(currentQuestion.value)) {
-    selectedAnswer.value = ''
-  } else {
-    // Mock value for already answered
-    selectedAnswer.value = 'A'
+const submitting = ref(false)
+const submitQuiz = async () => {
+  if (submitting.value) return
+  
+  // Optional confirmation dialog if time remains
+  if (timeLeft.value > 0) {
+    const confirmSubmit = confirm('Apakah Anda yakin ingin menyelesaikan kuis?')
+    if (!confirmSubmit) return
+  }
+
+  submitting.value = true
+  try {
+    const response = await quizService.submitAttempt(route.params.id, userAnswers.value)
+    sessionStorage.setItem(`quiz_attempt_${route.params.id}`, JSON.stringify(response))
+    router.push(`/pelajar/quiz/${route.params.id}/result`)
+  } catch (err) {
+    alert(err || 'Gagal mengirim jawaban kuis.')
+  } finally {
+    submitting.value = false
   }
 }
 
-const submitQuiz = () => {
-  router.push(`/pelajar/quiz/${route.params.id || 1}/result`)
-}
-
 const saveAndExit = () => {
-  router.push('/pelajar/quiz')
+  if (confirm('Keluar dari kuis? Progress jawaban saat ini tidak akan disimpan di server.')) {
+    router.push('/pelajar/quiz')
+  }
 }
 </script>

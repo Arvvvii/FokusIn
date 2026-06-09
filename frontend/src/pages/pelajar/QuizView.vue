@@ -45,7 +45,7 @@
             <h2 class="text-2xl font-bold text-white mb-2 tracking-tight">Cek Penguasaan Kinematika</h2>
             <p class="text-[#BAD6EB] text-[14px] font-medium leading-relaxed max-w-md">Berdasarkan analisis ujian terbarumu, kami telah membuat kuis 15 pertanyaan untuk memperkuat pemahamanmu tentang Momentum Sudut.</p>
           </div>
-          <RouterLink to="/pelajar/quiz/1" class="w-full md:w-auto px-8 py-3.5 bg-white hover:bg-slate-50 text-slate-900 rounded-2xl font-bold text-[14px] transition-all shadow-lg active:scale-95 shrink-0 text-center whitespace-nowrap">
+          <RouterLink :to="quizzes.length > 0 ? '/pelajar/quiz/' + quizzes[0].id : '/pelajar/quiz'" class="w-full md:w-auto px-8 py-3.5 bg-white hover:bg-slate-50 text-slate-900 rounded-2xl font-bold text-[14px] transition-all shadow-lg active:scale-95 shrink-0 text-center whitespace-nowrap">
             Mulai Kuis Sekarang
           </RouterLink>
         </div>
@@ -91,31 +91,89 @@
     <!-- 4. Quiz Grid -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
       
-      <!-- Quiz Card 1 -->
-      <RouterLink to="/pelajar/quiz/1" class="card-base quiz-card p-6 group flex flex-col h-full cursor-pointer relative overflow-hidden">
+      <!-- Loading State -->
+      <template v-if="loading">
+        <div v-for="n in 4" :key="n" class="card-base flex flex-col h-full opacity-70 animate-pulse p-6">
+          <div class="w-12 h-12 bg-slate-200 rounded-2xl mb-5"></div>
+          <div class="h-6 bg-slate-200 rounded w-3/4 mb-4"></div>
+          <div class="h-4 bg-slate-200 rounded w-full mb-2"></div>
+          <div class="h-4 bg-slate-200 rounded w-2/3 mb-6"></div>
+          <div class="flex items-center justify-between pt-5 border-t border-slate-100 mt-auto">
+            <div class="h-4 bg-slate-200 rounded w-1/3"></div>
+            <div class="w-8 h-8 rounded-full bg-slate-200"></div>
+          </div>
+        </div>
+      </template>
+
+      <!-- Error State -->
+      <div v-else-if="error" class="col-span-full py-12 flex flex-col items-center justify-center bg-rose-50/50 border border-rose-100 rounded-3xl p-8">
+        <div class="w-16 h-16 rounded-full bg-rose-100 text-rose-600 flex items-center justify-center mb-4">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+          </svg>
+        </div>
+        <h3 class="text-lg font-bold text-rose-950 mb-2">Gagal Memuat Kuis</h3>
+        <p class="text-sm text-rose-800 text-center max-w-md mb-6">{{ error }}</p>
+        <button @click="fetchQuizzes" class="px-6 py-2.5 bg-[#334EAC] hover:bg-[#081F5C] text-white rounded-xl font-bold text-xs shadow-sm transition-all active:scale-95">
+          Coba Lagi
+        </button>
+      </div>
+
+      <!-- Empty State -->
+      <div v-else-if="filteredQuizzes.length === 0" class="col-span-full">
+        <EmptyState
+          title="Tidak Ada Kuis"
+          description="Tidak ditemukan kuis yang cocok dengan kriteria pencarian Anda."
+        >
+          <template #icon>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-[#334EAC]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/>
+            </svg>
+          </template>
+        </EmptyState>
+      </div>
+
+      <!-- Quiz Card -->
+      <RouterLink 
+        v-else
+        v-for="quiz in filteredQuizzes" 
+        :key="quiz.id" 
+        :to="`/pelajar/quiz/${quiz.id}`" 
+        class="card-base quiz-card p-6 group flex flex-col h-full cursor-pointer relative overflow-hidden"
+      >
         <div class="absolute top-0 right-0 w-24 h-24 bg-[#7096D1]/10 rounded-bl-full pointer-events-none group-hover:bg-[#7096D1]/20 transition-colors"></div>
         
         <div class="flex items-center justify-between mb-5 relative z-10">
           <div class="w-12 h-12 rounded-2xl bg-[#F7F2EB] flex items-center justify-center text-amber-600 border border-amber-100 group-hover:scale-110 transition-transform">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2v20"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/>
+              <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+              <line x1="12" y1="17" x2="12.01" y2="17"/>
+            </svg>
           </div>
-          <span class="quiz-difficulty diff-hard px-2.5 py-1 text-[10px] font-extrabold rounded-md uppercase tracking-widest">Sulit</span>
+          <span class="quiz-difficulty diff-medium px-2.5 py-1 text-[10px] font-extrabold rounded-md uppercase tracking-widest">
+            {{ quiz.category?.name || 'Umum' }}
+          </span>
         </div>
 
         <div class="mb-6 flex-1 relative z-10">
-          <h3 class="text-[17px] font-bold text-slate-900 mb-2 group-hover:text-[#334EAC] transition-colors leading-snug tracking-tight">Kalkulus: Teknik Integrasi</h3>
-          <p class="text-[13px] font-medium text-slate-500 line-clamp-2">Integrasi parsial lanjutan dan substitusi trigonometri.</p>
+          <h3 class="text-[17px] font-bold text-slate-900 mb-2 group-hover:text-[#334EAC] transition-colors leading-snug tracking-tight">
+            {{ quiz.title }}
+          </h3>
+          <p class="text-[13px] font-medium text-slate-500 line-clamp-2">
+            Uji pemahamanmu tentang {{ quiz.title }} dengan kuis ini.
+          </p>
         </div>
 
         <div class="flex items-center justify-between pt-5 border-t border-slate-100/80 relative z-10">
           <div class="flex items-center gap-4">
             <div class="stat-badge flex items-center gap-1.5 text-[12px] font-bold text-slate-400">
               <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h20"/><path d="m15 5 7 7-7 7"/></svg>
-              20 Soal
+              10 Soal
             </div>
             <div class="stat-badge flex items-center gap-1.5 text-[12px] font-bold text-slate-400">
               <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-              45m
+              20m
             </div>
           </div>
           <div class="w-8 h-8 rounded-full bg-[#EDF1F6] flex items-center justify-center text-[#334EAC] group-hover:bg-[#334EAC] group-hover:text-white transition-colors">
@@ -123,80 +181,56 @@
           </div>
         </div>
       </RouterLink>
-
-      <!-- Quiz Card 2 (In Progress) -->
-      <RouterLink to="/pelajar/quiz/2" class="card-base quiz-card p-6 border-[#334EAC]/30 group flex flex-col h-full cursor-pointer relative overflow-hidden ring-1 ring-[#334EAC]/5">
-        <div class="absolute top-0 right-0 w-24 h-24 bg-[#7096D1]/10 rounded-bl-full pointer-events-none group-hover:bg-[#7096D1]/20 transition-colors"></div>
-        
-        <div class="flex items-center justify-between mb-5 relative z-10">
-          <div class="w-12 h-12 rounded-2xl bg-emerald-50 flex items-center justify-center text-emerald-600 border border-emerald-100 group-hover:scale-110 transition-transform">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>
-          </div>
-          <span class="quiz-difficulty diff-progress px-2.5 py-1 text-[10px] font-extrabold rounded-md uppercase tracking-widest animate-pulse">Sedang Berjalan</span>
-        </div>
-
-        <div class="mb-6 flex-1 relative z-10">
-          <h3 class="text-[17px] font-bold text-slate-900 mb-2 group-hover:text-[#334EAC] transition-colors leading-snug tracking-tight">Struktur Data: Trees</h3>
-          <p class="text-[13px] font-medium text-slate-500 mb-4 line-clamp-1">Binary Search Trees dan AVL.</p>
-          <!-- Progress Bar -->
-          <div class="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden">
-            <div class="h-full bg-[#334EAC] w-[65%] rounded-full"></div>
-          </div>
-          <p class="text-[11px] font-bold text-slate-400 mt-2">13 dari 20 terjawab</p>
-        </div>
-
-        <div class="flex items-center justify-between pt-5 border-t border-slate-100/80 relative z-10">
-          <span class="text-[13px] font-bold text-[#334EAC]">Lanjutkan Kuis</span>
-          <div class="w-8 h-8 rounded-full bg-[#EDF1F6] flex items-center justify-center text-[#334EAC] group-hover:bg-[#334EAC] group-hover:text-white transition-colors">
-            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
-          </div>
-        </div>
-      </RouterLink>
-
-      <!-- Quiz Card 3 -->
-      <RouterLink to="/pelajar/quiz/3" class="card-base quiz-card p-6 group flex flex-col h-full cursor-pointer relative overflow-hidden">
-        <div class="absolute top-0 right-0 w-24 h-24 bg-[#7096D1]/10 rounded-bl-full pointer-events-none group-hover:bg-[#7096D1]/20 transition-colors"></div>
-        
-        <div class="flex items-center justify-between mb-5 relative z-10">
-          <div class="w-12 h-12 rounded-2xl bg-[#F7F2EB] flex items-center justify-center text-amber-600 border border-amber-100 group-hover:scale-110 transition-transform">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
-          </div>
-          <span class="quiz-difficulty diff-medium px-2.5 py-1 text-[10px] font-extrabold rounded-md uppercase tracking-widest">Sedang</span>
-        </div>
-
-        <div class="mb-6 flex-1 relative z-10">
-          <h3 class="text-[17px] font-bold text-slate-900 mb-2 group-hover:text-[#334EAC] transition-colors leading-snug tracking-tight">Dasar Elektromagnetisme</h3>
-          <p class="text-[13px] font-medium text-slate-500 line-clamp-2">Persamaan Maxwell dan teori rangkaian dasar.</p>
-        </div>
-
-        <div class="flex items-center justify-between pt-5 border-t border-slate-100/80 relative z-10">
-          <div class="flex items-center gap-4">
-            <div class="stat-badge flex items-center gap-1.5 text-[12px] font-bold text-slate-400">
-              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h20"/><path d="m15 5 7 7-7 7"/></svg>
-              15 Soal
-            </div>
-            <div class="stat-badge flex items-center gap-1.5 text-[12px] font-bold text-slate-400">
-              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-              30m
-            </div>
-          </div>
-          <div class="w-8 h-8 rounded-full bg-[#EDF1F6] flex items-center justify-center text-[#334EAC] group-hover:bg-[#334EAC] group-hover:text-white transition-colors">
-            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
-          </div>
-        </div>
-      </RouterLink>
-
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { RouterLink } from 'vue-router'
+import { quizService } from '@/services/quiz.service'
+import EmptyState from '@/components/shared/EmptyState.vue'
 
 const searchQuery = ref('')
 const activeCategory = ref('Semua Kuis')
-const categories = ['Semua Kuis', 'Fisika', 'Matematika', 'Ilmu Komputer', 'Biologi']
+
+const loading = ref(false)
+const error = ref(null)
+const quizzes = ref([])
+
+const fetchQuizzes = async () => {
+  loading.value = true
+  error.value = null
+  try {
+    const res = await quizService.getQuizzes()
+    quizzes.value = res.data || []
+  } catch (err) {
+    error.value = err
+  } finally {
+    loading.value = false
+  }
+}
+
+onMounted(() => {
+  fetchQuizzes()
+})
+
+const categories = computed(() => {
+  const list = new Set(quizzes.value.map(q => q.category?.name).filter(Boolean))
+  return ['Semua Kuis', ...list]
+})
+
+const filteredQuizzes = computed(() => {
+  return quizzes.value.filter(quiz => {
+    const matchSearch = !searchQuery.value || 
+      quiz.title.toLowerCase().includes(searchQuery.value.toLowerCase())
+      
+    const matchCategory = activeCategory.value === 'Semua Kuis' || 
+      quiz.category?.name === activeCategory.value
+      
+    return matchSearch && matchCategory
+  })
+})
 </script>
 
 <style scoped>

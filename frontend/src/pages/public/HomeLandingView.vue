@@ -103,20 +103,36 @@
           </div>
 
           <div class="stats-bar hidden md:flex mx-auto lg:mx-0">
-            <div class="stat-item">
-              <span class="stat-number">2,400+</span>
-              <span class="stat-label">Mahasiswa Aktif</span>
-            </div>
-            <div class="stat-divider"></div>
-            <div class="stat-item">
-              <span class="stat-number">850+</span>
-              <span class="stat-label">Diskusi Forum</span>
-            </div>
-            <div class="stat-divider"></div>
-            <div class="stat-item">
-              <span class="stat-number">120+</span>
-              <span class="stat-label">Mentor</span>
-            </div>
+            <template v-if="loading">
+              <div v-for="n in 3" :key="n" class="stat-item flex flex-col items-center">
+                <div class="h-6 w-16 skeleton-bar mb-2"></div>
+                <div class="h-3 w-20 skeleton-bar"></div>
+              </div>
+            </template>
+            <template v-else-if="error">
+              <div class="w-full flex items-center justify-between px-4">
+                <span class="text-xs font-bold text-rose-600">Gagal memuat statistik.</span>
+                <button @click="fetchStats" class="px-3 py-1.5 bg-[#334EAC] hover:bg-[#081F5C] text-white rounded-lg font-bold text-xs shadow-sm transition-all active:scale-95">
+                  Coba Lagi
+                </button>
+              </div>
+            </template>
+            <template v-else>
+              <div class="stat-item">
+                <span class="stat-number">{{ stats.total_users?.toLocaleString() || 0 }}+</span>
+                <span class="stat-label">Mahasiswa Aktif</span>
+              </div>
+              <div class="stat-divider"></div>
+              <div class="stat-item">
+                <span class="stat-number">{{ stats.total_posts?.toLocaleString() || 0 }}+</span>
+                <span class="stat-label">Diskusi Forum</span>
+              </div>
+              <div class="stat-divider"></div>
+              <div class="stat-item">
+                <span class="stat-number">{{ stats.total_exam_uploads?.toLocaleString() || 0 }}+</span>
+                <span class="stat-label">Arsip Ujian</span>
+              </div>
+            </template>
           </div>
         </div>
 
@@ -192,28 +208,46 @@
       <section class="bg-[#081F5C] py-16 relative overflow-hidden">
         <!-- Decoration -->
         <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full h-px bg-gradient-to-r from-transparent via-[#334EAC] to-transparent"></div>
-        <div class="max-w-7xl mx-auto px-6 grid grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12">
-          
-          <div class="text-center">
-            <div class="text-4xl md:text-5xl font-black text-white mb-2">25K+</div>
-            <div class="text-[13px] font-bold text-[#BAD6EB] uppercase tracking-widest">Mahasiswa Aktif</div>
-          </div>
-          
-          <div class="text-center">
-            <div class="text-4xl md:text-5xl font-black text-white mb-2">150+</div>
-            <div class="text-[13px] font-bold text-[#BAD6EB] uppercase tracking-widest">Mentor Akademik</div>
-          </div>
-          
-          <div class="text-center">
-            <div class="text-4xl md:text-5xl font-black text-white mb-2">92%</div>
-            <div class="text-[13px] font-bold text-[#BAD6EB] uppercase tracking-widest">Tingkat Kepuasan</div>
-          </div>
-          
-          <div class="text-center">
-            <div class="text-4xl md:text-5xl font-black text-white mb-2">12+</div>
-            <div class="text-[13px] font-bold text-[#BAD6EB] uppercase tracking-widest">Fitur AI Belajar</div>
-          </div>
-
+        <div class="max-w-7xl mx-auto px-6">
+          <template v-if="loading">
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12">
+              <div v-for="n in 4" :key="n" class="text-center">
+                <div class="h-10 w-24 bg-white/20 rounded-lg mx-auto mb-2 animate-pulse"></div>
+                <div class="h-4 w-32 bg-white/10 rounded-lg mx-auto animate-pulse"></div>
+              </div>
+            </div>
+          </template>
+          <template v-else-if="error">
+            <div class="flex flex-col items-center justify-center gap-4 text-center">
+              <span class="text-sm font-bold text-[#BAD6EB]">Gagal memuat data statistik.</span>
+              <button @click="fetchStats" class="px-4 py-2 bg-white hover:bg-[#F7F2EB] text-[#081F5C] rounded-xl font-bold text-xs shadow-sm transition-all active:scale-95">
+                Coba Lagi
+              </button>
+            </div>
+          </template>
+          <template v-else>
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12">
+              <div class="text-center">
+                <div class="text-4xl md:text-5xl font-black text-white mb-2">{{ stats.total_users?.toLocaleString() || 0 }}</div>
+                <div class="text-[13px] font-bold text-[#BAD6EB] uppercase tracking-widest">Mahasiswa Aktif</div>
+              </div>
+              
+              <div class="text-center">
+                <div class="text-4xl md:text-5xl font-black text-white mb-2">{{ stats.total_posts?.toLocaleString() || 0 }}</div>
+                <div class="text-[13px] font-bold text-[#BAD6EB] uppercase tracking-widest">Diskusi Forum</div>
+              </div>
+              
+              <div class="text-center">
+                <div class="text-4xl md:text-5xl font-black text-white mb-2">92%</div>
+                <div class="text-[13px] font-bold text-[#BAD6EB] uppercase tracking-widest">Tingkat Kepuasan</div>
+              </div>
+              
+              <div class="text-center">
+                <div class="text-4xl md:text-5xl font-black text-white mb-2">{{ stats.total_exam_uploads?.toLocaleString() || 0 }}</div>
+                <div class="text-[13px] font-bold text-[#BAD6EB] uppercase tracking-widest">Arsip Ujian</div>
+              </div>
+            </div>
+          </template>
         </div>
       </section>
 
@@ -492,13 +526,39 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { RouterLink } from 'vue-router'
+import { statsService } from '@/services/stats.service'
 
 const isMobileMenuOpen = ref(false)
 const toggleMobileMenu = () => {
   isMobileMenuOpen.value = !isMobileMenuOpen.value
 }
+
+const loading = ref(false)
+const error = ref(null)
+const stats = ref({
+  total_users: 0,
+  total_posts: 0,
+  total_exam_uploads: 0
+})
+
+const fetchStats = async () => {
+  loading.value = true
+  error.value = null
+  try {
+    const data = await statsService.getGlobalStats()
+    stats.value = data
+  } catch (err) {
+    error.value = err
+  } finally {
+    loading.value = false
+  }
+}
+
+onMounted(() => {
+  fetchStats()
+})
 </script>
 
 <style scoped>
