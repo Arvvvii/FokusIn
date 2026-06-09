@@ -22,4 +22,11 @@ class Post extends Model
     public function votes() {
         return $this->hasMany(Vote::class);
     }
+
+    /**
+     * Relasi ke komentar/jawaban (child posts via parent_id).
+     */
+    public function comments() {
+        return $this->hasMany(Post::class, 'parent_id');
+    }
 }
