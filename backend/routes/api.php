@@ -5,8 +5,10 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ExamUploadController;
 use App\Http\Controllers\AIPatternController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MaterialController;
 use App\Http\Controllers\MentoringController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\QuizController;
 use App\Http\Controllers\TestimonialController;
 use App\Http\Controllers\TutorController;
@@ -35,6 +37,7 @@ Route::prefix('auth')->middleware('throttle:10,1')->group(function () {
 // Q&A / Forum Kategori & Postingan
 Route::get('/categories', [PostController::class, 'categories']);
 Route::get('/posts', [PostController::class, 'index']);
+Route::get('/posts/{id}', [PostController::class, 'show']);
 
 // Statistik Global Sistem
 Route::get('/global-stats', [UserController::class, 'globalStats']);
@@ -68,8 +71,18 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/posts/{id}/verify', [PostController::class, 'verify']);
     Route::post('/posts/{id}/best-answer', [PostController::class, 'setBestAnswer']);
 
-    // Profil User Detail
+    // Profil User (Detail & Edit)
     Route::get('/users/{id}/profile', [UserController::class, 'profile']);
+    Route::put('/users/{id}', [UserController::class, 'updateProfile']);
+
+    // Dashboard Pelajar & Tutor
+    Route::get('/student/dashboard', [DashboardController::class, 'student']);
+    Route::get('/tutor/dashboard', [DashboardController::class, 'tutor']);
+
+    // Notifikasi
+    Route::get('/notifications', [NotificationController::class, 'index']);
+    Route::post('/notifications/{id}/read', [NotificationController::class, 'markAsRead']);
+    Route::post('/notifications/read-all', [NotificationController::class, 'markAllAsRead']);
 
     // Unggah Arsip Ujian (Exam Uploads)
     Route::get('/exam-uploads', [ExamUploadController::class, 'index']);
