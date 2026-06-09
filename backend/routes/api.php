@@ -94,6 +94,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/mentoring/requests', [MentoringController::class, 'store']);
     Route::post('/mentoring/sessions', [MentoringController::class, 'store']);
     Route::patch('/mentoring/sessions/{id}/status', [MentoringController::class, 'updateStatus']);
+    Route::patch('/mentoring/sessions/{id}/update-details', [MentoringController::class, 'updateDetails']);
 
     // Tutor Details
     Route::get('/tutors/{id}', [TutorController::class, 'show']);
