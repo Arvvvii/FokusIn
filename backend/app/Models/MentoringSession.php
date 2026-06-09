@@ -8,6 +8,12 @@ class MentoringSession extends Model
 {
     protected $guarded = ['id'];
 
+    protected $casts = [
+        'files' => 'array',
+        'agenda_checklist' => 'array',
+        'scheduled_at' => 'datetime',
+    ];
+
     /**
      * Relasi ke User sebagai Tutor.
      */

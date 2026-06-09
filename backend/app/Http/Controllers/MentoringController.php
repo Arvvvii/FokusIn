@@ -24,6 +24,41 @@ class MentoringController extends Controller
     }
 
     /**
+     * Mengambil sesi mentoring milik user login (bisa sebagai student atau tutor).
+     * PROTECTED — memerlukan auth:sanctum.
+     */
+    public function getSessions(Request $request)
+    {
+        $user = auth()->user();
+        
+        $sessions = MentoringSession::where('student_id', $user->id)
+            ->orWhere('tutor_id', $user->id)
+            ->with(['tutor:id,name,email,role', 'student:id,name,email,role'])
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return response()->json($sessions);
+    }
+
+    /**
+     * Mengambil detail satu sesi mentoring.
+     * PROTECTED — memerlukan auth:sanctum.
+     */
+    public function showSession($id)
+    {
+        $session = MentoringSession::with(['tutor:id,name,email,role', 'student:id,name,email,role'])->findOrFail($id);
+
+        // Hanya tutor atau student yang bersangkutan yang boleh melihat detail
+        if (auth()->id() !== $session->student_id && auth()->id() !== $session->tutor_id) {
+            return response()->json([
+                'message' => 'Anda tidak memiliki akses ke sesi ini.'
+            ], 403);
+        }
+
+        return response()->json($session);
+    }
+
+    /**
      * Pelajar memesan (booking) sesi mentoring baru.
      * PROTECTED — memerlukan auth:sanctum.
      */

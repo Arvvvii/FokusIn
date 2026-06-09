@@ -15,6 +15,11 @@ class UserController extends Controller
      */
     public function profile($id)
     {
+        $targetUser = User::findOrFail($id);
+
+        // Otorisasi: Hanya pemilik profil atau admin yang diizinkan melihat profil lengkap
+        \Illuminate\Support\Facades\Gate::authorize('view', $targetUser);
+
         $user = User::with('badges')
             ->withCount([
                 'posts as total_posts' => function ($q) {

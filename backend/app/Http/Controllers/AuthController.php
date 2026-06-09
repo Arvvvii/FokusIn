@@ -12,27 +12,26 @@ class AuthController extends Controller
 {
     public function register(Request $request)
     {
-        // 1. Validasi input
-        $request->validate([
+        // 1. Validasi input (Mencegah pendaftaran Admin secara liar)
+        $validated = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
             'role' => 'required|in:pelajar,tutor'
         ]);
 
-        // 2. Buat User baru
+        // 2. Buat User baru dengan data yang sudah tervalidasi (Aman dari Mass-Assignment)
         $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'role' => $request->role,
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'password' => Hash::make($validated['password']),
+            'role' => $validated['role'],
         ]);
 
-        // Catatan: assignRole dari Spatie dan BadgeService akan diaktifkan setelah filenya dibuat
-        // $user->assignRole($request->role);
-        // BadgeService::checkAndAward($user->id);
+        // 3. Sinkronisasikan role dengan Spatie Laravel-Permission
+        $user->assignRole($validated['role']);
 
-        // 3. Buat Token Sanctum
+        // 4. Buat Token Sanctum
         $token = $user->createToken('fokus-in-token')->plainTextToken;
 
         return response()->json(['user' => $user, 'token' => $token], 201);

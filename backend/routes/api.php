@@ -8,12 +8,26 @@ use App\Http\Controllers\AIPatternController;
 use App\Http\Controllers\MaterialController;
 use App\Http\Controllers\MentoringController;
 use App\Http\Controllers\QuizController;
+use App\Http\Controllers\TestimonialController;
+use App\Http\Controllers\TutorController;
 use Illuminate\Support\Facades\Route;
+
+// ==========================================
+// ── HEALTH CHECK ROUTE (Akan menjadi /api) 
+// ==========================================
+Route::get('/', function () {
+    return response()->json([
+        'message' => 'FokusIn API Running'
+    ]);
+});
+
+
 
 // ==========================================
 // ── PUBLIC ROUTES (Tidak Perlu Login) ──────
 // ==========================================
-Route::prefix('auth')->group(function () {
+
+Route::prefix('auth')->middleware('throttle:10,1')->group(function () {
     Route::post('/register', [AuthController::class, 'register']);
     Route::post('/login', [AuthController::class, 'login']);
 });
@@ -35,6 +49,9 @@ Route::get('/quizzes/{id}', [QuizController::class, 'show']);
 
 // Mentoring - Daftar Tutor (Publik)
 Route::get('/tutors', [MentoringController::class, 'listTutors']);
+
+// Kisah Sukses Mahasiswa / Testimonials (Publik)
+Route::get('/testimonials/featured', [TestimonialController::class, 'getFeatured']);
 
 // ==========================================
 // ── PROTECTED ROUTES (Wajib Token Sanctum) ─
@@ -60,6 +77,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('/exam-uploads/{id}', [ExamUploadController::class, 'destroy']);
 
     // Pola Rekomendasi Soal Belajar AI (Groq API)
+    Route::post('/ai/analyze', [AIPatternController::class, 'analyze']);
     Route::get('/ai-pattern/summary', [AIPatternController::class, 'summary']); // Menggunakan query param ?category_id=X
     Route::post('/ai-pattern/refresh', [AIPatternController::class, 'refresh']);
 
@@ -71,6 +89,15 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/quizzes/{id}/attempt', [QuizController::class, 'attempt']);
 
     // Mentoring Sessions (Booking & Update Status)
+    Route::get('/mentoring/sessions', [MentoringController::class, 'getSessions']);
+    Route::get('/mentoring/sessions/{id}', [MentoringController::class, 'showSession']);
+    Route::post('/mentoring/requests', [MentoringController::class, 'store']);
     Route::post('/mentoring/sessions', [MentoringController::class, 'store']);
     Route::patch('/mentoring/sessions/{id}/status', [MentoringController::class, 'updateStatus']);
+
+    // Tutor Details
+    Route::get('/tutors/{id}', [TutorController::class, 'show']);
+
+    // Kisah Sukses Mahasiswa / Testimonials (Protected)
+    Route::post('/testimonials', [TestimonialController::class, 'store']);
 });

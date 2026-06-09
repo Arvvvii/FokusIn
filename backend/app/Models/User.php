@@ -38,6 +38,14 @@ class User extends Authenticatable
         return $this->hasMany(MentoringSession::class, 'student_id');
     }
 
+    public function tutorProfile() {
+        return $this->hasOne(TutorProfile::class);
+    }
+
+    public function tutorReviews() {
+        return $this->hasMany(TutorReview::class, 'tutor_id');
+    }
+
     protected $appends = ['avatar_url'];
 
     public function getAvatarUrlAttribute()
