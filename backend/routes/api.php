@@ -86,7 +86,9 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // Unggah Arsip Ujian (Exam Uploads)
     Route::get('/exam-uploads', [ExamUploadController::class, 'index']);
+    Route::get('/exam-uploads/{id}', [ExamUploadController::class, 'show']);
     Route::post('/exam-uploads', [ExamUploadController::class, 'store']);
+    Route::put('/exam-uploads/{id}', [ExamUploadController::class, 'update']);
     Route::delete('/exam-uploads/{id}', [ExamUploadController::class, 'destroy']);
 
     // Pola Rekomendasi Soal Belajar AI (Groq API)
