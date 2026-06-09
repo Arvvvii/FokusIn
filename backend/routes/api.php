@@ -9,6 +9,7 @@ use App\Http\Controllers\MaterialController;
 use App\Http\Controllers\MentoringController;
 use App\Http\Controllers\QuizController;
 use App\Http\Controllers\TestimonialController;
+use App\Http\Controllers\TutorController;
 use Illuminate\Support\Facades\Route;
 
 // ==========================================
@@ -88,8 +89,14 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/quizzes/{id}/attempt', [QuizController::class, 'attempt']);
 
     // Mentoring Sessions (Booking & Update Status)
+    Route::get('/mentoring/sessions', [MentoringController::class, 'getSessions']);
+    Route::get('/mentoring/sessions/{id}', [MentoringController::class, 'showSession']);
+    Route::post('/mentoring/requests', [MentoringController::class, 'store']);
     Route::post('/mentoring/sessions', [MentoringController::class, 'store']);
     Route::patch('/mentoring/sessions/{id}/status', [MentoringController::class, 'updateStatus']);
+
+    // Tutor Details
+    Route::get('/tutors/{id}', [TutorController::class, 'show']);
 
     // Kisah Sukses Mahasiswa / Testimonials (Protected)
     Route::post('/testimonials', [TestimonialController::class, 'store']);
