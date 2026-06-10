@@ -15,7 +15,13 @@ class TutorController extends Controller
     public function show($id)
     {
         $tutor = User::where('role', 'tutor')
-            ->with(['tutorProfile', 'tutorReviews.student:id,name,avatar_url'])
+            ->with([
+                'tutorProfile',
+                // Gunakan closure — jangan sertakan avatar_url di select (accessor, bukan kolom fisik)
+                'tutorReviews' => fn ($q) => $q->with(
+                    ['student' => fn ($sq) => $sq->select(['id', 'name'])]
+                ),
+            ])
             ->withCount('sessionsAsTutor as session_count')
             ->findOrFail($id);
 
@@ -42,8 +48,9 @@ class TutorController extends Controller
         // Ambil semua review milik tutor ini dengan relasi yang dibutuhkan
         $reviews = TutorReview::where('tutor_id', $user->id)
             ->with([
-                'student:id,name,avatar_url',
-                'session:id,title,duration_minutes,scheduled_at,status',
+                // Gunakan closure — avatar_url muncul otomatis via $appends di User model
+                'student'  => fn ($q) => $q->select(['id', 'name']),
+                'session'  => fn ($q) => $q->select(['id', 'title', 'duration_minutes', 'scheduled_at', 'status']),
             ])
             ->latest()
             ->paginate(15);

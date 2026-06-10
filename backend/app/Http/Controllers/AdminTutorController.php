@@ -62,10 +62,12 @@ class AdminTutorController extends Controller
                 ->with([
                     'tutorProfile',
                     'tutorReviews' => function ($q) {
-                        $q->with('student:id,name,avatar_url')->latest()->limit(10);
+                        // Gunakan closure agar tidak menyertakan accessor (avatar_url) di SQL SELECT
+                        $q->with(['student' => fn ($sq) => $sq->select(['id', 'name'])])
+                          ->latest()->limit(10);
                     },
                     'sessionsAsTutor' => function ($q) {
-                        $q->with('student:id,name,avatar_url')
+                        $q->with(['student' => fn ($sq) => $sq->select(['id', 'name'])])
                           ->latest()
                           ->limit(20);
                     },
