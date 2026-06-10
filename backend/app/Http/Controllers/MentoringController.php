@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\MentoringSession;
+use App\Models\TutorReview;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -163,5 +164,65 @@ class MentoringController extends Controller
             'message' => 'Status sesi berhasil diperbarui.',
             'session' => $session,
         ]);
+    }
+
+    /**
+     * Student mengirimkan feedback & rating setelah sesi selesai.
+     * PROTECTED — memerlukan auth:sanctum.
+     *
+     * Endpoint: POST /api/mentoring/sessions/{id}/feedback
+     */
+    public function submitFeedback(Request $request, $id)
+    {
+        // 1. Validasi input
+        $request->validate([
+            'rating'           => 'required|integer|min:1|max:5',
+            'feedback_comment' => 'nullable|string|max:1000',
+        ]);
+
+        // 2. Ambil sesi yang terkait
+        $session = MentoringSession::findOrFail($id);
+
+        // 3. Hanya student dari sesi ini yang boleh submit feedback
+        if (auth()->id() !== $session->student_id) {
+            return response()->json([
+                'message' => 'Hanya pelajar dari sesi ini yang dapat memberikan feedback.'
+            ], 403);
+        }
+
+        // 4. Sesi harus sudah berstatus 'completed'
+        if ($session->status !== 'completed') {
+            return response()->json([
+                'message' => 'Feedback hanya dapat diberikan pada sesi yang sudah selesai (completed).'
+            ], 422);
+        }
+
+        // 5. Cegah duplikasi feedback dari student yang sama untuk sesi yang sama
+        $existing = TutorReview::where('mentoring_session_id', $session->id)
+            ->where('student_id', auth()->id())
+            ->first();
+
+        if ($existing) {
+            return response()->json([
+                'message' => 'Anda sudah memberikan feedback untuk sesi ini.'
+            ], 422);
+        }
+
+        // 6. Simpan review ke tabel tutor_reviews
+        $review = TutorReview::create([
+            'mentoring_session_id' => $session->id,
+            'tutor_id'             => $session->tutor_id,
+            'student_id'           => auth()->id(),
+            'rating'               => $request->rating,
+            'feedback_comment'     => $request->feedback_comment,
+        ]);
+
+        // 7. Load relasi untuk response
+        $review->load('student:id,name,avatar_url');
+
+        return response()->json([
+            'message' => 'Feedback berhasil dikirimkan. Terima kasih!',
+            'review'  => $review,
+        ], 201);
     }
 }

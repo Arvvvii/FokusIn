@@ -107,4 +107,37 @@ class ExamUploadController extends Controller
 
         return response()->json(['message' => 'Dokumen berhasil dihapus dari sistem.']);
     }
+
+    /**
+     * PUT /api/exam-uploads/{id}/extracted-text
+     * Update hasil OCR (extracted_text) dari sebuah exam upload.
+     */
+    public function updateExtractedText(Request $request, $id)
+    {
+        try {
+            $examUpload = ExamUpload::findOrFail($id);
+
+            // Hanya pemilik dokumen atau admin yang boleh mengupdate
+            if (auth()->id() !== $examUpload->user_id && auth()->user()->role !== 'admin') {
+                return response()->json(['message' => 'Anda tidak memiliki hak untuk mengubah dokumen ini.'], 403);
+            }
+
+            $validated = $request->validate([
+                'extracted_text' => 'required|string',
+            ]);
+
+            $examUpload->update(['extracted_text' => $validated['extracted_text']]);
+
+            return response()->json([
+                'message'        => 'Hasil OCR berhasil diperbarui.',
+                'exam_upload'    => $examUpload->fresh(),
+            ]);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            return response()->json(['message' => 'Dokumen tidak ditemukan.'], 404);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return response()->json(['message' => 'Validasi gagal.', 'errors' => $e->errors()], 422);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Terjadi kesalahan: ' . $e->getMessage()], 500);
+        }
+    }
 }

@@ -50,6 +50,12 @@ class PostController extends Controller
             $query->where('category_id', $request->category_id);
         }
 
+        // Filter postingan yang butuh verifikasi tutor (is_verified = false)
+        // Diakses via: GET /api/posts?needs_verification=1
+        if ($request->boolean('needs_verification')) {
+            $query->where('is_verified', false);
+        }
+
         // Return paginasi daftar Post
         $posts = $query->latest()->paginate(10);
 
