@@ -107,7 +107,15 @@ const loadQueue = async () => {
     const data = response.data || response || {}
     
     // Extract queue items from pagination structure
-    const rawList = data.moderation_queue?.data || data.moderation_queue || data || []
+    const rawList = Array.isArray(data.moderation_queue?.data)
+      ? data.moderation_queue.data
+      : Array.isArray(data.moderation_queue)
+        ? data.moderation_queue
+        : Array.isArray(data.data)
+          ? data.data
+          : Array.isArray(data)
+            ? data
+            : []
     pendingCount.value = data.pending_count !== undefined ? data.pending_count : rawList.length
     
     if (data.stats) {

@@ -91,7 +91,7 @@ import { useToastStore } from '@/stores/toast'
 
 const route = useRoute()
 const toastStore = useToastStore()
-const id = route.params.id
+const id = computed(() => route.params.id)
 
 const session = ref(null)
 const loading = ref(false)
@@ -99,10 +99,11 @@ const updating = ref(false)
 const error = ref(null)
 
 const fetchSessionDetail = async () => {
+  if (!id.value) return
   loading.value = true
   error.value = null
   try {
-    const response = await adminService.getAdminMentoringDetail(id)
+    const response = await adminService.getAdminMentoringDetail(id.value)
     session.value = response.data || response
   } catch (err) {
     error.value = err
@@ -115,7 +116,7 @@ const terminateSession = async () => {
   if (!confirm('Apakah Anda yakin ingin mematikan sesi ini secara paksa?')) return
   updating.value = true
   try {
-    await adminService.updateAdminMentoringStatus(id, { status: 'completed' })
+    await adminService.updateAdminMentoringStatus(id.value, { status: 'completed' })
     toastStore.success('Sesi mentoring berhasil dihentikan secara paksa.')
     fetchSessionDetail()
   } catch (err) {

@@ -90,7 +90,8 @@ const fetchSessions = async () => {
   error.value = null
   try {
     const response = await adminService.getAdminMentoring()
-    sessions.value = response.data || response || []
+    const rawList = response.data?.data || response.data || response?.data || response || []
+    sessions.value = Array.isArray(rawList) ? rawList : []
   } catch (err) {
     error.value = err
   } finally {

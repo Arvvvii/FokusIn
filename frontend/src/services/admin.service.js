@@ -9,7 +9,7 @@ export const adminService = {
    */
   async getUsers() {
     try {
-      const response = await api.get('/users')
+      const response = await api.get('/admin/users')
       return response.data
     } catch (error) {
       throw error.response?.data?.message || 'Gagal mengambil data pengguna.'
@@ -28,7 +28,7 @@ export const adminService = {
   async createUser(payload) {
     try {
       // Validate and adjust payload structure
-      const response = await api.post('/users', {
+      const response = await api.post('/admin/users', {
         name: payload.name,
         email: payload.email,
         role: payload.role ? payload.role.toLowerCase() : 'pelajar',
