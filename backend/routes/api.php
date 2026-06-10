@@ -12,9 +12,14 @@ use App\Http\Controllers\TestimonialController;
 use App\Http\Controllers\TutorController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\AdminDashboardController;
+use App\Http\Controllers\AdminTutorController;
+use App\Http\Controllers\AdminMentoringController;
+use App\Http\Controllers\AdminUserController;
+use App\Http\Controllers\AdminQuizController;
 use App\Http\Controllers\TutorDashboardController;
 use App\Http\Controllers\LeaderboardController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\CategoryController;
 use Illuminate\Support\Facades\Route;
 
 // ==========================================
@@ -38,8 +43,8 @@ Route::prefix('auth')->middleware('throttle:10,1')->group(function () {
 });
 
 // Q&A / Forum Kategori & Postingan
-Route::get('/categories', [PostController::class, 'categories']);
-Route::get('/posts',      [PostController::class, 'index']);
+Route::get('/categories',      [CategoryController::class, 'index']);  // List publik (enhanced)
+Route::get('/posts',           [PostController::class, 'index']);
 
 // Statistik Global Sistem
 Route::get('/global-stats', [UserController::class, 'globalStats']);
@@ -76,10 +81,10 @@ Route::middleware('auth:sanctum')->group(function () {
     // ------------------------------------------
     // Forum & Postingan (Tulis Post, Vote, Verifikasi, & Best Answer)
     // ------------------------------------------
-    Route::post('/posts',                        [PostController::class, 'store']);
-    Route::post('/posts/{id}/vote',              [PostController::class, 'vote']);
-    Route::post('/posts/{id}/verify',            [PostController::class, 'verify']);
-    Route::post('/posts/{id}/best-answer',       [PostController::class, 'setBestAnswer']);
+    Route::post('/posts',                  [PostController::class, 'store']);
+    Route::post('/posts/{id}/vote',        [PostController::class, 'vote']);
+    Route::post('/posts/{id}/verify',      [PostController::class, 'verify']);
+    Route::post('/posts/{id}/best-answer', [PostController::class, 'setBestAnswer']);
 
     // ------------------------------------------
     // Profil User Detail
@@ -89,23 +94,23 @@ Route::middleware('auth:sanctum')->group(function () {
     // ------------------------------------------
     // Unggah Arsip Ujian (Exam Uploads)
     // ------------------------------------------
-    Route::get('/exam-uploads',                                [ExamUploadController::class, 'index']);
-    Route::post('/exam-uploads',                               [ExamUploadController::class, 'store']);
-    Route::delete('/exam-uploads/{id}',                        [ExamUploadController::class, 'destroy']);
-    Route::put('/exam-uploads/{id}/extracted-text',            [ExamUploadController::class, 'updateExtractedText']);
+    Route::get('/exam-uploads',                         [ExamUploadController::class, 'index']);
+    Route::post('/exam-uploads',                        [ExamUploadController::class, 'store']);
+    Route::delete('/exam-uploads/{id}',                 [ExamUploadController::class, 'destroy']);
+    Route::put('/exam-uploads/{id}/extracted-text',     [ExamUploadController::class, 'updateExtractedText']);
 
     // ------------------------------------------
     // Pola Rekomendasi Soal Belajar AI (Groq API)
     // ------------------------------------------
-    Route::post('/ai/analyze',            [AIPatternController::class, 'analyze']);
-    Route::get('/ai-pattern/summary',     [AIPatternController::class, 'summary']);
-    Route::post('/ai-pattern/refresh',    [AIPatternController::class, 'refresh']);
+    Route::post('/ai/analyze',         [AIPatternController::class, 'analyze']);
+    Route::get('/ai-pattern/summary',  [AIPatternController::class, 'summary']);
+    Route::post('/ai-pattern/refresh', [AIPatternController::class, 'refresh']);
 
     // ------------------------------------------
     // Materi Belajar (Unggah & Hapus - Khusus Tutor/Admin)
     // ------------------------------------------
-    Route::post('/materials',         [MaterialController::class, 'store']);
-    Route::delete('/materials/{id}',  [MaterialController::class, 'destroy']);
+    Route::post('/materials',        [MaterialController::class, 'store']);
+    Route::delete('/materials/{id}', [MaterialController::class, 'destroy']);
 
     // ------------------------------------------
     // Ujian Kuis (Attempt)
@@ -115,18 +120,18 @@ Route::middleware('auth:sanctum')->group(function () {
     // ------------------------------------------
     // Mentoring Sessions (Booking & Update Status)
     // ------------------------------------------
-    Route::get('/mentoring/sessions',              [MentoringController::class, 'getSessions']);
-    Route::get('/mentoring/sessions/{id}',         [MentoringController::class, 'showSession']);
-    Route::post('/mentoring/requests',             [MentoringController::class, 'store']);
-    Route::post('/mentoring/sessions',             [MentoringController::class, 'store']);
-    Route::patch('/mentoring/sessions/{id}/status',[MentoringController::class, 'updateStatus']);
+    Route::get('/mentoring/sessions',               [MentoringController::class, 'getSessions']);
+    Route::get('/mentoring/sessions/{id}',          [MentoringController::class, 'showSession']);
+    Route::post('/mentoring/requests',              [MentoringController::class, 'store']);
+    Route::post('/mentoring/sessions',              [MentoringController::class, 'store']);
+    Route::patch('/mentoring/sessions/{id}/status', [MentoringController::class, 'updateStatus']);
     Route::post('/mentoring/sessions/{id}/feedback',[MentoringController::class, 'submitFeedback']);
 
     // ------------------------------------------
     // Tutor Details & Reviews
     // ------------------------------------------
-    Route::get('/tutors/{id}',    [TutorController::class, 'show']);
-    Route::get('/tutor/reviews',  [TutorController::class, 'reviews']);
+    Route::get('/tutors/{id}',   [TutorController::class, 'show']);
+    Route::get('/tutor/reviews', [TutorController::class, 'reviews']);
 
     // ------------------------------------------
     // Kisah Sukses Mahasiswa / Testimonials (Protected)
@@ -148,19 +153,53 @@ Route::middleware('auth:sanctum')->group(function () {
     // ------------------------------------------
     Route::get('/tutor/analytics/timeline', [TutorDashboardController::class, 'analyticsTimeline']);
 
-    // ------------------------------------------
-    // ADMIN: Dashboard, Moderasi, Laporan, & Analytics
-    // ------------------------------------------
+    // ==========================================
+    // ── ADMIN ROUTES (Khusus Role Admin)
+    // ==========================================
     Route::prefix('admin')->group(function () {
 
-        // Moderasi: Hapus Post yang Melanggar
-        Route::delete('/moderation/posts/{id}', [AdminDashboardController::class, 'deletePost']);
+        // Dashboard Utama
+        Route::get('/dashboard',     [AdminDashboardController::class, 'index']);
 
-        // Reports: Daftar & Resolve Laporan
+        // AI Monitoring
+        Route::get('/ai-monitoring', [AdminDashboardController::class, 'aiMonitoring']);
+
+        // Moderasi
+        Route::get('/moderation',                   [AdminDashboardController::class, 'moderation']);
+        Route::delete('/moderation/posts/{id}',     [AdminDashboardController::class, 'deletePost']);
+
+        // Reports
         Route::get('/reports',                  [AdminDashboardController::class, 'getReports']);
         Route::patch('/reports/{id}/resolve',   [AdminDashboardController::class, 'resolveReport']);
 
-        // Analytics: Timeline Registrasi User & Post per Bulan
-        Route::get('/analytics/timeline',       [AdminDashboardController::class, 'analyticsTimeline']);
+        // Analytics Timeline
+        Route::get('/analytics/timeline', [AdminDashboardController::class, 'analyticsTimeline']);
+
+        // ── User Management
+        Route::get('/users',        [AdminUserController::class, 'index']);
+        Route::post('/users',       [AdminUserController::class, 'store']);
+        Route::put('/users/{id}',   [AdminUserController::class, 'update']);
+        Route::delete('/users/{id}',[AdminUserController::class, 'destroy']);
+
+        // ── Tutor Management
+        Route::get('/tutors',       [AdminTutorController::class, 'index']);
+        Route::post('/tutors',      [AdminTutorController::class, 'store']);
+        Route::get('/tutors/{id}',  [AdminTutorController::class, 'show']);
+
+        // ── Mentoring Management
+        Route::get('/mentoring',                        [AdminMentoringController::class, 'index']);
+        Route::get('/mentoring/{id}',                   [AdminMentoringController::class, 'show']);
+        Route::patch('/mentoring/{id}/status',          [AdminMentoringController::class, 'forceUpdateStatus']);
+
+        // ── Quiz Management (Admin)
+        Route::get('/quizzes/{id}',    [AdminQuizController::class, 'show']);
+        Route::post('/quizzes',        [AdminQuizController::class, 'store']);
+        Route::put('/quizzes/{id}',    [AdminQuizController::class, 'update']);
+        Route::delete('/quizzes/{id}', [AdminQuizController::class, 'destroy']);
+
+        // ── Category Management (CRUD)
+        Route::post('/categories',        [CategoryController::class, 'store']);
+        Route::put('/categories/{id}',    [CategoryController::class, 'update']);
+        Route::delete('/categories/{id}', [CategoryController::class, 'destroy']);
     });
 });
