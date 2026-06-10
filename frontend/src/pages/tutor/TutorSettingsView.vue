@@ -25,10 +25,15 @@
         </div>
       </div>
 
+      <!-- LOADING STATE -->
+      <div v-if="isLoading" class="text-center py-12 text-slate-500 font-medium bg-white border border-slate-200 shadow-sm rounded-2xl">
+        Memuat pengaturan...
+      </div>
+
       <!-- Settings Layout -->
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div v-else class="grid grid-cols-1 md:grid-cols-3 gap-6">
         
-        <!-- Tabs Sidebar (Flat standard academic layout) -->
+        <!-- Tabs Sidebar -->
         <div class="md:col-span-1 space-y-2">
           <button 
             v-for="tab in tabs" 
@@ -137,7 +142,7 @@
 
           <!-- Bottom Save Actions -->
           <div class="pt-4 border-t border-slate-200 flex items-center justify-end gap-3 mt-auto">
-            <button @click="showSuccessToast" class="px-5 py-2.5 bg-[#334EAC] hover:bg-[#081F5C] text-white rounded-xl font-bold text-xs md:text-sm transition-all shadow-sm active:scale-[0.98]">
+            <button @click="saveSettings" class="px-5 py-2.5 bg-[#334EAC] hover:bg-[#081F5C] text-white rounded-xl font-bold text-xs md:text-sm transition-all shadow-sm active:scale-[0.98]">
               Simpan Perubahan
             </button>
           </div>
@@ -160,10 +165,15 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
+import { RouterLink } from 'vue-router'
+import { useAuthStore } from '@/stores/auth'
+import { profileService } from '@/services/profile.service'
 
+const authStore = useAuthStore()
 const activeTab = ref('profile')
 const showSuccess = ref(false)
+const isLoading = ref(true)
 
 const tabs = [
   { id: 'profile', name: 'Profil Akademik', icon: '<svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>' },
@@ -172,10 +182,10 @@ const tabs = [
 ]
 
 const profile = ref({
-  name: 'Dr. Sarah R.',
-  title: 'Ph.D. di Matematika • MIT',
-  institution: 'Institut Teknologi Bandung / MIT Global Scholar',
-  bio: 'Peneliti senior bidang AI Matematika & Algoritma Lanjut. Berdedikasi melatih penalaran analitik mahasiswa.',
+  name: '',
+  title: 'Dosen & Mentor Akademik',
+  institution: 'Institut Teknologi Bandung',
+  bio: '',
   available: true,
   price: '150.000'
 })
@@ -186,10 +196,70 @@ const settings = ref({
   aiAutofix: true
 })
 
-const showSuccessToast = () => {
-  showSuccess.value = true
-  setTimeout(() => {
-    showSuccess.value = false
-  }, 3000)
+const loadTutorSettings = async () => {
+  try {
+    isLoading.value = true
+    const userId = authStore.user?.id
+    if (!userId) return
+
+    // 1. Fetch user profile from Laravel backend
+    const backendProfile = await profileService.getProfile(userId)
+    
+    // 2. Fetch extra tutor preferences from localStorage
+    const localDetails = JSON.parse(localStorage.getItem('fokusin_tutor_details') || '{}')
+    
+    profile.value = {
+      name: backendProfile.name || authStore.user.name || '',
+      bio: backendProfile.bio || '',
+      title: localDetails.title || 'Dosen & Mentor Akademik',
+      institution: localDetails.institution || 'Institut Teknologi Bandung',
+      available: localDetails.available !== undefined ? localDetails.available : true,
+      price: localDetails.price || '150.000'
+    }
+  } catch (err) {
+    console.error('Failed to load tutor settings:', err)
+  } finally {
+    isLoading.value = false
+  }
 }
+
+const saveSettings = async () => {
+  try {
+    isLoading.value = true
+    const userId = authStore.user?.id
+    if (!userId) return
+
+    // 1. Save core name & bio to the backend database
+    await profileService.updateProfile(userId, {
+      name: profile.value.name,
+      bio: profile.value.bio
+    })
+
+    // 2. Save extra custom properties to localStorage
+    localStorage.setItem('fokusin_tutor_details', JSON.stringify({
+      title: profile.value.title,
+      institution: profile.value.institution,
+      available: profile.value.available,
+      price: profile.value.price
+    }))
+
+    // 3. Update auth store local state to maintain visual synchronization
+    if (authStore.user) {
+      authStore.user.name = profile.value.name
+    }
+
+    showSuccess.value = true
+    setTimeout(() => {
+      showSuccess.value = false
+    }, 3000)
+  } catch (err) {
+    console.error('Failed to save settings:', err)
+  } finally {
+    isLoading.value = false
+  }
+}
+
+onMounted(() => {
+  loadTutorSettings()
+})
 </script>

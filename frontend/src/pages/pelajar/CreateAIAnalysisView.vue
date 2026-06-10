@@ -327,7 +327,8 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useRouter, RouterLink } from 'vue-router'
-import api from '@/services/api'
+import { forumService } from '@/services/forum.service'
+import { examUploadService } from '@/services/examUpload.service'
 
 const router = useRouter()
 const fileInput = ref(null)
@@ -386,8 +387,8 @@ const triggerErrorToast = () => {
 
 const fetchCategories = async () => {
   try {
-    const response = await api.get('/categories')
-    categories.value = response.data
+    const data = await forumService.getCategories()
+    categories.value = data || []
     if (categories.value.length > 0) {
       selectedCategoryId.value = categories.value[0].id
     }
@@ -412,11 +413,7 @@ const handleUpload = async () => {
     formData.append('category_id', selectedCategoryId.value.toString())
     formData.append('file', selectedFile.value)
 
-    await api.post('/exam-uploads', formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data'
-      }
-    })
+    await examUploadService.createExamUpload(formData)
 
     showSuccess.value = true
     setTimeout(() => {

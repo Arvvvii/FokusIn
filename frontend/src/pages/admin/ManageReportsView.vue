@@ -8,18 +8,38 @@
           <h1 class="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">User Reports & Escalation</h1>
           <p class="text-[15px] text-slate-600 font-medium mt-2 max-w-xl leading-relaxed">Tinjau laporan pengguna, tangani pelanggaran serius, dan kelola eskalasi kasus secara komprehensif.</p>
         </div>
-        <div class="flex items-center gap-4">
-          <select class="filter-dropdown appearance-none">
-            <option>Terbaru</option>
-            <option>Prioritas Tinggi</option>
-            <option>Diselesaikan</option>
-          </select>
-        </div>
       </div>
     </div>
 
+    <!-- LOADING STATE & ERROR STATE -->
+    <!-- Skeleton loader -->
+    <div v-if="isLoading" class="space-y-4">
+      <div v-for="n in 3" :key="n" class="w-full bg-white border border-slate-200/60 rounded-2xl p-5 animate-pulse flex items-center justify-between">
+        <div class="space-y-2 w-1/4">
+          <div class="h-4 bg-slate-200 rounded w-1/3"></div>
+          <div class="h-3 bg-slate-200 rounded w-2/3"></div>
+        </div>
+        <div class="h-4 bg-slate-200 rounded w-1/3"></div>
+        <div class="h-8 bg-slate-200 rounded w-24"></div>
+      </div>
+    </div>
+
+    <!-- Error State with Retry Button -->
+    <div v-else-if="errorMsg" class="bg-white border border-slate-200 shadow-sm rounded-2xl p-10 text-center flex flex-col items-center justify-center gap-4">
+      <div class="w-12 h-12 rounded-full bg-rose-50 text-rose-500 flex items-center justify-center">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/></svg>
+      </div>
+      <div>
+        <h3 class="text-lg font-bold text-slate-900">Gagal memuat data laporan.</h3>
+        <p class="text-sm text-slate-500 mt-1">{{ errorMsg }}</p>
+      </div>
+      <button @click="loadReports" class="px-5 py-2 bg-[#081F5C] hover:bg-[#334EAC] text-white text-xs font-bold rounded-xl transition-colors shadow-sm">
+        Coba Lagi
+      </button>
+    </div>
+
     <!-- Moderation Queues -->
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+    <div v-else class="grid grid-cols-1 lg:grid-cols-3 gap-8">
       
       <!-- Left Column: Queue List -->
       <div class="lg:col-span-1 flex flex-col gap-4 max-h-[800px] overflow-y-auto custom-scrollbar pr-2">
@@ -42,6 +62,9 @@
             </div>
             <span class="text-[10px] font-bold text-slate-400">{{ report.flagCount }} laporan serupa</span>
           </div>
+        </div>
+        <div v-if="reports.length === 0" class="text-center py-12 text-slate-400 font-semibold border border-dashed border-slate-200 rounded-2xl bg-white">
+          Tidak ada laporan pending.
         </div>
       </div>
 
@@ -87,14 +110,14 @@
 
           <!-- Action Footer -->
           <div class="p-6 border-t border-slate-100 bg-white flex items-center justify-between gap-4 mt-auto">
-            <button @click="resolveReport" class="px-5 py-2.5 text-slate-500 font-bold text-sm hover:text-emerald-600 hover:bg-emerald-50 rounded-xl transition-all">
+            <button @click="handleResolve('keep')" class="px-5 py-2.5 text-slate-500 font-bold text-sm hover:text-emerald-600 hover:bg-emerald-50 rounded-xl transition-all">
               Abaikan (Restore)
             </button>
             <div class="flex gap-3">
-              <button @click="markAsSpam" class="px-5 py-2.5 bg-amber-50 text-amber-700 border border-amber-200 hover:bg-amber-100 font-bold text-sm rounded-xl transition-all shadow-sm">
+              <button @click="handleResolve('keep')" class="px-5 py-2.5 bg-amber-50 text-amber-700 border border-amber-200 hover:bg-amber-100 font-bold text-sm rounded-xl transition-all shadow-sm">
                 Tandai Spam
               </button>
-              <button @click="removeContent" class="px-5 py-2.5 bg-rose-600 text-white font-bold text-sm rounded-xl hover:bg-rose-700 transition-all shadow-[0_4px_15px_rgba(225,29,72,0.2)] flex items-center gap-2">
+              <button @click="handleResolve('delete')" class="px-5 py-2.5 bg-rose-600 text-white font-bold text-sm rounded-xl hover:bg-rose-700 transition-all shadow-[0_4px_15px_rgba(225,29,72,0.2)] flex items-center gap-2">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
                 Remove Content
               </button>
@@ -118,74 +141,73 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
+import { adminService } from '@/services/admin.service'
 
+const reports = ref([])
 const selectedReport = ref(null)
+const isLoading = ref(true)
+const errorMsg = ref(null)
 
-const resolveReport = () => {
-  alert('Laporan diabaikan dan konten direstore.')
-}
-
-const markAsSpam = () => {
-  alert('Konten ditandai sebagai spam dan pengguna akan menerima peringatan.')
-}
-
-const removeContent = () => {
-  alert('Konten dihapus secara permanen dari platform.')
-}
-
-const reports = ref([
-  { 
-    id: 928, 
-    type: 'Spam', 
-    severity: 'Medium',
-    time: '12m ago', 
-    targetTitle: 'Jawaban di "Bagaimana algoritma Dijkstra bekerja?"',
-    author: 'User_9981',
-    postDate: '10 Mei 2026, 14:20',
-    reporter: 'Budi Santoso',
-    reason: 'Link mencurigakan',
-    flagCount: 4,
-    content: 'Untuk jawaban lengkapnya silakan kunjungi website casino online kami di http://spam-link-example.com/bonus-new-member. Algoritma dijamin jalan 100%!',
-    reasonsDetail: [
-      { title: 'Tautan Eksternal Berbahaya', desc: 'Sistem mendeteksi tautan yang tidak berhubungan dengan akademik.' },
-      { title: 'Pola Spam Dikenali', desc: 'Pesan serupa diposting oleh user ini di 5 thread berbeda.' }
-    ]
-  },
-  { 
-    id: 929, 
-    type: 'Plagiarisme', 
-    severity: 'High',
-    time: '45m ago', 
-    targetTitle: 'Materi: "Catatan Kalkulus Dasar Semester 1"',
-    author: 'Andi Pratama',
-    postDate: '9 Mei 2026, 09:15',
-    reporter: 'System AI',
-    reason: 'Similarity 89%',
-    flagCount: 1,
-    content: '[Isi dokumen PDF yang diekstrak] Bab 1. Limit dan Kekontinuan... (Konten identik dengan modul resmi Universitas X tanpa atribusi).',
-    reasonsDetail: [
-      { title: 'AI Plagiarism Detection', desc: 'Terdeteksi 89% kesamaan dengan sumber dari internet (Modul Univ X).' }
-    ]
-  },
-  { 
-    id: 930, 
-    type: 'Harassment', 
-    severity: 'High',
-    time: '2h ago', 
-    targetTitle: 'Komentar di "Bantuan Fisika Kuantum"',
-    author: 'Alex J.',
-    postDate: '10 Mei 2026, 11:10',
-    reporter: 'Maria Garcia',
-    reason: 'Kata-kata kasar',
-    flagCount: 3,
-    content: 'Pertanyaan bodoh macam apa ini? Kalau soal segampang ini saja tidak bisa mending berhenti kuliah saja lu dasar ***.',
-    reasonsDetail: [
-      { title: 'Penggunaan Kata Kasar', desc: 'AI mendeteksi kata-kata yang melanggar pedoman komunitas FokusIn.' },
-      { title: 'Laporan Pengguna', desc: 'Dilaporkan oleh 3 pelajar yang berbeda karena toxic behavior.' }
-    ]
+const loadReports = async () => {
+  try {
+    isLoading.value = true
+    errorMsg.value = null
+    const response = await adminService.getReports()
+    
+    // Map the backend reports list (which returns data array in pagination format)
+    const rawList = response.data || response || []
+    reports.value = rawList
+      .filter(r => r.status === 'Pending')
+      .map(r => {
+        const type = r.reason ? r.reason.split(' ')[0] : 'Spam'
+        return {
+          id: r.id,
+          type,
+          severity: 'Medium',
+          time: r.time || '10m lalu',
+          targetTitle: `Konten di "${r.topic || 'Forum'}"`,
+          author: r.studentName || 'Pengguna',
+          postDate: 'Hari Ini',
+          reporter: 'System / User',
+          reason: r.reason || 'Spam / Iklan tidak relevan',
+          flagCount: 3,
+          content: r.content || 'Konten spam / tidak pantas.',
+          reasonsDetail: [
+            { title: r.reason || 'Konteks Pelanggaran', desc: 'Sistem mendeteksi aktivitas mencurigakan atau laporan pengguna.' }
+          ],
+          status: r.status || 'Pending'
+        }
+      })
+    
+    if (reports.value.length > 0) {
+      selectedReport.value = reports.value[0]
+    } else {
+      selectedReport.value = null
+    }
+  } catch (err) {
+    console.error('Failed to load reports:', err)
+    errorMsg.value = err.message || 'Gagal mengambil data laporan.'
+  } finally {
+    isLoading.value = false
   }
-])
+}
+
+const handleResolve = async (action) => {
+  if (!selectedReport.value) return
+  try {
+    const act = action === 'keep' ? 'keep' : 'delete'
+    await adminService.resolveReport(selectedReport.value.id, act)
+    alert(`Laporan berhasil diproses: ${action === 'keep' ? 'Dibiarkan' : 'Dihapus'}`)
+    await loadReports()
+  } catch (err) {
+    console.error('Error resolving report:', err)
+  }
+}
+
+onMounted(() => {
+  loadReports()
+})
 </script>
 
 <style scoped>

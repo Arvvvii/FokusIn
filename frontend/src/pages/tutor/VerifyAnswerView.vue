@@ -306,56 +306,62 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { RouterLink } from 'vue-router'
+import { forumService } from '@/services/forum.service'
 
 const showSuccess = ref(false)
 const successMessage = ref('')
 const currentFilter = ref('Pending')
 const searchQuery = ref('')
+const answers = ref([])
 
-const answers = ref([
-  {
-    id: 1,
-    author: 'Budi Santoso',
-    initials: 'BS',
-    rep: 420,
-    time: '10 menit lalu',
-    match: 95,
-    status: 'Pending',
-    question: 'Q: Apa perbedaan utama antara proses dan thread dalam sistem operasi?',
-    questionUrl: '/tutor/forum',
-    content: 'Proses adalah program yang sedang dieksekusi dan memiliki ruang alamat memori sendiri, sedangkan thread adalah unit eksekusi terkecil di dalam sebuah proses yang berbagi memori dengan thread lain dalam proses yang sama.',
-    feedback: ''
-  },
-  {
-    id: 2,
-    author: 'Rizky Dharmawan',
-    initials: 'RD',
-    rep: 120,
-    time: '2 jam lalu',
-    match: 40,
-    status: 'Pending',
-    question: 'Q: Bagaimana cara mengatasi NullPointerException di Java?',
-    questionUrl: '/tutor/forum',
-    content: 'Tinggal tambahkan try catch saja di semua blok kodenya, pasti jalan.',
-    warning: 'Rekomendasi AI: Tinjau Ulang. Metode ini tidak memperbaiki masalah referensi null.',
-    feedback: ''
-  },
-  {
-    id: 3,
-    author: 'Siti Aminah',
-    initials: 'SA',
-    rep: 310,
-    time: 'Kemarin',
-    match: 99,
-    status: 'Diverifikasi',
-    question: 'Q: Apa kegunaan utama index pada database?',
-    questionUrl: '/tutor/forum',
-    content: 'Index mempercepat proses pencarian data (SELECT) dengan mengorbankan kecepatan penulisan (INSERT/UPDATE).',
-    feedback: 'Penjelasan yang ringkas dan tepat!'
+const getAvatarInitials = (name) => {
+  if (!name) return '?'
+  const parts = name.trim().split(/\s+/)
+  if (parts.length >= 2) {
+    return (parts[0][0] + parts[1][0]).toUpperCase()
   }
-])
+  return parts[0].substring(0, 2).toUpperCase()
+}
+
+const formatTime = (dateString) => {
+  if (!dateString) return ''
+  const date = new Date(dateString)
+  const now = new Date()
+  const diffMs = now - date
+  const diffMins = Math.floor(diffMs / 60000)
+  const diffHours = Math.floor(diffMins / 60)
+  const diffDays = Math.floor(diffHours / 24)
+
+  if (diffMins < 1) return 'Baru saja'
+  if (diffMins < 60) return `${diffMins} menit lalu`
+  if (diffHours < 24) return `${diffHours} jam lalu`
+  return `${diffDays} hari lalu`
+}
+
+const loadAnswers = async () => {
+  try {
+    const response = await forumService.getPosts({ needs_verification: 1 })
+    const rawList = response.data || []
+    answers.value = rawList.map(post => ({
+      id: post.id,
+      author: post.user ? post.user.name : 'Anonim',
+      initials: post.user ? getAvatarInitials(post.user.name) : 'A',
+      rep: post.user?.reputation || 0,
+      time: formatTime(post.created_at),
+      match: post.ai_match_score || 85,
+      status: post.is_verified ? 'Diverifikasi' : 'Pending',
+      question: post.title,
+      questionUrl: `/tutor/forum/${post.id}`,
+      content: post.content,
+      feedback: post.feedback || '',
+      warning: post.ai_warning || null
+    }))
+  } catch (err) {
+    console.error('Error fetching verification posts:', err)
+  }
+}
 
 const activeStudentsList = ref([
   { rank: 4, initials: 'EP', name: 'Eko Prasetyo', answersCount: 11, points: 95 },
@@ -381,35 +387,57 @@ const filteredAnswers = computed(() => {
   })
 })
 
-const handleVerify = (id) => {
+const handleVerify = async (id) => {
   const ans = answers.value.find(a => a.id === id)
   if (ans) {
-    ans.status = 'Diverifikasi'
-    successMessage.value = `Jawaban ${ans.author} berhasil diverifikasi!`
-    showSuccess.value = true
-    setTimeout(() => { showSuccess.value = false }, 3000)
+    try {
+      await forumService.verifyPost(id, { is_verified: true, feedback: ans.feedback })
+      ans.status = 'Diverifikasi'
+      successMessage.value = `Jawaban ${ans.author} berhasil diverifikasi!`
+      showSuccess.value = true
+      setTimeout(() => { showSuccess.value = false }, 3000)
+      await loadAnswers()
+    } catch (err) {
+      console.error('Failed to verify post:', err)
+    }
   }
 }
 
-const handleReject = (id) => {
+const handleReject = async (id) => {
   const ans = answers.value.find(a => a.id === id)
   if (ans) {
-    ans.status = 'Ditolak'
-    successMessage.value = `Jawaban ${ans.author} ditolak.`
-    showSuccess.value = true
-    setTimeout(() => { showSuccess.value = false }, 3000)
+    try {
+      await forumService.verifyPost(id, { is_verified: false, status: 'rejected' })
+      ans.status = 'Ditolak'
+      successMessage.value = `Jawaban ${ans.author} ditolak.`
+      showSuccess.value = true
+      setTimeout(() => { showSuccess.value = false }, 3000)
+      await loadAnswers()
+    } catch (err) {
+      console.error('Failed to reject post:', err)
+    }
   }
 }
 
-const handleMarkBest = (id) => {
+const handleMarkBest = async (id) => {
   const ans = answers.value.find(a => a.id === id)
   if (ans) {
-    ans.status = 'Diverifikasi'
-    successMessage.value = `Jawaban ${ans.author} ditandai sebagai Jawaban Terbaik!`
-    showSuccess.value = true
-    setTimeout(() => { showSuccess.value = false }, 3000)
+    try {
+      await forumService.setBestAnswer(id, id)
+      ans.status = 'Diverifikasi'
+      successMessage.value = `Jawaban ${ans.author} ditandai sebagai Jawaban Terbaik!`
+      showSuccess.value = true
+      setTimeout(() => { showSuccess.value = false }, 3000)
+      await loadAnswers()
+    } catch (err) {
+      console.error('Failed to mark best answer:', err)
+    }
   }
 }
+
+onMounted(() => {
+  loadAnswers()
+})
 </script>
 
 <style scoped>

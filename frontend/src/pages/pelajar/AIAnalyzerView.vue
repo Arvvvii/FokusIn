@@ -18,7 +18,16 @@
       </div>
 
       <!-- Primary CTA -->
-      <div class="relative z-10 flex shrink-0 w-full md:w-auto">
+      <div class="relative z-10 flex shrink-0 w-full md:w-auto gap-3 items-center">
+        <div class="relative min-w-[180px]">
+          <select v-model="selectedCategoryId" class="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-[13px] font-bold text-slate-800 focus:outline-none focus:border-[#334EAC] focus:ring-4 focus:ring-[#334EAC]/10 transition-all appearance-none cursor-pointer">
+            <option value="" disabled>Pilih Mata Kuliah</option>
+            <option v-for="cat in categories" :key="cat.id" :value="cat.id">{{ cat.name }}</option>
+          </select>
+          <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none text-slate-400">
+            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+          </div>
+        </div>
         <RouterLink to="/pelajar/ai-analyzer/create" class="btn-solid w-full md:w-auto px-5 py-2.5 flex items-center justify-center gap-2">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg>
           Analisis Baru
@@ -209,19 +218,35 @@
 </template>
 
 <script setup>
-import { ref, onMounted, computed } from 'vue'
+import { ref, onMounted, computed, watch } from 'vue'
 import { RouterLink } from 'vue-router'
 import { aiService } from '@/services/ai.service'
+import { forumService } from '@/services/forum.service'
 
 const summaryData = ref(null)
 const loading = ref(false)
 const error = ref(null)
+const categories = ref([])
+const selectedCategoryId = ref('')
+
+const fetchCategories = async () => {
+  try {
+    const data = await forumService.getCategories()
+    categories.value = data
+    if (data.length > 0) {
+      selectedCategoryId.value = data[0].id
+    }
+  } catch (err) {
+    console.error('Error fetching categories:', err)
+  }
+}
 
 const fetchSummary = async () => {
+  if (!selectedCategoryId.value) return
   loading.value = true
   error.value = null
   try {
-    const data = await aiService.getSummary(1)
+    const data = await aiService.getSummary(selectedCategoryId.value)
     summaryData.value = data
     console.log('summaryData:', summaryData.value)
   } catch (err) {
@@ -231,6 +256,14 @@ const fetchSummary = async () => {
     loading.value = false
   }
 }
+
+watch(selectedCategoryId, () => {
+  fetchSummary()
+})
+
+onMounted(async () => {
+  await fetchCategories()
+})
 
 const getFrequencyPercent = (frequency) => {
   const f = (frequency || '').toLowerCase()

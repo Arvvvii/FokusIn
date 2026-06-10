@@ -44,63 +44,104 @@
 
       <!-- Notifications List -->
       <div class="space-y-3">
-        <div 
-          v-for="notif in filteredNotifications" 
-          :key="notif.id" 
-          class="bg-white rounded-2xl p-4 shadow-sm border border-slate-200 flex gap-4 transition-colors hover:border-[#334EAC]/30 relative"
-          :class="{'border-l-4 border-l-[#334EAC]': !notif.read}"
-        >
-          <!-- Icon container based on category -->
-          <div class="w-9 h-9 rounded-xl flex items-center justify-center shrink-0 border"
-            :class="{
-              'bg-[#F7F2EB] border-[#D0E3FF] text-[#081F5C]': notif.type === 'ai',
-              'bg-emerald-50 border-emerald-100 text-emerald-600': notif.type === 'mentoring',
-              'bg-amber-50 border-amber-100 text-amber-600': notif.type === 'forum'
-            }"
+        <!-- Loading State -->
+        <div v-if="loading" class="space-y-3">
+          <div v-for="i in 3" :key="i" class="bg-white rounded-2xl p-4 border border-slate-100 animate-pulse flex gap-4">
+            <div class="w-9 h-9 rounded-xl bg-slate-100 shrink-0"></div>
+            <div class="flex-1 space-y-2 py-1">
+              <div class="h-3 bg-slate-200 rounded w-1/4"></div>
+              <div class="h-3 bg-slate-200 rounded w-3/4"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Error State -->
+        <div v-else-if="error" class="bg-white rounded-2xl border border-slate-200 p-8 text-center shadow-sm">
+          <div class="w-12 h-12 rounded-full bg-rose-50 border border-rose-100 flex items-center justify-center mx-auto mb-4 text-rose-500 shadow-sm">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          </div>
+          <h3 class="text-sm font-bold text-slate-900 mb-1">Gagal Memuat Notifikasi</h3>
+          <p class="text-xs text-slate-500 font-medium max-w-sm mx-auto mb-4">{{ error }}</p>
+          <button @click="loadNotifications" class="px-4 py-2 bg-[#334EAC] hover:bg-[#273B8C] text-white rounded-lg text-xs font-bold transition-all shadow-sm">
+            Coba Lagi
+          </button>
+        </div>
+
+        <!-- Real Data -->
+        <template v-else>
+          <div 
+            v-for="notif in filteredNotifications" 
+            :key="notif.id" 
+            class="bg-white rounded-2xl p-4 shadow-sm border border-slate-200 flex gap-4 transition-colors hover:border-[#334EAC]/30 relative"
+            :class="{'border-l-4 border-l-[#334EAC]': !notif.read}"
           >
-            <svg v-if="notif.type === 'ai'" xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
-            <svg v-else-if="notif.type === 'mentoring'" xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>
-            <svg v-else-if="notif.type === 'forum'" xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            <!-- Icon container based on category -->
+            <div class="w-9 h-9 rounded-xl flex items-center justify-center shrink-0 border"
+              :class="{
+                'bg-[#F7F2EB] border-[#D0E3FF] text-[#081F5C]': notif.type === 'ai',
+                'bg-emerald-50 border-emerald-100 text-emerald-600': notif.type === 'mentoring',
+                'bg-amber-50 border-amber-100 text-amber-600': notif.type === 'forum',
+                'bg-slate-50 border-slate-100 text-slate-600': notif.type === 'system'
+              }"
+            >
+              <svg v-if="notif.type === 'ai'" xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+              <svg v-else-if="notif.type === 'mentoring'" xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>
+              <svg v-else-if="notif.type === 'forum'" xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+              <svg v-else xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+            </div>
+
+            <!-- Content -->
+            <div class="min-w-0 flex-1">
+              <div class="flex items-center justify-between gap-4 mb-1">
+                <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">{{ notif.categoryName }}</span>
+                <span class="text-[11px] text-slate-400 font-semibold">{{ notif.time }}</span>
+              </div>
+              <h4 class="text-sm font-bold text-[#081F5C] mb-1">{{ notif.title }}</h4>
+              <p class="text-xs text-slate-500 leading-relaxed font-medium mb-3">{{ notif.message }}</p>
+              
+              <div class="flex items-center gap-2">
+                <button 
+                  @click="handleNotificationAction(notif)" 
+                  class="px-3 py-1.5 bg-slate-50 hover:bg-[#334EAC] text-[#334EAC] hover:text-white border border-slate-200 hover:border-[#334EAC] rounded-lg font-bold text-[11px] transition-colors shadow-sm"
+                >
+                  {{ notif.actionText }}
+                </button>
+                <button v-if="!notif.read" @click="toggleRead(notif.id)" class="text-[11px] font-semibold text-slate-400 hover:text-slate-600 px-2 py-1.5">
+                  Tandai dibaca
+                </button>
+              </div>
+            </div>
           </div>
 
-          <!-- Content -->
-          <div class="min-w-0 flex-1">
-            <div class="flex items-center justify-between gap-4 mb-1">
-              <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">{{ notif.categoryName }}</span>
-              <span class="text-[11px] text-slate-400 font-semibold">{{ notif.time }}</span>
+          <!-- Empty State -->
+          <div v-if="filteredNotifications.length === 0" class="bg-white rounded-2xl border border-slate-200 p-12 text-center shadow-sm">
+            <div class="w-12 h-12 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center mx-auto mb-4 text-slate-400 shadow-sm">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
             </div>
-            <h4 class="text-sm font-bold text-[#081F5C] mb-1">{{ notif.title }}</h4>
-            <p class="text-xs text-slate-500 leading-relaxed font-medium mb-3">{{ notif.message }}</p>
-            
-            <div class="flex items-center gap-2">
-              <RouterLink :to="notif.actionUrl" class="px-3 py-1.5 bg-slate-50 hover:bg-[#334EAC] text-[#334EAC] hover:text-white border border-slate-200 hover:border-[#334EAC] rounded-lg font-bold text-[11px] transition-colors shadow-sm">
-                {{ notif.actionText }}
-              </RouterLink>
-              <button v-if="!notif.read" @click="toggleRead(notif.id)" class="text-[11px] font-semibold text-slate-400 hover:text-slate-600 px-2 py-1.5">
-                Tandai dibaca
-              </button>
-            </div>
+            <h3 class="text-sm font-bold text-slate-900 mb-1">Tidak Ada Notifikasi</h3>
+            <p class="text-xs text-slate-500 font-medium max-w-sm mx-auto">Semua pemberitahuan pada filter ini telah ditinjau atau tidak ada aktivitas baru saat ini.</p>
           </div>
-        </div>
-
-        <!-- Empty State -->
-        <div v-if="filteredNotifications.length === 0" class="bg-white rounded-2xl border border-slate-200 p-12 text-center shadow-sm">
-          <div class="w-12 h-12 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center mx-auto mb-4 text-slate-400 shadow-sm">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
-          </div>
-          <h3 class="text-sm font-bold text-slate-900 mb-1">Tidak Ada Notifikasi</h3>
-          <p class="text-xs text-slate-500 font-medium max-w-sm mx-auto">Semua pemberitahuan pada filter ini telah ditinjau atau tidak ada aktivitas baru saat ini.</p>
-        </div>
+        </template>
       </div>
 
   </div>
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
-import { RouterLink } from 'vue-router'
+import { ref, computed, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
+import { 
+  notificationsService, 
+  parseNotificationType, 
+  getCategoryName,
+  formatRelativeTime 
+} from '@/services/notifications.service'
 
+const router = useRouter()
 const activeFilter = ref('all')
+const loading = ref(false)
+const error = ref(null)
+const notifications = ref([])
 
 const filters = [
   { id: 'all', name: 'Semua' },
@@ -110,52 +151,38 @@ const filters = [
   { id: 'forum', name: 'Forum Akademik' }
 ]
 
-const notifications = ref([
-  {
-    id: 1,
-    type: 'mentoring',
-    categoryName: 'Mentoring 1-on-1',
-    title: 'Sesi Mentoring Mendatang',
-    message: 'Jadwal mentoring dengan Budi Santoso mengenai topik "Optimasi Query SQL" akan dimulai dalam 30 menit.',
-    time: 'Baru saja',
-    read: false,
-    actionText: 'Buka Kelola Mentoring',
-    actionUrl: '/tutor/mentoring'
-  },
-  {
-    id: 2,
-    type: 'ai',
-    categoryName: 'AI Validation',
-    title: 'Berkas Baru Siap Validasi',
-    message: 'Sistem FokusIn AI telah berhasil mengekstraksi dokumen "Struktur_Data_UAS_2025.pdf". Mohon lakukan verifikasi hasil.',
-    time: '2 jam lalu',
-    read: false,
-    actionText: 'Review Sekarang',
-    actionUrl: '/tutor/ai-validation'
-  },
-  {
-    id: 3,
-    type: 'mentoring',
-    categoryName: 'Request Mentoring',
-    title: 'Permohonan Sesi Baru',
-    message: 'Andi Wijaya mengajukan sesi bimbingan baru untuk topik "Mekanika Klasik / Fisika Dasar" pada hari Kamis.',
-    time: '3 jam lalu',
-    read: false,
-    actionText: 'Tinjau Request',
-    actionUrl: '/tutor/mentoring'
-  },
-  {
-    id: 4,
-    type: 'forum',
-    categoryName: 'Forum Diskusi',
-    title: 'Jawaban Membutuhkan Verifikasi',
-    message: 'Pertanyaan "Kalkulus Lanjut: DI Method Tabular" memiliki 3 jawaban baru dari mahasiswa yang membutuhkan verifikasi keahlian Anda.',
-    time: 'Kemarin',
-    read: true,
-    actionText: 'Verifikasi Jawaban',
-    actionUrl: '/tutor/verify-answer'
+const loadNotifications = async () => {
+  loading.value = true
+  error.value = null
+  try {
+    const response = await notificationsService.getNotifications(1)
+    const rawList = response.data || []
+    
+    // Sort array: newest first
+    const sorted = [...rawList].sort(
+      (a, b) => new Date(b.created_at) - new Date(a.created_at)
+    )
+
+    notifications.value = sorted.map(n => {
+      const type = n.data?.type || parseNotificationType(n.type)
+      return {
+        id: n.id,
+        type: type,
+        categoryName: n.data?.category_name || n.data?.categoryName || getCategoryName(type),
+        title: n.data?.title || 'Notifikasi Baru',
+        message: n.data?.message || n.data?.content || '',
+        time: formatRelativeTime(n.created_at),
+        read: n.read_at !== null,
+        actionText: n.data?.action_text || n.data?.actionText || 'Review Sekarang',
+        actionUrl: n.data?.action_url || n.data?.actionUrl || n.data?.link || '#'
+      }
+    })
+  } catch (err) {
+    error.value = err
+  } finally {
+    loading.value = false
   }
-])
+}
 
 const filteredNotifications = computed(() => {
   return notifications.value.filter(n => {
@@ -165,12 +192,43 @@ const filteredNotifications = computed(() => {
   })
 })
 
-const toggleRead = (id) => {
+const toggleRead = async (id) => {
   const notif = notifications.value.find(n => n.id === id)
-  if (notif) notif.read = !notif.read
+  if (notif && !notif.read) {
+    try {
+      await notificationsService.markAsRead(id)
+      notif.read = true
+    } catch (err) {
+      console.error('Failed to mark notification as read:', err)
+    }
+  }
 }
 
-const markAllRead = () => {
-  notifications.value.forEach(n => n.read = true)
+const handleNotificationAction = async (notif) => {
+  if (!notif.read) {
+    try {
+      await notificationsService.markAsRead(notif.id)
+      notif.read = true
+    } catch (err) {
+      console.error('Failed to mark notification as read:', err)
+    }
+  }
+  
+  if (notif.actionUrl && notif.actionUrl !== '#') {
+    router.push(notif.actionUrl)
+  }
 }
+
+const markAllRead = async () => {
+  try {
+    await notificationsService.markAllAsRead()
+    notifications.value.forEach(n => n.read = true)
+  } catch (err) {
+    console.error('Failed to mark all as read:', err)
+  }
+}
+
+onMounted(() => {
+  loadNotifications()
+})
 </script>

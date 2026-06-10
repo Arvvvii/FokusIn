@@ -13,70 +13,87 @@
     <div class="admin-dashboard-hero mb-8">
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 relative z-10">
         <div>
-          <h1 class="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">Edit Question</h1>
-          <p class="text-[15px] text-slate-600 font-medium mt-2 max-w-xl leading-relaxed">Perbarui teks soal, jawaban, atau tingkat kesulitan.</p>
+          <h1 class="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">Edit Kuis</h1>
+          <p class="text-[15px] text-slate-600 font-medium mt-2 max-w-xl leading-relaxed">Perbarui judul, keterangan, atau konfigurasi set pertanyaan kuis.</p>
         </div>
       </div>
     </div>
 
-    <div class="admin-form-card max-w-3xl">
-      <h2 class="form-section-title">Informasi Soal</h2>
+    <div v-if="isLoading" class="text-center py-12 text-slate-500 font-medium bg-white border border-slate-200 shadow-sm rounded-2xl">
+      Memuat detail kuis...
+    </div>
+
+    <div v-else-if="quiz" class="admin-form-card max-w-3xl">
+      <h2 class="form-section-title">Informasi Kuis</h2>
       
-      <div class="space-y-5">
+      <form @submit.prevent="saveChanges" class="space-y-5">
         <div>
-          <label class="admin-label">Teks Soal</label>
-          <textarea class="admin-input min-h-[120px]" placeholder="Masukkan pertanyaan soal...">Apa fungsi mitokondria?</textarea>
+          <label class="admin-label">Judul Kuis</label>
+          <input type="text" v-model="quiz.title" class="admin-input" required placeholder="Masukkan judul kuis..." />
         </div>
         
-        <div class="grid grid-cols-2 gap-5">
-          <div>
-            <label class="admin-label">Kunci Jawaban</label>
-            <select class="admin-input">
-              <option value="A">Pilihan A</option>
-              <option value="B" selected>Pilihan B</option>
-              <option value="C">Pilihan C</option>
-              <option value="D">Pilihan D</option>
-            </select>
-          </div>
-          <div>
-            <label class="admin-label">Bobot Nilai</label>
-            <input type="number" class="admin-input" value="10" />
-          </div>
-        </div>
-
-        <div class="space-y-3 mt-4">
-          <label class="admin-label">Opsi Jawaban</label>
-          <div class="flex items-center gap-3">
-            <span class="font-bold text-slate-500 w-6">A</span>
-            <input type="text" class="admin-input" value="Sintesis protein" />
-          </div>
-          <div class="flex items-center gap-3">
-            <span class="font-bold text-[#0F8A7E] w-6">B</span>
-            <input type="text" class="admin-input border-[#17A99A] bg-[#f0fdfa]" value="Respirasi sel" />
-          </div>
-          <div class="flex items-center gap-3">
-            <span class="font-bold text-slate-500 w-6">C</span>
-            <input type="text" class="admin-input" value="Pembelahan sel" />
-          </div>
-          <div class="flex items-center gap-3">
-            <span class="font-bold text-slate-500 w-6">D</span>
-            <input type="text" class="admin-input" value="Fotosintesis" />
-          </div>
+        <div>
+          <label class="admin-label">Keterangan / Deskripsi</label>
+          <textarea v-model="quiz.description" class="admin-input min-h-[120px]" required placeholder="Keterangan mengenai kuis..."></textarea>
         </div>
 
         <div class="pt-6 border-t border-slate-100 flex justify-end gap-3 mt-8">
-          <button @click="$router.back()" class="btn-modal-secondary">Batal</button>
-          <button @click="$router.push(`/admin/quiz-monitoring/${id}`)" class="btn-modal-primary">Simpan Perubahan</button>
+          <button type="button" @click="$router.back()" class="btn-modal-secondary">Batal</button>
+          <button type="submit" :disabled="isSaving" class="btn-modal-primary flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="animate-spin" v-if="isSaving"><circle cx="12" cy="12" r="10"/><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>
+            Simpan Perubahan
+          </button>
         </div>
-      </div>
+      </form>
     </div>
   </div>
 </template>
 
 <script setup>
+import { ref, onMounted } from 'vue'
 import { useRoute, useRouter, RouterLink } from 'vue-router'
+import { quizService } from '@/services/quiz.service'
+import { useToastStore } from '@/stores/toast'
 
 const route = useRoute()
 const router = useRouter()
-const id = route.params.id || '201'
+const id = route.params.id
+const quiz = ref(null)
+const isLoading = ref(true)
+const isSaving = ref(false)
+const toastStore = useToastStore()
+
+const loadQuiz = async () => {
+  try {
+    isLoading.value = true
+    const data = await quizService.getQuizById(id)
+    quiz.value = data
+  } catch (err) {
+    console.error('Failed to load quiz for edit:', err)
+  } finally {
+    isLoading.value = false
+  }
+}
+
+const saveChanges = async () => {
+  try {
+    isSaving.value = true
+    await quizService.updateQuiz(id, {
+      title: quiz.value.title,
+      description: quiz.value.description,
+      questions: quiz.value.questions
+    })
+    toastStore.success('Kuis berhasil diperbarui.')
+    router.push(`/admin/quiz-monitoring/${id}`)
+  } catch (err) {
+    console.error('Error updating quiz:', err)
+    toastStore.error(err.message || 'Gagal menyimpan perubahan.')
+  } finally {
+    isSaving.value = false
+  }
+}
+
+onMounted(() => {
+  loadQuiz()
+})
 </script>

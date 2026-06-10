@@ -55,12 +55,13 @@
         </div>
 
         <div class="space-y-2">
-          <label class="admin-label">Upload Dataset (JSON/CSV)</label>
-          <div class="border-2 border-dashed border-slate-300 rounded-xl p-8 text-center hover:bg-slate-50 transition-colors cursor-pointer bg-white shadow-sm">
-            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mx-auto text-slate-400 mb-3"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg>
-            <p class="text-sm font-bold text-slate-900">Pilih file untuk diupload</p>
-            <p class="text-xs text-slate-500 mt-1">atau tarik dan lepas file ke sini</p>
-          </div>
+          <label class="admin-label">Deskripsi Singkat</label>
+          <textarea 
+            v-model="form.description"
+            class="admin-input resize-none"
+            rows="3"
+            placeholder="Masukkan keterangan kuis..."
+          ></textarea>
         </div>
 
         <!-- Actions -->
@@ -74,9 +75,11 @@
           </button>
           <button 
             type="submit"
-            class="text-sm font-medium h-10 px-5 rounded-xl bg-[#081F5C] text-white shadow-sm hover:bg-[#081F5C] transition-colors"
+            :disabled="isSaving"
+            class="text-sm font-medium h-10 px-5 rounded-xl bg-[#081F5C] text-white shadow-sm hover:bg-[#081F5C] transition-colors flex items-center gap-2"
           >
-            Impor & Simpan
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="animate-spin" v-if="isSaving"><circle cx="12" cy="12" r="10"/><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>
+            {{ isSaving ? 'Menyimpan...' : 'Impor & Simpan' }}
           </button>
         </div>
         
@@ -86,17 +89,44 @@
 </template>
 
 <script setup>
-import { reactive } from 'vue'
-import { useRouter } from 'vue-router'
+import { reactive, ref } from 'vue'
+import { useRouter, RouterLink } from 'vue-router'
+import { quizService } from '@/services/quiz.service'
+import { useToastStore } from '@/stores/toast'
 
 const router = useRouter()
+const toastStore = useToastStore()
+const isSaving = ref(false)
 
 const form = reactive({
   title: '',
-  subject: 'biologi'
+  description: 'Ujian Kuis Akademik Baru',
+  subject: 'biologi',
+  questions: [
+    { text: 'Apa itu organel sel pembangkit energi?', type: 'multiple', options: ['Mitokondria', 'Kloroplas', 'Ribosom', 'Nukleus'], answer: 'Mitokondria' }
+  ]
 })
 
-const submitForm = () => {
-  router.push({ name: 'admin-quiz-monitoring' })
+const submitForm = async () => {
+  try {
+    isSaving.value = true
+    await quizService.createQuiz({
+      title: form.title,
+      description: form.description,
+      category_id: 1, // Force category_id: 1 for production seeds compatibility
+      questions: form.questions.map(q => ({
+        question_text: q.text,
+        options: q.options,
+        correct_answer: q.answer
+      }))
+    })
+    toastStore.success('Kuis berhasil dibuat.')
+    router.push({ name: 'admin-quiz-monitoring' })
+  } catch (err) {
+    console.error('Failed to create quiz:', err)
+    toastStore.error('Gagal membuat kuis.')
+  } finally {
+    isSaving.value = false
+  }
 }
 </script>

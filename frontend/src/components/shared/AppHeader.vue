@@ -56,34 +56,33 @@
       <!-- Notification -->
       <div class="relative">
         <button @click="showNotif = !showNotif" class="relative p-2.5 text-slate-400 hover:text-[#081F5C] hover:bg-[#EDF1F6] rounded-xl transition-colors focus:outline-none">
-          <span class="absolute top-[9px] right-[10px] w-2 h-2 bg-rose-500 rounded-full ring-2 ring-white z-10"></span>
+          <span v-if="unreadCount > 0" class="absolute top-[9px] right-[10px] w-2 h-2 bg-rose-500 rounded-full ring-2 ring-white z-10"></span>
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
         </button>
         <!-- Notif Popover -->
         <div v-if="showNotif" class="absolute right-0 mt-2 w-80 bg-white rounded-2xl shadow-xl border border-slate-100 overflow-hidden z-50 animate-in slide-in-from-top-2">
           <div class="px-4 py-3 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
             <span class="font-bold text-[#081F5C] text-sm">Notifikasi</span>
-            <span class="text-xs font-bold text-[#334EAC] bg-[#334EAC]/10 px-2 py-0.5 rounded-md">2 Baru</span>
+            <span class="text-xs font-bold text-[#334EAC] bg-[#334EAC]/10 px-2 py-0.5 rounded-md">{{ unreadCount }} Baru</span>
           </div>
           <div class="p-2">
-            <div class="p-3 hover:bg-slate-50 rounded-xl cursor-pointer transition-colors flex gap-3">
-              <div class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center shrink-0">
-                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-              </div>
-              <div>
-                <p class="text-sm font-bold text-[#081F5C] mb-0.5">Analisis AI Selesai</p>
-                <p class="text-xs text-slate-500">Hasil analisis "Fisika Dasar 1" sudah siap dilihat.</p>
-                <p class="text-[10px] font-bold text-slate-400 mt-1">Baru saja</p>
-              </div>
+            <div v-if="mappedPreview.length === 0" class="p-6 text-center text-xs text-slate-400 font-medium">
+              Belum ada notifikasi baru
             </div>
-            <div class="p-3 hover:bg-slate-50 rounded-xl cursor-pointer transition-colors flex gap-3">
-              <div class="w-8 h-8 rounded-full bg-amber-100 text-amber-600 flex items-center justify-center shrink-0">
-                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            <div v-else v-for="notif in mappedPreview" :key="notif.id" @click="handleNotifClick(notif)" class="p-3 hover:bg-slate-50 rounded-xl cursor-pointer transition-colors flex gap-3">
+              <div :class="['w-8 h-8 rounded-full flex items-center justify-center shrink-0 text-xs', getIconClass(notif.type)]">
+                <svg v-if="notif.type === 'mentoring'" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>
+                <svg v-else-if="notif.type === 'forum'" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                <svg v-else-if="notif.type === 'ai'" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+                <svg v-else xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
               </div>
-              <div>
-                <p class="text-sm font-bold text-[#081F5C] mb-0.5">Pengingat Mentoring</p>
-                <p class="text-xs text-slate-500">Sesi dengan Dr. Sarah dimulai dalam 1 jam.</p>
-                <p class="text-[10px] font-bold text-slate-400 mt-1">1 jam yang lalu</p>
+              <div class="min-w-0 flex-1">
+                <p :class="['text-xs mb-0.5 truncate', notif.isRead ? 'text-slate-600 font-bold' : 'text-[#081F5C] font-extrabold']">{{ notif.title }}</p>
+                <p class="text-[11px] text-slate-500 line-clamp-2 leading-tight">{{ notif.message }}</p>
+                <p class="text-[9px] font-bold text-slate-400 mt-1 flex items-center gap-1.5">
+                  <span v-if="!notif.isRead" class="w-1.5 h-1.5 bg-[#334EAC] rounded-full"></span>
+                  {{ notif.time }}
+                </p>
               </div>
             </div>
           </div>
@@ -148,9 +147,16 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { RouterLink, useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
+import { 
+  notificationsService, 
+  unreadCount, 
+  notificationsPreview,
+  parseNotificationType,
+  formatRelativeTime
+} from '@/services/notifications.service'
 
 const router = useRouter()
 const authStore = useAuthStore()
@@ -164,4 +170,48 @@ const showNotif = ref(false)
 const showProfile = ref(false)
 const showComingSoon = ref(false)
 const isMobileSearchOpen = ref(false)
+
+const mappedPreview = computed(() => {
+  return notificationsPreview.value.map(n => {
+    const type = n.data?.type || parseNotificationType(n.type)
+    return {
+      id: n.id,
+      type: type,
+      title: n.data?.title || 'Notifikasi Baru',
+      message: n.data?.message || n.data?.content || '',
+      time: formatRelativeTime(n.created_at),
+      isRead: n.read_at !== null,
+      link: n.data?.action_url || n.data?.link || '#'
+    }
+  })
+})
+
+const getIconClass = (type) => {
+  switch (type) {
+    case 'mentoring': return 'bg-[#EEF3FF] text-[#334EAC]'
+    case 'forum': return 'bg-emerald-50 text-emerald-600'
+    case 'ai': return 'bg-purple-50 text-purple-600'
+    default: return 'bg-slate-50 text-slate-600'
+  }
+}
+
+const handleNotifClick = async (notif) => {
+  showNotif.value = false
+  if (!notif.isRead) {
+    try {
+      await notificationsService.markAsRead(notif.id)
+    } catch (err) {
+      console.error('Failed to mark notification as read:', err)
+    }
+  }
+  if (notif.link && notif.link !== '#') {
+    router.push(notif.link)
+  }
+}
+
+onMounted(() => {
+  notificationsService.getNotifications(1).catch(err => {
+    console.error('Failed to fetch notifications in header:', err)
+  })
+})
 </script>

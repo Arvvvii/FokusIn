@@ -49,34 +49,33 @@
       <!-- Notification -->
       <div class="relative">
         <button @click="showNotif = !showNotif" class="relative p-2.5 text-slate-400 hover:text-[#081F5C] hover:bg-[#EDF1F6] rounded-xl transition-colors focus:outline-none">
-          <span class="absolute top-[9px] right-[10px] w-2 h-2 bg-rose-500 rounded-full ring-2 ring-white z-10"></span>
+          <span v-if="unreadCount > 0" class="absolute top-[9px] right-[10px] w-2 h-2 bg-rose-500 rounded-full ring-2 ring-white z-10"></span>
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
         </button>
         <!-- Notif Popover -->
         <div v-if="showNotif" class="notif-dropdown absolute right-0 mt-2 w-80 z-50 animate-in slide-in-from-top-2">
           <div class="px-4 py-3 flex justify-between items-center">
             <span class="notif-header">Notifikasi Mentor</span>
-            <span class="notif-badge-count">2 Baru</span>
+            <span class="notif-badge-count">{{ unreadCount }} Baru</span>
           </div>
           <div class="p-2">
-            <div class="notif-item">
-              <div class="notif-icon-jadwal flex items-center justify-center shrink-0">
-                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-              </div>
-              <div>
-                <p class="notif-title">Sesi Mendatang</p>
-                <p class="notif-desc">Mentoring dengan Budi S. dalam 30 menit.</p>
-                <p class="notif-time">Baru saja</p>
-              </div>
+            <div v-if="mappedPreview.length === 0" class="p-6 text-center text-xs text-slate-400 font-medium bg-white rounded-xl">
+              Belum ada notifikasi baru
             </div>
-            <div class="notif-item">
-              <div class="notif-icon-ai flex items-center justify-center shrink-0">
-                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+            <div v-else v-for="notif in mappedPreview" :key="notif.id" @click="handleNotifClick(notif)" class="notif-item cursor-pointer">
+              <div :class="['flex items-center justify-center shrink-0 w-8 h-8 rounded-full', getIconClass(notif.type)]">
+                <svg v-if="notif.type === 'mentoring'" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                <svg v-else-if="notif.type === 'ai'" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+                <svg v-else-if="notif.type === 'forum'" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                <svg v-else xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
               </div>
-              <div>
-                <p class="notif-title">AI Insight</p>
-                <p class="notif-desc">Peningkatan aktivitas diskusi di topik "Pointer".</p>
-                <p class="notif-time">2 jam lalu</p>
+              <div class="min-w-0 flex-1">
+                <p class="notif-title truncate">{{ notif.title }}</p>
+                <p class="notif-desc line-clamp-2">{{ notif.message }}</p>
+                <p class="notif-time flex items-center gap-1">
+                  <span v-if="!notif.isRead" class="w-1.5 h-1.5 bg-[#334EAC] rounded-full inline-block"></span>
+                  {{ notif.time }}
+                </p>
               </div>
             </div>
           </div>
@@ -128,9 +127,16 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { RouterLink, useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
+import { 
+  notificationsService, 
+  unreadCount, 
+  notificationsPreview,
+  parseNotificationType,
+  formatRelativeTime
+} from '@/services/notifications.service'
 
 const router = useRouter()
 const authStore = useAuthStore()
@@ -146,4 +152,48 @@ const showProfile = ref(false)
 // MOCK DATA FOR DYNAMIC PILLS
 const activeJadwalCount = ref(2)
 const verifyQueueCount = ref(12)
+
+const mappedPreview = computed(() => {
+  return notificationsPreview.value.map(n => {
+    const type = n.data?.type || parseNotificationType(n.type)
+    return {
+      id: n.id,
+      type: type,
+      title: n.data?.title || 'Notifikasi Baru',
+      message: n.data?.message || n.data?.content || '',
+      time: formatRelativeTime(n.created_at),
+      isRead: n.read_at !== null,
+      link: n.data?.action_url || n.data?.link || '#'
+    }
+  })
+})
+
+const getIconClass = (type) => {
+  switch (type) {
+    case 'mentoring': return 'bg-emerald-500/10 text-emerald-700'
+    case 'ai': return 'bg-purple-500/10 text-purple-700'
+    case 'forum': return 'bg-amber-500/10 text-amber-700'
+    default: return 'bg-slate-500/10 text-slate-700'
+  }
+}
+
+const handleNotifClick = async (notif) => {
+  showNotif.value = false
+  if (!notif.isRead) {
+    try {
+      await notificationsService.markAsRead(notif.id)
+    } catch (err) {
+      console.error('Failed to mark notification as read:', err)
+    }
+  }
+  if (notif.link && notif.link !== '#') {
+    router.push(notif.link)
+  }
+}
+
+onMounted(() => {
+  notificationsService.getNotifications(1).catch(err => {
+    console.error('Failed to fetch notifications in tutor header:', err)
+  })
+})
 </script>

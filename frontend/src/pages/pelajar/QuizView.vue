@@ -203,7 +203,7 @@ const fetchQuizzes = async () => {
   error.value = null
   try {
     const res = await quizService.getQuizzes()
-    quizzes.value = res.data || []
+    quizzes.value = res || []
   } catch (err) {
     error.value = err
   } finally {

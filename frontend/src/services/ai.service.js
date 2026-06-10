@@ -31,5 +31,18 @@ export const aiService = {
       // Mengambil pesan error dari Laravel jika ada
       throw error.response?.data?.message || 'Gagal memperbarui analisis AI.'
     }
+  },
+
+  /**
+   * Menganalisis dokumen menggunakan AI.
+   * POST /ai/analyze
+   */
+  async analyzeDocument(payload) {
+    try {
+      const response = await api.post('/ai/analyze', payload)
+      return response.data
+    } catch (error) {
+      throw error.response?.data?.message || 'Gagal menganalisis dokumen.'
+    }
   }
 }

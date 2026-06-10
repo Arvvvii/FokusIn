@@ -190,51 +190,68 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
+import { mentoringService } from '@/services/mentoring.service'
 
 const router = useRouter()
 const showSuccess = ref(false)
 const successMessage = ref('')
 const currentTab = ref('upcoming')
-const hasPendingRequest = ref(true)
+const hasPendingRequest = ref(false)
+const sessions = ref([])
 
-const sessions = ref([
-  {
-    id: 1,
-    studentName: 'Budi Santoso',
-    initials: 'BS',
-    topic: 'Struktur Data (Binary Search Tree)',
-    notes: 'Butuh bantuan memahami BST traversal dan visualisasi pencariannya.',
-    time: 'Hari Ini, 10:00 WIB',
-    duration: '90 Menit',
-    status: 'Telah Dikonfirmasi',
-    tab: 'upcoming'
-  },
-  {
-    id: 2,
-    studentName: 'Siti Aminah',
-    initials: 'SA',
-    topic: 'Algoritma Pencarian & Sorting',
-    notes: 'Kuis besok, butuh review cepat mengenai Merge Sort dan Quick Sort.',
-    time: '25 Mei 2026, 14:00 WIB',
-    duration: '60 Menit',
-    status: 'Menunggu Konfirmasi',
-    tab: 'requests'
-  },
-  {
-    id: 3,
-    studentName: 'Rizky Dharmawan',
-    initials: 'RD',
-    rep: 120,
-    topic: 'Java Object-Oriented Programming',
-    notes: 'Sesi selesai dengan sangat baik.',
-    time: 'Kemarin, 16:00 WIB',
-    duration: '60 Menit',
-    status: 'Selesai',
-    tab: 'completed'
+const getAvatarInitials = (name) => {
+  if (!name) return '?'
+  const parts = name.trim().split(/\s+/)
+  if (parts.length >= 2) {
+    return (parts[0][0] + parts[1][0]).toUpperCase()
   }
-])
+  return parts[0].substring(0, 2).toUpperCase()
+}
+
+const formatTime = (dateString) => {
+  if (!dateString) return ''
+  const date = new Date(dateString)
+  return date.toLocaleString('id-ID', {
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit'
+  }) + ' WIB'
+}
+
+const mapSessionTab = (status) => {
+  const s = (status || '').toLowerCase()
+  if (s === 'pending' || s === 'requested') return 'requests'
+  if (s === 'completed' || s === 'finished') return 'completed'
+  return 'upcoming'
+}
+
+const loadSessions = async () => {
+  try {
+    const data = await mentoringService.getSessions()
+    const rawList = data || []
+    sessions.value = rawList.map(sess => {
+      const studentName = sess.student?.name || sess.student_name || 'Mahasiswa'
+      return {
+        id: sess.id,
+        studentName: studentName,
+        initials: getAvatarInitials(studentName),
+        topic: sess.title || sess.topic || 'Mentoring Akademik',
+        notes: sess.note || sess.notes || 'Tidak ada catatan.',
+        time: formatTime(sess.scheduled_at || sess.time),
+        duration: sess.duration_minutes ? `${sess.duration_minutes} Menit` : '60 Menit',
+        status: sess.status === 'pending' ? 'Menunggu Konfirmasi' : (sess.status === 'completed' ? 'Selesai' : 'Telah Dikonfirmasi'),
+        tab: mapSessionTab(sess.status)
+      }
+    })
+    hasPendingRequest.value = sessions.value.some(s => s.tab === 'requests')
+  } catch (err) {
+    console.error('Error fetching mentoring sessions:', err)
+  }
+}
 
 const filteredSessions = computed(() => {
   return sessions.value.filter(s => s.tab === currentTab.value)
@@ -244,16 +261,26 @@ const viewFeedback = (id) => {
   router.push('/tutor/mentoring/feedback/' + id)
 }
 
-const acceptRequest = (id) => {
+const acceptRequest = async (id) => {
   const sess = sessions.value.find(s => s.id === id)
   if (sess) {
-    sess.tab = 'upcoming'
-    sess.status = 'Telah Dikonfirmasi'
-    successMessage.value = `Permintaan bimbingan dari ${sess.studentName} berhasil disetujui!`
-    showSuccess.value = true
-    setTimeout(() => { showSuccess.value = false }, 3000)
+    try {
+      await mentoringService.updateSessionStatus(id, 'confirmed')
+      sess.tab = 'upcoming'
+      sess.status = 'Telah Dikonfirmasi'
+      successMessage.value = `Permintaan bimbingan dari ${sess.studentName} berhasil disetujui!`
+      showSuccess.value = true
+      setTimeout(() => { showSuccess.value = false }, 3000)
+      await loadSessions()
+    } catch (err) {
+      console.error('Failed to accept mentoring request:', err)
+    }
   }
 }
+
+onMounted(() => {
+  loadSessions()
+})
 </script>
 
 <style scoped>

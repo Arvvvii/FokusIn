@@ -27,28 +27,71 @@
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
         </div>
         <input 
+          v-model="searchQuery"
           type="text" 
           class="admin-search-input pl-11 pr-4 py-1.5" 
           placeholder="Cari nama, email..."
         >
       </div>
       <div class="flex items-center gap-2 w-full md:w-auto ml-auto">
-        <select class="filter-dropdown appearance-none">
+        <select v-model="filterRole" class="filter-dropdown appearance-none">
           <option value="">Semua Role</option>
-          <option value="pelajar">Pelajar</option>
-          <option value="tutor">Tutor</option>
-          <option value="admin">Admin</option>
+          <option value="Pelajar">Pelajar</option>
+          <option value="Tutor">Tutor</option>
+          <option value="Admin">Admin</option>
         </select>
-        <select class="filter-dropdown appearance-none">
+        <select v-model="filterStatus" class="filter-dropdown appearance-none">
           <option value="">Semua Status</option>
-          <option value="active">Active</option>
-          <option value="suspended">Suspended</option>
+          <option value="Active">Active</option>
+          <option value="Suspended">Suspended</option>
         </select>
       </div>
     </div>
 
     <!-- Table Container -->
-    <div class="admin-table-container">
+    <!-- Skeleton Loading State -->
+    <div v-if="isLoading" class="space-y-4">
+      <div v-for="n in 5" :key="n" class="w-full bg-white border border-slate-200/60 rounded-2xl p-5 animate-pulse flex items-center justify-between">
+        <div class="flex items-center gap-3 w-1/3">
+          <div class="w-9 h-9 rounded-full bg-slate-200"></div>
+          <div class="space-y-2 flex-1">
+            <div class="h-4 bg-slate-200 rounded w-2/3"></div>
+            <div class="h-3 bg-slate-200 rounded w-1/2"></div>
+          </div>
+        </div>
+        <div class="h-6 bg-slate-200 rounded w-20"></div>
+        <div class="h-4 bg-slate-200 rounded w-16"></div>
+        <div class="h-4 bg-slate-200 rounded w-24"></div>
+        <div class="h-8 bg-slate-200 rounded w-28"></div>
+      </div>
+    </div>
+
+    <!-- Error State with Retry Button -->
+    <div v-else-if="errorMsg" class="bg-white border border-slate-200 shadow-sm rounded-2xl p-10 text-center flex flex-col items-center justify-center gap-4">
+      <div class="w-12 h-12 rounded-full bg-rose-50 text-rose-500 flex items-center justify-center">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/></svg>
+      </div>
+      <div>
+        <h3 class="text-lg font-bold text-slate-900">Gagal memuat data pengguna.</h3>
+        <p class="text-sm text-slate-500 mt-1">{{ errorMsg }}</p>
+      </div>
+      <button @click="loadUsers" class="px-5 py-2 bg-[#081F5C] hover:bg-[#334EAC] text-white text-xs font-bold rounded-xl transition-colors shadow-sm">
+        Coba Lagi
+      </button>
+    </div>
+
+    <!-- Empty State -->
+    <div v-else-if="filteredUsers.length === 0" class="bg-white border border-slate-200 shadow-sm rounded-2xl p-10 text-center flex flex-col items-center justify-center gap-4">
+      <div class="w-12 h-12 rounded-full bg-slate-50 text-slate-400 flex items-center justify-center">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+      </div>
+      <div>
+        <h3 class="text-lg font-bold text-slate-900">Tidak ada pengguna ditemukan.</h3>
+        <p class="text-sm text-slate-500 mt-1">Gunakan kata kunci atau filter lain untuk memperluas pencarian Anda.</p>
+      </div>
+    </div>
+
+    <div v-else class="admin-table-container">
       <div class="overflow-x-auto">
         <table class="w-full text-left border-collapse">
           <thead>
@@ -61,10 +104,10 @@
             </tr>
           </thead>
           <tbody class="divide-y divide-slate-100">
-            <tr v-for="user in users" :key="user.id" class="admin-table-row group">
+            <tr v-for="user in filteredUsers" :key="user.id" class="admin-table-row group">
               <td class="px-6 py-4">
                 <div class="flex items-center gap-3">
-                  <div class="w-9 h-9 rounded-full flex items-center justify-center text-white font-bold text-xs shrink-0" :class="user.avatarBg">
+                  <div class="w-9 h-9 rounded-full flex items-center justify-center text-white font-bold text-xs shrink-0" :class="user.avatarBg || 'bg-slate-400'">
                     {{ user.initials }}
                   </div>
                   <div>
@@ -90,11 +133,8 @@
                   <button class="p-1.5 text-slate-400 bg-slate-50 hover:text-[#081F5C] hover:bg-[#F7F2EB] rounded-lg transition-colors border border-slate-100" title="Edit" @click="openModal('Edit', user)">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/></svg>
                   </button>
-                  <button class="p-1.5 text-slate-400 bg-slate-50 hover:text-amber-600 hover:bg-amber-50 rounded-lg transition-colors border border-slate-100" title="Activity" @click="openModal('Activity', user)">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-                  </button>
-                  <button class="p-1.5 text-slate-400 bg-slate-50 hover:text-teal-600 hover:bg-teal-50 rounded-lg transition-colors border border-slate-100" title="Reset Password" @click="openModal('Reset Password', user)">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                  <button class="p-1.5 text-slate-400 bg-slate-50 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-colors border border-slate-100" title="Delete" @click="openModal('Delete', user)">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
                   </button>
                   <button v-if="user.status === 'Active'" class="p-1.5 text-slate-400 bg-slate-50 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-colors border border-slate-100" title="Suspend" @click="openModal('Suspend', user)">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="4.93" x2="19.07" y1="4.93" y2="19.07"/></svg>
@@ -109,11 +149,7 @@
         </table>
       </div>
       <div class="px-6 py-4 border-t border-slate-200 flex items-center justify-between bg-slate-50/50">
-        <span class="text-xs font-medium text-slate-500">Menampilkan 1-6 dari 6 user</span>
-        <div class="flex gap-2">
-          <button class="px-3 py-1.5 border border-slate-200 rounded-lg text-xs font-medium text-slate-400 cursor-not-allowed bg-white">Prev</button>
-          <button class="px-3 py-1.5 border border-slate-200 rounded-lg text-xs font-medium text-slate-700 hover:bg-slate-50 bg-white">Next</button>
-        </div>
+        <span class="text-xs font-medium text-slate-500">Menampilkan {{ filteredUsers.length }} pengguna</span>
       </div>
     </div>
 
@@ -134,7 +170,7 @@
           
           <div class="admin-modal-body">
             <div class="flex items-center gap-4 mb-6">
-              <div class="w-12 h-12 rounded-full flex items-center justify-center text-white font-bold text-lg shrink-0" :class="selectedUser?.avatarBg">
+              <div class="w-12 h-12 rounded-full flex items-center justify-center text-white font-bold text-lg shrink-0" :class="selectedUser?.avatarBg || 'bg-slate-400'">
                 {{ selectedUser?.initials }}
               </div>
               <div>
@@ -146,7 +182,7 @@
             <p class="text-sm text-slate-600 mb-6">
               <span v-if="modalAction === 'Suspend'">Anda yakin ingin menangguhkan akun ini? Pengguna tidak akan bisa mengakses platform.</span>
               <span v-else-if="modalAction === 'Activate'">Anda yakin ingin mengaktifkan kembali akun ini?</span>
-              <span v-else-if="modalAction === 'Reset Password'">Sistem akan mengirimkan tautan reset password ke email pengguna.</span>
+              <span v-else-if="modalAction === 'Delete'">Anda yakin ingin menghapus permanen akun pengguna ini? Tindakan ini tidak dapat dibatalkan.</span>
               <span v-else>Formulir {{ modalAction.toLowerCase() }} untuk {{ selectedUser?.name }} akan dimuat di sini (Simulasi fungsional).</span>
             </p>
 
@@ -155,7 +191,7 @@
               <button 
                 @click="confirmAction" 
                 class="btn-modal-primary"
-                :class="modalAction === 'Suspend' ? '!bg-rose-600 hover:!bg-rose-700 !shadow-rose-600/25' : ''"
+                :class="modalAction === 'Suspend' || modalAction === 'Delete' ? '!bg-rose-600 hover:!bg-rose-700 !shadow-rose-600/25' : ''"
               >
                 Konfirmasi {{ modalAction }}
               </button>
@@ -168,20 +204,72 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed, onMounted } from 'vue'
+import { adminService } from '@/services/admin.service'
 
-const users = ref([
-  { id: 1, name: 'Dr. Sarah R.', email: 'sarah.r@university.edu', role: 'Tutor', status: 'Active', lastActive: '2 mins ago', initials: 'SR', avatarBg: 'bg-gradient-to-br from-[#334EAC] to-[#081F5C]' },
-  { id: 2, name: 'Andi Pratama', email: 'andi.p@student.edu', role: 'Pelajar', status: 'Active', lastActive: '1 hour ago', initials: 'AP', avatarBg: 'bg-gradient-to-br from-[#7096D1] to-[#7096D1]' },
-  { id: 3, name: 'Budi Santoso', email: 'budi.s@student.edu', role: 'Pelajar', status: 'Suspended', lastActive: '1 week ago', initials: 'BS', avatarBg: 'bg-gradient-to-br from-slate-400 to-slate-500' },
-  { id: 4, name: 'Prof. Anderson', email: 'anderson@university.edu', role: 'Tutor', status: 'Active', lastActive: '3 hours ago', initials: 'PA', avatarBg: 'bg-gradient-to-br from-emerald-400 to-teal-500' },
-  { id: 5, name: 'Rina Wijaya', email: 'rina.w@student.edu', role: 'Pelajar', status: 'Active', lastActive: '10 mins ago', initials: 'RW', avatarBg: 'bg-gradient-to-br from-rose-400 to-orange-400' },
-  { id: 6, name: 'Admin Utama', email: 'admin@fokusin.com', role: 'Admin', status: 'Active', lastActive: 'Just now', initials: 'AU', avatarBg: 'bg-gradient-to-br from-sky-400 to-blue-500' },
-])
+const users = ref([])
+const isLoading = ref(true)
+const errorMsg = ref(null)
+
+const searchQuery = ref('')
+const filterRole = ref('')
+const filterStatus = ref('')
 
 const isModalOpen = ref(false)
 const modalAction = ref('')
 const selectedUser = ref(null)
+
+const loadUsers = async () => {
+  try {
+    isLoading.value = true
+    errorMsg.value = null
+    const response = await adminService.getUsers()
+    // Frontend will consume the paginated payload and use response.data.data as the primary dataset while preserving future pagination support.
+    const rawList = response.data || response || []
+    
+    users.value = rawList.map(u => {
+      const initials = u.name ? u.name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase() : 'U'
+      const colors = [
+        'bg-gradient-to-br from-[#334EAC] to-[#081F5C]',
+        'bg-gradient-to-br from-[#7096D1] to-[#7096D1]',
+        'bg-gradient-to-br from-emerald-400 to-teal-500',
+        'bg-gradient-to-br from-rose-400 to-orange-400',
+        'bg-gradient-to-br from-violet-500 to-indigo-600',
+        'bg-gradient-to-br from-sky-400 to-blue-500'
+      ]
+      const avatarBg = colors[u.id % colors.length]
+      
+      let mappedRole = u.role || 'Pelajar'
+      if (mappedRole.toLowerCase() === 'pelajar') mappedRole = 'Pelajar'
+      else if (mappedRole.toLowerCase() === 'tutor') mappedRole = 'Tutor'
+      else if (mappedRole.toLowerCase() === 'admin') mappedRole = 'Admin'
+
+      return {
+        ...u,
+        role: mappedRole,
+        status: u.status || 'Active',
+        lastActive: u.updated_at ? new Date(u.updated_at).toLocaleDateString('id-ID') : 'Baru saja',
+        initials,
+        avatarBg
+      }
+    })
+  } catch (err) {
+    console.error('Failed to load users:', err)
+    errorMsg.value = err.message || 'Gagal memuat data pengguna.'
+  } finally {
+    isLoading.value = false
+  }
+}
+
+const filteredUsers = computed(() => {
+  return users.value.filter(u => {
+    const matchesSearch = u.name.toLowerCase().includes(searchQuery.value.toLowerCase()) || 
+                          u.email.toLowerCase().includes(searchQuery.value.toLowerCase())
+    const matchesRole = !filterRole.value || u.role === filterRole.value
+    const matchesStatus = !filterStatus.value || u.status === filterStatus.value
+    return matchesSearch && matchesRole && matchesStatus
+  })
+})
 
 const openModal = (action, user) => {
   modalAction.value = action
@@ -197,12 +285,25 @@ const closeModal = () => {
   }, 300)
 }
 
-const confirmAction = () => {
-  if (modalAction.value === 'Suspend') {
-    selectedUser.value.status = 'Suspended'
-  } else if (modalAction.value === 'Activate') {
-    selectedUser.value.status = 'Active'
+const confirmAction = async () => {
+  if (!selectedUser.value) return
+  try {
+    if (modalAction.value === 'Suspend') {
+      await adminService.updateUser(selectedUser.value.id, { status: 'Suspended' })
+    } else if (modalAction.value === 'Activate') {
+      await adminService.updateUser(selectedUser.value.id, { status: 'Active' })
+    } else if (modalAction.value === 'Delete') {
+      await adminService.deleteUser(selectedUser.value.id)
+    }
+    await loadUsers()
+  } catch (err) {
+    console.error('Error executing user action:', err)
+  } finally {
+    closeModal()
   }
-  closeModal()
 }
+
+onMounted(() => {
+  loadUsers()
+})
 </script>

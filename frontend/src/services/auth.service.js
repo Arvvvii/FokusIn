@@ -46,7 +46,7 @@
     // Ambil profil user yang sedang login dari server
     async fetchUser() {
       try {
-        const response = await api.get('/auth/user')
+        const response = await api.get('/auth/me')
         localStorage.setItem('fokusin_user', JSON.stringify(response.data))
         return response.data
       } catch (error) {

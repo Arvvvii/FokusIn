@@ -29,8 +29,16 @@
         </button>
       </div>
 
+      <!-- LOADING & EMPTY STATES -->
+      <div v-if="isLoading" class="text-center py-12 text-slate-500 font-medium">
+        Memuat riwayat verifikasi...
+      </div>
+      <div v-else-if="filteredHistory.length === 0" class="text-center py-12 text-slate-400 font-semibold border border-dashed border-slate-200 rounded-2xl bg-white">
+        Belum ada riwayat verifikasi untuk kategori ini.
+      </div>
+
       <!-- LIST LOGS -->
-      <div class="space-y-4">
+      <div v-else class="space-y-4">
         <div 
           v-for="item in filteredHistory" 
           :key="item.id" 
@@ -70,41 +78,67 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
+import { forumService } from '@/services/forum.service'
 
 const activeFilter = ref('Semua')
-const history = ref([
-  {
-    id: 1,
-    initial: 'BS',
-    studentName: 'Budi Santoso',
-    time: '2 jam lalu',
-    decision: 'Verified',
-    topic: 'Optimasi Query SQL',
-    answerText: 'Menggunakan indexing pada composite columns dan menganalisa execution plan dengan EXPLAIN.',
-    feedback: 'Penjelasan yang logis dan sesuai standard industri.'
-  },
-  {
-    id: 2,
-    initial: 'AW',
-    studentName: 'Andi Wijaya',
-    time: '1 hari lalu',
-    decision: 'Best Answer',
-    topic: 'Struktur Data BST',
-    answerText: 'Teknik penelusuran Binary Search Tree menggunakan iterasi stack internal dibanding rekursi murni.',
-    feedback: 'Sangat baik! Teknik ini mencegah call-stack overflow pada tree yang besar.'
-  },
-  {
-    id: 3,
-    initial: 'RD',
-    studentName: 'Rizky Dharmawan',
-    time: '2 hari lalu',
-    decision: 'Rejected',
-    topic: 'Java Pointer Null',
-    answerText: 'Membungkus try-catch NullPointerException secara paksa di semua blok kode.',
-    feedback: 'Bad practice. Hindari menangkap exception umum, lakukan check null sebelum method invocation.'
+const history = ref([])
+const isLoading = ref(false)
+
+const getAvatarInitials = (name) => {
+  if (!name) return '?'
+  const parts = name.trim().split(/\s+/)
+  if (parts.length >= 2) {
+    return (parts[0][0] + parts[1][0]).toUpperCase()
   }
-])
+  return parts[0].substring(0, 2).toUpperCase()
+}
+
+const formatTime = (dateString) => {
+  if (!dateString) return ''
+  const date = new Date(dateString)
+  const now = new Date()
+  const diffMs = now - date
+  const diffMins = Math.floor(diffMs / 60000)
+  const diffHours = Math.floor(diffMins / 60)
+  const diffDays = Math.floor(diffHours / 24)
+
+  if (diffMins < 1) return 'Baru saja'
+  if (diffMins < 60) return `${diffMins} menit lalu`
+  if (diffHours < 24) return `${diffHours} jam lalu`
+  return `${diffDays} hari lalu`
+}
+
+const loadHistory = async () => {
+  try {
+    isLoading.value = true
+    const response = await forumService.getPosts()
+    const rawList = response.data || []
+    
+    // We filter for posts that are either verified or set as best answer.
+    history.value = rawList
+      .filter(post => post.is_verified || post.is_best_answer)
+      .map(post => {
+        let decision = 'Verified'
+        if (post.is_best_answer) decision = 'Best Answer'
+        const studentName = post.user ? post.user.name : 'Anonim'
+        return {
+          id: post.id,
+          initial: getAvatarInitials(studentName),
+          studentName,
+          time: formatTime(post.created_at),
+          decision: decision,
+          topic: post.title || 'Diskusi Akademik',
+          answerText: post.content,
+          feedback: post.feedback || 'Telah ditinjau dan divalidasi oleh Tutor.'
+        }
+      })
+  } catch (err) {
+    console.error('Error loading verification history:', err)
+  } finally {
+    isLoading.value = false
+  }
+}
 
 const filteredHistory = computed(() => {
   if (activeFilter.value === 'Semua') return history.value
@@ -112,5 +146,9 @@ const filteredHistory = computed(() => {
   if (activeFilter.value === 'Terverifikasi') return history.value.filter(h => h.decision === 'Verified')
   if (activeFilter.value === 'Ditolak') return history.value.filter(h => h.decision === 'Rejected')
   return history.value
+})
+
+onMounted(() => {
+  loadHistory()
 })
 </script>

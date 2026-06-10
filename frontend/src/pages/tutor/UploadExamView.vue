@@ -84,11 +84,9 @@
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div class="space-y-2">
               <label class="text-[11px] font-bold text-slate-400 uppercase tracking-wider ml-1">Mata Kuliah</label>
-              <select v-model="selectedSubject" class="input-field">
+              <select v-model="selectedCategoryId" class="input-field">
                 <option value="" disabled selected>Pilih Mata Kuliah</option>
-                <option>Struktur Data</option>
-                <option>Algoritma Dasar</option>
-                <option>Sistem Basis Data</option>
+                <option v-for="cat in categories" :key="cat.id" :value="cat.id">{{ cat.name }}</option>
               </select>
             </div>
             
@@ -173,19 +171,37 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useRouter, RouterLink } from 'vue-router'
-import api from '@/services/api'
+import { forumService } from '@/services/forum.service'
+import { examUploadService } from '@/services/examUpload.service'
 
 const router = useRouter()
 const selectedFile = ref(null)
-const selectedSubject = ref('')
+const categories = ref([])
+const selectedCategoryId = ref('')
 const selectedSemester = ref('')
 const selectedCategory = ref('UAS')
 const isUploading = ref(false)
 const showSuccess = ref(false)
 const showError = ref(false)
 const errorMessage = ref('')
+
+const fetchCategories = async () => {
+  try {
+    const data = await forumService.getCategories()
+    categories.value = data || []
+    if (categories.value.length > 0) {
+      selectedCategoryId.value = categories.value[0].id
+    }
+  } catch (err) {
+    console.error('Gagal mengambil data kategori:', err)
+  }
+}
+
+onMounted(() => {
+  fetchCategories()
+})
 
 const fileInput = ref(null)
 const isDragActive = ref(false)
@@ -259,14 +275,10 @@ const handleUpload = async () => {
 
   try {
     const formData = new FormData()
-    formData.append('category_id', '1')
+    formData.append('category_id', selectedCategoryId.value.toString())
     formData.append('file', selectedFile.value)
 
-    await api.post('/exam-uploads', formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data'
-      }
-    })
+    await examUploadService.createExamUpload(formData)
 
     showSuccess.value = true
     setTimeout(() => {

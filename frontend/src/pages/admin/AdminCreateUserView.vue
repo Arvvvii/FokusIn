@@ -61,9 +61,9 @@
               required
               class="admin-input appearance-none cursor-pointer"
             >
-              <option value="pelajar">Pelajar</option>
-              <option value="tutor">Tutor</option>
-              <option value="admin">Administrator</option>
+              <option value="Pelajar">Pelajar</option>
+              <option value="Tutor">Tutor</option>
+              <option value="Admin">Administrator</option>
             </select>
           </div>
           <div class="space-y-2">
@@ -73,14 +73,14 @@
               required
               class="admin-input appearance-none cursor-pointer"
             >
-              <option value="active">Active</option>
-              <option value="suspended">Suspended</option>
+              <option value="Active">Active</option>
+              <option value="Suspended">Suspended</option>
             </select>
           </div>
         </div>
 
         <!-- Specialization (Only for Tutor) -->
-        <div v-if="form.role === 'tutor'" class="space-y-2">
+        <div v-if="form.role === 'Tutor'" class="space-y-2">
           <label class="admin-label">Spesialisasi <span class="text-slate-400 font-normal">(Opsional)</span></label>
           <input 
             v-model="form.specialization"
@@ -113,9 +113,11 @@
           </button>
           <button 
             type="submit"
-            class="text-sm font-medium h-10 px-5 rounded-xl bg-[#081F5C] text-white shadow-sm hover:bg-[#081F5C] transition-colors"
+            :disabled="isSaving"
+            class="text-sm font-medium h-10 px-5 rounded-xl bg-[#081F5C] text-white shadow-sm hover:bg-[#081F5C] transition-colors flex items-center gap-2"
           >
-            Simpan User
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="animate-spin" v-if="isSaving"><circle cx="12" cy="12" r="10"/><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>
+            {{ isSaving ? 'Menyimpan...' : 'Simpan User' }}
           </button>
         </div>
         
@@ -125,22 +127,41 @@
 </template>
 
 <script setup>
-import { reactive } from 'vue'
-import { useRouter } from 'vue-router'
+import { reactive, ref } from 'vue'
+import { useRouter, RouterLink } from 'vue-router'
+import { adminService } from '@/services/admin.service'
+import { useToastStore } from '@/stores/toast'
 
 const router = useRouter()
+const toastStore = useToastStore()
+const isSaving = ref(false)
 
 const form = reactive({
   name: '',
   email: '',
-  role: 'pelajar',
-  status: 'active',
+  role: 'Pelajar',
+  status: 'Active',
   specialization: '',
   password: ''
 })
 
-const submitForm = () => {
-  console.log('Form submitted:', form)
-  router.push({ name: 'admin-users' })
+const submitForm = async () => {
+  try {
+    isSaving.value = true
+    await adminService.createUser({
+      name: form.name,
+      email: form.email,
+      role: form.role,
+      status: form.status,
+      password: form.password
+    })
+    toastStore.success('Pengguna berhasil dibuat.')
+    router.push({ name: 'admin-users' })
+  } catch (err) {
+    console.error('Error creating user:', err)
+    toastStore.error('Gagal membuat pengguna.')
+  } finally {
+    isSaving.value = false
+  }
 }
 </script>

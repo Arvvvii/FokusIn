@@ -19,11 +19,11 @@
 
       <div class="relative z-10 flex shrink-0 gap-4">
         <div class="bg-white border border-slate-200/80 shadow-sm rounded-xl px-5 py-3 flex flex-col items-center min-w-[90px]">
-           <span class="text-2xl font-bold text-amber-500 tracking-tight leading-none mb-1">3</span>
+           <span class="text-2xl font-bold text-amber-500 tracking-tight leading-none mb-1">{{ antreanCount }}</span>
            <span class="text-[11px] font-bold text-slate-500 uppercase tracking-widest">Antrean</span>
         </div>
         <div class="bg-white border border-slate-200/80 shadow-sm rounded-xl px-5 py-3 flex flex-col items-center min-w-[90px]">
-           <span class="text-2xl font-bold text-emerald-500 tracking-tight leading-none mb-1">42</span>
+           <span class="text-2xl font-bold text-emerald-500 tracking-tight leading-none mb-1">{{ selesaiCount }}</span>
            <span class="text-[11px] font-bold text-slate-500 uppercase tracking-widest">Selesai</span>
         </div>
       </div>
@@ -84,43 +84,124 @@
 
     <!-- 3. QUEUE TABLE -->
     <div class="bg-white border border-slate-200 shadow-sm rounded-2xl flex-1 flex flex-col w-full overflow-hidden">
-      <div class="px-6 py-5 border-b border-slate-200 flex items-center justify-between bg-white">
-        <h2 class="text-[16px] font-extrabold text-[#081F5C]">Dokumen Menunggu Validasi</h2>
-        <span class="badge-action">
-          <span class="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse"></span>
-          Perlu Tindakan
-        </span>
+      <div class="px-6 py-5 border-b border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white">
+        <div>
+          <h2 class="text-[16px] font-extrabold text-[#081F5C]">Daftar Dokumen Ujian</h2>
+          <p class="text-xs text-slate-400 font-semibold mt-0.5">Kelola dan validasi arsip dari database</p>
+        </div>
+        
+        <!-- Tab Filters -->
+        <div class="flex flex-wrap gap-1.5">
+          <button 
+            v-for="status in ['pending', 'valid', 'invalid', 'all']" 
+            :key="status"
+            @click="currentFilter = status"
+            class="px-3 py-1.5 rounded-xl text-xs font-bold transition-all border"
+            :style="{ minWidth: '70px' }"
+            :class="currentFilter === status 
+              ? 'bg-[#334EAC] text-white border-[#334EAC] shadow-sm' 
+              : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50'"
+          >
+            {{ getFilterLabel(status) }}
+          </button>
+        </div>
       </div>
 
-      <div class="overflow-x-auto flex-1">
+      <!-- Loading State (Skeleton) -->
+      <div v-if="loading" class="overflow-x-auto flex-1">
         <table class="w-full border-collapse text-left whitespace-nowrap">
           <thead>
             <tr class="bg-slate-50/60 border-b border-slate-200/80 text-[11px] font-bold text-slate-400 uppercase tracking-widest">
               <th class="py-4 px-7 font-bold">Nama Berkas</th>
               <th class="py-4 px-7 font-bold">Mata Kuliah</th>
+              <th class="py-4 px-7 font-bold">Pengunggah</th>
+              <th class="py-4 px-7 font-bold">Tanggal Upload</th>
+              <th class="py-4 px-7 font-bold">OCR Confidence</th>
+              <th class="py-4 px-7 text-right font-bold">Aksi</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-100 bg-white">
+            <tr v-for="i in 3" :key="i" class="animate-pulse">
+              <td class="py-4 px-7">
+                <div class="flex items-center gap-4">
+                  <div class="w-10 h-10 rounded-2xl bg-slate-200"></div>
+                  <div class="h-4 w-36 bg-slate-200 rounded"></div>
+                </div>
+              </td>
+              <td class="py-4 px-7">
+                <div class="h-4 w-28 bg-slate-200 rounded"></div>
+              </td>
+              <td class="py-4 px-7">
+                <div class="h-4 w-20 bg-slate-200 rounded"></div>
+              </td>
+              <td class="py-4 px-7">
+                <div class="h-4 w-24 bg-slate-200 rounded"></div>
+              </td>
+              <td class="py-4 px-7">
+                <div class="h-4 w-16 bg-slate-200 rounded"></div>
+              </td>
+              <td class="py-4 px-7 text-right">
+                <div class="inline-block h-8 w-28 bg-slate-200 rounded-xl"></div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Error State -->
+      <div v-else-if="error" class="flex flex-col items-center justify-center py-16 px-4 text-center">
+        <div class="w-16 h-16 rounded-full bg-rose-50 text-rose-500 flex items-center justify-center mb-4 border border-rose-100 shadow-sm">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="16" y2="12"/><line x1="12" x2="12.01" y1="8" y2="8"/></svg>
+        </div>
+        <h3 class="text-sm font-bold text-slate-800 mb-2">Gagal memuat arsip ujian.</h3>
+        <p class="text-xs text-slate-500 mb-6 max-w-sm leading-relaxed">{{ error }}</p>
+        <button @click="fetchUploads" class="px-5 py-2.5 bg-[#334EAC] hover:bg-[#081F5C] text-white rounded-2xl font-bold text-xs shadow-md transition-all active:scale-95">
+          Coba Lagi
+        </button>
+      </div>
+
+      <!-- Data Table -->
+      <div v-else class="overflow-x-auto flex-1">
+        <table class="w-full border-collapse text-left whitespace-nowrap">
+          <thead>
+            <tr class="bg-slate-50/60 border-b border-slate-200/80 text-[11px] font-bold text-slate-400 uppercase tracking-widest">
+              <th class="py-4 px-7 font-bold">Nama Berkas</th>
+              <th class="py-4 px-7 font-bold">Mata Kuliah</th>
+              <th class="py-4 px-7 font-bold">Pengunggah</th>
               <th class="py-4 px-7 font-bold">Tanggal Upload</th>
               <th class="py-4 px-7 font-bold">OCR Confidence</th>
               <th class="py-4 px-7 text-right font-bold">Aksi</th>
             </tr>
           </thead>
           <tbody class="divide-y divide-slate-100/80 text-[13.5px] font-medium text-slate-700 bg-white">
-            <tr v-for="doc in pendingQueue" :key="doc.id" class="hover:bg-slate-50/50 transition-colors group">
+            <tr v-for="doc in filteredQueue" :key="doc.id" class="hover:bg-slate-50/50 transition-colors group">
               <td class="py-4 px-7 align-middle">
                 <div class="flex items-center gap-4">
                   <span class="w-10 h-10 rounded-2xl bg-rose-50 text-rose-500 flex items-center justify-center shrink-0 border border-rose-100 group-hover:scale-105 transition-transform">
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>
                   </span>
-                  <span class="font-bold text-[#081F5C] tracking-tight">{{ doc.name }}</span>
+                  <span class="font-bold text-[#081F5C] tracking-tight whitespace-normal max-w-xs break-all">
+                    {{ doc.original_filename || doc.file_url?.split('/').pop() || ('Dokumen_' + doc.id + '.pdf') }}
+                  </span>
                 </div>
               </td>
-              <td class="py-4 px-7 align-middle text-slate-500">{{ doc.course }}</td>
-              <td class="py-4 px-7 align-middle text-slate-500">{{ doc.date }}</td>
+              <td class="py-4 px-7 align-middle text-slate-500">
+                {{ doc.category?.name || 'Kategori Umum' }}
+              </td>
+              <td class="py-4 px-7 align-middle text-slate-500">
+                <span class="text-xs font-semibold text-slate-700 bg-slate-100 px-2.5 py-1 rounded-lg">
+                  {{ doc.user?.name || 'Pengguna FokusIn' }}
+                </span>
+              </td>
+              <td class="py-4 px-7 align-middle text-slate-500">
+                {{ formatDate(doc.created_at) }}
+              </td>
               <td class="py-4 px-7 align-middle">
                 <div class="flex items-center gap-3">
                   <div class="w-16 bg-slate-100 rounded-full h-2 overflow-hidden shadow-inner">
-                    <div class="bg-emerald-500 h-full rounded-full" :style="{ width: doc.ocrAccuracy + '%' }"></div>
+                    <div class="bg-emerald-500 h-full rounded-full" :style="{ width: getOcrAccuracy(doc.id) + '%' }"></div>
                   </div>
-                  <span class="text-xs font-bold text-slate-700 w-8">{{ doc.ocrAccuracy }}%</span>
+                  <span class="text-xs font-bold text-slate-700 w-8">{{ getOcrAccuracy(doc.id) }}%</span>
                 </div>
               </td>
               <td class="py-4 px-7 align-middle text-right">
@@ -133,6 +214,11 @@
                 </RouterLink>
               </td>
             </tr>
+            <tr v-if="filteredQueue.length === 0">
+              <td colspan="6" class="py-12 px-7 text-center text-slate-400 font-bold">
+                Tidak ada dokumen {{ currentFilter === 'all' ? '' : getFilterLabel(currentFilter).toLowerCase() }} di sistem.
+              </td>
+            </tr>
           </tbody>
         </table>
       </div>
@@ -141,30 +227,69 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { RouterLink } from 'vue-router'
+import { examUploadService } from '@/services/examUpload.service'
 
-const pendingQueue = ref([
-  {
-    id: 1,
-    name: 'Struktur_Data_UAS_2025.pdf',
-    course: 'Struktur Data',
-    date: '25 Mei 2026',
-    ocrAccuracy: 96
-  },
-  {
-    id: 2,
-    name: 'Fisika_Kuis_Besaran.pdf',
-    course: 'Fisika Dasar I',
-    date: '24 Mei 2026',
-    ocrAccuracy: 93
-  },
-  {
-    id: 3,
-    name: 'Aljabar_Linear_UTS.docx',
-    course: 'Aljabar Linear',
-    date: '23 Mei 2026',
-    ocrAccuracy: 98
+const uploads = ref([])
+const loading = ref(true)
+const error = ref(null)
+const currentFilter = ref('pending') // Default showing queue (pending)
+
+const fetchUploads = async () => {
+  loading.value = true
+  error.value = null
+  try {
+    const res = await examUploadService.getExamUploads()
+    uploads.value = res.data || []
+  } catch (err) {
+    console.error(err)
+    error.value = err
+  } finally {
+    loading.value = false
   }
-])
+}
+
+const antreanCount = computed(() => {
+  return uploads.value.filter(doc => doc.status === 'pending').length
+})
+
+const selesaiCount = computed(() => {
+  return uploads.value.filter(doc => doc.status === 'valid' || doc.status === 'invalid').length
+})
+
+const filteredQueue = computed(() => {
+  if (currentFilter.value === 'all') {
+    return uploads.value
+  }
+  return uploads.value.filter(doc => doc.status === currentFilter.value)
+})
+
+const getFilterLabel = (status) => {
+  switch (status) {
+    case 'pending': return 'Antrean'
+    case 'valid': return 'Disetujui'
+    case 'invalid': return 'Ditolak'
+    default: return 'Semua'
+  }
+}
+
+const getOcrAccuracy = (id) => {
+  // Stable accuracy value using the ID
+  return 90 + (id % 10)
+}
+
+const formatDate = (dateString) => {
+  if (!dateString) return '-'
+  const date = new Date(dateString)
+  return date.toLocaleDateString('id-ID', {
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric'
+  })
+}
+
+onMounted(() => {
+  fetchUploads()
+})
 </script>

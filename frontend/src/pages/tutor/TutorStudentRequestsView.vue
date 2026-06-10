@@ -96,37 +96,78 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
+import { mentoringService } from '@/services/mentoring.service'
 
 const showToast = ref(false)
-const requests = ref([
-  {
-    id: 1,
-    initial: 'AS',
-    studentName: 'Andi Saputra',
-    topic: 'Review Desain Database E-Commerce',
-    note: 'Mohon direview relasi tabel e-commerce saya, apakah sudah memenuhi aturan normalisasi 3NF?',
-    dateString: 'Kamis, 14:00 WIB'
-  },
-  {
-    id: 2,
-    initial: 'SA',
-    studentName: 'Siti Aminah',
-    topic: 'Struktur Data Graph & Shortest Path',
-    note: 'Saya butuh bimbingan mengenai implementasi algoritma Dijkstra di C++.',
-    dateString: 'Jumat, 15:30 WIB'
+const requests = ref([])
+
+const getAvatarInitials = (name) => {
+  if (!name) return '?'
+  const parts = name.trim().split(/\s+/)
+  if (parts.length >= 2) {
+    return (parts[0][0] + parts[1][0]).toUpperCase()
   }
-])
-
-const acceptRequest = (id) => {
-  requests.value = requests.value.filter(r => r.id !== id)
-  showToast.value = true
-  setTimeout(() => {
-    showToast.value = false
-  }, 3000)
+  return parts[0].substring(0, 2).toUpperCase()
 }
 
-const rejectRequest = (id) => {
-  requests.value = requests.value.filter(r => r.id !== id)
+const formatTime = (dateString) => {
+  if (!dateString) return ''
+  const date = new Date(dateString)
+  return date.toLocaleString('id-ID', {
+    weekday: 'long',
+    hour: '2-digit',
+    minute: '2-digit'
+  }) + ' WIB'
 }
+
+const loadRequests = async () => {
+  try {
+    const data = await mentoringService.getSessions()
+    const rawList = data || []
+    requests.value = rawList
+      .filter(s => s.status === 'pending' || s.status === 'requested')
+      .map(s => {
+        const studentName = s.student?.name || s.student_name || 'Mahasiswa'
+        return {
+          id: s.id,
+          initial: getAvatarInitials(studentName),
+          studentName: studentName,
+          topic: s.topic || s.title || 'Mentoring Akademik',
+          note: s.note || s.notes || 'Tidak ada catatan.',
+          dateString: formatTime(s.scheduled_at || s.time)
+        }
+      })
+  } catch (err) {
+    console.error('Failed to load requests:', err)
+  }
+}
+
+const acceptRequest = async (id) => {
+  try {
+    await mentoringService.updateSessionStatus(id, 'confirmed')
+    requests.value = requests.value.filter(r => r.id !== id)
+    showToast.value = true
+    setTimeout(() => {
+      showToast.value = false
+    }, 3000)
+    await loadRequests()
+  } catch (err) {
+    console.error('Failed to accept request:', err)
+  }
+}
+
+const rejectRequest = async (id) => {
+  try {
+    await mentoringService.updateSessionStatus(id, 'rejected')
+    requests.value = requests.value.filter(r => r.id !== id)
+    await loadRequests()
+  } catch (err) {
+    console.error('Failed to reject request:', err)
+  }
+}
+
+onMounted(() => {
+  loadRequests()
+})
 </script>

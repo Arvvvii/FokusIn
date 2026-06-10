@@ -32,7 +32,31 @@
     <!-- 2. NOTIFICATIONS LIST -->
     <div class="bg-white rounded-3xl p-6 md:p-8 shadow-[0_10px_40px_rgba(15,23,42,0.04)] border border-slate-100">
       
-      <div v-if="notifications.length === 0" class="text-center py-16">
+      <!-- Loading Skeleton -->
+      <div v-if="loading" class="space-y-4">
+        <div v-for="i in 3" :key="i" class="p-5 rounded-2xl border border-slate-100 bg-white animate-pulse flex gap-4">
+          <div class="w-12 h-12 rounded-xl bg-slate-100 shrink-0"></div>
+          <div class="flex-1 space-y-2 py-1">
+            <div class="h-4 bg-slate-200 rounded w-1/4"></div>
+            <div class="h-4 bg-slate-200 rounded w-3/4"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Error State -->
+      <div v-else-if="error" class="text-center py-12">
+        <div class="w-16 h-16 bg-rose-50 text-rose-500 rounded-full flex items-center justify-center mx-auto mb-4">
+          <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        </div>
+        <h3 class="text-lg font-bold text-slate-800 mb-2">Gagal Memuat Notifikasi</h3>
+        <p class="text-slate-500 text-sm max-w-sm mx-auto mb-6">{{ error }}</p>
+        <button @click="loadNotifications" class="px-5 py-2.5 text-xs font-bold text-white bg-[#334EAC] hover:bg-[#273B8C] rounded-xl transition-all active:scale-95 shadow-md">
+          Coba Lagi
+        </button>
+      </div>
+      
+      <!-- Empty State -->
+      <div v-else-if="notifications.length === 0" class="text-center py-16">
         <div class="w-20 h-20 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-4 border border-slate-100">
           <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="text-slate-300"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
         </div>
@@ -40,11 +64,13 @@
         <p class="text-slate-500 text-sm max-w-sm mx-auto">Notifikasi baru tentang aktivitas belajarmu akan muncul di sini.</p>
       </div>
 
+      <!-- Real Data List -->
       <div v-else class="space-y-4">
         <!-- Notification Items -->
         <div v-for="notification in notifications" :key="notification.id" 
+             @click="handleNotificationClick(notification)"
              :class="[
-               'group relative p-5 rounded-2xl border transition-all duration-300',
+               'group relative p-5 rounded-2xl border transition-all duration-300 cursor-pointer',
                notification.isRead 
                  ? 'bg-white border-slate-100 hover:border-slate-200' 
                  : 'bg-blue-50/50 border-[#D5E2F5] hover:border-[#334EAC]/30'
@@ -58,7 +84,8 @@
             ]">
               <svg v-if="notification.type === 'mentoring'" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>
               <svg v-else-if="notification.type === 'forum'" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-              <svg v-else-if="notification.type === 'system'" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+              <svg v-else-if="notification.type === 'ai'" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+              <svg v-else xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
             </div>
             
             <!-- Content -->
@@ -76,9 +103,9 @@
 
             <!-- Action Button -->
             <div class="shrink-0 flex flex-col justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-              <router-link v-if="notification.link" :to="notification.link" class="p-2.5 bg-slate-100 hover:bg-[#334EAC] text-slate-600 hover:text-white rounded-xl transition-colors">
+              <span class="p-2.5 bg-slate-100 group-hover:bg-[#334EAC] text-slate-600 group-hover:text-white rounded-xl transition-colors">
                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-              </router-link>
+              </span>
             </div>
           </div>
 
@@ -92,57 +119,81 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
+import { 
+  notificationsService, 
+  parseNotificationType, 
+  formatRelativeTime 
+} from '@/services/notifications.service'
 
-const notifications = ref([
-  {
-    id: 1,
-    type: 'mentoring',
-    title: 'Jadwal Mentoring Dikonfirmasi',
-    message: 'Dr. Sarah Smith telah menyetujui jadwal mentoring kamu untuk hari Kamis, 28 Mei pukul 10:00 WIB.',
-    time: '2 jam yang lalu',
-    isRead: false,
-    link: '/pelajar/mentoring'
-  },
-  {
-    id: 2,
-    type: 'forum',
-    title: 'Balasan Baru di Forum',
-    message: 'Prof. Anderson membalas pertanyaan kamu tentang "Penerapan Turunan dalam Fisika Kuantum".',
-    time: '5 jam yang lalu',
-    isRead: false,
-    link: '/pelajar/forum/1'
-  },
-  {
-    id: 3,
-    type: 'system',
-    title: 'Hasil Kuis Tersedia',
-    message: 'Nilai Kuis Struktur Data telah dirilis. Kamu mendapatkan skor 85/100.',
-    time: 'Kemarin',
-    isRead: true,
-    link: '/pelajar/quiz/1/result'
-  },
-  {
-    id: 4,
-    type: 'forum',
-    title: 'Postingan Terpopuler',
-    message: 'Diskusi yang kamu mulai sedang ramai dibahas oleh 12 mahasiswa lainnya.',
-    time: '2 hari yang lalu',
-    isRead: true,
-    link: '/pelajar/forum/2'
+const router = useRouter()
+const notifications = ref([])
+const loading = ref(false)
+const error = ref(null)
+
+const loadNotifications = async () => {
+  loading.value = true
+  error.value = null
+  try {
+    const response = await notificationsService.getNotifications(1)
+    const rawList = response.data || []
+    
+    // Sort array: newest first
+    const sorted = [...rawList].sort(
+      (a, b) => new Date(b.created_at) - new Date(a.created_at)
+    )
+
+    notifications.value = sorted.map(n => ({
+      id: n.id,
+      type: n.data?.type || parseNotificationType(n.type),
+      title: n.data?.title || 'Notifikasi Baru',
+      message: n.data?.message || n.data?.content || '',
+      time: formatRelativeTime(n.created_at),
+      isRead: n.read_at !== null,
+      link: n.data?.action_url || n.data?.link || '#'
+    }))
+  } catch (err) {
+    error.value = err
+  } finally {
+    loading.value = false
   }
-])
+}
 
-const markAllAsRead = () => {
-  notifications.value.forEach(n => n.isRead = true)
+const handleNotificationClick = async (notification) => {
+  if (!notification.isRead) {
+    try {
+      await notificationsService.markAsRead(notification.id)
+      notification.isRead = true
+    } catch (err) {
+      console.error('Failed to mark notification as read:', err)
+    }
+  }
+  
+  if (notification.link && notification.link !== '#') {
+    router.push(notification.link)
+  }
+}
+
+const markAllAsRead = async () => {
+  try {
+    await notificationsService.markAllAsRead()
+    notifications.value.forEach(n => n.isRead = true)
+  } catch (err) {
+    console.error('Failed to mark all as read:', err)
+  }
 }
 
 const getIconStyles = (type) => {
   switch(type) {
     case 'mentoring': return 'bg-[#EEF3FF] text-[#334EAC] border-[#D5E2F5]'
     case 'forum': return 'bg-emerald-50 text-emerald-600 border-emerald-100'
-    case 'system': return 'bg-amber-50 text-amber-600 border-amber-100'
+    case 'ai': return 'bg-purple-50 text-purple-600 border-purple-100'
     default: return 'bg-slate-50 text-slate-600 border-slate-200'
   }
 }
+
+onMounted(() => {
+  loadNotifications()
+})
 </script>

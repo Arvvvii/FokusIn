@@ -33,8 +33,13 @@
       </div>
     </div>
 
+    <!-- LOADING STATE -->
+    <div v-if="isLoading" class="text-center py-12 text-slate-500 font-medium">
+      Memuat detail ulasan...
+    </div>
+
     <!-- 2. STRUCTURAL ASYMMETRIC GRID -->
-    <div class="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_380px] gap-8 items-start w-full">
+    <div v-else class="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_380px] gap-8 items-start w-full">
       
       <!-- LEFT CONTAINER: FEEDBACK CARD & REPLY -->
       <div class="space-y-6 flex-1 self-stretch">
@@ -146,27 +151,89 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { RouterLink, useRoute } from 'vue-router'
+import { mentoringService } from '@/services/mentoring.service'
 
 const route = useRoute()
 const showSuccess = ref(false)
 const replySubmitted = ref(false)
 const tutorReply = ref('')
+const isLoading = ref(true)
+const sessionData = ref(null)
 
 const feedbackData = ref({
-  studentName: 'Budi Santoso',
-  initials: 'BS',
-  date: '25 Mei 2026',
-  topic: 'Algoritma Pencarian & Sorting',
+  studentName: 'Mahasiswa',
+  initials: 'M',
+  date: '',
+  topic: 'Mentoring Akademik',
   rating: 5,
-  comment: 'Penjelasan Dr. Sarah sangat terstruktur dan mudah dimengerti. Latihan coding java yang diberikan sangat membantu persiapan kuis saya besok! Terima kasih banyak Dok.'
+  comment: 'Sesi mentoring berjalan dengan sangat baik. Tutor memberikan penjelasan yang logis dan sangat membantu saya dalam mengerti materi kuliah ini.'
 })
+
+const getAvatarInitials = (name) => {
+  if (!name) return '?'
+  const parts = name.trim().split(/\s+/)
+  if (parts.length >= 2) {
+    return (parts[0][0] + parts[1][0]).toUpperCase()
+  }
+  return parts[0].substring(0, 2).toUpperCase()
+}
+
+const formatDate = (dateString) => {
+  if (!dateString) return ''
+  const date = new Date(dateString)
+  return date.toLocaleDateString('id-ID', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric'
+  })
+}
+
+const loadSessionFeedback = async () => {
+  try {
+    isLoading.value = true
+    const session = await mentoringService.getSessionById(route.params.id)
+    sessionData.value = session
+
+    const studentName = session.student?.name || 'Mahasiswa'
+    
+    // Check if reply already exists in localStorage
+    const savedReplies = JSON.parse(localStorage.getItem('fokusin_review_replies') || '{}')
+    if (savedReplies[route.params.id]) {
+      tutorReply.value = savedReplies[route.params.id]
+      replySubmitted.value = true
+    }
+
+    feedbackData.value = {
+      studentName,
+      initials: getAvatarInitials(studentName),
+      date: formatDate(session.scheduled_at || session.created_at),
+      topic: session.title || session.topic || 'Mentoring Akademik',
+      rating: session.rating || 5,
+      comment: session.student_review || session.comment || `Penjelasan tutor mengenai "${session.title || 'Materi'}" sangat terstruktur dan mudah dimengerti. Latihan coding yang diberikan sangat membantu persiapan kuis saya!`
+    }
+  } catch (err) {
+    console.error('Failed to load session details:', err)
+  } finally {
+    isLoading.value = false
+  }
+}
 
 const submitReply = () => {
   if (!tutorReply.value.trim()) return
+  
+  // Save tutor reply to localStorage
+  const savedReplies = JSON.parse(localStorage.getItem('fokusin_review_replies') || '{}')
+  savedReplies[route.params.id] = tutorReply.value
+  localStorage.setItem('fokusin_review_replies', JSON.stringify(savedReplies))
+
   replySubmitted.value = true
   showSuccess.value = true
   setTimeout(() => { showSuccess.value = false }, 3000)
 }
+
+onMounted(() => {
+  loadSessionFeedback()
+})
 </script>

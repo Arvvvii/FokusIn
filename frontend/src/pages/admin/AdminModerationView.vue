@@ -8,12 +8,6 @@
           <h1 class="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">Live Content Moderation</h1>
           <p class="text-[15px] text-slate-600 font-medium mt-2 max-w-xl leading-relaxed">Antrean moderasi forum, pembersihan otomatis AI, dan tinjauan persetujuan konten publik.</p>
         </div>
-        <div class="flex items-center gap-4">
-          <button class="btn-export px-5 py-2.5">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
-            Export Log
-          </button>
-        </div>
       </div>
     </div>
 
@@ -21,7 +15,7 @@
     <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
       <div class="admin-card p-5 stat-pending">
         <p class="text-sm font-semibold text-slate-500 mb-2">Pending Review</p>
-        <h3 class="text-[28px] font-bold text-slate-900">42</h3>
+        <h3 class="text-[28px] font-bold text-slate-900">{{ pendingCount }}</h3>
       </div>
       <div class="admin-card p-5 stat-ai-validation">
         <p class="text-sm font-semibold text-slate-500 mb-2">Auto-Rejected (AI)</p>
@@ -37,12 +31,17 @@
       </div>
     </div>
 
+    <!-- LOADING STATE -->
+    <div v-if="isLoading" class="text-center py-12 text-slate-500 font-medium bg-white border border-slate-200 shadow-sm rounded-2xl">
+      Memuat antrean moderasi...
+    </div>
+
     <!-- Live Queue -->
-    <div class="admin-table-container">
+    <div v-else class="admin-table-container">
       <div class="p-6 border-b border-slate-100 flex items-center justify-between">
         <h2 class="text-lg font-bold text-slate-900 tracking-tight">Live Moderation Queue</h2>
         <div class="flex gap-2">
-          <input type="text" placeholder="Search content..." class="admin-input" />
+          <input type="text" v-model="searchQuery" placeholder="Search content..." class="admin-input" />
         </div>
       </div>
       
@@ -58,7 +57,7 @@
             </tr>
           </thead>
           <tbody class="divide-y divide-slate-100">
-            <tr v-for="item in queue" :key="item.id" class="admin-table-row">
+            <tr v-for="item in filteredQueue" :key="item.id" class="admin-table-row">
               <td class="px-6 py-4 text-sm font-bold text-slate-900">#{{ item.id }}</td>
               <td class="px-6 py-4">
                 <p class="text-sm font-semibold text-slate-900 mb-1 line-clamp-1">{{ item.title }}</p>
@@ -79,17 +78,55 @@
           </tbody>
         </table>
       </div>
+      <div v-if="filteredQueue.length === 0" class="text-center py-8 text-slate-400 font-semibold italic">
+        Antrean moderasi kosong.
+      </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { RouterLink } from 'vue-router'
+import { adminService } from '@/services/admin.service'
 
-const queue = ref([
-  { id: 701, title: 'Diskon Joki Tugas Murah!', snippet: 'Menerima jasa joki tugas dengan harga sangat murah hubungi WA...', author: 'joki_master99', confidence: 98 },
-  { id: 702, title: 'Jawaban Ujian Kalkulus B', snippet: 'Ini bocoran soal kalkulus semester 2 yang kemarin dari kelas Pak Budi...', author: 'anonymous_std', confidence: 85 },
-  { id: 703, title: 'Pertanyaan tentang turunan ganda', snippet: 'Maaf mau tanya, untuk turunan ganda ini apakah ada yang bisa bantu... (terdeteksi flood)', author: 'student_123', confidence: 60 }
-])
+const queue = ref([])
+const pendingCount = ref(0)
+const isLoading = ref(true)
+const searchQuery = ref('')
+
+const loadQueue = async () => {
+  try {
+    isLoading.value = true
+    const response = await adminService.getModerationQueue()
+    
+    // Extract queue items from pagination structure
+    const rawList = response.moderation_queue?.data || response.data || []
+    pendingCount.value = response.pending_count !== undefined ? response.pending_count : rawList.length
+    
+    queue.value = rawList.map(item => ({
+      id: item.id,
+      title: item.title || 'Tanpa Judul',
+      snippet: item.content || 'Konten kosong.',
+      author: item.user?.name || 'Pengguna',
+      confidence: item.type === 'question' ? 85 : 65,
+      status: item.is_verified ? 'Approved' : 'Pending'
+    })).filter(item => item.status === 'Pending')
+  } catch (err) {
+    console.error('Failed to load moderation queue:', err)
+  } finally {
+    isLoading.value = false
+  }
+}
+
+const filteredQueue = computed(() => {
+  return queue.value.filter(item => {
+    return item.title.toLowerCase().includes(searchQuery.value.toLowerCase()) || 
+           item.snippet.toLowerCase().includes(searchQuery.value.toLowerCase())
+  })
+})
+
+onMounted(() => {
+  loadQueue()
+})
 </script>
