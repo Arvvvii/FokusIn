@@ -44,5 +44,19 @@ export const aiService = {
     } catch (error) {
       throw error.response?.data?.message || 'Gagal menganalisis dokumen.'
     }
+  },
+
+  /**
+   * Mendapatkan wawasan akademis bertenaga AI untuk pelajar.
+   * GET /student/ai-insights
+   */
+  async getStudentAIInsights() {
+    try {
+      const response = await api.get('/student/ai-insights')
+      return response.data
+    } catch (error) {
+      throw error.response?.data?.message || 'Gagal mengambil wawasan akademis AI.'
+    }
   }
 }
+

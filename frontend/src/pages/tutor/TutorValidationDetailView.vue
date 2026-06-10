@@ -334,19 +334,31 @@ const fetchDetail = async () => {
 const updateStatus = async (newStatus) => {
   saving.value = true
   try {
+    // Save validation status updates
     const payload = {
       status: newStatus,
       validation_notes: validationNotes.value
     }
     await examUploadService.updateExamUpload(route.params.id, payload)
     
+    // Persist edited OCR text text to PUT /api/exam-uploads/{id}/extracted-text
+    try {
+      await examUploadService.updateExtractedText(route.params.id, {
+        extracted_text: editorText.value
+      })
+      toastTitle.value = 'Sukses'
+      toastMsg.value = 'Perubahan teks OCR berhasil disimpan.'
+    } catch (ocrErr) {
+      console.error('Failed to persist OCR text edits:', ocrErr)
+      toastTitle.value = 'Info'
+      toastMsg.value = 'Validasi tersimpan, namun gagal memperbarui teks OCR.'
+    }
+
     // Update local state status
     if (examUpload.value) {
       examUpload.value.status = newStatus
     }
 
-    toastTitle.value = 'Sukses'
-    toastMsg.value = 'Validasi berhasil disimpan.'
     showToast.value = true
     
     setTimeout(() => {
@@ -358,7 +370,7 @@ const updateStatus = async (newStatus) => {
   } catch (err) {
     console.error(err)
     toastTitle.value = 'Gagal'
-    toastMsg.value = 'Gagal menyimpan validasi.'
+    toastMsg.value = 'Gagal menyimpan perubahan OCR.'
     showToast.value = true
     setTimeout(() => {
       showToast.value = false
@@ -391,7 +403,8 @@ const formatDate = (dateString) => {
   })
 }
 
-const triggerAutoFix = () => {
+// Auto fix triggers OCR persist as well
+const triggerAutoFix = async () => {
   hasTypo.value = false
   editorText.value = `Ujian Akhir Semester
 Mata Kuliah: Struktur Data
@@ -413,8 +426,18 @@ Bagian 1: Pilihan Ganda (Bobot 30%)
 Bagian 2: Esai (Bobot 70%)
 Jelaskan perbedaan mendasar antara Singly Linked List dan Doubly Linked List, sertakan contoh kasus penggunaan yang paling optimal untuk keduanya!`
   
-  toastTitle.value = 'Auto-Fix Diterapkan!'
-  toastMsg.value = 'Typo dan spasi editor berhasil diformat ulang secara otomatis.'
+  try {
+    await examUploadService.updateExtractedText(route.params.id, {
+      extracted_text: editorText.value
+    })
+    toastTitle.value = 'Auto-Fix Diterapkan!'
+    toastMsg.value = 'Perubahan teks OCR berhasil disimpan.'
+  } catch (e) {
+    console.error('Failed auto-fix text save:', e)
+    toastTitle.value = 'Auto-Fix Diterapkan!'
+    toastMsg.value = 'Typo dan spasi editor diformat ulang (lokal).'
+  }
+
   showToast.value = true
   setTimeout(() => {
     showToast.value = false
@@ -425,3 +448,4 @@ onMounted(() => {
   fetchDetail()
 })
 </script>
+

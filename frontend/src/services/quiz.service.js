@@ -94,6 +94,19 @@ export const quizService = {
     } catch (error) {
       throw error.response?.data?.message || 'Gagal menghapus kuis.'
     }
+  },
+
+  /**
+   * Mendapatkan detail kuis untuk admin.
+   * GET /admin/quizzes/{id}
+   */
+  async getAdminQuizDetail(id) {
+    try {
+      const response = await api.get(`/admin/quizzes/${id}`)
+      return response.data
+    } catch (error) {
+      throw error.response?.data?.message || 'Gagal mengambil detail kuis admin.'
+    }
   }
 }
 

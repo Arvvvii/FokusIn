@@ -7,7 +7,7 @@
         to="/admin/materials"
         class="text-sm font-bold text-slate-400 hover:text-[#334EAC] transition-colors flex items-center gap-1 w-fit bg-white/50 px-3 py-1.5 rounded-lg border border-slate-200/50"
       >
-        ← Kembali ke Daftar Materi
+        ← Kembali ke Daftar Kategori
       </RouterLink>
     </div>
 
@@ -37,6 +37,7 @@
               required
               class="admin-input"
               placeholder="Contoh: Kalkulus Lanjut"
+              :disabled="submitting"
             >
           </div>
           <div class="space-y-2">
@@ -45,11 +46,12 @@
               v-model="form.group"
               required
               class="admin-input appearance-none cursor-pointer"
+              :disabled="submitting"
             >
-              <option value="stem">STEM</option>
-              <option value="social">Social Sciences</option>
-              <option value="humanities">Humanities</option>
-              <option value="medical">Medical & Health</option>
+              <option value="STEM">STEM</option>
+              <option value="Social Sciences">Social Sciences</option>
+              <option value="Humanities">Humanities</option>
+              <option value="Medical & Health">Medical & Health</option>
             </select>
           </div>
         </div>
@@ -61,6 +63,7 @@
             rows="4"
             class="admin-input resize-none"
             placeholder="Deskripsi opsional terkait kategori ini"
+            :disabled="submitting"
           ></textarea>
         </div>
 
@@ -70,14 +73,20 @@
             type="button"
             @click="$router.push({ name: 'admin-materials' })"
             class="text-sm font-medium h-10 px-5 rounded-xl bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 transition-colors shadow-sm"
+            :disabled="submitting"
           >
             Batal
           </button>
           <button 
             type="submit"
-            class="text-sm font-medium h-10 px-5 rounded-xl bg-[#081F5C] text-white shadow-sm hover:bg-[#081F5C] transition-colors"
+            class="text-sm font-medium h-10 px-5 rounded-xl bg-[#081F5C] text-white shadow-sm hover:bg-[#061746] transition-colors flex items-center gap-2"
+            :disabled="submitting"
           >
-            Simpan Kategori
+            <svg v-if="submitting" class="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+            </svg>
+            {{ submitting ? 'Menyimpan...' : 'Simpan Kategori' }}
           </button>
         </div>
         
@@ -87,18 +96,35 @@
 </template>
 
 <script setup>
-import { reactive } from 'vue'
+import { reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { categoryService } from '@/services/category.service'
+import { useToastStore } from '@/stores/toast'
 
 const router = useRouter()
+const toastStore = useToastStore()
+const submitting = ref(false)
 
 const form = reactive({
   name: '',
-  group: 'stem',
+  group: 'STEM',
   description: ''
 })
 
-const submitForm = () => {
-  router.push({ name: 'admin-materials' })
+const submitForm = async () => {
+  submitting.value = true
+  try {
+    await categoryService.createCategory({
+      name: form.name,
+      group: form.group,
+      description: form.description
+    })
+    toastStore.success('Kategori baru berhasil dibuat!')
+    router.push({ name: 'admin-materials' })
+  } catch (err) {
+    toastStore.error(err || 'Gagal membuat kategori.')
+  } finally {
+    submitting.value = false
+  }
 }
 </script>

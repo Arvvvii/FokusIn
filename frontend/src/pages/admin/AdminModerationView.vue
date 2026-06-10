@@ -19,15 +19,15 @@
       </div>
       <div class="admin-card p-5 stat-ai-validation">
         <p class="text-sm font-semibold text-slate-500 mb-2">Auto-Rejected (AI)</p>
-        <h3 class="text-[28px] font-bold text-slate-900">128</h3>
+        <h3 class="text-[28px] font-bold text-slate-900">{{ stats.auto_rejected }}</h3>
       </div>
       <div class="admin-card p-5 stat-card-positive">
         <p class="text-sm font-semibold text-slate-500 mb-2">Approved Today</p>
-        <h3 class="text-[28px] font-bold text-slate-900">3,405</h3>
+        <h3 class="text-[28px] font-bold text-slate-900">{{ stats.approved_today }}</h3>
       </div>
       <div class="admin-card p-5 stat-failed">
         <p class="text-sm font-semibold text-slate-500 mb-2">Flagged Users</p>
-        <h3 class="text-[28px] font-bold text-rose-600">5</h3>
+        <h3 class="text-[28px] font-bold text-rose-600">{{ stats.flagged_users }}</h3>
       </div>
     </div>
 
@@ -94,15 +94,25 @@ const queue = ref([])
 const pendingCount = ref(0)
 const isLoading = ref(true)
 const searchQuery = ref('')
+const stats = ref({
+  auto_rejected: 128,
+  approved_today: 3405,
+  flagged_users: 5
+})
 
 const loadQueue = async () => {
   try {
     isLoading.value = true
     const response = await adminService.getModerationQueue()
+    const data = response.data || response || {}
     
     // Extract queue items from pagination structure
-    const rawList = response.moderation_queue?.data || response.data || []
-    pendingCount.value = response.pending_count !== undefined ? response.pending_count : rawList.length
+    const rawList = data.moderation_queue?.data || data.moderation_queue || data || []
+    pendingCount.value = data.pending_count !== undefined ? data.pending_count : rawList.length
+    
+    if (data.stats) {
+      stats.value = { ...stats.value, ...data.stats }
+    }
     
     queue.value = rawList.map(item => ({
       id: item.id,

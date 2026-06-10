@@ -93,32 +93,52 @@
               </div>
               <span class="text-xs font-bold tracking-widest uppercase text-slate-900">Insight Akademik</span>
             </div>
-            <span class="ai-conf-badge px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider">AI Conf: 88%</span>
+            <span class="ai-conf-badge px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider">
+              AI Conf: {{ aiInsights?.confidence_score || '88%' }}
+            </span>
           </div>
 
           <div class="relative z-10 flex-1 flex flex-col justify-center">
             <p class="text-slate-500 text-[13px] font-medium leading-relaxed mb-4">
-              Berdasarkan analisis riwayat kuis dan tugas terbarumu, area berikut memerlukan perhatian:
+              {{ aiInsights?.summary || 'Berdasarkan analisis riwayat kuis dan tugas terbarumu, area berikut memerlukan perhatian:' }}
             </p>
             <ul class="space-y-2.5 mb-6">
-              <li class="flex flex-col gap-1.5 p-3 rounded-xl border border-slate-100 bg-slate-50">
-                <div class="flex items-center justify-between">
-                  <span class="text-[12px] text-slate-900 font-bold">Kalkulus: Integral Parsial</span>
-                  <span class="px-1.5 py-0.5 bg-rose-100 text-rose-600 rounded text-[9px] font-extrabold uppercase">Prioritas Tinggi</span>
-                </div>
-                <div class="w-full h-1 bg-slate-200 rounded-full overflow-hidden">
-                  <div class="h-full bg-rose-400 w-[35%] rounded-full"></div>
-                </div>
-              </li>
-              <li class="flex flex-col gap-1.5 p-3 rounded-xl border border-slate-100 bg-slate-50">
-                <div class="flex items-center justify-between">
-                  <span class="text-[12px] text-slate-900 font-bold">Aljabar: Nilai Eigen</span>
-                  <span class="px-1.5 py-0.5 bg-amber-100 text-amber-600 rounded text-[9px] font-extrabold uppercase">Tinjau Ulang</span>
-                </div>
-                <div class="w-full h-1 bg-slate-200 rounded-full overflow-hidden">
-                  <div class="h-full bg-amber-400 w-[60%] rounded-full"></div>
-                </div>
-              </li>
+              <template v-if="aiInsights?.recommendations && aiInsights.recommendations.length">
+                <li v-for="(rec, idx) in aiInsights.recommendations.slice(0, 2)" :key="idx" class="flex flex-col gap-1.5 p-3 rounded-xl border border-slate-100 bg-slate-50">
+                  <div class="flex items-center justify-between">
+                    <span class="text-[12px] text-slate-900 font-bold truncate max-w-[140px]">{{ rec.topic || rec.title }}</span>
+                    <span class="px-1.5 py-0.5 rounded text-[9px] font-extrabold uppercase"
+                      :class="rec.priority === 'high' ? 'bg-rose-100 text-rose-600' : 'bg-amber-100 text-amber-600'">
+                      {{ rec.priority === 'high' ? 'Prioritas Tinggi' : 'Tinjau Ulang' }}
+                    </span>
+                  </div>
+                  <div class="w-full h-1 bg-slate-200 rounded-full overflow-hidden">
+                    <div class="h-full rounded-full"
+                      :class="rec.priority === 'high' ? 'bg-rose-400' : 'bg-amber-400'"
+                      :style="{ width: (rec.score || (rec.priority === 'high' ? 35 : 60)) + '%' }"></div>
+                  </div>
+                </li>
+              </template>
+              <template v-else>
+                <li class="flex flex-col gap-1.5 p-3 rounded-xl border border-slate-100 bg-slate-50">
+                  <div class="flex items-center justify-between">
+                    <span class="text-[12px] text-slate-900 font-bold">Kalkulus: Integral Parsial</span>
+                    <span class="px-1.5 py-0.5 bg-rose-100 text-rose-600 rounded text-[9px] font-extrabold uppercase">Prioritas Tinggi</span>
+                  </div>
+                  <div class="w-full h-1 bg-slate-200 rounded-full overflow-hidden">
+                    <div class="h-full bg-rose-400 w-[35%] rounded-full"></div>
+                  </div>
+                </li>
+                <li class="flex flex-col gap-1.5 p-3 rounded-xl border border-slate-100 bg-slate-50">
+                  <div class="flex items-center justify-between">
+                    <span class="text-[12px] text-slate-900 font-bold">Aljabar: Nilai Eigen</span>
+                    <span class="px-1.5 py-0.5 bg-amber-100 text-amber-600 rounded text-[9px] font-extrabold uppercase">Tinjau Ulang</span>
+                  </div>
+                  <div class="w-full h-1 bg-slate-200 rounded-full overflow-hidden">
+                    <div class="h-full bg-amber-400 w-[60%] rounded-full"></div>
+                  </div>
+                </li>
+              </template>
             </ul>
           </div>
 
@@ -128,6 +148,7 @@
           </RouterLink>
         </div>
       </section>
+
 
       <!-- ONBOARDING NARRATIVE SECTION -->
       <section class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200/80 relative overflow-hidden">
@@ -291,14 +312,19 @@ import { useAuthStore } from '@/stores/auth'
 import { dashboardService } from '@/services/dashboard.service'
 import { forumService } from '@/services/forum.service'
 import { mentoringService } from '@/services/mentoring.service'
+import { aiService } from '@/services/ai.service'
 
 const authStore = useAuthStore()
+
 
 const dashboardData = ref(null)
 const discussions = ref([])
 const mentoring = ref([])
 const isLoading = ref(true)
 const errorMsg = ref(null)
+
+// AI Insights State
+const aiInsights = ref(null)
 
 const stats = computed(() => [
   { 
@@ -364,7 +390,15 @@ const loadDashboardData = async () => {
     // 1. Fetch dashboard stats
     dashboardData.value = await dashboardService.getStudentDashboard()
 
-    // 2. Fetch latest posts
+    // 2. Fetch AI Insights
+    try {
+      const insightRes = await aiService.getStudentAIInsights()
+      aiInsights.value = insightRes.data || insightRes
+    } catch (e) {
+      console.error('Error loading AI insights:', e)
+    }
+
+    // 3. Fetch latest posts
     try {
       const postsRes = await forumService.getPosts({ page: 1 })
       const postsArray = postsRes.data || postsRes || []
@@ -380,7 +414,7 @@ const loadDashboardData = async () => {
       discussions.value = []
     }
 
-    // 3. Fetch mentoring sessions
+    // 4. Fetch mentoring sessions
     try {
       const sessionsRes = await mentoringService.getSessions()
       const sessionsArray = sessionsRes || []
@@ -411,6 +445,7 @@ const loadDashboardData = async () => {
 onMounted(() => {
   loadDashboardData()
 })
+
 </script>
 
 <style scoped>

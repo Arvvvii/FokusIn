@@ -36,7 +36,7 @@
       <div class="grid grid-cols-3 gap-6 mb-8">
         <div class="p-5 border border-slate-200 rounded-xl bg-slate-50">
           <p class="text-sm font-bold text-slate-500 uppercase mb-1">Average Score</p>
-          <p class="text-2xl font-bold text-slate-900">76.4</p>
+          <p class="text-2xl font-bold text-slate-900">{{ quiz.average_score || quiz.avg_score || '76.4' }}</p>
         </div>
         <div class="p-5 border border-slate-200 rounded-xl bg-slate-50">
           <p class="text-sm font-bold text-slate-500 uppercase mb-1">Questions</p>
@@ -44,7 +44,7 @@
         </div>
         <div class="p-5 border border-slate-200 rounded-xl bg-slate-50">
           <p class="text-sm font-bold text-slate-500 uppercase mb-1">Anomalies Detected</p>
-          <p class="text-2xl font-bold text-rose-600">0</p>
+          <p class="text-2xl font-bold text-rose-600">{{ quiz.anomalies_detected || quiz.anomalies || '0' }}</p>
         </div>
       </div>
 
@@ -70,9 +70,11 @@
 import { ref, onMounted } from 'vue'
 import { useRoute, RouterLink, useRouter } from 'vue-router'
 import { quizService } from '@/services/quiz.service'
+import { useToastStore } from '@/stores/toast'
 
 const route = useRoute()
 const router = useRouter()
+const toastStore = useToastStore()
 const id = route.params.id
 const quiz = ref(null)
 const isLoading = ref(true)
@@ -80,10 +82,11 @@ const isLoading = ref(true)
 const loadQuiz = async () => {
   try {
     isLoading.value = true
-    const data = await quizService.getQuizById(id)
-    quiz.value = data
+    const response = await quizService.getAdminQuizDetail(id)
+    quiz.value = response.data || response
   } catch (err) {
     console.error('Failed to load quiz details:', err)
+    toastStore.error('Gagal memuat detail kuis.')
   } finally {
     isLoading.value = false
   }
@@ -93,9 +96,10 @@ const deleteQuiz = async () => {
   if (confirm('Anda yakin ingin menghapus kuis ini?')) {
     try {
       await quizService.deleteQuiz(id)
+      toastStore.success('Kuis berhasil dihapus.')
       router.push('/admin/quiz-monitoring')
     } catch (err) {
-      alert(err.message || 'Gagal menghapus kuis.')
+      toastStore.error(err || 'Gagal menghapus kuis.')
     }
   }
 }

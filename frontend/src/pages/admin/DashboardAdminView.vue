@@ -17,7 +17,7 @@
       </div>
     </div>
 
-    <!-- 1. HERO OVERVIEW (Stat Cards) -->
+    <!-- Stat Cards Loading State -->
     <template v-if="loading">
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
         <div v-for="n in 4" :key="n" class="admin-card p-6 flex flex-col justify-between opacity-70 animate-pulse h-[138px]">
@@ -42,7 +42,7 @@
         </div>
         <h3 class="text-base font-bold text-rose-950 mb-1">Gagal Memuat Statistik</h3>
         <p class="text-xs text-rose-800 text-center max-w-md mb-4">{{ error }}</p>
-        <button @click="fetchStats" class="px-4 py-2 bg-[#334EAC] hover:bg-[#081F5C] text-white rounded-xl font-bold text-xs shadow-sm transition-all active:scale-95">
+        <button @click="fetchDashboard" class="px-4 py-2 bg-[#334EAC] hover:bg-[#081F5C] text-white rounded-xl font-bold text-xs shadow-sm transition-all active:scale-95">
           Coba Lagi
         </button>
       </div>
@@ -98,12 +98,15 @@
       <div class="system-logs-panel p-6">
         <h2 class="text-lg font-bold text-slate-900 mb-6 tracking-tight">System Logs</h2>
         <div class="space-y-0">
-          <div v-for="(act, idx) in liveActivity" :key="act.id" class="log-item">
+          <div v-for="(act, idx) in liveActivity" :key="act.id || idx" class="log-item">
             <div :class="idx % 2 === 0 ? 'log-dot-green' : 'log-dot-blue'"></div>
             <div class="flex-1">
-              <p class="text-sm font-semibold text-slate-900 tracking-tight">{{ act.title }}</p>
+              <p class="text-sm font-semibold text-slate-900 tracking-tight">{{ act.title || act.message }}</p>
             </div>
             <p class="log-time">{{ act.time }}</p>
+          </div>
+          <div v-if="liveActivity.length === 0" class="text-sm text-slate-400 text-center py-4">
+            Tidak ada log aktivitas saat ini.
           </div>
         </div>
       </div>
@@ -118,14 +121,17 @@
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
         <div v-for="mod in moderationQueue" :key="mod.id" class="admin-card p-5 stat-card-warning">
           <div class="flex items-center gap-2 mb-3">
-            <span class="text-xs font-bold px-2 py-1 rounded-md" :class="mod.type === 'Report' ? 'bg-rose-50 text-rose-700' : 'bg-amber-50 text-amber-700'">{{ mod.type }}</span>
-            <span class="text-xs text-slate-500 font-medium">{{ mod.time }}</span>
+            <span class="text-xs font-bold px-2 py-1 rounded-md" :class="mod.type === 'Report' ? 'bg-rose-50 text-rose-700' : 'bg-amber-50 text-amber-700'">{{ mod.type || 'Moderation' }}</span>
+            <span class="text-xs text-slate-500 font-medium">{{ mod.time || 'baru saja' }}</span>
           </div>
           <p class="text-base font-bold text-slate-900 mb-2 tracking-tight">{{ mod.title }}</p>
-          <p class="text-sm text-slate-600 mb-4 line-clamp-2">{{ mod.desc }}</p>
+          <p class="text-sm text-slate-600 mb-4 line-clamp-2">{{ mod.desc || mod.content }}</p>
           <RouterLink :to="`/admin/moderation/${mod.id}`" class="inline-block px-4 py-2 bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-700 text-sm font-semibold rounded-lg transition-colors">
             Review Case
           </RouterLink>
+        </div>
+        <div v-if="moderationQueue.length === 0" class="lg:col-span-3 text-center py-8 text-slate-400 font-semibold">
+          Antrean moderasi bersih. Tidak ada konten yang perlu ditinjau.
         </div>
       </div>
     </div>
@@ -136,7 +142,7 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 import { RouterLink } from 'vue-router'
-import { statsService } from '@/services/stats.service'
+import { adminService } from '@/services/admin.service'
 
 const exportReport = () => {
   alert('Report sedang di-generate dan akan segera diunduh.')
@@ -144,18 +150,60 @@ const exportReport = () => {
 
 const loading = ref(false)
 const error = ref(null)
+
 const statsData = ref({
   total_users: 0,
   total_posts: 0,
-  total_exam_uploads: 0
+  total_exam_uploads: 0,
+  ongoing_mentoring: 0,
+  users_trend: '12%',
+  posts_trend: '4%',
+  exams_trend: '24%',
+  mentoring_trend: '8%',
+  users_trend_up: true,
+  posts_trend_up: true,
+  exams_trend_up: true,
+  mentoring_trend_up: true
 })
 
-const fetchStats = async () => {
+const healthMetrics = ref([
+  { name: 'AI Analyzer Status', desc: 'Latency: 124ms', status: 'Optimal', icon: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>' },
+  { name: 'Mentoring Stability', desc: 'Uptime: 99.9%', status: 'Optimal', icon: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>' },
+  { name: 'Quiz Engagement', desc: 'Completion: 84%', status: 'Optimal', icon: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" x2="12.01" y1="17" y2="17"/></svg>' },
+  { name: 'Forum Integrity', desc: 'Flagged: 0.2%', status: 'Optimal', icon: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" x2="12" y1="9" y2="13"/><line x1="12" x2="12.01" y1="17" y2="17"/></svg>' },
+])
+
+const liveActivity = ref([])
+const moderationQueue = ref([])
+
+const fetchDashboard = async () => {
   loading.value = true
   error.value = null
   try {
-    const data = await statsService.getGlobalStats()
-    statsData.value = data
+    const response = await adminService.getAdminDashboard()
+    const data = response.data || response || {}
+    
+    // Map stats safely
+    if (data.stats) {
+      statsData.value = { ...statsData.value, ...data.stats }
+    } else {
+      statsData.value.total_users = data.total_users || data.users_count || 0
+      statsData.value.total_posts = data.total_posts || data.posts_count || 0
+      statsData.value.total_exam_uploads = data.total_exam_uploads || data.exams_count || 0
+      statsData.value.ongoing_mentoring = data.ongoing_mentoring || data.mentoring_count || 0
+    }
+    
+    // Map health metrics
+    if (data.platform_health && data.platform_health.length > 0) {
+      healthMetrics.value = data.platform_health
+    }
+    
+    // Map logs
+    liveActivity.value = data.recent_logs || data.logs || []
+    
+    // Map moderation
+    moderationQueue.value = data.moderation_queue || data.moderation || []
+    
   } catch (err) {
     error.value = err
   } finally {
@@ -163,58 +211,38 @@ const fetchStats = async () => {
   }
 }
 
-onMounted(() => {
-  fetchStats()
-})
-
 const overviewStats = computed(() => [
   { 
     title: 'Total Registered Users', 
     value: statsData.value.total_users?.toLocaleString() || '0', 
-    trend: '12%', 
-    trendUp: true, 
+    trend: statsData.value.users_trend || '12%', 
+    trendUp: statsData.value.users_trend_up !== false, 
     icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>' 
   },
   { 
     title: 'Total Forum Discussions', 
     value: statsData.value.total_posts?.toLocaleString() || '0', 
-    trend: '4%', 
-    trendUp: true, 
+    trend: statsData.value.posts_trend || '4%', 
+    trendUp: statsData.value.posts_trend_up !== false, 
     icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>' 
   },
   { 
     title: 'Total Exam Archives', 
     value: statsData.value.total_exam_uploads?.toLocaleString() || '0', 
-    trend: '24%', 
-    trendUp: true, 
+    trend: statsData.value.exams_trend || '24%', 
+    trendUp: statsData.value.exams_trend_up !== false, 
     icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>' 
   },
   { 
     title: 'Ongoing Mentoring', 
-    value: '1,204', 
-    trend: '8%', 
-    trendUp: true, 
+    value: statsData.value.ongoing_mentoring?.toLocaleString() || '0', 
+    trend: statsData.value.mentoring_trend || '8%', 
+    trendUp: statsData.value.mentoring_trend_up !== false, 
     icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>' 
   }
 ])
 
-const healthMetrics = [
-  { name: 'AI Analyzer Status', desc: 'Latency: 124ms', status: 'Optimal', colorClass: 'bg-[#D0E3FF] text-[#081F5C]', icon: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>' },
-  { name: 'Mentoring Stability', desc: 'Uptime: 99.9%', status: 'Optimal', colorClass: 'bg-emerald-100 text-emerald-700', icon: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>' },
-  { name: 'Quiz Engagement', desc: 'Completion: 84%', status: 'Optimal', colorClass: 'bg-sky-100 text-sky-700', icon: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" x2="12.01" y1="17" y2="17"/></svg>' },
-  { name: 'Forum Integrity', desc: 'Flagged: 0.2%', status: 'Warning', colorClass: 'bg-amber-100 text-amber-700', icon: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" x2="12" y1="9" y2="13"/><line x1="12" x2="12.01" y1="17" y2="17"/></svg>' },
-]
-
-const moderationQueue = [
-  { id: 701, type: 'Report', time: '10m ago', title: 'Indikasi Spam di Forum Kalkulus', desc: 'Pengguna terdeteksi melakukan penyebaran link promosi bot secara masif di forum akademik.' },
-  { id: 702, type: 'Flagged', time: '45m ago', title: 'Materi Biologi Terduga Plagiat', desc: 'AI Analyzer mencatat kemiripan struktural sebesar 85% dengan jurnal literatur eksternal tanpa sitasi.' },
-  { id: 703, type: 'Report', time: '1h ago', title: 'Pelanggaran Code of Conduct', desc: 'Tiga laporan beruntun atas komentar ofensif pada thread Diskusi Fisika Dasar.' }
-]
-
-const liveActivity = [
-  { id: 1, title: 'Budi S. registrasi sebagai Pelajar', time: 'Baru saja', colorClass: 'bg-emerald-500', icon: '<circle cx="12" cy="12" r="10"/>' },
-  { id: 2, title: 'Tutor Sarah memverifikasi 3 jawaban', time: '5m ago', colorClass: 'bg-[#334EAC]', icon: '<circle cx="12" cy="12" r="10"/>' },
-  { id: 3, title: 'Sistem memblokir 1 spam bot', time: '12m ago', colorClass: 'bg-rose-500', icon: '<circle cx="12" cy="12" r="10"/>' },
-  { id: 4, title: 'Mentoring #402 dijadwalkan ulang', time: '28m ago', colorClass: 'bg-sky-500', icon: '<circle cx="12" cy="12" r="10"/>' },
-]
+onMounted(() => {
+  fetchDashboard()
+})
 </script>

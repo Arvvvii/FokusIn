@@ -83,7 +83,7 @@
     <!-- Empty State -->
     <div v-else-if="filteredUsers.length === 0" class="bg-white border border-slate-200 shadow-sm rounded-2xl p-10 text-center flex flex-col items-center justify-center gap-4">
       <div class="w-12 h-12 rounded-full bg-slate-50 text-slate-400 flex items-center justify-center">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
       </div>
       <div>
         <h3 class="text-lg font-bold text-slate-900">Tidak ada pengguna ditemukan.</h3>
@@ -127,10 +127,7 @@
               </td>
               <td class="px-6 py-4 text-right">
                 <div class="flex items-center justify-end gap-1 md:opacity-0 md:group-hover:opacity-100 transition-opacity">
-                  <button class="p-1.5 text-slate-400 bg-slate-50 hover:text-[#334EAC] hover:bg-[#D0E3FF] rounded-lg transition-colors border border-slate-100" title="View" @click="openModal('View', user)">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
-                  </button>
-                  <button class="p-1.5 text-slate-400 bg-slate-50 hover:text-[#081F5C] hover:bg-[#F7F2EB] rounded-lg transition-colors border border-slate-100" title="Edit" @click="openModal('Edit', user)">
+                  <button class="p-1.5 text-slate-400 bg-slate-50 hover:text-[#334EAC] hover:bg-[#D0E3FF] rounded-lg transition-colors border border-slate-100" title="Edit" @click="openModal('Edit', user)">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/></svg>
                   </button>
                   <button class="p-1.5 text-slate-400 bg-slate-50 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-colors border border-slate-100" title="Delete" @click="openModal('Delete', user)">
@@ -179,11 +176,30 @@
               </div>
             </div>
 
-            <p class="text-sm text-slate-600 mb-6">
+            <!-- Edit Form mode -->
+            <div v-if="modalAction === 'Edit'" class="space-y-4 mb-6">
+              <div class="space-y-1">
+                <label class="text-xs font-bold text-slate-500 uppercase">Nama Lengkap</label>
+                <input v-model="editForm.name" type="text" class="admin-input w-full p-2 border border-slate-200 rounded-lg">
+              </div>
+              <div class="space-y-1">
+                <label class="text-xs font-bold text-slate-500 uppercase">Email</label>
+                <input v-model="editForm.email" type="email" class="admin-input w-full p-2 border border-slate-200 rounded-lg">
+              </div>
+              <div class="space-y-1">
+                <label class="text-xs font-bold text-slate-500 uppercase">Role</label>
+                <select v-model="editForm.role" class="admin-input w-full p-2 border border-slate-200 rounded-lg">
+                  <option value="Pelajar">Pelajar</option>
+                  <option value="Tutor">Tutor</option>
+                  <option value="Admin">Admin</option>
+                </select>
+              </div>
+            </div>
+
+            <p v-else class="text-sm text-slate-600 mb-6">
               <span v-if="modalAction === 'Suspend'">Anda yakin ingin menangguhkan akun ini? Pengguna tidak akan bisa mengakses platform.</span>
               <span v-else-if="modalAction === 'Activate'">Anda yakin ingin mengaktifkan kembali akun ini?</span>
               <span v-else-if="modalAction === 'Delete'">Anda yakin ingin menghapus permanen akun pengguna ini? Tindakan ini tidak dapat dibatalkan.</span>
-              <span v-else>Formulir {{ modalAction.toLowerCase() }} untuk {{ selectedUser?.name }} akan dimuat di sini (Simulasi fungsional).</span>
             </p>
 
             <div class="flex items-center justify-end gap-3">
@@ -204,9 +220,11 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, reactive } from 'vue'
 import { adminService } from '@/services/admin.service'
+import { useToastStore } from '@/stores/toast'
 
+const toastStore = useToastStore()
 const users = ref([])
 const isLoading = ref(true)
 const errorMsg = ref(null)
@@ -219,12 +237,17 @@ const isModalOpen = ref(false)
 const modalAction = ref('')
 const selectedUser = ref(null)
 
+const editForm = reactive({
+  name: '',
+  email: '',
+  role: 'Pelajar'
+})
+
 const loadUsers = async () => {
   try {
     isLoading.value = true
     errorMsg.value = null
     const response = await adminService.getUsers()
-    // Frontend will consume the paginated payload and use response.data.data as the primary dataset while preserving future pagination support.
     const rawList = response.data || response || []
     
     users.value = rawList.map(u => {
@@ -263,8 +286,10 @@ const loadUsers = async () => {
 
 const filteredUsers = computed(() => {
   return users.value.filter(u => {
-    const matchesSearch = u.name.toLowerCase().includes(searchQuery.value.toLowerCase()) || 
-                          u.email.toLowerCase().includes(searchQuery.value.toLowerCase())
+    const nameStr = String(u.name || '').toLowerCase()
+    const emailStr = String(u.email || '').toLowerCase()
+    const matchesSearch = nameStr.includes(searchQuery.value.toLowerCase()) || 
+                          emailStr.includes(searchQuery.value.toLowerCase())
     const matchesRole = !filterRole.value || u.role === filterRole.value
     const matchesStatus = !filterStatus.value || u.status === filterStatus.value
     return matchesSearch && matchesRole && matchesStatus
@@ -274,6 +299,11 @@ const filteredUsers = computed(() => {
 const openModal = (action, user) => {
   modalAction.value = action
   selectedUser.value = user
+  if (action === 'Edit') {
+    editForm.name = user.name
+    editForm.email = user.email
+    editForm.role = user.role
+  }
   isModalOpen.value = true
 }
 
@@ -290,14 +320,25 @@ const confirmAction = async () => {
   try {
     if (modalAction.value === 'Suspend') {
       await adminService.updateUser(selectedUser.value.id, { status: 'Suspended' })
+      toastStore.success('Akun pengguna berhasil ditangguhkan.')
     } else if (modalAction.value === 'Activate') {
       await adminService.updateUser(selectedUser.value.id, { status: 'Active' })
+      toastStore.success('Akun pengguna berhasil diaktifkan kembali.')
     } else if (modalAction.value === 'Delete') {
       await adminService.deleteUser(selectedUser.value.id)
+      toastStore.success('Akun pengguna berhasil dihapus secara permanen.')
+    } else if (modalAction.value === 'Edit') {
+      await adminService.updateUser(selectedUser.value.id, {
+        name: editForm.name,
+        email: editForm.email,
+        role: editForm.role.toLowerCase()
+      })
+      toastStore.success('Profil pengguna berhasil diperbarui.')
     }
     await loadUsers()
   } catch (err) {
     console.error('Error executing user action:', err)
+    toastStore.error(err || 'Gagal mengeksekusi aksi pengguna.')
   } finally {
     closeModal()
   }

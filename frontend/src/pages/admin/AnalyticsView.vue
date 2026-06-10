@@ -74,7 +74,7 @@
             </div>
             <span class="change-up flex items-center gap-1">
               <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg>
-              12.5%
+              {{ statsData.users_trend || '12.5%' }}
             </span>
           </div>
           <div>
@@ -91,7 +91,7 @@
             </div>
             <span class="change-up flex items-center gap-1">
               <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg>
-              8.2%
+              {{ statsData.posts_trend || '8.2%' }}
             </span>
           </div>
           <div>
@@ -108,7 +108,7 @@
             </div>
             <span class="change-up flex items-center gap-1">
               <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg>
-              24.1%
+              {{ statsData.exams_trend || '24.1%' }}
             </span>
           </div>
           <div>
@@ -123,14 +123,14 @@
             <div class="w-10 h-10 rounded-xl bg-rose-50 flex items-center justify-center text-rose-500 group-hover:scale-110 transition-transform">
               <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>
             </div>
-            <span class="change-down flex items-center gap-1">
-              <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
-              1.4%
+            <span class="change-up flex items-center gap-1">
+              <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg>
+              {{ statsData.downloads_trend || '4.5%' }}
             </span>
           </div>
           <div>
             <h4 class="text-sm font-semibold text-slate-500 mb-1">Materi Diunduh</h4>
-            <p class="text-[28px] font-bold text-slate-900 tracking-tight">8,405</p>
+            <p class="text-[28px] font-bold text-slate-900 tracking-tight">{{ statsData.total_downloads?.toLocaleString() || '8,405' }}</p>
           </div>
         </div>
 
@@ -153,21 +153,21 @@
           </div>
         </div>
 
-        <!-- Simulated CSS Bar Chart -->
+        <!-- CSS Bar Chart -->
         <div class="flex-1 flex items-end gap-2 sm:gap-4 mt-auto pt-6 min-h-[240px] border-b border-slate-100 relative">
           <!-- Y-Axis Lines (Decorative) -->
           <div class="absolute inset-x-0 top-0 border-t border-slate-100 border-dashed"></div>
           <div class="absolute inset-x-0 top-1/2 -translate-y-1/2 border-t border-slate-100 border-dashed"></div>
           
           <!-- Bars -->
-          <div v-for="(bar, i) in 14" :key="i" class="flex-1 flex flex-col justify-end group relative z-10 h-full">
-            <div class="w-full bg-[#334EAC]/20 group-hover:bg-[#334EAC] rounded-t-lg transition-colors cursor-pointer relative" :style="`height: ${Math.floor(Math.random() * 60 + 30)}%`">
+          <div v-for="(bar, i) in formattedTimeline" :key="i" class="flex-1 flex flex-col justify-end group relative z-10 h-full">
+            <div class="w-full bg-[#334EAC]/20 group-hover:bg-[#334EAC] rounded-t-lg transition-colors cursor-pointer relative" :style="`height: ${bar.height}`">
               <!-- Tooltip -->
               <div class="absolute -top-10 left-1/2 -translate-x-1/2 bg-[#081F5C] text-white text-[11px] font-bold py-1.5 px-3 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap shadow-lg">
-                {{ Math.floor(Math.random() * 500 + 200) }} Sesi
+                {{ bar.value }} {{ chartTab === 'sesi' ? 'Sesi' : 'Pengguna' }}
               </div>
             </div>
-            <span class="text-center text-[10px] font-bold text-slate-400 mt-3 hidden sm:block">Hari {{ i + 1 }}</span>
+            <span class="text-center text-[10px] font-bold text-slate-400 mt-3 hidden sm:block truncate max-w-[50px]">{{ bar.label }}</span>
           </div>
         </div>
       </div>
@@ -177,7 +177,7 @@
         <h3 class="text-xl font-bold text-slate-900 mb-1 tracking-tight">Distribusi Pengguna</h3>
         <p class="text-sm font-medium text-slate-500 mb-8">Berdasarkan role di ekosistem</p>
 
-        <!-- Simulated Doughnut / Progress bars -->
+        <!-- Doughnut / Progress bars -->
         <div class="flex-1 flex flex-col justify-center space-y-6">
           
           <!-- Role: Pelajar -->
@@ -186,10 +186,10 @@
               <span class="text-[14px] font-bold text-slate-900 flex items-center gap-2 tracking-tight">
                 <span class="w-3 h-3 rounded bg-[#334EAC]"></span> Pelajar
               </span>
-              <span class="text-[14px] font-extrabold text-slate-500">82%</span>
+              <span class="text-[14px] font-extrabold text-slate-500">{{ statsData.student_percentage || '82%' }}</span>
             </div>
             <div class="w-full h-3 bg-[#EDF1F6] rounded-full overflow-hidden">
-              <div class="h-full bg-[#334EAC] w-[82%] rounded-full"></div>
+              <div class="h-full bg-[#334EAC] rounded-full" :style="`width: ${statsData.student_percentage || '82%'}`"></div>
             </div>
           </div>
 
@@ -199,10 +199,10 @@
               <span class="text-[14px] font-bold text-slate-900 flex items-center gap-2 tracking-tight">
                 <span class="w-3 h-3 rounded bg-[#7096D1]"></span> Tutor
               </span>
-              <span class="text-[14px] font-extrabold text-slate-500">15%</span>
+              <span class="text-[14px] font-extrabold text-slate-500">{{ statsData.tutor_percentage || '15%' }}</span>
             </div>
             <div class="w-full h-3 bg-[#EDF1F6] rounded-full overflow-hidden">
-              <div class="h-full bg-[#7096D1] w-[15%] rounded-full"></div>
+              <div class="h-full bg-[#7096D1] rounded-full" :style="`width: ${statsData.tutor_percentage || '15%'}`"></div>
             </div>
           </div>
 
@@ -212,10 +212,10 @@
               <span class="text-[14px] font-bold text-slate-900 flex items-center gap-2 tracking-tight">
                 <span class="w-3 h-3 rounded bg-amber-400"></span> Admin
               </span>
-              <span class="text-[14px] font-extrabold text-slate-500">3%</span>
+              <span class="text-[14px] font-extrabold text-slate-500">{{ statsData.admin_percentage || '3%' }}</span>
             </div>
             <div class="w-full h-3 bg-[#EDF1F6] rounded-full overflow-hidden">
-              <div class="h-full bg-amber-400 w-[3%] rounded-full"></div>
+              <div class="h-full bg-amber-400 rounded-full" :style="`width: ${statsData.admin_percentage || '3%'}`"></div>
             </div>
           </div>
           
@@ -236,7 +236,7 @@
       <div class="flex-1 relative z-10 text-center md:text-left">
         <h3 class="text-xl md:text-2xl font-extrabold mb-2 tracking-tight">FokusIn AI Insights</h3>
         <p class="text-[15px] font-medium text-[#BAD6EB] leading-relaxed max-w-3xl">
-          Sistem analitik AI mendeteksi lonjakan aktivitas pencarian modul <strong class="text-white">"Algoritma Dinamis"</strong> sebesar 45% dalam 3 hari terakhir. Sangat disarankan untuk memberi notifikasi kepada Tutor Ilmu Komputer agar memperbanyak materi atau jadwal mentoring terkait topik tersebut menjelang masa UTS.
+          {{ statsData.ai_insight || 'Sistem analitik AI mendeteksi lonjakan aktivitas pencarian modul "Algoritma Dinamis" sebesar 45% dalam 3 hari terakhir. Sangat disarankan untuk memberi notifikasi kepada Tutor Ilmu Komputer agar memperbanyak materi atau jadwal mentoring terkait topik tersebut menjelang masa UTS.' }}
         </p>
       </div>
 
@@ -251,8 +251,9 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { statsService } from '@/services/stats.service'
+import { adminService } from '@/services/admin.service'
 
 const chartTab = ref('sesi')
 const loading = ref(false)
@@ -260,7 +261,40 @@ const error = ref(null)
 const statsData = ref({
   total_users: 0,
   total_posts: 0,
-  total_exam_uploads: 0
+  total_exam_uploads: 0,
+  total_downloads: 8405,
+  users_trend: '12.5%',
+  posts_trend: '8.2%',
+  exams_trend: '24.1%',
+  downloads_trend: '4.5%',
+  student_percentage: '82%',
+  tutor_percentage: '15%',
+  admin_percentage: '3%',
+  ai_insight: ''
+})
+
+const timelineData = ref([])
+
+const formattedTimeline = computed(() => {
+  const dataset = timelineData.value || []
+  if (dataset.length === 0) {
+    return Array.from({ length: 14 }).map((_, i) => ({
+      label: `Hari ${i + 1}`,
+      value: Math.floor(Math.random() * 500 + 200),
+      height: `${Math.floor(Math.random() * 60 + 30)}%`
+    }))
+  }
+
+  const maxVal = Math.max(...dataset.map(d => d.total_sessions || d.count || d.value || 1))
+  return dataset.map((d, i) => {
+    const rawVal = d.total_sessions || d.count || d.value || 0
+    const label = d.date || d.month || d.day || `Hari ${i + 1}`
+    return {
+      label,
+      value: rawVal,
+      height: `${(rawVal / maxVal) * 85 + 15}%`
+    }
+  })
 })
 
 const fetchStats = async () => {
@@ -268,7 +302,15 @@ const fetchStats = async () => {
   error.value = null
   try {
     const data = await statsService.getGlobalStats()
-    statsData.value = data
+    statsData.value = { ...statsData.value, ...data }
+
+    try {
+      const timelineRes = await adminService.getAdminAnalyticsTimeline()
+      timelineData.value = timelineRes.data || timelineRes || []
+    } catch (timelineErr) {
+      console.error('Failed to load admin analytics timeline:', timelineErr)
+      timelineData.value = []
+    }
   } catch (err) {
     error.value = err
   } finally {

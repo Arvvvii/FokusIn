@@ -175,30 +175,43 @@
             <!-- 2nd Place -->
             <div class="flex flex-col items-center bg-slate-50 border border-slate-200/60 rounded-3xl p-5 relative overflow-hidden order-2 md:order-1 h-[200px] justify-end">
               <div class="absolute top-4 w-9 h-9 rounded-full bg-slate-200 border-2 border-white flex items-center justify-center font-bold text-xs text-slate-600 shadow-sm">2</div>
-              <div class="w-12 h-12 rounded-full bg-[#F7F2EB] border border-slate-200 flex items-center justify-center font-bold text-sm text-[#334EAC] mb-2">SA</div>
-              <h4 class="text-xs font-bold text-slate-900">Siti Aminah</h4>
-              <p class="text-[11px] font-semibold text-slate-400">18 Jawaban Valid</p>
-              <div class="mt-3 text-xs font-extrabold text-slate-700 bg-slate-100 px-2.5 py-0.5 rounded-lg border border-slate-200/40">310 Poin</div>
+              <div class="w-12 h-12 rounded-full bg-[#F7F2EB] border border-slate-200 flex items-center justify-center font-bold text-sm text-[#334EAC] mb-2">
+                {{ leaderboardData[1]?.initials || 'SA' }}
+              </div>
+              <h4 class="text-xs font-bold text-slate-900 truncate max-w-[120px]">{{ leaderboardData[1]?.name || 'Siti Aminah' }}</h4>
+              <p class="text-[11px] font-semibold text-slate-400">{{ leaderboardData[1]?.answersCount ?? 18 }} Jawaban Valid</p>
+              <div class="mt-3 text-xs font-extrabold text-slate-700 bg-slate-100 px-2.5 py-0.5 rounded-lg border border-slate-200/40">
+                {{ leaderboardData[1]?.points ?? 310 }} Poin
+              </div>
             </div>
 
             <!-- 1st Place -->
             <div class="flex flex-col items-center bg-amber-50/40 border-2 border-amber-200/60 rounded-3xl p-6 relative overflow-hidden order-1 md:order-2 h-[230px] justify-end shadow-sm">
               <div class="absolute top-4 w-10 h-10 rounded-full bg-amber-400 border-2 border-white flex items-center justify-center font-bold text-xs text-white shadow-md">👑 1</div>
-              <div class="w-14 h-14 rounded-full bg-amber-100 border border-amber-200 flex items-center justify-center font-bold text-base text-amber-700 mb-2">BS</div>
-              <h4 class="text-sm font-bold text-slate-900">Budi Santoso</h4>
-              <p class="text-xs font-semibold text-amber-600">24 Jawaban Valid</p>
-              <div class="mt-3 text-xs font-extrabold text-amber-800 bg-amber-100/60 px-3 py-1 rounded-xl border border-amber-200/40">420 Poin</div>
+              <div class="w-14 h-14 rounded-full bg-amber-100 border border-amber-200 flex items-center justify-center font-bold text-base text-amber-700 mb-2">
+                {{ leaderboardData[0]?.initials || 'BS' }}
+              </div>
+              <h4 class="text-sm font-bold text-slate-900 truncate max-w-[140px]">{{ leaderboardData[0]?.name || 'Budi Santoso' }}</h4>
+              <p class="text-xs font-semibold text-amber-600">{{ leaderboardData[0]?.answersCount ?? 24 }} Jawaban Valid</p>
+              <div class="mt-3 text-xs font-extrabold text-amber-800 bg-amber-100/60 px-3 py-1 rounded-xl border border-amber-200/40">
+                {{ leaderboardData[0]?.points ?? 420 }} Poin
+              </div>
             </div>
 
             <!-- 3rd Place -->
             <div class="flex flex-col items-center bg-slate-50 border border-slate-200/60 rounded-3xl p-5 relative overflow-hidden order-3 md:order-3 h-[180px] justify-end">
               <div class="absolute top-4 w-8 h-8 rounded-full bg-amber-600/10 border-2 border-white flex items-center justify-center font-bold text-xs text-amber-800 shadow-sm">3</div>
-              <div class="w-12 h-12 rounded-full bg-orange-50 border border-orange-100 flex items-center justify-center font-bold text-sm text-orange-600 mb-2">RD</div>
-              <h4 class="text-xs font-bold text-slate-900">Rizky Dharma</h4>
-              <p class="text-[11px] font-semibold text-slate-400">12 Jawaban Valid</p>
-              <div class="mt-3 text-xs font-extrabold text-slate-700 bg-slate-100 px-2.5 py-0.5 rounded-lg border border-slate-200/40">120 Poin</div>
+              <div class="w-12 h-12 rounded-full bg-orange-50 border border-orange-100 flex items-center justify-center font-bold text-sm text-orange-600 mb-2">
+                {{ leaderboardData[2]?.initials || 'RD' }}
+              </div>
+              <h4 class="text-xs font-bold text-slate-900 truncate max-w-[120px]">{{ leaderboardData[2]?.name || 'Rizky Dharma' }}</h4>
+              <p class="text-[11px] font-semibold text-slate-400">{{ leaderboardData[2]?.answersCount ?? 12 }} Jawaban Valid</p>
+              <div class="mt-3 text-xs font-extrabold text-slate-700 bg-slate-100 px-2.5 py-0.5 rounded-lg border border-slate-200/40">
+                {{ leaderboardData[2]?.points ?? 120 }} Poin
+              </div>
             </div>
           </div>
+
 
           <!-- Leaderboard Table Rank 4+ -->
           <div class="table-container mt-8">
@@ -316,6 +329,10 @@ const currentFilter = ref('Pending')
 const searchQuery = ref('')
 const answers = ref([])
 
+// Leaderboard live data
+const leaderboardData = ref([])
+const activeStudentsList = ref([])
+
 const getAvatarInitials = (name) => {
   if (!name) return '?'
   const parts = name.trim().split(/\s+/)
@@ -340,6 +357,8 @@ const formatTime = (dateString) => {
   return `${diffDays} hari lalu`
 }
 
+import api from '@/services/api'
+
 const loadAnswers = async () => {
   try {
     const response = await forumService.getPosts({ needs_verification: 1 })
@@ -363,12 +382,37 @@ const loadAnswers = async () => {
   }
 }
 
-const activeStudentsList = ref([
-  { rank: 4, initials: 'EP', name: 'Eko Prasetyo', answersCount: 11, points: 95 },
-  { rank: 5, initials: 'RD', name: 'Riri Damayanti', answersCount: 9, points: 80 },
-  { rank: 6, initials: 'AF', name: 'Ahmad Fikri', answersCount: 8, points: 75 },
-  { rank: 7, initials: 'NH', name: 'Nurul Hidayah', answersCount: 6, points: 60 }
-])
+const loadLeaderboard = async () => {
+  try {
+    const res = await api.get('/leaderboard')
+    const rawData = res.data?.data || res.data || []
+    // Map backend array to podium and active list
+    leaderboardData.value = rawData.map((s, index) => ({
+      rank: index + 1,
+      initials: getAvatarInitials(s.name),
+      name: s.name || 'Pelajar',
+      answersCount: s.verified_answers_count || s.answers_count || 0,
+      points: s.reputation || s.score || 0
+    }))
+    
+    // Split: 4+ goes to activeStudentsList
+    activeStudentsList.value = leaderboardData.value.slice(3)
+  } catch (e) {
+    console.error('Error loading leaderboard:', e)
+    // Fallback if endpoint fails
+    activeStudentsList.value = [
+      { rank: 4, initials: 'EP', name: 'Eko Prasetyo', answersCount: 11, points: 95 },
+      { rank: 5, initials: 'RD', name: 'Riri Damayanti', answersCount: 9, points: 80 },
+      { rank: 6, initials: 'AF', name: 'Ahmad Fikri', answersCount: 8, points: 75 },
+      { rank: 7, initials: 'NH', name: 'Nurul Hidayah', answersCount: 6, points: 60 }
+    ]
+    leaderboardData.value = [
+      { rank: 1, initials: 'BS', name: 'Budi Santoso', answersCount: 24, points: 420 },
+      { rank: 2, initials: 'SA', name: 'Siti Aminah', answersCount: 18, points: 310 },
+      { rank: 3, initials: 'RD', name: 'Rizky Dharma', answersCount: 12, points: 120 }
+    ]
+  }
+}
 
 const filteredAnswers = computed(() => {
   return answers.value.filter(a => {
@@ -437,7 +481,9 @@ const handleMarkBest = async (id) => {
 
 onMounted(() => {
   loadAnswers()
+  loadLeaderboard()
 })
+
 </script>
 
 <style scoped>

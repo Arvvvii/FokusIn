@@ -37,25 +37,20 @@
       </div>
 
       <div class="flex gap-4 border-t border-slate-100 pt-6">
-        <button @click="resolveCase('approve')" class="px-6 py-3 bg-emerald-50 text-emerald-700 border border-emerald-200 font-bold text-sm rounded-xl hover:bg-emerald-100 transition-colors">
+        <button 
+          @click="resolveCase('approve')" 
+          :disabled="resolving"
+          class="px-6 py-3 bg-emerald-50 text-emerald-700 border border-emerald-200 font-bold text-sm rounded-xl hover:bg-emerald-100 transition-colors disabled:opacity-50"
+        >
           Approve (False Positive)
         </button>
-        <button @click="resolveCase('reject')" class="px-6 py-3 bg-rose-600 text-white font-bold text-sm rounded-xl hover:bg-rose-700 transition-colors shadow-sm">
+        <button 
+          @click="resolveCase('reject')" 
+          :disabled="resolving"
+          class="px-6 py-3 bg-rose-600 text-white font-bold text-sm rounded-xl hover:bg-rose-700 transition-colors shadow-sm disabled:opacity-50"
+        >
           Delete Content & Suspend User
         </button>
-      </div>
-
-      <!-- Remaining Backend Gaps Note -->
-      <div class="mt-8 p-5 bg-[#FFF9F2] border border-[#F2D7B4] rounded-2xl">
-        <h4 class="text-sm font-bold text-[#8A581F] flex items-center gap-2 mb-2">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" x2="12" y1="9" y2="13"/><line x1="12" x2="12.01" y1="17" y2="17"/></svg>
-          Remaining Backend Gaps
-        </h4>
-        <ul class="list-disc pl-5 text-xs text-[#8A581F] space-y-1.5 font-medium">
-          <li><code>DELETE /api/posts/{id}</code> (atau endpoint reject moderasi) belum tersedia.</li>
-          <li>Aksi Approve sudah menggunakan <code>POST /api/posts/{id}/verify</code>.</li>
-          <li>Aksi Reject/Delete masih berupa frontend simulation hingga endpoint backend tersedia.</li>
-        </ul>
       </div>
     </div>
   </div>
@@ -65,18 +60,22 @@
 import { ref, onMounted } from 'vue'
 import { useRoute, RouterLink, useRouter } from 'vue-router'
 import { adminService } from '@/services/admin.service'
+import { useToastStore } from '@/stores/toast'
 
 const route = useRoute()
 const router = useRouter()
+const toastStore = useToastStore()
 const id = route.params.id
 const item = ref(null)
 const isLoading = ref(true)
+const resolving = ref(false)
 
 const loadCase = async () => {
   try {
     isLoading.value = true
     const response = await adminService.getModerationQueue()
-    const list = response.moderation_queue?.data || response.data || []
+    const data = response.data || response || {}
+    const list = data.moderation_queue?.data || data.moderation_queue || data || []
     const rawItem = list.find(x => x.id === Number(id))
     if (rawItem) {
       item.value = {
@@ -86,21 +85,33 @@ const loadCase = async () => {
         author: rawItem.user?.name || 'Pengguna',
         type: rawItem.type || 'Post'
       }
+    } else {
+      toastStore.error('Kasus moderasi tidak ditemukan.')
     }
   } catch (err) {
     console.error('Failed to load case:', err)
+    toastStore.error('Gagal memuat detail kasus moderasi.')
   } finally {
     isLoading.value = false
   }
 }
 
 const resolveCase = async (action) => {
+  resolving.value = true
   try {
-    await adminService.resolveModeration(id, action)
-    alert(`Kasus berhasil di-${action === 'approve' ? 'setujui' : 'tolak'}.`)
+    if (action === 'approve') {
+      await adminService.resolveModeration(id, 'approve')
+      toastStore.success('Konten disetujui dan diverifikasi.')
+    } else {
+      await adminService.deleteModerationPost(id)
+      toastStore.success('Konten berhasil dihapus.')
+    }
     router.push('/admin/moderation')
   } catch (err) {
     console.error('Error resolving moderation case:', err)
+    toastStore.error(err || 'Gagal memproses moderasi konten.')
+  } finally {
+    resolving.value = false
   }
 }
 

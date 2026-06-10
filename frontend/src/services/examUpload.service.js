@@ -60,5 +60,19 @@ export const examUploadService = {
     } catch (error) {
       throw error.response?.data?.message || 'Gagal mengunggah berkas ujian.'
     }
+  },
+
+  /**
+   * Menyimpan perubahan hasil teks OCR yang diekstrak.
+   * PUT /exam-uploads/{id}/extracted-text
+   */
+  async updateExtractedText(id, payload) {
+    try {
+      const response = await api.put(`/exam-uploads/${id}/extracted-text`, payload)
+      return response.data
+    } catch (error) {
+      throw error.response?.data?.message || 'Gagal menyimpan hasil edit teks OCR.'
+    }
   }
 }
+

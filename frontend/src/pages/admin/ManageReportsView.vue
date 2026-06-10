@@ -12,7 +12,6 @@
     </div>
 
     <!-- LOADING STATE & ERROR STATE -->
-    <!-- Skeleton loader -->
     <div v-if="isLoading" class="space-y-4">
       <div v-for="n in 3" :key="n" class="w-full bg-white border border-slate-200/60 rounded-2xl p-5 animate-pulse flex items-center justify-between">
         <div class="space-y-2 w-1/4">
@@ -109,17 +108,11 @@
           </div>
 
           <!-- Action Footer -->
-          <div class="p-6 border-t border-slate-100 bg-white flex items-center justify-between gap-4 mt-auto">
-            <button @click="handleResolve('keep')" class="px-5 py-2.5 text-slate-500 font-bold text-sm hover:text-emerald-600 hover:bg-emerald-50 rounded-xl transition-all">
-              Abaikan (Restore)
-            </button>
+          <div class="p-6 border-t border-slate-100 bg-white flex items-center justify-end gap-4 mt-auto">
             <div class="flex gap-3">
-              <button @click="handleResolve('keep')" class="px-5 py-2.5 bg-amber-50 text-amber-700 border border-amber-200 hover:bg-amber-100 font-bold text-sm rounded-xl transition-all shadow-sm">
-                Tandai Spam
-              </button>
-              <button @click="handleResolve('delete')" class="px-5 py-2.5 bg-rose-600 text-white font-bold text-sm rounded-xl hover:bg-rose-700 transition-all shadow-[0_4px_15px_rgba(225,29,72,0.2)] flex items-center gap-2">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
-                Remove Content
+              <button @click="handleResolve" :disabled="resolving" class="px-5 py-2.5 bg-rose-600 text-white font-bold text-sm rounded-xl hover:bg-rose-700 transition-all shadow-[0_4px_15px_rgba(225,29,72,0.2)] flex items-center gap-2 disabled:opacity-50">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6 9 17l-5-5"/></svg>
+                Mark Resolved
               </button>
             </div>
           </div>
@@ -143,10 +136,13 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { adminService } from '@/services/admin.service'
+import { useToastStore } from '@/stores/toast'
 
+const toastStore = useToastStore()
 const reports = ref([])
 const selectedReport = ref(null)
 const isLoading = ref(true)
+const resolving = ref(false)
 const errorMsg = ref(null)
 
 const loadReports = async () => {
@@ -155,30 +151,31 @@ const loadReports = async () => {
     errorMsg.value = null
     const response = await adminService.getReports()
     
-    // Map the backend reports list (which returns data array in pagination format)
     const rawList = response.data || response || []
     reports.value = rawList
-      .filter(r => r.status === 'Pending')
       .map(r => {
-        const type = r.reason ? r.reason.split(' ')[0] : 'Spam'
+        const type = r.reported_type || 'post'
+        const reason = r.reason || 'Konten tidak pantas atau spam'
+        const time = r.created_at ? new Date(r.created_at).toLocaleDateString() : 'Baru saja'
+        
         return {
           id: r.id,
-          type,
+          type: type.toUpperCase(),
           severity: 'Medium',
-          time: r.time || '10m lalu',
-          targetTitle: `Konten di "${r.topic || 'Forum'}"`,
-          author: r.studentName || 'Pengguna',
-          postDate: 'Hari Ini',
-          reporter: 'System / User',
-          reason: r.reason || 'Spam / Iklan tidak relevan',
-          flagCount: 3,
-          content: r.content || 'Konten spam / tidak pantas.',
+          time: time,
+          targetTitle: `Laporan #${r.id} (${type})`,
+          author: r.reported_user?.name || `ID Pengguna: ${r.reported_id || 'Anonim'}`,
+          postDate: time,
+          reporter: r.user?.name || 'Pelapor Anonim',
+          reason: reason,
+          flagCount: 1,
+          content: r.description || r.reason || 'Konten terkait pelanggaran atau laporan.',
           reasonsDetail: [
-            { title: r.reason || 'Konteks Pelanggaran', desc: 'Sistem mendeteksi aktivitas mencurigakan atau laporan pengguna.' }
+            { title: reason, desc: `Pelapor menyatakan: "${r.description || 'Tidak ada detail tambahan.'}"` }
           ],
           status: r.status || 'Pending'
         }
-      })
+      }).filter(r => String(r.status).toLowerCase() !== 'resolved' && String(r.status).toLowerCase() !== 'selesai')
     
     if (reports.value.length > 0) {
       selectedReport.value = reports.value[0]
@@ -193,15 +190,18 @@ const loadReports = async () => {
   }
 }
 
-const handleResolve = async (action) => {
+const handleResolve = async () => {
   if (!selectedReport.value) return
+  resolving.value = true
   try {
-    const act = action === 'keep' ? 'keep' : 'delete'
-    await adminService.resolveReport(selectedReport.value.id, act)
-    alert(`Laporan berhasil diproses: ${action === 'keep' ? 'Dibiarkan' : 'Dihapus'}`)
+    await adminService.resolveReport(selectedReport.value.id)
+    toastStore.success('Laporan berhasil diselesaikan.')
     await loadReports()
   } catch (err) {
     console.error('Error resolving report:', err)
+    toastStore.error(err || 'Gagal menyelesaikan laporan.')
+  } finally {
+    resolving.value = false
   }
 }
 

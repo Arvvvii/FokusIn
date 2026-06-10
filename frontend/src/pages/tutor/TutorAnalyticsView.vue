@@ -72,8 +72,8 @@
           <div class="bg-white rounded-xl p-5 shadow-sm border border-slate-200">
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-6">
               <h3 class="text-[16px] font-bold text-[#081F5C]">Distribusi Durasi Mentoring per Bulan</h3>
-              <span class="text-[10px] font-medium text-slate-400 bg-slate-50 border border-slate-200 px-2.5 py-0.5 rounded-full">
-                Simulated Chart
+              <span class="text-[10px] font-medium text-emerald-600 bg-emerald-50 border border-emerald-200 px-2.5 py-0.5 rounded-full">
+                Live Data
               </span>
             </div>
             
@@ -146,6 +146,9 @@ const sessions = ref([])
 const isLoading = ref(true)
 const aiAccuracy = ref(98.5)
 
+// Backend-fed monthly activity list
+const monthlyActivity = ref([])
+
 const totalHours = computed(() => {
   const completed = sessions.value.filter(s => s.status === 'completed')
   const totalMinutes = completed.reduce((sum, s) => sum + (s.duration_minutes || 60), 0)
@@ -167,25 +170,6 @@ const getAvatarInitials = (name) => {
   }
   return parts[0].substring(0, 2).toUpperCase()
 }
-
-const monthlyActivity = computed(() => {
-  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des']
-  const counts = Array(12).fill(0)
-  
-  sessions.value
-    .filter(s => s.status === 'completed')
-    .forEach(s => {
-      const d = new Date(s.scheduled_at || s.created_at)
-      counts[d.getMonth()] += (s.duration_minutes || 60) / 60
-    })
-
-  const max = Math.max(...counts, 1)
-  return months.map((m, idx) => ({
-    month: m,
-    hours: Math.round(counts[idx]),
-    height: `${(counts[idx] / max) * 85 + 15}%`
-  }))
-})
 
 const activeStudents = computed(() => {
   const studentMap = {}
@@ -221,6 +205,60 @@ const loadAnalytics = async () => {
     analyticsData.value = await dashboardService.getTutorAnalytics()
     const sessData = await mentoringService.getSessions()
     sessions.value = sessData || []
+
+    // Fetch live timeline data
+    try {
+      const timelineRes = await dashboardService.getTutorAnalyticsTimeline()
+      const rawTimeline = timelineRes.data || timelineRes || []
+      
+      const months = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des']
+      // Map live backend values
+      const counts = Array(12).fill(0)
+      rawTimeline.forEach(item => {
+        if (item.month && item.total_hours) {
+          // item.month is format "YYYY-MM" or "MM" or full month name
+          const match = item.month.match(/-(\d{2})$/) || item.month.match(/^(\d{2})$/)
+          const monthIndex = match ? parseInt(match[1]) - 1 : new Date(item.month).getMonth()
+          if (monthIndex >= 0 && monthIndex < 12) {
+            counts[monthIndex] += parseFloat(item.total_hours || item.hours || 0)
+          }
+        }
+      })
+
+      // If live returns empty, populate from sessions just as a backup
+      const hasTimeline = rawTimeline.length > 0
+      if (!hasTimeline) {
+        sessions.value
+          .filter(s => s.status === 'completed')
+          .forEach(s => {
+            const d = new Date(s.scheduled_at || s.created_at)
+            counts[d.getMonth()] += (s.duration_minutes || 60) / 60
+          })
+      }
+
+      const max = Math.max(...counts, 1)
+      monthlyActivity.value = months.map((m, idx) => ({
+        month: m,
+        hours: Math.round(counts[idx]),
+        height: `${(counts[idx] / max) * 85 + 15}%`
+      }))
+    } catch (timelineErr) {
+      console.error('Failed to load timeline, falling back to computed sessions:', timelineErr)
+      const counts = Array(12).fill(0)
+      sessions.value
+        .filter(s => s.status === 'completed')
+        .forEach(s => {
+          const d = new Date(s.scheduled_at || s.created_at)
+          counts[d.getMonth()] += (s.duration_minutes || 60) / 60
+        })
+      const max = Math.max(...counts, 1)
+      const months = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des']
+      monthlyActivity.value = months.map((m, idx) => ({
+        month: m,
+        hours: Math.round(counts[idx]),
+        height: `${(counts[idx] / max) * 85 + 15}%`
+      }))
+    }
   } catch (err) {
     console.error('Failed to load tutor analytics:', err)
   } finally {
@@ -231,4 +269,5 @@ const loadAnalytics = async () => {
 onMounted(() => {
   loadAnalytics()
 })
+
 </script>

@@ -38,5 +38,19 @@ export const dashboardService = {
     } catch (error) {
       throw error.response?.data?.message || 'Gagal memuat analitik tutor.'
     }
+  },
+
+  /**
+   * Mendapatkan timeline analitik tutor.
+   * GET /tutor/analytics/timeline
+   */
+  async getTutorAnalyticsTimeline() {
+    try {
+      const response = await api.get('/tutor/analytics/timeline')
+      return response.data
+    } catch (error) {
+      throw error.response?.data?.message || 'Gagal memuat data timeline analitik tutor.'
+    }
   }
 }
+
