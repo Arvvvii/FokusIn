@@ -14,10 +14,7 @@
       <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between relative z-10">
         <!-- Logo -->
         <RouterLink to="/" class="flex items-center gap-2 group">
-          <div class="w-8 h-8 logo-icon flex items-center justify-center shadow-md transition-all">
-            <span class="text-white font-black text-lg leading-none">F</span>
-          </div>
-          <span class="text-xl font-extrabold tracking-tight text-[#081F5C]">FokusIn</span>
+          <img src="@/assets/logo-fokusin.png" alt="FokusIn Logo" class="navbar-logo" />
         </RouterLink>
 
         <!-- Desktop Menu -->
@@ -562,6 +559,12 @@ onMounted(() => {
 </script>
 
 <style scoped>
+.navbar-logo {
+  height: 40px;
+  width: auto;
+  mix-blend-mode: multiply;
+}
+
 /* 1. Background */
 .bg-canvas {
   position: absolute;
