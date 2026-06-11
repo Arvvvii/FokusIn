@@ -112,6 +112,7 @@ export const mentoringService = {
   /**
    * Mendapatkan ulasan/reviews yang diterima tutor.
    * GET /api/tutor/reviews
+   * NOTE: Reserved/Prepared for future tutor profile/reviews detailed summary tab.
    */
   async getTutorReviews() {
     try {
@@ -125,6 +126,7 @@ export const mentoringService = {
   /**
    * Mendapatkan jadwal/ketersediaan tutor.
    * GET /api/tutor/schedule
+   * NOTE: Reserved/Prepared for future advanced tutor scheduling/availability builder.
    */
   async getTutorSchedule() {
     try {
@@ -138,6 +140,7 @@ export const mentoringService = {
   /**
    * Menyimpan/memperbarui jadwal/ketersediaan tutor.
    * POST /api/tutor/schedule
+   * NOTE: Reserved/Prepared for future advanced tutor scheduling/availability builder.
    */
   async createTutorSchedule(payload) {
     try {

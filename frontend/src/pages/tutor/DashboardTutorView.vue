@@ -122,40 +122,40 @@
               </h3>
             </RouterLink>
 
-            <!-- Card 4: Students Requests (Static Fallback UI) -->
+            <!-- Card 4: Students Requests (Live Computed UI) -->
             <RouterLink to="/tutor/student-requests" class="stat-card group active:scale-[0.98]">
               <div class="flex items-center justify-between mb-4">
                 <div class="stat-icon-wrapper bg-[#F7F2EB] text-[#334EAC] border-[#D0E3FF] group-hover:scale-105">
                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/></svg>
                 </div>
-                <span class="text-[11px] font-bold text-slate-400 bg-slate-100 px-2 py-0.5 rounded-lg">Static</span>
+                <span class="text-[11px] font-bold text-[#334EAC] bg-[#EDF1F6] px-2 py-0.5 rounded-lg border border-[#D0E3FF]">Sistem</span>
               </div>
               <p class="stat-label mb-1">Mahasiswa Bimbingan</p>
-              <h3 class="stat-value">86</h3>
+              <h3 class="stat-value">{{ uniqueStudentsCount }}</h3>
             </RouterLink>
 
-            <!-- Card 5: Teaching Hours (Static Fallback UI) -->
+            <!-- Card 5: Teaching Hours (Live Computed UI) -->
             <RouterLink to="/tutor/schedule" class="stat-card group active:scale-[0.98]">
               <div class="flex items-center justify-between mb-4">
                 <div class="stat-icon-wrapper bg-sky-50 text-sky-600 border-sky-100 group-hover:scale-105">
                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
                 </div>
-                <span class="text-[11px] font-bold text-emerald-500 bg-emerald-50 px-2 py-0.5 rounded-lg border border-emerald-100">Static</span>
+                <span class="text-[11px] font-bold text-[#334EAC] bg-[#EDF1F6] px-2 py-0.5 rounded-lg border border-[#D0E3FF]">Sistem</span>
               </div>
               <p class="stat-label mb-1">Jam Mentoring</p>
-              <h3 class="stat-value">420<span class="text-xs text-slate-400 font-medium ml-1">jam</span></h3>
+              <h3 class="stat-value">{{ totalTeachingHours }}<span class="text-xs text-slate-400 font-medium ml-1">jam</span></h3>
             </RouterLink>
 
-            <!-- Card 6: Satisfaction (Static Fallback UI) -->
+            <!-- Card 6: Satisfaction (Live Computed UI) -->
             <RouterLink to="/tutor/analytics" class="stat-card group active:scale-[0.98]">
               <div class="flex items-center justify-between mb-4">
                 <div class="stat-icon-wrapper bg-rose-50 text-rose-600 border-rose-100 group-hover:scale-105">
                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
                 </div>
-                <span class="text-[11px] font-bold text-emerald-500 bg-emerald-50 px-2 py-0.5 rounded-lg border border-emerald-100">Static</span>
+                <span class="text-[11px] font-bold text-[#334EAC] bg-[#EDF1F6] px-2 py-0.5 rounded-lg border border-[#D0E3FF]">Sistem</span>
               </div>
               <p class="stat-label mb-1">Tingkat Kepuasan</p>
-              <h3 class="stat-value">98%</h3>
+              <h3 class="stat-value">{{ satisfactionRate }}</h3>
             </RouterLink>
 
           </div>
@@ -262,7 +262,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { RouterLink } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 import { dashboardService } from '@/services/dashboard.service'
@@ -275,6 +275,15 @@ const scheduleToday = ref([])
 const recentActivities = ref([])
 const isLoading = ref(true)
 const errorMsg = ref(null)
+
+const uniqueStudentsCount = ref(0)
+const totalTeachingHours = ref(0)
+
+const satisfactionRate = computed(() => {
+  const rating = dashboardData.value?.average_rating
+  if (rating === undefined || rating === null || rating === 0) return '—'
+  return `${Math.round((rating / 5) * 100)}%`
+})
 
 const formatSessionTimeRange = (scheduledAt, durationMinutes = 60) => {
   if (!scheduledAt) return '10:00 - 11:00 WIB'
@@ -314,6 +323,15 @@ const loadTutorDashboard = async () => {
     try {
       const sessions = await mentoringService.getSessions()
       const sessionsArray = sessions || []
+
+      // Calculate unique students
+      const studentNames = new Set(sessionsArray.map(s => s.student?.name).filter(Boolean))
+      uniqueStudentsCount.value = studentNames.size
+
+      // Calculate total completed mentoring hours
+      const completedSessions = sessionsArray.filter(s => s.status === 'completed')
+      const totalMins = completedSessions.reduce((sum, s) => sum + (s.duration_minutes || 60), 0)
+      totalTeachingHours.value = Math.round(totalMins / 60)
       
       // Populate "Jadwal Hari Ini" from confirmed sessions
       const todaySessions = sessionsArray.filter(s => s.status === 'confirmed')

@@ -22,6 +22,7 @@ export const aiService = {
   /**
    * Memperbarui analisis pola AI secara instan berdasarkan categoryId.
    * POST /ai-pattern/refresh
+   * NOTE: Reserved/Prepared for future AI real-time recommendation updates.
    */
   async refreshSummary(categoryId) {
     try {
@@ -36,6 +37,7 @@ export const aiService = {
   /**
    * Menganalisis dokumen menggunakan AI.
    * POST /ai/analyze
+   * NOTE: Reserved/Prepared for future advanced OCR or document processing features.
    */
   async analyzeDocument(payload) {
     try {

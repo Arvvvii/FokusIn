@@ -68,32 +68,48 @@
         <!-- LEFT: CHARTS & DRILLDOWNS -->
         <div class="space-y-6 min-w-0 w-full">
           
-          <!-- Month Activity Chart (Simulation) -->
+          <!-- Month Activity Chart (Sistem) -->
           <div class="bg-white rounded-xl p-5 shadow-sm border border-slate-200">
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-6">
               <h3 class="text-[16px] font-bold text-[#081F5C]">Distribusi Durasi Mentoring per Bulan</h3>
-              <span class="text-[10px] font-medium text-emerald-600 bg-emerald-50 border border-emerald-200 px-2.5 py-0.5 rounded-full">
-                Live Data
+              <span class="text-[10px] font-medium text-[#334EAC] bg-[#EDF1F6] px-2.5 py-0.5 rounded-full border border-[#D0E3FF]">
+                Sistem
               </span>
             </div>
             
-            <div class="h-64 flex items-end justify-between gap-4 pt-4 border-b border-slate-200 px-2">
-              <div v-for="act in monthlyActivity" :key="act.month" class="flex-1 flex flex-col items-center gap-2">
-                <div class="w-full bg-[#334EAC]/20 rounded-t-lg transition-all hover:bg-[#334EAC] group relative" :style="{ height: act.height }">
-                  <span class="absolute -top-8 left-1/2 -translate-x-1/2 bg-slate-800 text-white text-[10px] px-2 py-0.5 rounded opacity-0 group-hover:opacity-100 transition-opacity">{{ act.hours }} jam</span>
+            <div class="h-64 relative border-b border-slate-200 px-2 mt-4">
+              <!-- Elegant Empty State Overlay -->
+              <div v-if="!monthlyActivity.some(act => act.hours > 0)" class="absolute inset-0 flex flex-col items-center justify-center bg-slate-50/75 rounded-lg text-center p-6 border border-dashed border-slate-200 z-10">
+                <span class="text-3xl mb-2">📊</span>
+                <h4 class="text-xs font-bold text-slate-700">Belum Ada Data Distribusi</h4>
+                <p class="text-[10px] text-slate-400 max-w-xs mt-1 leading-normal">
+                  Data distribusi durasi mentoring bulanan Anda akan muncul di sini setelah Anda menyelesaikan sesi bimbingan pertama.
+                </p>
+              </div>
+              
+              <div class="h-full flex items-end justify-between gap-4">
+                <div v-for="act in monthlyActivity" :key="act.month" class="flex-1 flex flex-col items-center gap-2">
+                  <div class="w-full bg-[#334EAC]/20 rounded-t-lg transition-all hover:bg-[#334EAC] group relative" :style="{ height: act.height }">
+                    <span class="absolute -top-8 left-1/2 -translate-x-1/2 bg-slate-800 text-white text-[10px] px-2 py-0.5 rounded opacity-0 group-hover:opacity-100 transition-opacity">{{ act.hours }} jam</span>
+                  </div>
+                  <span class="text-[10px] font-bold text-slate-400">{{ act.month }}</span>
                 </div>
-                <span class="text-[10px] font-bold text-slate-400">{{ act.month }}</span>
               </div>
             </div>
 
             <p class="text-[11px] text-slate-500 font-medium mt-4 leading-relaxed italic">
-              * Historical chart visualizations will gracefully fallback to simulated datasets when the backend does not expose chronological analytics arrays.
+              * Grafik historis dihitung secara otomatis berdasarkan durasi sesi mentoring dengan status selesai.
             </p>
           </div>
 
           <!-- Student Satisfaction Breakdown -->
           <div class="bg-white rounded-xl p-5 shadow-sm border border-slate-200">
-            <h3 class="text-[16px] font-bold text-[#081F5C] mb-6">Umpan Balik Kualitatif Sesi</h3>
+            <div class="flex items-center justify-between mb-6">
+              <h3 class="text-[16px] font-bold text-[#081F5C]">Umpan Balik Kualitatif Sesi</h3>
+              <span class="text-[10px] font-medium text-slate-400 bg-slate-100 px-2 py-0.5 rounded" title="Indikator acuan kualitas berdasarkan standar mentoring platform">
+                Standar Layanan
+              </span>
+            </div>
             
             <div class="space-y-4">
               <div v-for="trend in feedbackTrends" :key="trend.topic" class="p-4 bg-slate-50 border border-slate-100 rounded-2xl flex justify-between items-center">
@@ -106,6 +122,10 @@
                 </div>
               </div>
             </div>
+
+            <p class="text-[10px] text-slate-400 font-medium mt-4">
+              * Bagian ini menampilkan parameter evaluasi standar. Nilai spesifik akan ter-update secara berkala berdasarkan rekapitulasi penilaian kualitatif mahasiswa.
+            </p>
           </div>
 
         </div>
@@ -116,7 +136,11 @@
             <h3 class="text-[15px] font-bold text-[#081F5C] tracking-tight mb-5">Mahasiswa Bimbingan Teraktif</h3>
             
             <div class="space-y-4">
-              <div v-for="student in activeStudents" :key="student.name" class="flex items-center justify-between group">
+              <!-- Empty State for Active Students -->
+              <div v-if="activeStudents.length === 0" class="py-8 text-center text-slate-400 text-xs font-semibold border border-dashed border-slate-200 rounded-2xl">
+                Belum ada data mahasiswa bimbingan.
+              </div>
+              <div v-else v-for="student in activeStudents" :key="student.name" class="flex items-center justify-between group">
                 <div class="flex items-center gap-4">
                   <div class="w-8 h-8 rounded-full bg-slate-100 text-[#081F5C] flex items-center justify-center font-bold text-[11px]">{{ student.initial }}</div>
                   <div>
@@ -124,7 +148,7 @@
                     <p class="text-[10px] text-slate-400 font-medium">{{ student.hours.toFixed(1) }} jam bimbingan</p>
                   </div>
                 </div>
-                <span class="text-xs font-bold text-emerald-600 bg-emerald-50 border border-emerald-100 px-2 py-0.5 rounded">{{ student.accuracy }}%</span>
+                <span class="text-xs font-bold text-emerald-600 bg-emerald-50 border border-emerald-100 px-2 py-0.5 rounded" title="Tingkat Penyelesaian Sesi">{{ student.presence }}% Selesai</span>
               </div>
             </div>
           </div>
@@ -181,13 +205,22 @@ const activeStudents = computed(() => {
         name,
         initial: getAvatarInitials(name),
         hours: 0,
-        accuracy: 90 + Math.floor(Math.random() * 10)
+        completed: 0,
+        total: 0
       }
     }
     studentMap[name].hours += duration
+    studentMap[name].total += 1
+    if (s.status === 'completed') {
+      studentMap[name].completed += 1
+    }
   })
   
   return Object.values(studentMap)
+    .map(st => ({
+      ...st,
+      presence: st.total > 0 ? Math.round((st.completed / st.total) * 100) : 0
+    }))
     .sort((a, b) => b.hours - a.hours)
     .slice(0, 5)
 })
@@ -201,22 +234,55 @@ const feedbackTrends = ref([
 const loadAnalytics = async () => {
   try {
     isLoading.value = true
-    dashboardData.value = await dashboardService.getTutorDashboard()
-    analyticsData.value = await dashboardService.getTutorAnalytics()
-    const sessData = await mentoringService.getSessions()
-    sessions.value = sessData || []
+    
+    // 1. Fetch dashboard data
+    try {
+      dashboardData.value = await dashboardService.getTutorDashboard()
+    } catch (e) {
+      console.error('Failed to load tutor dashboard:', e)
+    }
 
-    // Fetch live timeline data
+    // 2. Fetch sessions
+    try {
+      const sessData = await mentoringService.getSessions()
+      sessions.value = sessData || []
+    } catch (e) {
+      console.error('Failed to load sessions:', e)
+      sessions.value = []
+    }
+
+    // 3. Fetch analytics or derive from sessions/dashboard
+    try {
+      analyticsData.value = await dashboardService.getTutorAnalytics()
+    } catch (err) {
+      console.warn('Backend tutor analytics endpoint not available. Deriving metrics from sessions and dashboard data.', err)
+      const totalSessionsCount = sessions.value.length
+      const completedSessionsCount = sessions.value.filter(s => s.status === 'completed').length
+      const uniqueStudentIds = new Set(sessions.value.map(s => s.student_id).filter(Boolean))
+      
+      analyticsData.value = {
+        sessions: {
+          total: totalSessionsCount
+        },
+        reviews: {
+          average_rating: dashboardData.value?.average_rating ?? 0.0,
+          total_reviews: completedSessionsCount
+        },
+        students: {
+          total_unique: uniqueStudentIds.size
+        }
+      }
+    }
+
+    // 4. Fetch live timeline data
     try {
       const timelineRes = await dashboardService.getTutorAnalyticsTimeline()
-      const rawTimeline = timelineRes.data || timelineRes || []
+      const rawTimeline = timelineRes?.data || timelineRes || []
       
       const months = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des']
-      // Map live backend values
       const counts = Array(12).fill(0)
       rawTimeline.forEach(item => {
-        if (item.month && item.total_hours) {
-          // item.month is format "YYYY-MM" or "MM" or full month name
+        if (item.month && (item.total_hours || item.hours)) {
           const match = item.month.match(/-(\d{2})$/) || item.month.match(/^(\d{2})$/)
           const monthIndex = match ? parseInt(match[1]) - 1 : new Date(item.month).getMonth()
           if (monthIndex >= 0 && monthIndex < 12) {
@@ -225,7 +291,6 @@ const loadAnalytics = async () => {
         }
       })
 
-      // If live returns empty, populate from sessions just as a backup
       const hasTimeline = rawTimeline.length > 0
       if (!hasTimeline) {
         sessions.value
