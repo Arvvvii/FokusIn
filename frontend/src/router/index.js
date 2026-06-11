@@ -109,6 +109,8 @@ const router = createRouter({
         { path: 'users/create', name: 'admin-users-create', component: () => import('@/pages/admin/AdminCreateUserView.vue') },
         { path: 'tutors', name: 'admin-tutors', component: () => import('@/pages/admin/ManageTutorsView.vue') },
         { path: 'tutors/create', name: 'admin-tutors-create', component: () => import('@/pages/admin/AdminCreateTutorView.vue') },
+        { path: 'tutors/:id', name: 'admin-tutors-detail', component: () => import('@/pages/admin/TutorDetailView.vue') },
+        { path: 'tutors/:id/analytics', name: 'admin-tutors-analytics', component: () => import('@/pages/admin/TutorAnalyticsView.vue') },
         { path: 'reports', name: 'admin-reports', component: () => import('@/pages/admin/ManageReportsView.vue') },
         { path: 'moderation', name: 'admin-moderation', component: () => import('@/pages/admin/AdminModerationView.vue') },
         { path: 'moderation/:id', name: 'admin-moderation-detail', component: () => import('@/pages/admin/AdminModerationDetailView.vue') },
@@ -119,6 +121,7 @@ const router = createRouter({
         { path: 'quiz-monitoring', name: 'admin-quiz-monitoring', component: () => import('@/pages/admin/AdminQuizMonitoringView.vue') },
         { path: 'quiz-monitoring/create', name: 'admin-quiz-monitoring-create', component: () => import('@/pages/admin/AdminCreateQuizView.vue') },
         { path: 'quiz-monitoring/:id', name: 'admin-quiz-monitoring-detail', component: () => import('@/pages/admin/AdminQuizMonitoringDetailView.vue') },
+        { path: 'quiz-monitoring/:id/edit', name: 'admin-quiz-monitoring-edit', component: () => import('@/pages/admin/AdminQuizMonitoringEditView.vue') },
         { path: 'analytics', name: 'admin-analytics', component: () => import('@/pages/admin/AnalyticsView.vue') },
         { path: 'ai-monitoring', name: 'admin-ai-monitoring', component: () => import('@/pages/admin/AIMonitoringView.vue') },
         { path: 'profile', name: 'admin-profile', component: () => import('@/pages/admin/AdminProfileView.vue') },
@@ -136,6 +139,11 @@ router.beforeEach((to, from) => {
   // Guard for protected routes
   if (to.meta.requiresAuth && !authStore.isAuthenticated) {
     return '/auth/login'
+  }
+
+  // Pelajar role restriction for materials upload
+  if ((to.name === 'pelajar-materials-create' || to.path === '/pelajar/materials/create') && authStore.role === 'pelajar') {
+    return '/pelajar/materials'
   }
 
   // Guard for roles

@@ -1,20 +1,59 @@
 <template>
   <div class="space-y-8 animate-in fade-in duration-500">
     
-    <!-- 1. GLASSMORPHIC HEADER SECTION -->
-    <div class="page-header-banner p-7 md:p-8 flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
-      <div class="absolute right-0 top-0 w-1/3 h-full bg-gradient-to-l from-[#EDF1F6]/80 to-transparent pointer-events-none"></div>
+    <!-- 1. Back Navigation -->
+    <div class="mb-6 flex items-center gap-2">
+      <RouterLink
+        :to="baseMaterialsRoute"
+        class="text-sm font-bold text-slate-400 hover:text-[#334EAC] transition-colors flex items-center gap-1 w-fit bg-white/50 px-3 py-1.5 rounded-lg border border-slate-200/50"
+      >
+        ← Kembali ke Materi
+      </RouterLink>
+    </div>
+
+    <!-- 2. CONDITIONAL HEADER SECTION -->
+    <div 
+      :class="[
+        route.path.startsWith('/tutor') 
+          ? 'bg-white border border-slate-200 shadow-sm rounded-2xl p-7 md:p-8 flex flex-col md:flex-row md:items-center justify-between gap-6 relative' 
+          : 'page-header-banner p-7 md:p-8 flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8'
+      ]"
+    >
+      <div 
+        :class="[
+          route.path.startsWith('/tutor') 
+            ? 'absolute right-0 top-0 w-1/3 h-full bg-gradient-to-l from-[#EDF1F6]/50 to-transparent pointer-events-none' 
+            : 'absolute right-0 top-0 w-1/3 h-full bg-gradient-to-l from-[#EDF1F6]/80 to-transparent pointer-events-none'
+        ]"
+      ></div>
       
       <div class="relative z-10 flex items-center gap-4">
-        <RouterLink :to="baseMaterialsRoute" class="w-10 h-10 rounded-xl bg-white border border-slate-200 text-slate-500 hover:text-[#334EAC] hover:border-[#7096D1] flex items-center justify-center transition-all shadow-sm active:scale-95 shrink-0" title="Kembali">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
-        </RouterLink>
-        <span class="page-header-icon w-12 h-12 flex items-center justify-center shrink-0">
+        <span 
+          :class="[
+            route.path.startsWith('/tutor') 
+              ? 'w-12 h-12 rounded-2xl bg-[#334EAC]/10 text-[#334EAC] flex items-center justify-center shrink-0' 
+              : 'page-header-icon w-12 h-12 flex items-center justify-center shrink-0'
+          ]"
+        >
           <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg>
         </span>
         <div>
-          <h1 class="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">Publikasikan Materi Akademik</h1>
-          <p class="text-[15px] text-slate-600 font-medium mt-2 max-w-xl leading-relaxed">
+          <h1 
+            :class="[
+              route.path.startsWith('/tutor') 
+                ? 'text-2xl font-extrabold text-[#081F5C] tracking-tight leading-tight' 
+                : 'text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight'
+            ]"
+          >
+            Publikasikan Materi Akademik
+          </h1>
+          <p 
+            :class="[
+              route.path.startsWith('/tutor') 
+                ? 'text-[13px] text-slate-500 font-medium mt-2 max-w-xl leading-relaxed' 
+                : 'text-[15px] text-slate-600 font-medium mt-2 max-w-xl leading-relaxed'
+            ]"
+          >
             Bagikan catatan kuliah, ringkasan, dan persiapan ujianmu dengan komunitas FokusIn.
           </p>
         </div>
@@ -35,21 +74,33 @@
             Lampiran File
           </h3>
           
-          <div class="relative flex flex-col items-center justify-center p-12 border-[2px] border-dashed border-slate-200 rounded-3xl bg-slate-50/50 hover:bg-[#F7F2EB]/50 hover:border-[#7096D1] transition-all cursor-pointer group">
+          <div 
+            @click.prevent="triggerFileUpload"
+            @dragover.prevent
+            @drop.prevent="handleFileDrop"
+            class="relative flex flex-col items-center justify-center p-12 border-[2px] border-dashed border-slate-200 rounded-3xl bg-slate-50/50 hover:bg-[#F7F2EB]/50 hover:border-[#7096D1] transition-all cursor-pointer group"
+          >
+            <input type="file" ref="fileInput" @click.stop @change="handleFileChange" accept=".pdf,.doc,.docx,.mp4,.webm" class="hidden" />
             <div class="w-16 h-16 rounded-2xl bg-white shadow-sm border border-slate-100 flex items-center justify-center text-[#334EAC] mb-5 group-hover:-translate-y-1 transition-transform">
               <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>
             </div>
-            <h4 class="text-[16px] font-bold text-slate-900 text-center mb-1 tracking-tight">Tarik & letakkan filemu di sini</h4>
-            <p class="text-[13px] font-medium text-slate-400 text-center mb-6">PDF, DOCX, PPTX hingga 50MB</p>
-            <button @click.prevent="triggerFileUpload" class="px-6 py-2.5 bg-white border border-slate-200 rounded-xl text-slate-900 font-bold text-[13px] hover:border-[#334EAC] transition-colors shadow-sm">Jelajahi File</button>
+            <h4 class="text-[16px] font-bold text-slate-900 text-center mb-1 tracking-tight">
+              {{ selectedFile ? selectedFile.name : 'Tarik & letakkan filemu di sini' }}
+            </h4>
+            <p class="text-[13px] font-medium text-slate-400 text-center mb-6">
+              {{ selectedFile ? `Ukuran: ${formatSize(selectedFile.size)}` : 'PDF, DOC, DOCX, VIDEO hingga 10MB' }}
+            </p>
+            <button class="px-6 py-2.5 bg-white border border-slate-200 rounded-xl text-slate-900 font-bold text-[13px] hover:border-[#334EAC] transition-colors shadow-sm">
+              {{ selectedFile ? 'Ganti File' : 'Jelajahi File' }}
+            </button>
           </div>
 
-          <!-- Upload Progress Mockup -->
+          <!-- Upload Progress -->
           <div v-if="isUploading" class="mt-6 p-4 border border-slate-200 rounded-2xl bg-slate-50">
             <div class="flex items-center justify-between mb-2">
               <div class="flex items-center gap-4">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="text-[#334EAC]"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>
-                <span class="text-[13px] font-bold text-slate-900 tracking-tight">{{ uploadedFileName || 'Materi_Kuliah_Baru.pdf' }}</span>
+                <span class="text-[13px] font-bold text-slate-900 tracking-tight">{{ uploadedFileName || 'Berkas_Materi.pdf' }}</span>
               </div>
               <span class="text-[12px] font-bold text-slate-400">{{ uploadProgress }}%</span>
             </div>
@@ -83,11 +134,9 @@
               <div class="space-y-3">
                 <label class="text-[13px] font-bold text-slate-400 uppercase tracking-widest ml-1">Kategori</label>
                 <div class="relative">
-                  <select v-model="materialCat" class="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl text-[14px] font-bold text-slate-900 focus:outline-none focus:border-[#7096D1] focus:ring-4 focus:ring-[#7096D1]/10 transition-all appearance-none cursor-pointer">
+                  <select v-model="materialCatId" class="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl text-[14px] font-bold text-slate-900 focus:outline-none focus:border-[#7096D1] focus:ring-4 focus:ring-[#7096D1]/10 transition-all appearance-none cursor-pointer">
                     <option value="">Pilih Kategori</option>
-                    <option>Fisika</option>
-                    <option>Ilmu Komputer</option>
-                    <option>Matematika</option>
+                    <option v-for="cat in categories" :key="cat.id" :value="cat.id">{{ cat.name }}</option>
                   </select>
                   <div class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none text-slate-400">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
@@ -95,12 +144,13 @@
                 </div>
               </div>
               <div class="space-y-3">
-                <label class="text-[13px] font-bold text-slate-400 uppercase tracking-widest ml-1">Jenis File</label>
+                <label class="text-[13px] font-bold text-slate-400 uppercase tracking-widest ml-1">Format Tampilan Konten</label>
                 <div class="relative">
                   <select v-model="materialFileType" class="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl text-[14px] font-bold text-slate-900 focus:outline-none focus:border-[#7096D1] focus:ring-4 focus:ring-[#7096D1]/10 transition-all appearance-none cursor-pointer">
+                    <option>Deteksi Otomatis Berkas</option>
                     <option>Dokumen PDF</option>
                     <option>Word (DOCX)</option>
-                    <option>PowerPoint (PPT)</option>
+                    <option>Video Pembelajaran</option>
                   </select>
                   <div class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none text-slate-400">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
@@ -145,9 +195,17 @@
 
         <!-- Action Buttons -->
         <div class="card-base p-6 md:p-8 flex flex-col gap-3 group/card">
-          <button @click="publishMaterial" class="w-full py-4 bg-[#334EAC] hover:bg-[#081F5C] text-white rounded-2xl font-bold text-[15px] transition-all shadow-[0_4px_15px_rgba(51,78,172,0.15)] active:scale-95 flex items-center justify-center gap-2 text-center">
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg>
-            Publikasikan Materi
+          <button 
+            @click="publishMaterial" 
+            :disabled="isPublishing"
+            class="w-full py-4 bg-[#334EAC] hover:bg-[#081F5C] text-white rounded-2xl font-bold text-[15px] transition-all shadow-[0_4px_15px_rgba(51,78,172,0.15)] active:scale-95 flex items-center justify-center gap-2 text-center disabled:opacity-75 disabled:cursor-wait"
+          >
+            <svg v-if="isPublishing" class="animate-spin h-5 w-5 mr-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+            </svg>
+            <svg v-else xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg>
+            {{ isPublishing ? 'Mempublikasikan...' : 'Publikasikan Materi' }}
           </button>
           
           <div class="flex gap-3">
@@ -164,22 +222,38 @@
     </div>
 
     <!-- Dynamic Success Toast -->
-    <div v-if="showSuccess" class="fixed bottom-6 right-6 z-50 bg-[#334EAC] text-white px-6 py-4 rounded-2xl shadow-[0_10px_40px_rgba(51,78,172,0.3)] flex items-center gap-3 animate-in slide-in-from-bottom-5">
-      <div class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center shrink-0">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+    <Teleport to="body">
+      <div v-if="showSuccess" class="fixed bottom-6 right-6 z-[100] bg-emerald-500 text-white px-6 py-4 rounded-2xl shadow-[0_10px_40px_rgba(16,185,129,0.3)] flex items-center gap-3 animate-in slide-in-from-bottom-5">
+        <div class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center shrink-0">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <div>
+          <h4 class="font-bold text-sm">Berhasil!</h4>
+          <p class="text-xs text-emerald-100 font-medium">{{ successMessage }}</p>
+        </div>
       </div>
-      <div>
-        <h4 class="font-bold text-sm">Berhasil!</h4>
-        <p class="text-xs text-[#D0E3FF] font-medium">{{ successMessage }}</p>
+    </Teleport>
+
+    <!-- Dynamic Error Toast -->
+    <Teleport to="body">
+      <div v-if="showError" class="fixed bottom-6 right-6 z-[100] bg-rose-500 text-white px-6 py-4 rounded-2xl shadow-[0_10px_40px_rgba(244,63,94,0.3)] flex items-center gap-3 animate-in slide-in-from-bottom-5">
+        <div class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center shrink-0">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" x2="6" y1="6" y2="18"/><line x1="6" x2="18" y1="6" y2="18"/></svg>
+        </div>
+        <div>
+          <h4 class="font-bold text-sm">Gagal!</h4>
+          <p class="text-xs text-rose-100 font-medium">{{ errorMessage }}</p>
+        </div>
       </div>
-    </div>
+    </Teleport>
 
   </div>
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { RouterLink, useRoute, useRouter } from 'vue-router'
+import { materialService } from '@/services/material.service'
 
 const route = useRoute()
 const router = useRouter()
@@ -187,36 +261,81 @@ const baseMaterialsRoute = computed(() => {
   return route.path.startsWith('/tutor') ? '/tutor/materials' : '/pelajar/materials'
 })
 
+const categories = ref([])
+const fileInput = ref(null)
+const selectedFile = ref(null)
+
 const materialTitle = ref('')
 const materialDesc = ref('')
-const materialCat = ref('Matematika')
-const materialFileType = ref('Dokumen PDF')
-const materialTags = ref(['Kalkulus'])
+const materialCatId = ref('')
+const materialFileType = ref('Deteksi Otomatis Berkas')
+const materialTags = ref([])
 const newTag = ref('')
+
 const isUploading = ref(false)
 const uploadProgress = ref(0)
 const uploadedFileName = ref('')
 const isAISuggesting = ref(false)
+const isPublishing = ref(false)
 
 const showSuccess = ref(false)
 const successMessage = ref('')
+const showError = ref(false)
+const errorMessage = ref('')
+
+const fetchCategories = async () => {
+  try {
+    categories.value = await materialService.getCategories()
+  } catch (err) {
+    console.error('Gagal mengambil kategori:', err)
+  }
+}
 
 const triggerFileUpload = () => {
-  isUploading.value = true
-  uploadedFileName.value = 'Mekanika_Lanjutan_UAS_Prep.pdf'
-  uploadProgress.value = 10
+  if (fileInput.value) {
+    fileInput.value.click()
+  }
+}
+
+const handleFileChange = (e) => {
+  const file = e.target.files[0]
+  if (file) {
+    processFile(file)
+  }
+}
+
+const handleFileDrop = (e) => {
+  const file = e.dataTransfer.files[0]
+  if (file) {
+    processFile(file)
+  }
+}
+
+const processFile = (file) => {
+  // Max size 10MB
+  if (file.size > 10 * 1024 * 1024) {
+    showErrorToast('Ukuran berkas maksimal adalah 10MB')
+    return
+  }
   
-  const timer = setInterval(() => {
-    if (uploadProgress.value < 100) {
-      uploadProgress.value += 15
-      if (uploadProgress.value > 100) uploadProgress.value = 100
-    } else {
-      clearInterval(timer)
-      successMessage.value = 'Lampiran dokumen berhasil diunggah!'
-      showSuccess.value = true
-      setTimeout(() => { showSuccess.value = false }, 3000)
-    }
-  }, 150)
+  selectedFile.value = file
+  uploadedFileName.value = file.name
+  isUploading.value = true
+  uploadProgress.value = 0
+}
+
+const formatSize = (bytes) => {
+  if (bytes === 0) return '0 Bytes'
+  const k = 1024
+  const sizes = ['Bytes', 'KB', 'MB', 'GB']
+  const i = Math.floor(Math.log(bytes) / Math.log(k))
+  return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i]
+}
+
+const showErrorToast = (msg) => {
+  errorMessage.value = msg
+  showError.value = true
+  setTimeout(() => { showError.value = false }, 3000)
 }
 
 const addTag = () => {
@@ -231,24 +350,68 @@ const removeTag = (tag) => {
 }
 
 const runAISuggestion = () => {
+  if (!selectedFile.value) {
+    showErrorToast('Silakan pilih berkas terlebih dahulu untuk dipindai AI')
+    return
+  }
+  
   isAISuggesting.value = true
   setTimeout(() => {
     isAISuggesting.value = false
-    if (!materialTags.value.includes('Integral')) materialTags.value.push('Integral')
-    if (!materialTags.value.includes('Olimpiade')) materialTags.value.push('Olimpiade')
+    const simulatedTags = ['Integral', 'Olimpiade', 'Fisika Klasik']
+    simulatedTags.forEach(tag => {
+      if (!materialTags.value.includes(tag)) {
+        materialTags.value.push(tag)
+      }
+    })
     successMessage.value = 'AI berhasil mendeteksi tag kurikulum!'
     showSuccess.value = true
     setTimeout(() => { showSuccess.value = false }, 3000)
   }, 1000)
 }
 
-const publishMaterial = () => {
-  successMessage.value = 'Materi akademik berhasil dipublikasikan!'
-  showSuccess.value = true
-  setTimeout(() => {
-    showSuccess.value = false
-    router.push(baseMaterialsRoute.value)
-  }, 1500)
+const publishMaterial = async () => {
+  if (!selectedFile.value) {
+    showErrorToast('Silakan pilih berkas materi terlebih dahulu')
+    return
+  }
+  if (!materialTitle.value.trim()) {
+    showErrorToast('Judul materi tidak boleh kosong')
+    return
+  }
+  if (!materialCatId.value) {
+    showErrorToast('Silakan pilih kategori materi')
+    return
+  }
+
+  isPublishing.value = true
+  
+  const formData = new FormData()
+  formData.append('file', selectedFile.value)
+  formData.append('title', materialTitle.value.trim())
+  formData.append('category_id', materialCatId.value)
+
+  for (const pair of formData.entries()) {
+    console.log(pair[0], pair[1])
+  }
+
+  try {
+    await materialService.createMaterial(formData, (progressEvent) => {
+      uploadProgress.value = Math.round((progressEvent.loaded * 100) / progressEvent.total)
+    })
+
+    successMessage.value = 'Materi akademik berhasil dipublikasikan!'
+    showSuccess.value = true
+    setTimeout(() => {
+      showSuccess.value = false
+      router.push(baseMaterialsRoute.value)
+    }, 1500)
+  } catch (err) {
+    console.error('Gagal upload materi:', err)
+    showErrorToast(err || 'Gagal mempublikasikan materi akademik.')
+  } finally {
+    isPublishing.value = false
+  }
 }
 
 const saveDraft = () => {
@@ -259,4 +422,9 @@ const saveDraft = () => {
     router.push(baseMaterialsRoute.value)
   }, 1500)
 }
+
+onMounted(() => {
+  fetchCategories()
+})
 </script>
+

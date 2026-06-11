@@ -7,21 +7,33 @@
           to="/tutor/dashboard"
           class="text-sm font-bold text-slate-400 hover:text-[#334EAC] transition-colors flex items-center gap-1 w-fit bg-white/50 px-3 py-1.5 rounded-lg border border-slate-200/50"
         >
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"></path></svg>
-          Kembali ke Dashboard
+          ← Kembali ke Dashboard
         </RouterLink>
       </div>
 
-      <!-- Page Header -->
-      <div class="mb-6">
-        <h1 class="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">Pengaturan Pendidik</h1>
-        <p class="text-[15px] text-slate-600 font-medium mt-2 max-w-xl leading-relaxed">Atur akun akademik Anda, ketersediaan mentoring, preferensi harga per jam, serta integrasi asisten AI.</p>
+      <!-- 1. EDITORIAL WORKSPACE HEADER SECTION -->
+      <div class="bg-white border border-slate-200 shadow-sm rounded-2xl p-7 md:p-8 flex flex-col md:flex-row md:items-center justify-between gap-6 relative mb-6">
+        <div class="absolute right-0 top-0 w-1/3 h-full bg-gradient-to-l from-[#EDF1F6]/50 to-transparent pointer-events-none"></div>
+        <div class="relative z-10 flex items-center gap-4">
+          <span class="w-12 h-12 rounded-2xl bg-[#334EAC]/10 text-[#334EAC] flex items-center justify-center shrink-0">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          </span>
+          <div>
+            <h1 class="text-2xl font-extrabold text-[#081F5C] tracking-tight leading-tight">Pengaturan Pendidik</h1>
+            <p class="text-[13px] text-slate-500 font-medium mt-2 max-w-xl leading-relaxed">Atur akun akademik Anda, ketersediaan mentoring, preferensi harga per jam, serta integrasi asisten AI.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- LOADING STATE -->
+      <div v-if="isLoading" class="text-center py-12 text-slate-500 font-medium bg-white border border-slate-200 shadow-sm rounded-2xl">
+        Memuat pengaturan...
       </div>
 
       <!-- Settings Layout -->
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div v-else class="grid grid-cols-1 md:grid-cols-3 gap-6">
         
-        <!-- Tabs Sidebar (Flat standard academic layout) -->
+        <!-- Tabs Sidebar -->
         <div class="md:col-span-1 space-y-2">
           <button 
             v-for="tab in tabs" 
@@ -130,7 +142,7 @@
 
           <!-- Bottom Save Actions -->
           <div class="pt-4 border-t border-slate-200 flex items-center justify-end gap-3 mt-auto">
-            <button @click="showSuccessToast" class="px-5 py-2.5 bg-[#334EAC] hover:bg-[#081F5C] text-white rounded-xl font-bold text-xs md:text-sm transition-all shadow-sm active:scale-[0.98]">
+            <button @click="saveSettings" class="px-5 py-2.5 bg-[#334EAC] hover:bg-[#081F5C] text-white rounded-xl font-bold text-xs md:text-sm transition-all shadow-sm active:scale-[0.98]">
               Simpan Perubahan
             </button>
           </div>
@@ -153,10 +165,15 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
+import { RouterLink } from 'vue-router'
+import { useAuthStore } from '@/stores/auth'
+import { profileService } from '@/services/profile.service'
 
+const authStore = useAuthStore()
 const activeTab = ref('profile')
 const showSuccess = ref(false)
+const isLoading = ref(true)
 
 const tabs = [
   { id: 'profile', name: 'Profil Akademik', icon: '<svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>' },
@@ -165,10 +182,10 @@ const tabs = [
 ]
 
 const profile = ref({
-  name: 'Dr. Sarah R.',
-  title: 'Ph.D. di Matematika • MIT',
-  institution: 'Institut Teknologi Bandung / MIT Global Scholar',
-  bio: 'Peneliti senior bidang AI Matematika & Algoritma Lanjut. Berdedikasi melatih penalaran analitik mahasiswa.',
+  name: '',
+  title: 'Dosen & Mentor Akademik',
+  institution: 'Institut Teknologi Bandung',
+  bio: '',
   available: true,
   price: '150.000'
 })
@@ -179,10 +196,70 @@ const settings = ref({
   aiAutofix: true
 })
 
-const showSuccessToast = () => {
-  showSuccess.value = true
-  setTimeout(() => {
-    showSuccess.value = false
-  }, 3000)
+const loadTutorSettings = async () => {
+  try {
+    isLoading.value = true
+    const userId = authStore.user?.id
+    if (!userId) return
+
+    // 1. Fetch user profile from Laravel backend
+    const backendProfile = await profileService.getProfile(userId)
+    
+    // 2. Fetch extra tutor preferences from localStorage
+    const localDetails = JSON.parse(localStorage.getItem('fokusin_tutor_details') || '{}')
+    
+    profile.value = {
+      name: backendProfile.name || authStore.user.name || '',
+      bio: backendProfile.bio || '',
+      title: localDetails.title || 'Dosen & Mentor Akademik',
+      institution: localDetails.institution || 'Institut Teknologi Bandung',
+      available: localDetails.available !== undefined ? localDetails.available : true,
+      price: localDetails.price || '150.000'
+    }
+  } catch (err) {
+    console.error('Failed to load tutor settings:', err)
+  } finally {
+    isLoading.value = false
+  }
 }
+
+const saveSettings = async () => {
+  try {
+    isLoading.value = true
+    const userId = authStore.user?.id
+    if (!userId) return
+
+    // 1. Save core name & bio to the backend database
+    await profileService.updateProfile(userId, {
+      name: profile.value.name,
+      bio: profile.value.bio
+    })
+
+    // 2. Save extra custom properties to localStorage
+    localStorage.setItem('fokusin_tutor_details', JSON.stringify({
+      title: profile.value.title,
+      institution: profile.value.institution,
+      available: profile.value.available,
+      price: profile.value.price
+    }))
+
+    // 3. Update auth store local state to maintain visual synchronization
+    if (authStore.user) {
+      authStore.user.name = profile.value.name
+    }
+
+    showSuccess.value = true
+    setTimeout(() => {
+      showSuccess.value = false
+    }, 3000)
+  } catch (err) {
+    console.error('Failed to save settings:', err)
+  } finally {
+    isLoading.value = false
+  }
+}
+
+onMounted(() => {
+  loadTutorSettings()
+})
 </script>

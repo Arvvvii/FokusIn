@@ -1,16 +1,16 @@
 <template>
   <div class="space-y-6 w-full pb-12">
-      <!-- 1. GLASSMORPHIC HEADER SECTION -->
-      <div class="bg-white/60 backdrop-blur-xl rounded-3xl p-7 md:p-8 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-200/60 relative overflow-hidden flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
-        <div class="absolute right-0 top-0 w-1/3 h-full bg-gradient-to-l from-[#EDF1F6]/80 to-transparent pointer-events-none"></div>
+      <!-- 1. EDITORIAL WORKSPACE HEADER SECTION -->
+      <div class="bg-white border border-slate-200 shadow-sm rounded-2xl p-7 md:p-8 flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8 relative">
+        <div class="absolute right-0 top-0 w-1/3 h-full bg-gradient-to-l from-[#EDF1F6]/50 to-transparent pointer-events-none"></div>
         
         <div class="relative z-10 flex items-center gap-4">
           <span class="w-12 h-12 rounded-2xl bg-[#334EAC]/10 text-[#334EAC] flex items-center justify-center shrink-0">
             <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
           </span>
           <div>
-            <h1 class="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">Permintaan Mentoring Baru</h1>
-            <p class="text-[15px] text-slate-600 font-medium mt-2 max-w-xl leading-relaxed">
+            <h1 class="text-2xl font-extrabold text-[#081F5C] tracking-tight leading-tight">Permintaan Mentoring Baru</h1>
+            <p class="text-[13px] text-slate-500 font-medium mt-2 max-w-xl leading-relaxed">
               Tinjau permohonan bimbingan 1-on-1 dari mahasiswa kelas Anda.
             </p>
           </div>
@@ -96,37 +96,78 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
+import { mentoringService } from '@/services/mentoring.service'
 
 const showToast = ref(false)
-const requests = ref([
-  {
-    id: 1,
-    initial: 'AS',
-    studentName: 'Andi Saputra',
-    topic: 'Review Desain Database E-Commerce',
-    note: 'Mohon direview relasi tabel e-commerce saya, apakah sudah memenuhi aturan normalisasi 3NF?',
-    dateString: 'Kamis, 14:00 WIB'
-  },
-  {
-    id: 2,
-    initial: 'SA',
-    studentName: 'Siti Aminah',
-    topic: 'Struktur Data Graph & Shortest Path',
-    note: 'Saya butuh bimbingan mengenai implementasi algoritma Dijkstra di C++.',
-    dateString: 'Jumat, 15:30 WIB'
+const requests = ref([])
+
+const getAvatarInitials = (name) => {
+  if (!name) return '?'
+  const parts = name.trim().split(/\s+/)
+  if (parts.length >= 2) {
+    return (parts[0][0] + parts[1][0]).toUpperCase()
   }
-])
-
-const acceptRequest = (id) => {
-  requests.value = requests.value.filter(r => r.id !== id)
-  showToast.value = true
-  setTimeout(() => {
-    showToast.value = false
-  }, 3000)
+  return parts[0].substring(0, 2).toUpperCase()
 }
 
-const rejectRequest = (id) => {
-  requests.value = requests.value.filter(r => r.id !== id)
+const formatTime = (dateString) => {
+  if (!dateString) return ''
+  const date = new Date(dateString)
+  return date.toLocaleString('id-ID', {
+    weekday: 'long',
+    hour: '2-digit',
+    minute: '2-digit'
+  }) + ' WIB'
 }
+
+const loadRequests = async () => {
+  try {
+    const data = await mentoringService.getSessions()
+    const rawList = data || []
+    requests.value = rawList
+      .filter(s => s.status === 'pending' || s.status === 'requested')
+      .map(s => {
+        const studentName = s.student?.name || s.student_name || 'Mahasiswa'
+        return {
+          id: s.id,
+          initial: getAvatarInitials(studentName),
+          studentName: studentName,
+          topic: s.topic || s.title || 'Mentoring Akademik',
+          note: s.note || s.notes || 'Tidak ada catatan.',
+          dateString: formatTime(s.scheduled_at || s.time)
+        }
+      })
+  } catch (err) {
+    console.error('Failed to load requests:', err)
+  }
+}
+
+const acceptRequest = async (id) => {
+  try {
+    await mentoringService.updateSessionStatus(id, 'confirmed')
+    requests.value = requests.value.filter(r => r.id !== id)
+    showToast.value = true
+    setTimeout(() => {
+      showToast.value = false
+    }, 3000)
+    await loadRequests()
+  } catch (err) {
+    console.error('Failed to accept request:', err)
+  }
+}
+
+const rejectRequest = async (id) => {
+  try {
+    await mentoringService.updateSessionStatus(id, 'rejected')
+    requests.value = requests.value.filter(r => r.id !== id)
+    await loadRequests()
+  } catch (err) {
+    console.error('Failed to reject request:', err)
+  }
+}
+
+onMounted(() => {
+  loadRequests()
+})
 </script>

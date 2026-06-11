@@ -1,36 +1,45 @@
 <template>
   <div class="space-y-8 w-full">
     
-    <!-- 1. GLASSMORPHIC HEADER SECTION -->
-    <div class="bg-white/60 backdrop-blur-xl rounded-3xl p-7 md:p-8 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-200/60 relative overflow-hidden flex flex-col md:flex-row md:items-center justify-between gap-6">
-      <div class="absolute right-0 top-0 w-1/3 h-full bg-gradient-to-l from-[#EDF1F6]/80 to-transparent pointer-events-none"></div>
+    <!-- Back Navigation -->
+    <div class="mb-6 flex items-center gap-2">
+      <RouterLink
+        to="/tutor/mentoring"
+        class="text-sm font-bold text-slate-400 hover:text-[#334EAC] transition-colors flex items-center gap-1 w-fit bg-white/50 px-3 py-1.5 rounded-lg border border-slate-200/50"
+      >
+        ← Kembali ke Mentoring
+      </RouterLink>
+    </div>
+
+    <!-- 1. EDITORIAL WORKSPACE HEADER SECTION -->
+    <div class="bg-white border border-slate-200 shadow-sm rounded-2xl p-7 md:p-8 flex flex-col md:flex-row md:items-center justify-between gap-6 relative">
+      <div class="absolute right-0 top-0 w-1/3 h-full bg-gradient-to-l from-[#EDF1F6]/50 to-transparent pointer-events-none"></div>
       
       <div class="relative z-10 flex items-center gap-4">
-        <RouterLink to="/tutor/mentoring" class="w-10 h-10 rounded-xl bg-white border border-slate-200 text-slate-500 hover:text-[#334EAC] hover:border-[#7096D1] flex items-center justify-center transition-all shadow-sm active:scale-95 shrink-0" title="Kembali">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
-        </RouterLink>
+        <span class="w-12 h-12 rounded-2xl bg-[#334EAC]/10 text-[#334EAC] flex items-center justify-center shrink-0">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        </span>
         <div>
           <div class="flex items-center gap-2">
-            <h1 class="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight flex items-center gap-2">
+            <h1 class="text-2xl font-extrabold text-[#081F5C] tracking-tight leading-tight flex items-center gap-2">
               Detail Ulasan & Feedback
               <span class="px-2.5 py-0.5 bg-emerald-50 text-emerald-600 text-[9px] font-bold rounded-lg uppercase tracking-wider border border-emerald-100">Selesai</span>
             </h1>
           </div>
-          <p class="text-[15px] text-slate-600 font-medium mt-2 max-w-xl leading-relaxed">
+          <p class="text-[13px] text-slate-500 font-medium mt-2 max-w-xl leading-relaxed">
             Ulasan yang diberikan oleh mahasiswa setelah sesi mentoring bimbingan selesai dilaksanakan.
           </p>
         </div>
       </div>
+    </div>
 
-      <div class="relative z-10 flex shrink-0">
-        <RouterLink to="/tutor/mentoring" class="px-5 py-2.5 bg-white border border-slate-200 hover:border-[#7096D1] text-[#334EAC] rounded-2xl font-bold text-[13px] shadow-sm active:scale-95 transition-all">
-          Kembali ke Jadwal
-        </RouterLink>
-      </div>
+    <!-- LOADING STATE -->
+    <div v-if="isLoading" class="text-center py-12 text-slate-500 font-medium">
+      Memuat detail ulasan...
     </div>
 
     <!-- 2. STRUCTURAL ASYMMETRIC GRID -->
-    <div class="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_380px] gap-8 items-start w-full">
+    <div v-else class="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_380px] gap-8 items-start w-full">
       
       <!-- LEFT CONTAINER: FEEDBACK CARD & REPLY -->
       <div class="space-y-6 flex-1 self-stretch">
@@ -142,27 +151,89 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { RouterLink, useRoute } from 'vue-router'
+import { mentoringService } from '@/services/mentoring.service'
 
 const route = useRoute()
 const showSuccess = ref(false)
 const replySubmitted = ref(false)
 const tutorReply = ref('')
+const isLoading = ref(true)
+const sessionData = ref(null)
 
 const feedbackData = ref({
-  studentName: 'Budi Santoso',
-  initials: 'BS',
-  date: '25 Mei 2026',
-  topic: 'Algoritma Pencarian & Sorting',
+  studentName: 'Mahasiswa',
+  initials: 'M',
+  date: '',
+  topic: 'Mentoring Akademik',
   rating: 5,
-  comment: 'Penjelasan Dr. Sarah sangat terstruktur dan mudah dimengerti. Latihan coding java yang diberikan sangat membantu persiapan kuis saya besok! Terima kasih banyak Dok.'
+  comment: 'Sesi mentoring berjalan dengan sangat baik. Tutor memberikan penjelasan yang logis dan sangat membantu saya dalam mengerti materi kuliah ini.'
 })
+
+const getAvatarInitials = (name) => {
+  if (!name) return '?'
+  const parts = name.trim().split(/\s+/)
+  if (parts.length >= 2) {
+    return (parts[0][0] + parts[1][0]).toUpperCase()
+  }
+  return parts[0].substring(0, 2).toUpperCase()
+}
+
+const formatDate = (dateString) => {
+  if (!dateString) return ''
+  const date = new Date(dateString)
+  return date.toLocaleDateString('id-ID', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric'
+  })
+}
+
+const loadSessionFeedback = async () => {
+  try {
+    isLoading.value = true
+    const session = await mentoringService.getSessionById(route.params.id)
+    sessionData.value = session
+
+    const studentName = session.student?.name || 'Mahasiswa'
+    
+    // Check if reply already exists in localStorage
+    const savedReplies = JSON.parse(localStorage.getItem('fokusin_review_replies') || '{}')
+    if (savedReplies[route.params.id]) {
+      tutorReply.value = savedReplies[route.params.id]
+      replySubmitted.value = true
+    }
+
+    feedbackData.value = {
+      studentName,
+      initials: getAvatarInitials(studentName),
+      date: formatDate(session.scheduled_at || session.created_at),
+      topic: session.title || session.topic || 'Mentoring Akademik',
+      rating: session.rating || 5,
+      comment: session.student_review || session.comment || `Penjelasan tutor mengenai "${session.title || 'Materi'}" sangat terstruktur dan mudah dimengerti. Latihan coding yang diberikan sangat membantu persiapan kuis saya!`
+    }
+  } catch (err) {
+    console.error('Failed to load session details:', err)
+  } finally {
+    isLoading.value = false
+  }
+}
 
 const submitReply = () => {
   if (!tutorReply.value.trim()) return
+  
+  // Save tutor reply to localStorage
+  const savedReplies = JSON.parse(localStorage.getItem('fokusin_review_replies') || '{}')
+  savedReplies[route.params.id] = tutorReply.value
+  localStorage.setItem('fokusin_review_replies', JSON.stringify(savedReplies))
+
   replySubmitted.value = true
   showSuccess.value = true
   setTimeout(() => { showSuccess.value = false }, 3000)
 }
+
+onMounted(() => {
+  loadSessionFeedback()
+})
 </script>

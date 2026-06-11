@@ -7,17 +7,53 @@
         :to="baseForumRoute"
         class="text-sm font-bold text-slate-400 hover:text-[#334EAC] transition-colors flex items-center gap-1 w-fit bg-white/50 px-3 py-1.5 rounded-lg border border-slate-200/50"
       >
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"></path></svg>
-        Kembali ke Forum
+        ← Kembali ke Forum
       </RouterLink>
     </div>
 
-    <!-- 1. GLASSMORPHIC HEADER SECTION -->
-    <div class="page-header-banner p-7 md:p-8 mb-8">
-      <div class="relative z-10 flex flex-col md:flex-row gap-6 justify-between items-start md:items-center">
+    <!-- 1. CONDITIONAL HEADER SECTION -->
+    <div 
+      :class="[
+        route.path.startsWith('/tutor') 
+          ? 'bg-white border border-slate-200 shadow-sm rounded-2xl p-7 md:p-8 flex flex-col md:flex-row md:items-center justify-between gap-6 relative mb-8' 
+          : 'page-header-banner p-7 md:p-8 mb-8'
+      ]"
+    >
+      <div 
+        :class="[
+          route.path.startsWith('/tutor') 
+            ? 'absolute right-0 top-0 w-1/3 h-full bg-gradient-to-l from-[#EDF1F6]/50 to-transparent pointer-events-none' 
+            : 'absolute right-0 top-0 w-1/3 h-full bg-gradient-to-l from-[#EDF1F6]/80 to-transparent pointer-events-none'
+        ]"
+      ></div>
+      
+      <div class="relative z-10 flex items-center gap-4">
+        <span 
+          :class="[
+            route.path.startsWith('/tutor') 
+              ? 'w-12 h-12 rounded-2xl bg-[#334EAC]/10 text-[#334EAC] flex items-center justify-center shrink-0' 
+              : 'hidden'
+          ]"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+        </span>
         <div>
-          <h1 class="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">Mulai Diskusi</h1>
-          <p class="text-[15px] text-slate-600 font-medium mt-2 max-w-xl leading-relaxed">
+          <h1 
+            :class="[
+              route.path.startsWith('/tutor') 
+                ? 'text-2xl font-extrabold text-[#081F5C] tracking-tight leading-tight' 
+                : 'text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight'
+            ]"
+          >
+            Mulai Diskusi
+          </h1>
+          <p 
+            :class="[
+              route.path.startsWith('/tutor') 
+                ? 'text-[13px] text-slate-500 font-medium mt-2 max-w-xl leading-relaxed' 
+                : 'text-[15px] text-slate-600 font-medium mt-2 max-w-xl leading-relaxed'
+            ]"
+          >
             Bertanya, berbagi pengetahuan, atau mencari bantuan dari komunitas dan AI.
           </p>
         </div>
@@ -44,10 +80,9 @@
               <div class="relative">
                 <select v-model="postCategory" class="w-full px-5 py-4 bg-[#F7F2EB]/50 border-2 border-slate-100 rounded-2xl text-[15px] font-bold text-slate-900 focus:outline-none focus:border-[#7096D1] focus:bg-white focus:ring-4 focus:ring-[#7096D1]/10 transition-all appearance-none cursor-pointer shadow-sm hover:border-slate-200">
                   <option value="" disabled selected>Pilih kategori...</option>
-                  <option>Ilmu Komputer</option>
-                  <option>Matematika</option>
-                  <option>Fisika</option>
-                  <option>Bahasa Inggris</option>
+                  <option v-for="cat in categories" :key="cat.id" :value="cat.id">
+                    {{ cat.name }}
+                  </option>
                 </select>
                 <div class="absolute inset-y-0 right-5 flex items-center pointer-events-none text-slate-400">
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
@@ -112,8 +147,13 @@
             <button @click="saveDraft" class="w-full sm:w-auto px-6 py-3.5 text-slate-600 hover:text-[#334EAC] hover:bg-slate-50 font-bold text-[15px] rounded-xl transition-colors">
               Simpan sebagai Draf
             </button>
-            <button @click="publishPost" class="w-full sm:w-auto px-10 py-3.5 bg-[#334EAC] hover:bg-[#081F5C] text-white rounded-2xl font-bold text-[15px] transition-all active:scale-95 text-center">
-              Publikasikan Diskusi
+            <button 
+              @click="publishPost" 
+              :disabled="isSubmitting"
+              class="w-full sm:w-auto px-10 py-3.5 bg-[#334EAC] hover:bg-[#081F5C] text-white rounded-2xl font-bold text-[15px] transition-all active:scale-95 text-center disabled:opacity-75 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+            >
+              <svg v-if="isSubmitting" class="animate-spin text-white" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>
+              {{ isSubmitting ? 'Mempublikasikan...' : 'Publikasikan Diskusi' }}
             </button>
           </div>
           
@@ -159,12 +199,26 @@
       </div>
     </div>
 
+    <!-- Error Toast -->
+    <div v-if="showError" class="fixed bottom-6 right-6 z-50 bg-rose-600 text-white px-6 py-4 rounded-2xl shadow-xl flex items-center gap-3 animate-in slide-in-from-bottom-5">
+      <div class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center shrink-0">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/>
+        </svg>
+      </div>
+      <div>
+        <h4 class="font-bold text-sm">Gagal!</h4>
+        <p class="text-xs text-rose-100 font-medium">{{ errorMessage }}</p>
+      </div>
+    </div>
+
   </div>
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { RouterLink, useRoute, useRouter } from 'vue-router'
+import { forumService } from '@/services/forum.service'
 
 const route = useRoute()
 const router = useRouter()
@@ -177,9 +231,25 @@ const newTagInput = ref('')
 
 const showSuccess = ref(false)
 const toastMessage = ref('')
+const showError = ref(false)
+const errorMessage = ref('')
+const isSubmitting = ref(false)
+const categories = ref([])
 
 const baseForumRoute = computed(() => {
   return route.path.startsWith('/tutor') ? '/tutor/forum' : '/pelajar/forum'
+})
+
+const fetchCategories = async () => {
+  try {
+    categories.value = await forumService.getCategories()
+  } catch (err) {
+    console.error('Error fetching categories:', err)
+  }
+}
+
+onMounted(() => {
+  fetchCategories()
 })
 
 const addTag = () => {
@@ -221,16 +291,38 @@ const saveDraft = () => {
   setTimeout(() => { showSuccess.value = false }, 3000)
 }
 
-const publishPost = () => {
-  if (!postTitle.value.trim() || !postCategory.value) {
-    alert('Harap lengkapi judul dan kategori terlebih dahulu.')
+const publishPost = async () => {
+  if (!postTitle.value.trim() || !postCategory.value || !postBody.value.trim()) {
+    alert('Harap lengkapi judul, kategori, dan detail diskusi terlebih dahulu.')
     return
   }
-  toastMessage.value = 'Diskusi baru berhasil diterbitkan di forum!'
-  showSuccess.value = true
-  setTimeout(() => {
-    showSuccess.value = false
-    router.push(baseForumRoute.value)
-  }, 1500)
+  
+  isSubmitting.value = true
+  showSuccess.value = false
+  showError.value = false
+
+  try {
+    const payload = {
+      category_id: postCategory.value,
+      title: postTitle.value.trim(),
+      content: postBody.value.trim()
+    }
+    await forumService.createPost(payload)
+    
+    toastMessage.value = 'Diskusi baru berhasil diterbitkan di forum!'
+    showSuccess.value = true
+    setTimeout(() => {
+      showSuccess.value = false
+      router.push(baseForumRoute.value)
+    }, 1500)
+  } catch (err) {
+    errorMessage.value = err || 'Gagal menerbitkan diskusi baru.'
+    showError.value = true
+    setTimeout(() => {
+      showError.value = false
+    }, 3000)
+  } finally {
+    isSubmitting.value = false
+  }
 }
 </script>

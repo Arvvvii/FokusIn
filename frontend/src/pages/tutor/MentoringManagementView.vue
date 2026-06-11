@@ -1,30 +1,30 @@
 <template>
   <div class="space-y-8 w-full">
     
-    <!-- 1. GLASSMORPHIC HEADER SECTION -->
-    <div class="tutor-page-header flex flex-col md:flex-row md:items-center justify-between gap-6 relative">
-      <div class="absolute right-0 top-0 w-1/3 h-full bg-gradient-to-l from-[#EDF1F6]/80 to-transparent pointer-events-none"></div>
+    <!-- 1. EDITORIAL WORKSPACE HEADER SECTION -->
+    <div class="bg-white border border-slate-200 shadow-sm rounded-2xl p-7 md:p-8 flex flex-col md:flex-row md:items-center justify-between gap-6 relative">
+      <div class="absolute right-0 top-0 w-1/3 h-full bg-gradient-to-l from-[#EDF1F6]/50 to-transparent pointer-events-none"></div>
       
       <div class="relative z-10 flex items-center gap-4">
         <span class="w-12 h-12 rounded-2xl bg-[#334EAC]/10 text-[#334EAC] flex items-center justify-center shrink-0">
           <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>
         </span>
         <div>
-          <h1 class="header-title">Kelola Mentoring</h1>
-          <p class="header-desc mt-2 max-w-xl">
+          <h1 class="text-2xl font-extrabold text-[#081F5C] tracking-tight leading-tight">Kelola Mentoring</h1>
+          <p class="text-[13px] text-slate-500 font-medium mt-2 max-w-xl leading-relaxed">
             Atur jadwal bimbingan akademik, tinjau permintaan sesi baru dari mahasiswa, dan pantau histori konsultasi terintegrasi.
           </p>
         </div>
       </div>
 
       <div class="relative z-10 flex shrink-0 gap-4">
-        <div class="header-stat-card">
+        <div class="bg-white border border-slate-200/80 shadow-sm rounded-xl px-5 py-3 flex flex-col items-center min-w-[90px]">
            <span class="text-2xl font-bold text-amber-500 tracking-tight leading-none mb-1">3</span>
-           <span class="text-[11px] font-bold text-slate-400 uppercase tracking-widest">Permintaan</span>
+           <span class="text-[11px] font-bold text-slate-500 uppercase tracking-widest">Permintaan</span>
         </div>
-        <div class="header-stat-card">
+        <div class="bg-white border border-slate-200/80 shadow-sm rounded-xl px-5 py-3 flex flex-col items-center min-w-[90px]">
            <span class="text-2xl font-bold text-emerald-500 tracking-tight leading-none mb-1">4</span>
-           <span class="text-[11px] font-bold text-slate-400 uppercase tracking-widest">Mendatang</span>
+           <span class="text-[11px] font-bold text-slate-500 uppercase tracking-widest">Mendatang</span>
         </div>
       </div>
     </div>
@@ -62,7 +62,7 @@
             </button>
           </div>
           
-          <RouterLink to="/tutor/schedule" class="flex items-center gap-1.5 px-4 py-2 bg-slate-50 border border-slate-200 hover:border-[#7096D1] text-[#334EAC] rounded-xl text-xs font-bold shadow-sm transition-all whitespace-nowrap">
+          <RouterLink to="/tutor/schedule" class="w-full sm:w-auto flex items-center justify-center gap-1.5 px-4 py-2 bg-slate-50 border border-slate-200 hover:border-[#7096D1] text-[#334EAC] rounded-xl text-xs font-bold shadow-sm transition-all whitespace-nowrap">
             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>
             Tampilan Kalender
           </RouterLink>
@@ -112,7 +112,7 @@
               </div>
 
               <!-- Quick Actions -->
-              <div class="flex flex-row sm:flex-col items-center sm:items-end justify-center sm:justify-start gap-2.5 shrink-0 border-t sm:border-t-0 sm:border-l border-slate-100 pt-4 sm:pt-0 sm:pl-6 min-w-[140px]">
+              <div class="flex flex-col items-stretch gap-2.5 shrink-0 border-t sm:border-t-0 sm:border-l border-slate-100 pt-4 sm:pt-0 sm:pl-6 w-full sm:w-[160px]">
                 <template v-if="sess.tab === 'upcoming'">
                   <RouterLink :to="`/tutor/mentoring/${sess.id}`" class="btn-primary w-full justify-center">
                     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15.6 11.6 5.4-3.2c.5-.3 1.2 0 1.2.7v5.8c0 .7-.7 1-1.2.7l-5.4-3.2a1.2 1.2 0 0 1 0-2Z"/><rect width="14" height="14" x="2" y="5" rx="3" ry="3"/></svg>
@@ -190,51 +190,68 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
+import { mentoringService } from '@/services/mentoring.service'
 
 const router = useRouter()
 const showSuccess = ref(false)
 const successMessage = ref('')
 const currentTab = ref('upcoming')
-const hasPendingRequest = ref(true)
+const hasPendingRequest = ref(false)
+const sessions = ref([])
 
-const sessions = ref([
-  {
-    id: 1,
-    studentName: 'Budi Santoso',
-    initials: 'BS',
-    topic: 'Struktur Data (Binary Search Tree)',
-    notes: 'Butuh bantuan memahami BST traversal dan visualisasi pencariannya.',
-    time: 'Hari Ini, 10:00 WIB',
-    duration: '90 Menit',
-    status: 'Telah Dikonfirmasi',
-    tab: 'upcoming'
-  },
-  {
-    id: 2,
-    studentName: 'Siti Aminah',
-    initials: 'SA',
-    topic: 'Algoritma Pencarian & Sorting',
-    notes: 'Kuis besok, butuh review cepat mengenai Merge Sort dan Quick Sort.',
-    time: '25 Mei 2026, 14:00 WIB',
-    duration: '60 Menit',
-    status: 'Menunggu Konfirmasi',
-    tab: 'requests'
-  },
-  {
-    id: 3,
-    studentName: 'Rizky Dharmawan',
-    initials: 'RD',
-    rep: 120,
-    topic: 'Java Object-Oriented Programming',
-    notes: 'Sesi selesai dengan sangat baik.',
-    time: 'Kemarin, 16:00 WIB',
-    duration: '60 Menit',
-    status: 'Selesai',
-    tab: 'completed'
+const getAvatarInitials = (name) => {
+  if (!name) return '?'
+  const parts = name.trim().split(/\s+/)
+  if (parts.length >= 2) {
+    return (parts[0][0] + parts[1][0]).toUpperCase()
   }
-])
+  return parts[0].substring(0, 2).toUpperCase()
+}
+
+const formatTime = (dateString) => {
+  if (!dateString) return ''
+  const date = new Date(dateString)
+  return date.toLocaleString('id-ID', {
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit'
+  }) + ' WIB'
+}
+
+const mapSessionTab = (status) => {
+  const s = (status || '').toLowerCase()
+  if (s === 'pending' || s === 'requested') return 'requests'
+  if (s === 'completed' || s === 'finished') return 'completed'
+  return 'upcoming'
+}
+
+const loadSessions = async () => {
+  try {
+    const data = await mentoringService.getSessions()
+    const rawList = data || []
+    sessions.value = rawList.map(sess => {
+      const studentName = sess.student?.name || sess.student_name || 'Mahasiswa'
+      return {
+        id: sess.id,
+        studentName: studentName,
+        initials: getAvatarInitials(studentName),
+        topic: sess.title || sess.topic || 'Mentoring Akademik',
+        notes: sess.note || sess.notes || 'Tidak ada catatan.',
+        time: formatTime(sess.scheduled_at || sess.time),
+        duration: sess.duration_minutes ? `${sess.duration_minutes} Menit` : '60 Menit',
+        status: sess.status === 'pending' ? 'Menunggu Konfirmasi' : (sess.status === 'completed' ? 'Selesai' : 'Telah Dikonfirmasi'),
+        tab: mapSessionTab(sess.status)
+      }
+    })
+    hasPendingRequest.value = sessions.value.some(s => s.tab === 'requests')
+  } catch (err) {
+    console.error('Error fetching mentoring sessions:', err)
+  }
+}
 
 const filteredSessions = computed(() => {
   return sessions.value.filter(s => s.tab === currentTab.value)
@@ -244,16 +261,26 @@ const viewFeedback = (id) => {
   router.push('/tutor/mentoring/feedback/' + id)
 }
 
-const acceptRequest = (id) => {
+const acceptRequest = async (id) => {
   const sess = sessions.value.find(s => s.id === id)
   if (sess) {
-    sess.tab = 'upcoming'
-    sess.status = 'Telah Dikonfirmasi'
-    successMessage.value = `Permintaan bimbingan dari ${sess.studentName} berhasil disetujui!`
-    showSuccess.value = true
-    setTimeout(() => { showSuccess.value = false }, 3000)
+    try {
+      await mentoringService.updateSessionStatus(id, 'confirmed')
+      sess.tab = 'upcoming'
+      sess.status = 'Telah Dikonfirmasi'
+      successMessage.value = `Permintaan bimbingan dari ${sess.studentName} berhasil disetujui!`
+      showSuccess.value = true
+      setTimeout(() => { showSuccess.value = false }, 3000)
+      await loadSessions()
+    } catch (err) {
+      console.error('Failed to accept mentoring request:', err)
+    }
   }
 }
+
+onMounted(() => {
+  loadSessions()
+})
 </script>
 
 <style scoped>

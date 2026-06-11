@@ -1,0 +1,1 @@
+import{g as e,t,w as n,y as r}from"./index-gFmtur0P.js";var i={},a={class:`p-6`};function o(t,i){return n(),r(`div`,a,[...i[0]||=[e(`h1`,{class:`text-2xl font-bold text-slate-800 dark:text-slate-100 mb-2`},`Lupa Kata Sandi`,-1),e(`p`,{class:`text-slate-600 dark:text-slate-400`},`Konten placeholder untuk Lupa Kata Sandi.`,-1)]])}var s=t(i,[[`render`,o]]);export{s as default};

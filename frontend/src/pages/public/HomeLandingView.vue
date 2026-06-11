@@ -39,11 +39,37 @@
           </RouterLink>
         </div>
 
-        <!-- Mobile Menu Toggle (Placeholder) -->
-        <button class="md:hidden p-2 text-[#081F5C]">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+        <!-- Mobile Menu Toggle -->
+        <button @click="toggleMobileMenu" class="md:hidden p-2 text-[#081F5C] focus:outline-none" aria-label="Toggle Menu">
+          <svg v-if="!isMobileMenuOpen" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+          <svg v-else xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
         </button>
       </div>
+
+      <!-- Mobile Menu Dropdown (Slide Down Glassmorphism) -->
+      <transition
+        enter-active-class="transition duration-200 ease-out"
+        enter-from-class="opacity-0 -translate-y-4"
+        enter-to-class="opacity-100 translate-y-0"
+        leave-active-class="transition duration-150 ease-in"
+        leave-from-class="opacity-100 translate-y-0"
+        leave-to-class="opacity-0 -translate-y-4"
+      >
+        <div v-if="isMobileMenuOpen" class="md:hidden absolute top-20 left-0 right-0 bg-[#F7F2EB]/95 backdrop-blur-xl border-b border-[#7096D1]/15 shadow-lg z-50 px-6 py-6 flex flex-col gap-2">
+          <RouterLink to="/" class="nav-link-mobile" @click="isMobileMenuOpen = false">Home</RouterLink>
+          <a href="#fitur" class="nav-link-mobile" @click="isMobileMenuOpen = false">Fitur</a>
+          <a href="#testimoni" class="nav-link-mobile" @click="isMobileMenuOpen = false">Testimoni</a>
+          <RouterLink to="/about" class="nav-link-mobile" @click="isMobileMenuOpen = false">Tentang</RouterLink>
+          <RouterLink to="/faq" class="nav-link-mobile" @click="isMobileMenuOpen = false">FAQ</RouterLink>
+          <hr class="border-slate-200 my-2">
+          <RouterLink to="/auth/login" class="btn-ghost-nav text-center" @click="isMobileMenuOpen = false">
+            Masuk
+          </RouterLink>
+          <RouterLink to="/auth/register" class="btn-cta-primary text-center mt-2" @click="isMobileMenuOpen = false">
+            Mulai Belajar
+          </RouterLink>
+        </div>
+      </transition>
     </nav>
 
     <main class="relative z-10">
@@ -66,31 +92,47 @@
             Tingkatkan produktivitas akademikmu. FokusIn menggabungkan analisis AI cerdas dengan kolaborasi antar mahasiswa untuk mewujudkan pengalaman belajar yang personal dan terarah.
           </p>
 
-          <div class="flex flex-col sm:flex-row items-center gap-4 justify-center lg:justify-start mb-10 relative z-10">
-            <RouterLink to="/auth/register" class="w-full sm:w-auto btn-hero-primary">
+          <div class="flex flex-col sm:flex-row items-center gap-4 justify-center lg:justify-start mb-10 relative z-10 w-full">
+            <RouterLink to="/auth/register" class="w-full sm:w-auto btn-hero-primary justify-center">
               Mulai Gratis Sekarang
               <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
             </RouterLink>
-            <a href="#fitur" class="w-full sm:w-auto btn-hero-secondary">
+            <a href="#fitur" class="w-full sm:w-auto btn-hero-secondary justify-center">
               Pelajari Fitur
             </a>
           </div>
 
           <div class="stats-bar hidden md:flex mx-auto lg:mx-0">
-            <div class="stat-item">
-              <span class="stat-number">2,400+</span>
-              <span class="stat-label">Mahasiswa Aktif</span>
-            </div>
-            <div class="stat-divider"></div>
-            <div class="stat-item">
-              <span class="stat-number">850+</span>
-              <span class="stat-label">Diskusi Forum</span>
-            </div>
-            <div class="stat-divider"></div>
-            <div class="stat-item">
-              <span class="stat-number">120+</span>
-              <span class="stat-label">Mentor</span>
-            </div>
+            <template v-if="loading">
+              <div v-for="n in 3" :key="n" class="stat-item flex flex-col items-center">
+                <div class="h-6 w-16 skeleton-bar mb-2"></div>
+                <div class="h-3 w-20 skeleton-bar"></div>
+              </div>
+            </template>
+            <template v-else-if="error">
+              <div class="w-full flex items-center justify-between px-4">
+                <span class="text-xs font-bold text-rose-600">Gagal memuat statistik.</span>
+                <button @click="fetchStats" class="px-3 py-1.5 bg-[#334EAC] hover:bg-[#081F5C] text-white rounded-lg font-bold text-xs shadow-sm transition-all active:scale-95">
+                  Coba Lagi
+                </button>
+              </div>
+            </template>
+            <template v-else>
+              <div class="stat-item">
+                <span class="stat-number">{{ stats.total_users?.toLocaleString() || 0 }}+</span>
+                <span class="stat-label">Mahasiswa Aktif</span>
+              </div>
+              <div class="stat-divider"></div>
+              <div class="stat-item">
+                <span class="stat-number">{{ stats.total_posts?.toLocaleString() || 0 }}+</span>
+                <span class="stat-label">Diskusi Forum</span>
+              </div>
+              <div class="stat-divider"></div>
+              <div class="stat-item">
+                <span class="stat-number">{{ stats.total_exam_uploads?.toLocaleString() || 0 }}+</span>
+                <span class="stat-label">Arsip Ujian</span>
+              </div>
+            </template>
           </div>
         </div>
 
@@ -166,28 +208,46 @@
       <section class="bg-[#081F5C] py-16 relative overflow-hidden">
         <!-- Decoration -->
         <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full h-px bg-gradient-to-r from-transparent via-[#334EAC] to-transparent"></div>
-        <div class="max-w-7xl mx-auto px-6 grid grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12">
-          
-          <div class="text-center">
-            <div class="text-4xl md:text-5xl font-black text-white mb-2">25K+</div>
-            <div class="text-[13px] font-bold text-[#BAD6EB] uppercase tracking-widest">Mahasiswa Aktif</div>
-          </div>
-          
-          <div class="text-center">
-            <div class="text-4xl md:text-5xl font-black text-white mb-2">150+</div>
-            <div class="text-[13px] font-bold text-[#BAD6EB] uppercase tracking-widest">Mentor Akademik</div>
-          </div>
-          
-          <div class="text-center">
-            <div class="text-4xl md:text-5xl font-black text-white mb-2">92%</div>
-            <div class="text-[13px] font-bold text-[#BAD6EB] uppercase tracking-widest">Tingkat Kepuasan</div>
-          </div>
-          
-          <div class="text-center">
-            <div class="text-4xl md:text-5xl font-black text-white mb-2">12+</div>
-            <div class="text-[13px] font-bold text-[#BAD6EB] uppercase tracking-widest">Fitur AI Belajar</div>
-          </div>
-
+        <div class="max-w-7xl mx-auto px-6">
+          <template v-if="loading">
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12">
+              <div v-for="n in 4" :key="n" class="text-center">
+                <div class="h-10 w-24 bg-white/20 rounded-lg mx-auto mb-2 animate-pulse"></div>
+                <div class="h-4 w-32 bg-white/10 rounded-lg mx-auto animate-pulse"></div>
+              </div>
+            </div>
+          </template>
+          <template v-else-if="error">
+            <div class="flex flex-col items-center justify-center gap-4 text-center">
+              <span class="text-sm font-bold text-[#BAD6EB]">Gagal memuat data statistik.</span>
+              <button @click="fetchStats" class="px-4 py-2 bg-white hover:bg-[#F7F2EB] text-[#081F5C] rounded-xl font-bold text-xs shadow-sm transition-all active:scale-95">
+                Coba Lagi
+              </button>
+            </div>
+          </template>
+          <template v-else>
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12">
+              <div class="text-center">
+                <div class="text-4xl md:text-5xl font-black text-white mb-2">{{ stats.total_users?.toLocaleString() || 0 }}</div>
+                <div class="text-[13px] font-bold text-[#BAD6EB] uppercase tracking-widest">Mahasiswa Aktif</div>
+              </div>
+              
+              <div class="text-center">
+                <div class="text-4xl md:text-5xl font-black text-white mb-2">{{ stats.total_posts?.toLocaleString() || 0 }}</div>
+                <div class="text-[13px] font-bold text-[#BAD6EB] uppercase tracking-widest">Diskusi Forum</div>
+              </div>
+              
+              <div class="text-center">
+                <div class="text-4xl md:text-5xl font-black text-white mb-2">92%</div>
+                <div class="text-[13px] font-bold text-[#BAD6EB] uppercase tracking-widest">Tingkat Kepuasan</div>
+              </div>
+              
+              <div class="text-center">
+                <div class="text-4xl md:text-5xl font-black text-white mb-2">{{ stats.total_exam_uploads?.toLocaleString() || 0 }}</div>
+                <div class="text-[13px] font-bold text-[#BAD6EB] uppercase tracking-widest">Arsip Ujian</div>
+              </div>
+            </div>
+          </template>
         </div>
       </section>
 
@@ -466,7 +526,39 @@
 </template>
 
 <script setup>
+import { ref, onMounted } from 'vue'
 import { RouterLink } from 'vue-router'
+import { statsService } from '@/services/stats.service'
+
+const isMobileMenuOpen = ref(false)
+const toggleMobileMenu = () => {
+  isMobileMenuOpen.value = !isMobileMenuOpen.value
+}
+
+const loading = ref(false)
+const error = ref(null)
+const stats = ref({
+  total_users: 0,
+  total_posts: 0,
+  total_exam_uploads: 0
+})
+
+const fetchStats = async () => {
+  loading.value = true
+  error.value = null
+  try {
+    const data = await statsService.getGlobalStats()
+    stats.value = data
+  } catch (err) {
+    error.value = err
+  } finally {
+    loading.value = false
+  }
+}
+
+onMounted(() => {
+  fetchStats()
+})
 </script>
 
 <style scoped>
@@ -621,6 +713,7 @@ import { RouterLink } from 'vue-router'
   transition: all 0.2s;
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
 }
 .btn-hero-primary:hover {
@@ -638,10 +731,27 @@ import { RouterLink } from 'vue-router'
   font-weight: 600;
   backdrop-filter: blur(8px);
   transition: all 0.18s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 .btn-hero-secondary:hover {
   background: rgba(255,255,255,0.85);
   border-color: rgba(51, 78, 172, 0.30);
+}
+
+.nav-link-mobile {
+  color: #4A5880;
+  font-weight: 600;
+  font-size: 15px;
+  padding: 10px 16px;
+  border-radius: 10px;
+  transition: all 0.2s;
+  display: block;
+}
+.nav-link-mobile:hover {
+  background: rgba(51, 78, 172, 0.08);
+  color: #334EAC;
 }
 
 /* 4. Hero Mockup */

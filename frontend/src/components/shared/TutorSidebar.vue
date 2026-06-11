@@ -106,7 +106,7 @@
         <div class="flex items-center gap-3">
           <!-- Avatar -->
           <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-[#7096D1] to-[#334EAC] border-2 border-white/10 shrink-0 flex items-center justify-center overflow-hidden shadow-sm">
-            <span class="text-white font-bold text-sm">SR</span>
+            <span class="text-white font-bold text-sm">{{ user?.name ? user.name.split(' ').map(n => n.charAt(0)).join('').toUpperCase().slice(0, 2) : 'TR' }}</span>
           </div>
           <!-- Info -->
           <div v-if="!isCollapsed" class="flex-1 min-w-0">

@@ -2,30 +2,30 @@
   <div class="space-y-8 w-full">
     
 
-    <!-- 1. GLASSMORPHIC HEADER SECTION -->
-    <div class="tutor-page-header flex flex-col md:flex-row md:items-center justify-between gap-6 relative">
-      <div class="absolute right-0 top-0 w-1/3 h-full bg-gradient-to-l from-[#EDF1F6]/80 to-transparent pointer-events-none"></div>
+    <!-- 1. EDITORIAL WORKSPACE HEADER SECTION -->
+    <div class="bg-white border border-slate-200 shadow-sm rounded-2xl p-7 md:p-8 flex flex-col md:flex-row md:items-center justify-between gap-6 relative">
+      <div class="absolute right-0 top-0 w-1/3 h-full bg-gradient-to-l from-[#EDF1F6]/50 to-transparent pointer-events-none"></div>
       
       <div class="relative z-10 flex items-center gap-4">
         <span class="w-12 h-12 rounded-2xl bg-[#334EAC]/10 text-[#334EAC] flex items-center justify-center shrink-0">
           <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
         </span>
         <div>
-          <h1 class="header-title">Verifikasi Jawaban Mahasiswa</h1>
-          <p class="header-desc mt-2 max-w-xl">
+          <h1 class="text-2xl font-extrabold text-[#081F5C] tracking-tight leading-tight">Verifikasi Jawaban Mahasiswa</h1>
+          <p class="text-[13px] text-slate-500 font-medium mt-2 max-w-xl leading-relaxed">
             Tinjau, nilai, dan berikan persetujuan untuk diskusi mahasiswa guna meningkatkan kualitas akademik komunitas FokusIn.
           </p>
         </div>
       </div>
 
       <div class="relative z-10 flex shrink-0 gap-4">
-        <div class="header-stat-card">
+        <div class="bg-white border border-slate-200/80 shadow-sm rounded-xl px-5 py-3 flex flex-col items-center min-w-[90px]">
            <span class="text-2xl font-bold text-amber-500 tracking-tight leading-none mb-1">{{ answers.filter(a => a.status === 'Pending').length }}</span>
-           <span class="text-[11px] font-bold text-slate-400 uppercase tracking-widest">Pending</span>
+           <span class="text-[11px] font-bold text-slate-500 uppercase tracking-widest">Pending</span>
         </div>
-        <div class="header-stat-card">
+        <div class="bg-white border border-slate-200/80 shadow-sm rounded-xl px-5 py-3 flex flex-col items-center min-w-[90px]">
            <span class="text-2xl font-bold text-emerald-500 tracking-tight leading-none mb-1">86</span>
-           <span class="text-[11px] font-bold text-slate-400 uppercase tracking-widest">Diverifikasi</span>
+           <span class="text-[11px] font-bold text-slate-500 uppercase tracking-widest">Diverifikasi</span>
         </div>
       </div>
     </div>
@@ -175,30 +175,43 @@
             <!-- 2nd Place -->
             <div class="flex flex-col items-center bg-slate-50 border border-slate-200/60 rounded-3xl p-5 relative overflow-hidden order-2 md:order-1 h-[200px] justify-end">
               <div class="absolute top-4 w-9 h-9 rounded-full bg-slate-200 border-2 border-white flex items-center justify-center font-bold text-xs text-slate-600 shadow-sm">2</div>
-              <div class="w-12 h-12 rounded-full bg-[#F7F2EB] border border-slate-200 flex items-center justify-center font-bold text-sm text-[#334EAC] mb-2">SA</div>
-              <h4 class="text-xs font-bold text-slate-900">Siti Aminah</h4>
-              <p class="text-[11px] font-semibold text-slate-400">18 Jawaban Valid</p>
-              <div class="mt-3 text-xs font-extrabold text-slate-700 bg-slate-100 px-2.5 py-0.5 rounded-lg border border-slate-200/40">310 Poin</div>
+              <div class="w-12 h-12 rounded-full bg-[#F7F2EB] border border-slate-200 flex items-center justify-center font-bold text-sm text-[#334EAC] mb-2">
+                {{ leaderboardData[1]?.initials || 'SA' }}
+              </div>
+              <h4 class="text-xs font-bold text-slate-900 truncate max-w-[120px]">{{ leaderboardData[1]?.name || 'Siti Aminah' }}</h4>
+              <p class="text-[11px] font-semibold text-slate-400">{{ leaderboardData[1]?.answersCount ?? 18 }} Jawaban Valid</p>
+              <div class="mt-3 text-xs font-extrabold text-slate-700 bg-slate-100 px-2.5 py-0.5 rounded-lg border border-slate-200/40">
+                {{ leaderboardData[1]?.points ?? 310 }} Poin
+              </div>
             </div>
 
             <!-- 1st Place -->
             <div class="flex flex-col items-center bg-amber-50/40 border-2 border-amber-200/60 rounded-3xl p-6 relative overflow-hidden order-1 md:order-2 h-[230px] justify-end shadow-sm">
               <div class="absolute top-4 w-10 h-10 rounded-full bg-amber-400 border-2 border-white flex items-center justify-center font-bold text-xs text-white shadow-md">👑 1</div>
-              <div class="w-14 h-14 rounded-full bg-amber-100 border border-amber-200 flex items-center justify-center font-bold text-base text-amber-700 mb-2">BS</div>
-              <h4 class="text-sm font-bold text-slate-900">Budi Santoso</h4>
-              <p class="text-xs font-semibold text-amber-600">24 Jawaban Valid</p>
-              <div class="mt-3 text-xs font-extrabold text-amber-800 bg-amber-100/60 px-3 py-1 rounded-xl border border-amber-200/40">420 Poin</div>
+              <div class="w-14 h-14 rounded-full bg-amber-100 border border-amber-200 flex items-center justify-center font-bold text-base text-amber-700 mb-2">
+                {{ leaderboardData[0]?.initials || 'BS' }}
+              </div>
+              <h4 class="text-sm font-bold text-slate-900 truncate max-w-[140px]">{{ leaderboardData[0]?.name || 'Budi Santoso' }}</h4>
+              <p class="text-xs font-semibold text-amber-600">{{ leaderboardData[0]?.answersCount ?? 24 }} Jawaban Valid</p>
+              <div class="mt-3 text-xs font-extrabold text-amber-800 bg-amber-100/60 px-3 py-1 rounded-xl border border-amber-200/40">
+                {{ leaderboardData[0]?.points ?? 420 }} Poin
+              </div>
             </div>
 
             <!-- 3rd Place -->
             <div class="flex flex-col items-center bg-slate-50 border border-slate-200/60 rounded-3xl p-5 relative overflow-hidden order-3 md:order-3 h-[180px] justify-end">
               <div class="absolute top-4 w-8 h-8 rounded-full bg-amber-600/10 border-2 border-white flex items-center justify-center font-bold text-xs text-amber-800 shadow-sm">3</div>
-              <div class="w-12 h-12 rounded-full bg-orange-50 border border-orange-100 flex items-center justify-center font-bold text-sm text-orange-600 mb-2">RD</div>
-              <h4 class="text-xs font-bold text-slate-900">Rizky Dharma</h4>
-              <p class="text-[11px] font-semibold text-slate-400">12 Jawaban Valid</p>
-              <div class="mt-3 text-xs font-extrabold text-slate-700 bg-slate-100 px-2.5 py-0.5 rounded-lg border border-slate-200/40">120 Poin</div>
+              <div class="w-12 h-12 rounded-full bg-orange-50 border border-orange-100 flex items-center justify-center font-bold text-sm text-orange-600 mb-2">
+                {{ leaderboardData[2]?.initials || 'RD' }}
+              </div>
+              <h4 class="text-xs font-bold text-slate-900 truncate max-w-[120px]">{{ leaderboardData[2]?.name || 'Rizky Dharma' }}</h4>
+              <p class="text-[11px] font-semibold text-slate-400">{{ leaderboardData[2]?.answersCount ?? 12 }} Jawaban Valid</p>
+              <div class="mt-3 text-xs font-extrabold text-slate-700 bg-slate-100 px-2.5 py-0.5 rounded-lg border border-slate-200/40">
+                {{ leaderboardData[2]?.points ?? 120 }} Poin
+              </div>
             </div>
           </div>
+
 
           <!-- Leaderboard Table Rank 4+ -->
           <div class="table-container mt-8">
@@ -306,63 +319,100 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { RouterLink } from 'vue-router'
+import { forumService } from '@/services/forum.service'
 
 const showSuccess = ref(false)
 const successMessage = ref('')
 const currentFilter = ref('Pending')
 const searchQuery = ref('')
+const answers = ref([])
 
-const answers = ref([
-  {
-    id: 1,
-    author: 'Budi Santoso',
-    initials: 'BS',
-    rep: 420,
-    time: '10 menit lalu',
-    match: 95,
-    status: 'Pending',
-    question: 'Q: Apa perbedaan utama antara proses dan thread dalam sistem operasi?',
-    questionUrl: '/tutor/forum',
-    content: 'Proses adalah program yang sedang dieksekusi dan memiliki ruang alamat memori sendiri, sedangkan thread adalah unit eksekusi terkecil di dalam sebuah proses yang berbagi memori dengan thread lain dalam proses yang sama.',
-    feedback: ''
-  },
-  {
-    id: 2,
-    author: 'Rizky Dharmawan',
-    initials: 'RD',
-    rep: 120,
-    time: '2 jam lalu',
-    match: 40,
-    status: 'Pending',
-    question: 'Q: Bagaimana cara mengatasi NullPointerException di Java?',
-    questionUrl: '/tutor/forum',
-    content: 'Tinggal tambahkan try catch saja di semua blok kodenya, pasti jalan.',
-    warning: 'Rekomendasi AI: Tinjau Ulang. Metode ini tidak memperbaiki masalah referensi null.',
-    feedback: ''
-  },
-  {
-    id: 3,
-    author: 'Siti Aminah',
-    initials: 'SA',
-    rep: 310,
-    time: 'Kemarin',
-    match: 99,
-    status: 'Diverifikasi',
-    question: 'Q: Apa kegunaan utama index pada database?',
-    questionUrl: '/tutor/forum',
-    content: 'Index mempercepat proses pencarian data (SELECT) dengan mengorbankan kecepatan penulisan (INSERT/UPDATE).',
-    feedback: 'Penjelasan yang ringkas dan tepat!'
+// Leaderboard live data
+const leaderboardData = ref([])
+const activeStudentsList = ref([])
+
+const getAvatarInitials = (name) => {
+  if (!name) return '?'
+  const parts = name.trim().split(/\s+/)
+  if (parts.length >= 2) {
+    return (parts[0][0] + parts[1][0]).toUpperCase()
   }
-])
+  return parts[0].substring(0, 2).toUpperCase()
+}
 
-const activeStudentsList = ref([
-  { rank: 4, initials: 'EP', name: 'Eko Prasetyo', answersCount: 11, points: 95 },
-  { rank: 5, initials: 'RD', name: 'Riri Damayanti', answersCount: 9, points: 80 },
-  { rank: 6, initials: 'AF', name: 'Ahmad Fikri', answersCount: 8, points: 75 },
-  { rank: 7, initials: 'NH', name: 'Nurul Hidayah', answersCount: 6, points: 60 }
-])
+const formatTime = (dateString) => {
+  if (!dateString) return ''
+  const date = new Date(dateString)
+  const now = new Date()
+  const diffMs = now - date
+  const diffMins = Math.floor(diffMs / 60000)
+  const diffHours = Math.floor(diffMins / 60)
+  const diffDays = Math.floor(diffHours / 24)
+
+  if (diffMins < 1) return 'Baru saja'
+  if (diffMins < 60) return `${diffMins} menit lalu`
+  if (diffHours < 24) return `${diffHours} jam lalu`
+  return `${diffDays} hari lalu`
+}
+
+import api from '@/services/api'
+
+const loadAnswers = async () => {
+  try {
+    const response = await forumService.getPosts({ needs_verification: 1 })
+    const rawList = response.data || []
+    answers.value = rawList.map(post => ({
+      id: post.id,
+      author: post.user ? post.user.name : 'Anonim',
+      initials: post.user ? getAvatarInitials(post.user.name) : 'A',
+      rep: post.user?.reputation || 0,
+      time: formatTime(post.created_at),
+      match: post.ai_match_score || 85,
+      status: post.is_verified ? 'Diverifikasi' : 'Pending',
+      question: post.title,
+      questionUrl: `/tutor/forum/${post.id}`,
+      content: post.content,
+      feedback: post.feedback || '',
+      warning: post.ai_warning || null
+    }))
+  } catch (err) {
+    console.error('Error fetching verification posts:', err)
+  }
+}
+
+const loadLeaderboard = async () => {
+  try {
+    const res = await api.get('/leaderboard')
+    const rawData = res.data?.data || res.data || []
+    // Map backend array to podium and active list
+    leaderboardData.value = rawData.map((s, index) => ({
+      rank: index + 1,
+      initials: getAvatarInitials(s.name),
+      name: s.name || 'Pelajar',
+      answersCount: s.verified_answers_count || s.answers_count || 0,
+      points: s.reputation || s.score || 0
+    }))
+    
+    // Split: 4+ goes to activeStudentsList
+    activeStudentsList.value = leaderboardData.value.slice(3)
+  } catch (e) {
+    console.error('Error loading leaderboard:', e)
+    // Fallback if endpoint fails
+    activeStudentsList.value = [
+      { rank: 4, initials: 'EP', name: 'Eko Prasetyo', answersCount: 11, points: 95 },
+      { rank: 5, initials: 'RD', name: 'Riri Damayanti', answersCount: 9, points: 80 },
+      { rank: 6, initials: 'AF', name: 'Ahmad Fikri', answersCount: 8, points: 75 },
+      { rank: 7, initials: 'NH', name: 'Nurul Hidayah', answersCount: 6, points: 60 }
+    ]
+    leaderboardData.value = [
+      { rank: 1, initials: 'BS', name: 'Budi Santoso', answersCount: 24, points: 420 },
+      { rank: 2, initials: 'SA', name: 'Siti Aminah', answersCount: 18, points: 310 },
+      { rank: 3, initials: 'RD', name: 'Rizky Dharma', answersCount: 12, points: 120 }
+    ]
+  }
+}
 
 const filteredAnswers = computed(() => {
   return answers.value.filter(a => {
@@ -381,35 +431,59 @@ const filteredAnswers = computed(() => {
   })
 })
 
-const handleVerify = (id) => {
+const handleVerify = async (id) => {
   const ans = answers.value.find(a => a.id === id)
   if (ans) {
-    ans.status = 'Diverifikasi'
-    successMessage.value = `Jawaban ${ans.author} berhasil diverifikasi!`
-    showSuccess.value = true
-    setTimeout(() => { showSuccess.value = false }, 3000)
+    try {
+      await forumService.verifyPost(id, { is_verified: true, feedback: ans.feedback })
+      ans.status = 'Diverifikasi'
+      successMessage.value = `Jawaban ${ans.author} berhasil diverifikasi!`
+      showSuccess.value = true
+      setTimeout(() => { showSuccess.value = false }, 3000)
+      await loadAnswers()
+    } catch (err) {
+      console.error('Failed to verify post:', err)
+    }
   }
 }
 
-const handleReject = (id) => {
+const handleReject = async (id) => {
   const ans = answers.value.find(a => a.id === id)
   if (ans) {
-    ans.status = 'Ditolak'
-    successMessage.value = `Jawaban ${ans.author} ditolak.`
-    showSuccess.value = true
-    setTimeout(() => { showSuccess.value = false }, 3000)
+    try {
+      await forumService.verifyPost(id, { is_verified: false, status: 'rejected' })
+      ans.status = 'Ditolak'
+      successMessage.value = `Jawaban ${ans.author} ditolak.`
+      showSuccess.value = true
+      setTimeout(() => { showSuccess.value = false }, 3000)
+      await loadAnswers()
+    } catch (err) {
+      console.error('Failed to reject post:', err)
+    }
   }
 }
 
-const handleMarkBest = (id) => {
+const handleMarkBest = async (id) => {
   const ans = answers.value.find(a => a.id === id)
   if (ans) {
-    ans.status = 'Diverifikasi'
-    successMessage.value = `Jawaban ${ans.author} ditandai sebagai Jawaban Terbaik!`
-    showSuccess.value = true
-    setTimeout(() => { showSuccess.value = false }, 3000)
+    try {
+      await forumService.setBestAnswer(id, id)
+      ans.status = 'Diverifikasi'
+      successMessage.value = `Jawaban ${ans.author} ditandai sebagai Jawaban Terbaik!`
+      showSuccess.value = true
+      setTimeout(() => { showSuccess.value = false }, 3000)
+      await loadAnswers()
+    } catch (err) {
+      console.error('Failed to mark best answer:', err)
+    }
   }
 }
+
+onMounted(() => {
+  loadAnswers()
+  loadLeaderboard()
+})
+
 </script>
 
 <style scoped>

@@ -7,8 +7,7 @@
         to="/pelajar/ai-analyzer"
         class="text-sm font-bold text-slate-400 hover:text-[#334EAC] transition-colors flex items-center gap-1 w-fit bg-white/50 px-3 py-1.5 rounded-lg border border-slate-200/50"
       >
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"></path></svg>
-        Kembali ke Analisis AI
+        ← Kembali ke Analisis AI
       </RouterLink>
     </div>
 
@@ -36,14 +35,34 @@
             Dokumen Sumber
           </h3>
           
-          <div class="relative flex flex-col items-center justify-center p-12 border-[2px] border-dashed border-slate-200 rounded-3xl bg-slate-50/50 hover:bg-[#F7F2EB]/50 hover:border-[#7096D1] transition-all cursor-pointer group">
+          <div 
+            @click="selectFile" 
+            @dragover.prevent="handleDragOver"
+            @dragleave.prevent="handleDragLeave"
+            @drop.prevent="handleDrop"
+            :class="['relative flex flex-col items-center justify-center p-12 border-[2px] border-dashed rounded-3xl transition-all cursor-pointer group', isDragActive ? 'border-[#334EAC] bg-[#EDF1F6]/30' : 'border-slate-200 bg-slate-50/50 hover:bg-[#F7F2EB]/50 hover:border-[#7096D1]']"
+          >
+            <input 
+              type="file" 
+              ref="fileInput" 
+              accept=".pdf,.docx,.ppt,.pptx,.txt,.md" 
+              class="hidden" 
+              @click.stop
+              @change="onFileChange" 
+            />
             <div class="w-16 h-16 rounded-2xl bg-white shadow-sm border border-slate-100 flex items-center justify-center text-[#334EAC] mb-5 group-hover:-translate-y-1 transition-transform">
               <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg>
             </div>
-            <h4 class="text-[16px] font-bold text-slate-900 text-center mb-1 tracking-tight">Klik atau tarik file untuk mengunggah</h4>
-            <p class="text-[13px] font-medium text-slate-400 text-center mb-6">Mendukung PDF, DOCX, PPT, dan MD</p>
+            <h4 class="text-[16px] font-bold text-slate-900 text-center mb-1 tracking-tight">
+              {{ selectedFile ? selectedFile.name : 'Klik atau tarik file untuk mengunggah' }}
+            </h4>
+            <p class="text-[13px] font-medium text-slate-400 text-center mb-6">
+              {{ selectedFile ? `Ukuran: ${formatSize(selectedFile.size)}` : 'Mendukung PDF, DOCX, PPT, dan MD' }}
+            </p>
             
-            <button @click.prevent class="px-6 py-2.5 bg-white border border-slate-200 rounded-xl text-slate-900 font-bold text-[13px] hover:border-[#334EAC] transition-colors shadow-sm">Pilih File</button>
+            <button @click.prevent.stop="selectFile" class="px-6 py-2.5 bg-white border border-slate-200 rounded-xl text-slate-900 font-bold text-[13px] hover:border-[#334EAC] transition-colors shadow-sm">
+              {{ selectedFile ? 'Ganti File' : 'Pilih File' }}
+            </button>
           </div>
         </div>
 
@@ -77,7 +96,7 @@
               <div class="space-y-3">
                 <label class="text-[12px] font-extrabold text-slate-400 uppercase tracking-widest ml-1">Tipe Analisis</label>
                 <div class="relative">
-                  <select class="w-full px-5 py-3.5 bg-slate-50 hover:bg-slate-100/50 border border-slate-200 rounded-2xl text-[14px] font-bold text-slate-900 focus:outline-none focus:border-[#7096D1] focus:ring-4 focus:ring-[#7096D1]/10 transition-all appearance-none cursor-pointer">
+                  <select v-model="selectedType" class="w-full px-5 py-3.5 bg-slate-50 hover:bg-slate-100/50 border border-slate-200 rounded-2xl text-[14px] font-bold text-slate-900 focus:outline-none focus:border-[#7096D1] focus:ring-4 focus:ring-[#7096D1]/10 transition-all appearance-none cursor-pointer">
                     <option>Analisis Ujian</option>
                     <option>Analisis Riset</option>
                     <option>Pola Belajar</option>
@@ -90,10 +109,8 @@
               <div class="space-y-3">
                 <label class="text-[12px] font-extrabold text-slate-400 uppercase tracking-widest ml-1">Kategori Mata Kuliah</label>
                 <div class="relative">
-                  <select class="w-full px-5 py-3.5 bg-slate-50 hover:bg-slate-100/50 border border-slate-200 rounded-2xl text-[14px] font-bold text-slate-900 focus:outline-none focus:border-[#7096D1] focus:ring-4 focus:ring-[#7096D1]/10 transition-all appearance-none cursor-pointer">
-                    <option>Fisika</option>
-                    <option>Ilmu Komputer</option>
-                    <option>Matematika</option>
+                  <select v-model="selectedCategoryId" class="w-full px-5 py-3.5 bg-slate-50 hover:bg-slate-100/50 border border-slate-200 rounded-2xl text-[14px] font-bold text-slate-900 focus:outline-none focus:border-[#7096D1] focus:ring-4 focus:ring-[#7096D1]/10 transition-all appearance-none cursor-pointer">
+                    <option v-for="cat in categories" :key="cat.id" :value="cat.id">{{ cat.name }}</option>
                   </select>
                   <div class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none text-slate-400">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
@@ -104,15 +121,15 @@
                 <label class="text-[12px] font-extrabold text-slate-400 uppercase tracking-widest ml-1">Target Tingkat Kesulitan</label>
                 <div class="flex flex-wrap gap-3">
                   <label class="relative cursor-pointer">
-                    <input type="radio" name="difficulty" class="peer sr-only">
+                    <input type="radio" name="difficulty" value="Dasar" v-model="selectedDifficulty" class="peer sr-only">
                     <div class="px-5 py-2.5 bg-white border border-slate-200 rounded-xl text-[13px] font-bold text-slate-500 peer-checked:border-[#334EAC] peer-checked:bg-[#EDF1F6] peer-checked:text-[#334EAC] transition-all">Dasar</div>
                   </label>
                   <label class="relative cursor-pointer">
-                    <input type="radio" name="difficulty" class="peer sr-only" checked>
+                    <input type="radio" name="difficulty" value="Menengah" v-model="selectedDifficulty" class="peer sr-only">
                     <div class="px-5 py-2.5 bg-white border border-slate-200 rounded-xl text-[13px] font-bold text-slate-500 peer-checked:border-[#334EAC] peer-checked:bg-[#EDF1F6] peer-checked:text-[#334EAC] transition-all">Menengah</div>
                   </label>
                   <label class="relative cursor-pointer">
-                    <input type="radio" name="difficulty" class="peer sr-only">
+                    <input type="radio" name="difficulty" value="Lanjut (OSN)" v-model="selectedDifficulty" class="peer sr-only">
                     <div class="px-5 py-2.5 bg-white border border-slate-200 rounded-xl text-[13px] font-bold text-slate-500 peer-checked:border-[#334EAC] peer-checked:bg-[#EDF1F6] peer-checked:text-[#334EAC] transition-all">Lanjut (OSN)</div>
                   </label>
                 </div>
@@ -257,16 +274,23 @@
 
         <!-- 6. Action Buttons -->
         <div class="card-panel p-6 md:p-8 flex flex-col gap-3 group/card">
-          <RouterLink to="/pelajar/ai-analyzer" class="w-full py-4 bg-[#334EAC] hover:bg-[#081F5C] text-white rounded-2xl font-bold text-[15px] transition-all shadow-[0_4px_15px_rgba(51,78,172,0.15)] active:scale-95 flex items-center justify-center gap-2">
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
-            Mulai Analisis AI
-          </RouterLink>
+          <button 
+            @click="handleUpload" 
+            :disabled="isUploading" 
+            class="w-full py-4 bg-[#334EAC] hover:bg-[#081F5C] text-white rounded-2xl font-bold text-[15px] transition-all shadow-[0_4px_15px_rgba(51,78,172,0.15)] active:scale-95 flex items-center justify-center gap-2 disabled:opacity-75 disabled:cursor-not-allowed cursor-pointer"
+          >
+            <span v-if="isUploading">Memproses...</span>
+            <span v-else class="flex items-center gap-2">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+              Mulai Analisis AI
+            </span>
+          </button>
           
           <div class="flex gap-3">
             <button @click.prevent class="flex-1 py-3.5 bg-white border border-slate-200 hover:border-[#334EAC] text-slate-600 hover:text-[#334EAC] rounded-2xl font-bold text-[14px] transition-colors active:scale-95">
               Simpan Draf
             </button>
-            <RouterLink to="/pelajar/ai-analyzer" class="flex-1 py-3.5 bg-slate-50 border border-transparent hover:bg-slate-100 text-slate-500 hover:text-slate-900 rounded-2xl font-bold text-[14px] transition-colors active:scale-95 text-center">
+            <RouterLink to="/pelajar/ai-analyzer" class="flex-1 py-3.5 bg-slate-50 border border-transparent hover:bg-slate-100 text-slate-500 hover:text-slate-900 rounded-2xl font-bold text-[14px] transition-colors active:scale-95 text-center flex items-center justify-center">
               Batal
             </RouterLink>
           </div>
@@ -274,9 +298,138 @@
 
       </div>
     </div>
+
+    <!-- Feedback Toast -->
+    <div v-if="showSuccess" class="fixed bottom-6 right-6 z-50 bg-[#334EAC] text-white px-6 py-4 rounded-2xl shadow-xl flex items-center gap-3 animate-in slide-in-from-bottom-5">
+      <div class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center shrink-0">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      <div>
+        <h4 class="font-bold text-sm">Berhasil!</h4>
+        <p class="text-xs text-[#D0E3FF] font-medium">Dokumen berhasil disubmit ke antrean AI validation.</p>
+      </div>
+    </div>
+
+    <!-- Error Toast -->
+    <div v-if="showError" class="fixed bottom-6 right-6 z-50 bg-red-600 text-white px-6 py-4 rounded-2xl shadow-xl flex items-center gap-3 animate-in slide-in-from-bottom-5">
+      <div class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center shrink-0">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </div>
+      <div>
+        <h4 class="font-bold text-sm">Gagal!</h4>
+        <p class="text-xs text-red-100 font-medium">{{ errorMessage || 'Gagal mengunggah berkas.' }}</p>
+      </div>
+    </div>
+
   </div>
 </template>
 
 <script setup>
-import { RouterLink } from 'vue-router'
+import { ref, onMounted } from 'vue'
+import { useRouter, RouterLink } from 'vue-router'
+import { forumService } from '@/services/forum.service'
+import { examUploadService } from '@/services/examUpload.service'
+
+const router = useRouter()
+const fileInput = ref(null)
+const selectedFile = ref(null)
+const isDragActive = ref(false)
+const selectedType = ref('Analisis Ujian')
+const categories = ref([])
+const selectedCategoryId = ref('')
+const selectedDifficulty = ref('Menengah')
+const isUploading = ref(false)
+const showSuccess = ref(false)
+const showError = ref(false)
+const errorMessage = ref('')
+
+const selectFile = () => {
+  if (fileInput.value) {
+    fileInput.value.click()
+  }
+}
+
+const onFileChange = (e) => {
+  if (e.target.files && e.target.files.length > 0) {
+    selectedFile.value = e.target.files[0]
+  }
+}
+
+const handleDragOver = () => {
+  isDragActive.value = true
+}
+
+const handleDragLeave = () => {
+  isDragActive.value = false
+}
+
+const handleDrop = (e) => {
+  isDragActive.value = false
+  if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+    selectedFile.value = e.dataTransfer.files[0]
+  }
+}
+
+const formatSize = (bytes) => {
+  if (bytes === 0) return '0 Bytes'
+  const k = 1024
+  const sizes = ['Bytes', 'KB', 'MB', 'GB']
+  const i = Math.floor(Math.log(bytes) / Math.log(k))
+  return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i]
+}
+
+const triggerErrorToast = () => {
+  showError.value = true
+  setTimeout(() => {
+    showError.value = false
+  }, 4000)
+}
+
+const fetchCategories = async () => {
+  try {
+    const data = await forumService.getCategories()
+    categories.value = data || []
+    if (categories.value.length > 0) {
+      selectedCategoryId.value = categories.value[0].id
+    }
+  } catch (err) {
+    console.error('Gagal mengambil data kategori:', err)
+  }
+}
+
+const handleUpload = async () => {
+  if (!selectedFile.value) {
+    errorMessage.value = 'Harap pilih berkas terlebih dahulu.'
+    triggerErrorToast()
+    return
+  }
+
+  isUploading.value = true
+  showSuccess.value = false
+  showError.value = false
+
+  try {
+    const formData = new FormData()
+    formData.append('category_id', selectedCategoryId.value.toString())
+    formData.append('file', selectedFile.value)
+
+    await examUploadService.createExamUpload(formData)
+
+    showSuccess.value = true
+    setTimeout(() => {
+      showSuccess.value = false
+      router.push('/pelajar/ai-analyzer')
+    }, 1500)
+  } catch (err) {
+    console.error('Upload failed:', err)
+    errorMessage.value = err.response?.data?.message || err.message || 'Gagal mengunggah berkas.'
+    triggerErrorToast()
+  } finally {
+    isUploading.value = false
+  }
+}
+
+onMounted(() => {
+  fetchCategories()
+})
 </script>

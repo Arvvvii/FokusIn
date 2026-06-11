@@ -16,8 +16,29 @@
       <div class="p-6 border-b border-slate-100 flex items-center justify-between">
         <h2 class="text-lg font-bold text-slate-900 tracking-tight">Active Mentoring Sessions</h2>
       </div>
+
+      <!-- Loading State -->
+      <div v-if="loading" class="p-12 space-y-4">
+        <div v-for="i in 3" :key="i" class="flex gap-4 animate-pulse">
+          <div class="h-10 bg-slate-100 rounded w-1/12"></div>
+          <div class="h-10 bg-slate-100 rounded w-1/3"></div>
+          <div class="h-10 bg-slate-100 rounded w-1/4"></div>
+          <div class="h-10 bg-slate-100 rounded w-1/8 ml-auto"></div>
+        </div>
+      </div>
+
+      <!-- Error State -->
+      <div v-else-if="error" class="p-12 text-center">
+        <p class="text-rose-600 font-medium mb-4">{{ error }}</p>
+        <button @click="fetchSessions" class="btn-modal-primary px-6 py-2 mx-auto">Coba Lagi</button>
+      </div>
+
+      <!-- Empty State -->
+      <div v-else-if="sessions.length === 0" class="p-12 text-center text-slate-500 font-medium">
+        Tidak ada sesi mentoring yang tercatat saat ini.
+      </div>
       
-      <div class="overflow-x-auto">
+      <div v-else class="overflow-x-auto">
         <table class="w-full text-left border-collapse">
           <thead>
             <tr class="bg-slate-50 border-b border-slate-100">
@@ -25,6 +46,7 @@
               <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Topic</th>
               <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Tutor</th>
               <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Student</th>
+              <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Schedule</th>
               <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Status</th>
               <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider text-right">Action</th>
             </tr>
@@ -32,12 +54,13 @@
           <tbody class="divide-y divide-slate-100">
             <tr v-for="session in sessions" :key="session.id" class="hover:bg-slate-50/50 transition-colors">
               <td class="px-6 py-4 text-sm font-bold text-slate-900">#{{ session.id }}</td>
-              <td class="px-6 py-4 text-sm font-semibold text-slate-900">{{ session.topic }}</td>
-              <td class="px-6 py-4 text-sm text-slate-700 font-medium">{{ session.tutor }}</td>
-              <td class="px-6 py-4 text-sm text-slate-700 font-medium">{{ session.student }}</td>
+              <td class="px-6 py-4 text-sm font-semibold text-slate-900">{{ session.title || session.topic || 'Mentoring Session' }}</td>
+              <td class="px-6 py-4 text-sm text-slate-700 font-medium">{{ session.tutor?.name || session.tutor || 'Tutor' }}</td>
+              <td class="px-6 py-4 text-sm text-slate-700 font-medium">{{ session.student?.name || session.student || 'Student' }}</td>
+              <td class="px-6 py-4 text-sm text-slate-600">{{ session.schedule || session.date || '-' }}</td>
               <td class="px-6 py-4">
-                <span class="px-2.5 py-1 text-xs font-bold rounded-md bg-emerald-50 text-emerald-700">
-                  In Progress
+                <span :class="getStatusBadgeClass(session.status)" class="px-2.5 py-1 text-xs font-bold rounded-md uppercase">
+                  {{ session.status || 'pending' }}
                 </span>
               </td>
               <td class="px-6 py-4 text-right">
@@ -54,11 +77,36 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { RouterLink } from 'vue-router'
+import { adminService } from '@/services/admin.service'
 
-const sessions = ref([
-  { id: 402, topic: 'Review Aljabar Linear', tutor: 'Dr. Sarah R.', student: 'Andi P.' },
-  { id: 403, topic: 'Konsultasi Skripsi', tutor: 'Prof. Budi', student: 'Rina S.' },
-])
+const sessions = ref([])
+const loading = ref(false)
+const error = ref(null)
+
+const fetchSessions = async () => {
+  loading.value = true
+  error.value = null
+  try {
+    const response = await adminService.getAdminMentoring()
+    const rawList = response.data?.data || response.data || response?.data || response || []
+    sessions.value = Array.isArray(rawList) ? rawList : []
+  } catch (err) {
+    error.value = err
+  } finally {
+    loading.value = false
+  }
+}
+
+const getStatusBadgeClass = (status) => {
+  const s = String(status || '').toLowerCase()
+  if (s === 'completed' || s === 'selesai') return 'bg-emerald-50 text-emerald-700 border border-emerald-200'
+  if (s === 'in_progress' || s === 'in progress' || s === 'aktif') return 'bg-sky-50 text-sky-700 border border-sky-200'
+  return 'bg-amber-50 text-amber-700 border border-amber-200'
+}
+
+onMounted(() => {
+  fetchSessions()
+})
 </script>

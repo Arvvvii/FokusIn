@@ -1,5 +1,5 @@
 @import "tailwindcss";
-
+@import "./admin.css";
 @theme {
   --color-navy: #081F5C;
   --color-royal: #334EAC;
@@ -169,13 +169,12 @@
 
 /* G5 - Page Header Banner */
 .page-header-banner {
-  background: linear-gradient(135deg,
-    rgba(237, 241, 246, 0.90) 0%,
-    rgba(208, 227, 255, 0.60) 100%);
+  background: #ffffff;
   border: 1px solid rgba(112, 150, 209, 0.18);
   border-radius: 14px;
   position: relative;
   overflow: hidden;
+  box-shadow: 0 4px 20px rgba(8, 31, 92, 0.02);
 }
 .page-header-icon {
   background: rgba(51, 78, 172, 0.08);
@@ -194,10 +193,20 @@
 
 /* Topbar Academic Breadcrumb */
 .academic-breadcrumb {
-  display: flex; align-items: center; gap: 6px;
-  font-size: 11px; color: #8A9CC0; font-weight: 500;
-  padding: 0 16px; height: 28px;
+  display: none;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: #8A9CC0;
+  font-weight: 500;
+  padding: 0 16px;
+  height: 28px;
   background: rgba(237,241,246,0.50);
+}
+@media (min-width: 1280px) {
+  .academic-breadcrumb {
+    display: flex;
+  }
 }
 .breadcrumb-sep { color: rgba(112,150,209,0.50); }
 .breadcrumb-current { color: #4A5880; font-weight: 600; }

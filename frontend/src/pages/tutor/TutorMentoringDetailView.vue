@@ -6,25 +6,28 @@
           to="/tutor/mentoring"
           class="text-sm font-bold text-slate-400 hover:text-[#334EAC] transition-colors flex items-center gap-1 w-fit bg-white/50 px-3 py-1.5 rounded-lg border border-slate-200/50"
         >
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"></path></svg>
-          Kembali ke Mentoring
+          ← Kembali ke Mentoring
         </RouterLink>
       </div>
 
-      <!-- HEADER -->
-      <div class="bg-white/60 backdrop-blur-xl rounded-3xl p-7 md:p-8 shadow-[0_10px_40px_rgba(15,23,42,0.06)] border border-slate-200/60 relative overflow-hidden sm:p-7 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div class="flex items-center gap-4">
+      <!-- 1. EDITORIAL WORKSPACE HEADER SECTION -->
+      <div class="bg-white border border-slate-200 shadow-sm rounded-2xl p-7 md:p-8 flex flex-col md:flex-row md:items-center justify-between gap-6 relative">
+        <div class="absolute right-0 top-0 w-1/3 h-full bg-gradient-to-l from-[#EDF1F6]/50 to-transparent pointer-events-none"></div>
+        <div class="relative z-10 flex items-center gap-4">
+          <span class="w-12 h-12 rounded-2xl bg-[#334EAC]/10 text-[#334EAC] flex items-center justify-center shrink-0">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>
+          </span>
           <div>
             <div class="flex items-center gap-2">
-              <h1 class="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">Workspace Mentoring: Sesi #{{ $route.params.id || '1' }}</h1>
+              <h1 class="text-2xl font-extrabold text-[#081F5C] tracking-tight leading-tight">Workspace Mentoring: Sesi #{{ $route.params.id || '1' }}</h1>
               <span class="px-2.5 py-0.5 bg-emerald-50 text-emerald-600 rounded text-[9px] font-bold border border-emerald-100 uppercase">Aktif</span>
             </div>
-            <p class="text-[15px] text-slate-600 font-medium mt-2 max-w-xl leading-relaxed">Algoritma & Struktur Data • Java & C++ Spesialist</p>
+            <p class="text-[13px] text-slate-500 font-medium mt-2 max-w-xl leading-relaxed">Algoritma & Struktur Data • Java & C++ Spesialist</p>
           </div>
         </div>
 
-        <div class="flex items-center gap-2">
-          <button @click="showLaunch = true" class="px-4 py-2 bg-[#334EAC] hover:bg-[#081F5C] text-white rounded-xl font-bold text-xs transition-all shadow-sm active:scale-[0.98] flex items-center gap-1.5">
+        <div class="flex items-center gap-2 relative z-10">
+          <button @click="launchClass" class="px-4 py-2 bg-[#334EAC] hover:bg-[#081F5C] text-white rounded-xl font-bold text-xs transition-all shadow-sm active:scale-[0.98] flex items-center gap-1.5">
             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15.6 11.6 5.4-3.2c.5-.3 1.2 0 1.2.7v5.8c0 .7-.7 1-1.2.7l-5.4-3.2a1.2 1.2 0 0 1 0-2Z"/><rect width="14" height="14" x="2" y="5" rx="3" ry="3"/></svg>
             Luncurkan Kelas Virtual
           </button>
@@ -39,9 +42,9 @@
           
           <!-- Student profile info -->
           <div class="bg-white rounded-3xl p-6 shadow-sm border border-slate-200 flex flex-col md:flex-row gap-6 items-start">
-            <div class="w-16 h-16 rounded-full bg-[#EDF1F6] flex items-center justify-center font-bold text-xl text-[#081F5C] shrink-0">BS</div>
+            <div class="w-16 h-16 rounded-full bg-[#EDF1F6] flex items-center justify-center font-bold text-xl text-[#081F5C] shrink-0">{{ getAvatarInitials(sessionData?.student?.name) }}</div>
             <div class="space-y-2 flex-1">
-              <h3 class="text-md font-bold text-[#081F5C] leading-none mb-1">Budi Santoso</h3>
+              <h3 class="text-md font-bold text-[#081F5C] leading-none mb-1">{{ sessionData?.student?.name || 'Mahasiswa' }}</h3>
               <p class="text-xs text-slate-500">Mahasiswa Ilmu Komputer • Semester 4</p>
               <div class="flex flex-wrap gap-2 pt-1">
                 <span class="px-2 py-0.5 bg-slate-100 rounded text-[10px] font-semibold text-slate-500 border border-slate-200">Kehadiran: 100%</span>
@@ -159,22 +162,50 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import { RouterLink } from 'vue-router'
+import { ref, onMounted } from 'vue'
+import { RouterLink, useRoute } from 'vue-router'
+import { mentoringService } from '@/services/mentoring.service'
 
+const route = useRoute()
 const showLaunch = ref(false)
 const showSuccess = ref(false)
-const notes = ref('Budi Santoso menunjukkan pemahaman yang sangat baik dalam konsep dasar rekursif, namun masih sering kesulitan dalam mengidentifikasi base-case pada tree traversal. Selama kelas, kami mempraktekkan BST traversal di editor C++.')
+const sessionData = ref(null)
+const notes = ref('')
 
 const filesList = ref([
   { name: 'BST_Java_Template.zip' }
 ])
 
-const saveNote = () => {
-  showSuccess.value = true
-  setTimeout(() => {
-    showSuccess.value = false
-  }, 3000)
+const getAvatarInitials = (name) => {
+  if (!name) return '?'
+  const parts = name.trim().split(/\s+/)
+  if (parts.length >= 2) {
+    return (parts[0][0] + parts[1][0]).toUpperCase()
+  }
+  return parts[0].substring(0, 2).toUpperCase()
+}
+
+const loadSession = async () => {
+  try {
+    const data = await mentoringService.getSessionById(route.params.id)
+    sessionData.value = data
+    notes.value = data.notes || data.note || ''
+  } catch (err) {
+    console.error('Failed to load session details:', err)
+  }
+}
+
+const saveNote = async () => {
+  try {
+    await mentoringService.updateSessionDetails(route.params.id, { notes: notes.value })
+    showSuccess.value = true
+    setTimeout(() => {
+      showSuccess.value = false
+    }, 3000)
+    await loadSession()
+  } catch (err) {
+    console.error('Failed to save notes:', err)
+  }
 }
 
 const triggerUpload = () => {
@@ -186,4 +217,13 @@ const triggerUpload = () => {
     showSuccess.value = false
   }, 3000)
 }
+
+const launchClass = () => {
+  const url = sessionData.value?.meeting_link || 'https://zoom.us'
+  window.open(url, '_blank')
+}
+
+onMounted(() => {
+  loadSession()
+})
 </script>
