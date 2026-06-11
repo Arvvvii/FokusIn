@@ -65,47 +65,84 @@
     </div>
 
     <!-- 2. Search & Filter Section -->
-    <div class="card-panel filter-bar p-4 md:p-5 mb-12 flex flex-col md:flex-row gap-4 transition-all duration-300 ease-out group">
+    <div class="card-panel filter-bar p-5 md:p-6 mb-10 space-y-5 transition-all duration-300 ease-out group">
       
-      <!-- Search -->
-      <div class="relative flex-1">
-        <div class="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none text-slate-400">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+      <!-- Top Row: Search & Format -->
+      <div class="flex flex-col md:flex-row gap-4">
+        <!-- Search -->
+        <div class="relative flex-1">
+          <div class="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none text-slate-400">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+          </div>
+          <input type="text" v-model="searchQuery" class="w-full pl-14 pr-5 py-3.5 bg-slate-50 hover:bg-white border border-slate-200 hover:border-slate-300 rounded-2xl text-[14px] font-bold text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-4 focus:ring-[#334EAC]/10 focus:border-[#334EAC] transition-all" placeholder="Cari materi, topik, atau tutor...">
         </div>
-        <input type="text" v-model="searchQuery" class="w-full pl-14 pr-5 py-3.5 bg-slate-50 hover:bg-white border border-transparent hover:border-slate-200 rounded-2xl text-[15px] font-bold text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-4 focus:ring-[#7096D1]/20 focus:border-[#7096D1] transition-all" placeholder="Cari dokumen, topik, atau penulis...">
+
+        <!-- File Type -->
+        <div class="relative min-w-[180px]">
+          <select v-model="selectedFileType" class="w-full pl-5 pr-10 py-3.5 bg-slate-50 hover:bg-white border border-slate-200 hover:border-slate-300 rounded-2xl text-[14px] font-bold text-slate-900 appearance-none focus:outline-none focus:ring-4 focus:ring-[#334EAC]/10 focus:border-[#334EAC] transition-all cursor-pointer">
+            <option value="">Semua Format</option>
+            <option value="pdf">PDF</option>
+            <option value="docx">DOCX</option>
+            <option value="video">VIDEO</option>
+          </select>
+          <div class="absolute inset-y-0 right-0 pr-5 flex items-center pointer-events-none text-slate-400">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+          </div>
+        </div>
+
+        <!-- Reset Button -->
+        <button @click="resetFilters" class="px-6 py-3.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-2xl font-bold text-[14px] transition-all shadow-sm active:scale-95 shrink-0 flex items-center justify-center gap-2">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M16 3h5v5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 21H3v-5"/></svg>
+          Reset Filter
+        </button>
       </div>
 
-      <!-- Categories -->
-      <div class="relative min-w-[180px]">
-        <select v-model="selectedCategory" class="w-full pl-5 pr-10 py-3.5 bg-slate-50 hover:bg-white border border-transparent hover:border-slate-200 rounded-2xl text-[14px] font-bold text-slate-900 appearance-none focus:outline-none focus:ring-4 focus:ring-[#7096D1]/20 transition-all cursor-pointer">
-          <option value="">Semua Subjek</option>
-          <option v-for="cat in categories" :key="cat.id" :value="cat.id">{{ cat.name }}</option>
-        </select>
-        <div class="absolute inset-y-0 right-0 pr-5 flex items-center pointer-events-none text-slate-400">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+      <!-- Bottom Row: 3-Step Academic Dropdowns -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-4 border-t border-slate-200/60">
+        <!-- Jurusan -->
+        <div class="space-y-1.5">
+          <label class="text-[10px] font-extrabold text-slate-400 uppercase tracking-widest ml-1">Jurusan</label>
+          <div class="relative">
+            <select v-model="selectedJurusan" class="w-full pl-5 pr-10 py-3 bg-slate-50 hover:bg-white border border-slate-200 hover:border-slate-300 rounded-2xl text-[13px] font-bold text-slate-900 appearance-none focus:outline-none focus:ring-4 focus:ring-[#334EAC]/10 focus:border-[#334EAC] transition-all cursor-pointer">
+              <option value="">Semua Jurusan</option>
+              <option value="Teknologi Rekayasa Instrumentasi dan Kontrol (TRIK)">Teknologi Rekayasa Instrumentasi &amp; Kontrol (TRIK)</option>
+              <option value="Kearsipan dan Informasi Digital (KID)">Kearsipan dan Informasi Digital (KID)</option>
+              <option value="Teknik Informatika">Teknik Informatika</option>
+            </select>
+            <div class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none text-slate-400">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+            </div>
+          </div>
+        </div>
+
+        <!-- Semester -->
+        <div class="space-y-1.5">
+          <label class="text-[10px] font-extrabold uppercase tracking-widest ml-1 transition-colors" :class="selectedJurusan ? 'text-slate-400' : 'text-slate-300'">Semester</label>
+          <div class="relative">
+            <select v-model="selectedSemester" :disabled="!selectedJurusan" class="w-full pl-5 pr-10 py-3 bg-slate-50 hover:bg-white border border-slate-200 hover:border-slate-300 rounded-2xl text-[13px] font-bold text-slate-900 appearance-none focus:outline-none focus:ring-4 focus:ring-[#334EAC]/10 focus:border-[#334EAC] transition-all cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed">
+              <option value="">Semua Semester</option>
+              <option v-for="i in 6" :key="i" :value="i">Semester {{ i }}</option>
+            </select>
+            <div class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none text-slate-400">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mata Kuliah -->
+        <div class="space-y-1.5">
+          <label class="text-[10px] font-extrabold uppercase tracking-widest ml-1 transition-colors" :class="selectedSemester ? 'text-slate-400' : 'text-slate-300'">Mata Kuliah</label>
+          <div class="relative">
+            <select v-model="selectedCategory" :disabled="!selectedSemester" class="w-full pl-5 pr-10 py-3 bg-slate-50 hover:bg-white border border-slate-200 hover:border-slate-300 rounded-2xl text-[13px] font-bold text-slate-900 appearance-none focus:outline-none focus:ring-4 focus:ring-[#334EAC]/10 focus:border-[#334EAC] transition-all cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed">
+              <option value="">Semua Mata Kuliah</option>
+              <option v-for="cat in filteredCategories" :key="cat.id" :value="cat.id">{{ cat.name }}</option>
+            </select>
+            <div class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none text-slate-400">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+            </div>
+          </div>
         </div>
       </div>
-
-      <!-- File Type -->
-      <div class="relative min-w-[150px]">
-        <select v-model="selectedFileType" class="w-full pl-5 pr-10 py-3.5 bg-slate-50 hover:bg-white border border-transparent hover:border-slate-200 rounded-2xl text-[14px] font-bold text-slate-900 appearance-none focus:outline-none focus:ring-4 focus:ring-[#7096D1]/20 transition-all cursor-pointer">
-          <option value="">Semua Format</option>
-          <option value="pdf">PDF</option>
-          <option value="docx">DOCX</option>
-          <option value="video">VIDEO</option>
-        </select>
-        <div class="absolute inset-y-0 right-0 pr-5 flex items-center pointer-events-none text-slate-400">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
-        </div>
-      </div>
-
-      <!-- Filter Button -->
-      <button @click="applyFilter" :disabled="isFiltering || loading" class="px-8 py-3.5 bg-white border border-slate-200 hover:border-[#334EAC] text-slate-900 hover:text-[#334EAC] rounded-2xl font-bold text-[14px] transition-all shadow-sm active:scale-95 shrink-0 flex items-center justify-center gap-2" :class="isFiltering ? 'opacity-70 cursor-wait' : ''">
-        <svg v-if="!isFiltering" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M22 3H2l8 9.46V19l4 2v-8.54L22 3z"/></svg>
-        <svg v-else class="animate-spin" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>
-        {{ isFiltering ? 'Menyaring...' : 'Filter' }}
-      </button>
-
     </div>
 
     <!-- 3. Material Grid -->
@@ -226,7 +263,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, watch } from 'vue'
 import { RouterLink, useRoute } from 'vue-router'
 import { materialService } from '@/services/material.service'
 import { useAuthStore } from '@/stores/auth'
@@ -239,6 +276,8 @@ const baseMaterialsRoute = computed(() => {
 })
 
 const searchQuery = ref('')
+const selectedJurusan = ref('')
+const selectedSemester = ref('')
 const selectedCategory = ref('')
 const selectedFileType = ref('')
 const isFiltering = ref(false)
@@ -248,6 +287,22 @@ const loading = ref(false)
 const error = ref(null)
 const categories = ref([])
 const materials = ref([])
+
+const filteredCategories = computed(() => {
+  return categories.value.filter(c => 
+    c.jurusan === selectedJurusan.value && 
+    String(c.semester) === String(selectedSemester.value)
+  )
+})
+
+watch(selectedJurusan, () => {
+  selectedSemester.value = ''
+  selectedCategory.value = ''
+})
+
+watch(selectedSemester, () => {
+  selectedCategory.value = ''
+})
 
 const fetchCategories = async () => {
   try {
@@ -262,7 +317,18 @@ const fetchMaterials = async () => {
   loading.value = true
   error.value = null
   try {
-    const res = await materialService.getMaterials()
+    const params = {}
+    if (selectedCategory.value) {
+      params.category_id = selectedCategory.value
+    } else {
+      if (selectedJurusan.value) {
+        params.jurusan = selectedJurusan.value
+      }
+      if (selectedSemester.value) {
+        params.semester = selectedSemester.value
+      }
+    }
+    const res = await materialService.getMaterials(params)
     // Laravel paginated list structure has data field containing the items
     materials.value = res.data || []
   } catch (err) {
@@ -271,6 +337,10 @@ const fetchMaterials = async () => {
     loading.value = false
   }
 }
+
+watch([selectedJurusan, selectedSemester, selectedCategory], () => {
+  fetchMaterials()
+})
 
 onMounted(() => {
   fetchCategories()
@@ -283,8 +353,15 @@ const filteredMaterials = computed(() => {
       material.title.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
       (material.user?.name && material.user.name.toLowerCase().includes(searchQuery.value.toLowerCase()))
     
-    const matchCat = !selectedCategory.value || 
-      String(material.category_id) === String(selectedCategory.value)
+    let matchCat = true
+    if (selectedCategory.value) {
+      matchCat = String(material.category_id) === String(selectedCategory.value)
+    } else if (selectedSemester.value) {
+      matchCat = material.category?.jurusan === selectedJurusan.value && 
+                 String(material.category?.semester) === String(selectedSemester.value)
+    } else if (selectedJurusan.value) {
+      matchCat = material.category?.jurusan === selectedJurusan.value
+    }
     
     let matchType = true
     if (selectedFileType.value) {
@@ -319,6 +396,14 @@ const applyFilter = () => {
       showSuccess.value = false
     }, 3000)
   }, 600)
+}
+
+const resetFilters = () => {
+  searchQuery.value = ''
+  selectedJurusan.value = ''
+  selectedSemester.value = ''
+  selectedCategory.value = ''
+  selectedFileType.value = ''
 }
 </script>
 

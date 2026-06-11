@@ -2,46 +2,75 @@
   <div class="space-y-8 animate-in fade-in duration-500">
     
     <!-- 1. HEADER SECTION -->
-    <div class="page-header-banner p-6 md:p-8 flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8 relative">
+    <div class="page-header-banner p-6 md:p-8 mb-2 relative">
       <div class="absolute right-0 top-0 w-1/3 h-full bg-gradient-to-l from-[#EDF1F6]/80 to-transparent pointer-events-none"></div>
-      
-      <div class="relative z-10 flex items-center gap-4">
-        <span class="page-header-icon w-12 h-12 flex items-center justify-center shrink-0">
-          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
-        </span>
-        <div>
-          <h1 class="text-2xl md:text-3xl font-extrabold text-[#081F5C] tracking-tight">Analisis Pola AI</h1>
-          <p class="text-xs md:text-sm text-[#4A5880]/90 font-medium mt-1.5 max-w-xl leading-relaxed">
-            Unggah ujian sebelumnya atau materi belajar. AI kami akan menganalisis pola historis dan merancang rencana belajar strategis untukmu.
-          </p>
-        </div>
-      </div>
 
-      <!-- Primary CTA -->
-      <div class="relative z-10 flex shrink-0 w-full md:w-auto gap-3 items-center">
-        <div class="relative min-w-[180px]">
-          <select v-model="selectedCategoryId" class="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-[13px] font-bold text-slate-800 focus:outline-none focus:border-[#334EAC] focus:ring-4 focus:ring-[#334EAC]/10 transition-all appearance-none cursor-pointer">
-            <option value="" disabled>Pilih Mata Kuliah</option>
-            <option v-for="cat in categories" :key="cat.id" :value="cat.id">{{ cat.name }}</option>
-          </select>
-          <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none text-slate-400">
-            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+      <!-- Title Row -->
+      <div class="relative z-10 flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+        <div class="flex items-center gap-4">
+          <span class="page-header-icon w-12 h-12 flex items-center justify-center shrink-0">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+          </span>
+          <div>
+            <h1 class="text-2xl md:text-3xl font-extrabold text-[#081F5C] tracking-tight">Analisis Pola AI</h1>
+            <p class="text-xs md:text-sm text-[#4A5880]/90 font-medium mt-1.5 max-w-xl leading-relaxed">
+              Unggah ujian sebelumnya atau materi belajar. AI kami akan menganalisis pola historis dan merancang rencana belajar strategis untukmu.
+            </p>
           </div>
         </div>
-        <RouterLink to="/pelajar/ai-analyzer/create" class="btn-solid w-full md:w-auto px-5 py-2.5 flex items-center justify-center gap-2">
+        <RouterLink to="/pelajar/ai-analyzer/create" class="btn-solid shrink-0 px-5 py-2.5 flex items-center gap-2 self-start sm:self-center">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg>
           Analisis Baru
         </RouterLink>
+      </div>
+
+      <!-- Filter Bar -->
+      <div class="relative z-10 grid grid-cols-1 sm:grid-cols-3 gap-3">
+        <div class="space-y-1.5">
+          <label class="text-[10px] font-extrabold text-slate-400 uppercase tracking-widest ml-1">Jurusan</label>
+          <div class="relative">
+            <select v-model="selectedJurusan" class="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-[13px] font-bold text-slate-800 focus:outline-none focus:border-[#334EAC] focus:ring-4 focus:ring-[#334EAC]/10 transition-all appearance-none cursor-pointer">
+              <option value="">— Pilih Jurusan —</option>
+              <option value="Teknologi Rekayasa Instrumentasi dan Kontrol (TRIK)">Teknologi Rekayasa Instrumentasi &amp; Kontrol (TRIK)</option>
+              <option value="Kearsipan dan Informasi Digital (KID)">Kearsipan dan Informasi Digital (KID)</option>
+              <option value="Teknik Informatika">Teknik Informatika</option>
+            </select>
+            <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none text-slate-400"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></div>
+          </div>
+        </div>
+        <div class="space-y-1.5">
+          <label class="text-[10px] font-extrabold uppercase tracking-widest ml-1 transition-colors" :class="selectedJurusan ? 'text-slate-400' : 'text-slate-300'">Semester</label>
+          <div class="relative">
+            <select v-model="selectedSemester" :disabled="!selectedJurusan" class="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-[13px] font-bold text-slate-800 focus:outline-none focus:border-[#334EAC] focus:ring-4 focus:ring-[#334EAC]/10 transition-all appearance-none cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed disabled:bg-slate-50">
+              <option value="">— Pilih Semester —</option>
+              <option v-for="i in 6" :key="i" :value="i">Semester {{ i }}</option>
+            </select>
+            <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none text-slate-400"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></div>
+          </div>
+        </div>
+        <div class="space-y-1.5">
+          <label class="text-[10px] font-extrabold uppercase tracking-widest ml-1 transition-colors" :class="selectedSemester ? 'text-slate-400' : 'text-slate-300'">Mata Kuliah</label>
+          <div class="relative">
+            <select v-model="selectedCategoryId" :disabled="!selectedSemester" class="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-[13px] font-bold text-slate-800 focus:outline-none focus:border-[#334EAC] focus:ring-4 focus:ring-[#334EAC]/10 transition-all appearance-none cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed disabled:bg-slate-50">
+              <option value="" disabled>— Pilih Mata Kuliah —</option>
+              <option v-for="cat in filteredCategories" :key="cat.id" :value="cat.id">{{ cat.name }}</option>
+            </select>
+            <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none text-slate-400"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></div>
+          </div>
+        </div>
       </div>
     </div>
 
     <!-- Loading State -->
     <div v-if="loading" class="bg-white rounded-3xl p-8 shadow-sm border border-slate-200 flex flex-col items-center justify-center min-h-[300px]">
-      <svg class="animate-spin h-8 w-8 text-[#334EAC] mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-      </svg>
-      <p class="text-sm font-semibold text-slate-600">Sedang memproses analisis pola AI...</p>
+      <div class="relative mb-6">
+        <div class="w-16 h-16 rounded-full border-4 border-[#EDF1F6] border-t-[#334EAC] animate-spin"></div>
+        <div class="absolute inset-0 flex items-center justify-center">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#334EAC" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+        </div>
+      </div>
+      <p class="text-base font-bold text-slate-700 mb-1">{{ isAnalyzingNew ? 'Menganalisis dokumen baru...' : 'Memproses analisis pola AI...' }}</p>
+      <p class="text-sm font-medium text-slate-400">{{ isAnalyzingNew ? 'AI sedang memproses isi dokumen yang baru kamu unggah.' : 'Harap tunggu sebentar.' }}</p>
     </div>
 
     <!-- Error State -->
@@ -59,29 +88,6 @@
     </div>
 
     <template v-else>
-      <!-- Upload Area -->
-      <RouterLink to="/pelajar/ai-analyzer/create" class="block card-base rounded-3xl p-8 md:p-14 mb-12 transition-all duration-300 ease-out relative overflow-hidden group">
-        <!-- Glow Orb -->
-        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-[#334EAC]/10 blur-[100px] rounded-full pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
-        
-        <div class="upload-zone max-w-3xl mx-auto flex flex-col items-center justify-center p-12 md:p-16 rounded-3xl cursor-pointer relative z-10">
-          
-          <div class="w-20 h-20 rounded-full bg-gradient-to-br from-[#F7F2EB] to-white flex items-center justify-center text-[#081F5C] mb-6 group-hover:-translate-y-2 group-hover:shadow-lg group-hover:shadow-[#334EAC]/20 transition-all duration-300 border border-[#D0E3FF]/50 relative">
-            <div class="absolute inset-0 rounded-full bg-[#7096D1]/20 blur-md animate-pulse"></div>
-            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="relative z-10"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg>
-          </div>
-          
-          <h3 class="text-[22px] font-bold text-slate-900 text-center mb-3 tracking-tight">Tarik dan lepaskan dokumenmu di sini</h3>
-          <p class="text-[15px] font-medium text-slate-500 text-center max-w-md mb-8 leading-relaxed">Kami menerima file PDF, DOCX, dan TXT yang berisi lembar ujian, catatan kuliah, atau bab buku.</p>
-          
-          <div class="flex items-center gap-4">
-            <span class="px-4 py-1.5 bg-white text-slate-400 text-[11px] font-extrabold rounded-xl shadow-sm border border-slate-200/60 uppercase tracking-widest">PDF</span>
-            <span class="px-4 py-1.5 bg-white text-slate-400 text-[11px] font-extrabold rounded-xl shadow-sm border border-slate-200/60 uppercase tracking-widest">DOCX</span>
-            <span class="px-4 py-1.5 bg-[#EDF1F6] text-[#334EAC] text-[11px] font-extrabold rounded-xl shadow-sm border border-slate-200/60 uppercase tracking-widest">Maks 10MB</span>
-          </div>
-        </div>
-      </RouterLink>
-
       <!-- Empty State -->
       <div v-if="!summaryData || !summaryData.topics || summaryData.topics.length === 0" class="bg-white rounded-3xl p-8 shadow-sm border border-slate-200 flex flex-col items-center justify-center p-12 text-center">
         <div class="w-16 h-16 rounded-full bg-[#F7F2EB] flex items-center justify-center text-[#334EAC] mb-4 border border-[#D0E3FF]/50">
@@ -212,6 +218,224 @@
           </div>
         </div>
 
+        <!-- Rangkuman Materi Belajar -->
+        <div v-if="summaryData.detailed_summary" class="card-panel lg:col-span-3 rounded-3xl p-8 transition-all duration-300 ease-out group/card relative overflow-hidden">
+          <div class="absolute inset-0 bg-gradient-to-br from-indigo-500/5 to-transparent opacity-0 group-hover/card:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
+          <h3 class="text-[17px] font-bold text-slate-900 mb-6 flex items-center gap-3 tracking-tight">
+            <span class="w-8 h-8 rounded-lg bg-indigo-50 flex items-center justify-center text-indigo-600 border border-indigo-100/50 group-hover/card:scale-110 transition-transform">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/><path d="M6 6h10"/><path d="M6 10h10"/><path d="M6 14h10"/></svg>
+            </span>
+            Rangkuman Materi Belajar
+          </h3>
+          
+          <div class="text-[14.5px] text-slate-600 leading-relaxed space-y-4 whitespace-pre-line bg-slate-50/50 rounded-2xl p-6 border border-slate-200/50">
+            {{ summaryData.detailed_summary }}
+          </div>
+        </div>
+
+        <!-- Simulator Kuis Prediksi AI -->
+        <div v-if="summaryData.quiz_set && summaryData.quiz_set.questions && summaryData.quiz_set.questions.length > 0" class="card-panel lg:col-span-3 rounded-3xl p-8 transition-all duration-300 ease-out group/card relative overflow-hidden">
+          <div class="absolute inset-0 bg-gradient-to-br from-amber-500/5 to-transparent opacity-0 group-hover/card:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
+          
+          <div class="flex items-center justify-between mb-6">
+            <h3 class="text-[17px] font-bold text-slate-900 flex items-center gap-3 tracking-tight">
+              <span class="w-8 h-8 rounded-lg bg-amber-50 flex items-center justify-center text-amber-600 border border-amber-100/50 group-hover/card:scale-110 transition-transform">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" x2="12.01" y2="17"/></svg>
+              </span>
+              Simulator Kuis Prediksi AI
+            </h3>
+            <span class="px-3 py-1 bg-amber-100/60 text-amber-800 text-[11px] font-extrabold rounded-lg uppercase tracking-wider border border-amber-200/40">
+              Tersedia di Menu Kuis
+            </span>
+          </div>
+
+          <!-- 1. Start Screen -->
+          <div v-if="!simulatorStarted" class="flex flex-col items-center justify-center p-8 bg-slate-50/50 rounded-2xl border border-slate-200/50 text-center">
+            <div class="w-16 h-16 bg-gradient-to-br from-[#F7F2EB] to-white flex items-center justify-center text-amber-600 rounded-2xl mb-4 border border-amber-100 shadow-sm">
+              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="m9 12 2 2 4-4"/></svg>
+            </div>
+            <h4 class="text-base font-bold text-slate-800 mb-2">Uji Pemahaman Materi Anda</h4>
+            <p class="text-xs md:text-sm text-slate-500 max-w-lg mb-6 leading-relaxed">
+              AI telah merumuskan 5 soal prediksi pilihan ganda berdasarkan pola ujian sebelumnya. Kerjakan simulasi ini untuk mengukur kesiapan belajarmu.
+            </p>
+            <button @click="startSimulator" class="px-6 py-3 bg-[#334EAC] hover:bg-[#081F5C] text-white text-[13px] font-bold rounded-xl shadow-md transition-all active:scale-95 flex items-center gap-2">
+              Mulai Simulasi Kuis
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </button>
+          </div>
+
+          <!-- 2. Active Screen (Playing) -->
+          <div v-else-if="simulatorStarted && !simulatorSubmitted" class="space-y-6">
+            <!-- Progress & Score Header -->
+            <div class="flex items-center justify-between text-xs font-bold text-slate-400">
+              <span>Pertanyaan {{ simulatorCurrentIndex + 1 }} dari {{ summaryData.quiz_set.questions.length }}</span>
+              <div class="flex items-center gap-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-amber-500 animate-pulse"></span>
+                <span class="text-amber-600 font-extrabold">Simulasi Berjalan</span>
+              </div>
+            </div>
+
+            <!-- Progress Bar -->
+            <div class="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
+              <div class="h-full bg-gradient-to-r from-amber-500 to-[#334EAC] transition-all duration-300" :style="{ width: ((simulatorCurrentIndex + 1) / summaryData.quiz_set.questions.length) * 100 + '%' }"></div>
+            </div>
+
+            <!-- Question & Options Block -->
+            <div class="p-6 bg-slate-50/50 rounded-2xl border border-slate-200/50 space-y-6">
+              <!-- Question Content -->
+              <h4 class="text-base font-extrabold text-slate-800 leading-relaxed">
+                {{ summaryData.quiz_set.questions[simulatorCurrentIndex].content }}
+              </h4>
+
+              <!-- Options Grid (Single Column) -->
+              <div class="space-y-3">
+                <button 
+                  v-for="(optionText, idx) in summaryData.quiz_set.questions[simulatorCurrentIndex].options" 
+                  :key="idx"
+                  @click="selectSimulatorOption(summaryData.quiz_set.questions[simulatorCurrentIndex].id, ['A', 'B', 'C', 'D'][idx])"
+                  class="w-full text-left px-5 py-4 rounded-xl border text-[13.5px] font-bold transition-all flex items-center gap-3 active:scale-[0.99] group/opt"
+                  :class="simulatorAnswers[summaryData.quiz_set.questions[simulatorCurrentIndex].id] === ['A', 'B', 'C', 'D'][idx]
+                    ? 'bg-[#334EAC]/10 border-[#334EAC] text-[#334EAC]'
+                    : 'bg-white hover:bg-[#EDF1F6]/50 border-slate-200 text-slate-700 hover:text-slate-900'"
+                >
+                  <span class="w-7 h-7 flex items-center justify-center rounded-lg border text-xs font-extrabold shrink-0"
+                    :class="simulatorAnswers[summaryData.quiz_set.questions[simulatorCurrentIndex].id] === ['A', 'B', 'C', 'D'][idx]
+                      ? 'bg-[#334EAC] text-white border-transparent'
+                      : 'bg-slate-50 border-slate-200 text-slate-400 group-hover/opt:border-[#334EAC] group-hover/opt:text-[#334EAC]'"
+                  >
+                    {{ ['A', 'B', 'C', 'D'][idx] }}
+                  </span>
+                  {{ optionText }}
+                </button>
+              </div>
+            </div>
+
+            <!-- Error Alerts -->
+            <div v-if="simulatorError" class="p-4 bg-rose-50 border border-rose-100 text-rose-700 rounded-xl text-xs font-bold flex items-center gap-2">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              {{ simulatorError }}
+            </div>
+
+            <!-- Navigation Controls -->
+            <div class="flex items-center justify-between pt-4 border-t border-slate-100">
+              <button 
+                @click="prevSimulatorQuestion"
+                :disabled="simulatorCurrentIndex === 0"
+                class="px-4 py-2 text-[12px] font-bold text-slate-500 hover:text-[#334EAC] transition-all disabled:opacity-40 disabled:hover:text-slate-500 flex items-center gap-1.5"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+                Sebelumnya
+              </button>
+
+              <div class="flex items-center gap-3">
+                <button 
+                  v-if="simulatorCurrentIndex < summaryData.quiz_set.questions.length - 1"
+                  @click="nextSimulatorQuestion(summaryData.quiz_set.questions.length)"
+                  class="px-5 py-2.5 bg-slate-900 hover:bg-slate-800 text-white text-[12px] font-bold rounded-xl shadow-sm transition-all flex items-center gap-1.5"
+                >
+                  Selanjutnya
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                </button>
+                <button 
+                  v-else
+                  @click="submitSimulator"
+                  :disabled="simulatorSubmitting"
+                  class="px-6 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white text-[12px] font-bold rounded-xl shadow-sm transition-all disabled:opacity-50 flex items-center gap-2"
+                >
+                  <span v-if="simulatorSubmitting" class="w-3.5 h-3.5 border-2 border-white border-t-transparent animate-spin rounded-full"></span>
+                  Kirim Jawaban
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 3. Results Screen -->
+          <div v-else class="space-y-6 animate-in zoom-in-95 duration-300">
+            <!-- Score Overview Card -->
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 p-6 bg-slate-50/50 rounded-2xl border border-slate-200/50">
+              <div class="flex items-center gap-4">
+                <div class="w-16 h-16 rounded-full flex items-center justify-center text-white font-extrabold text-xl shadow-md"
+                  :class="simulatorScore >= 75 ? 'bg-emerald-500 shadow-emerald-500/20' : simulatorScore >= 50 ? 'bg-amber-500 shadow-amber-500/20' : 'bg-rose-500 shadow-rose-500/20'"
+                >
+                  {{ simulatorScore }}
+                </div>
+                <div>
+                  <h4 class="text-base font-extrabold text-slate-800 mb-0.5">Hasil Simulasi Kuis</h4>
+                  <p class="text-xs text-slate-400 font-bold uppercase tracking-wider">
+                    Benar {{ simulatorCorrectCount }} dari {{ summaryData.quiz_set.questions.length }} soal
+                  </p>
+                </div>
+              </div>
+
+              <div class="flex items-center gap-3">
+                <button @click="startSimulator" class="px-4 py-2.5 bg-white border border-slate-200 hover:border-slate-300 rounded-xl text-[12px] font-bold text-slate-700 transition-all shadow-sm">
+                  Ulangi Simulasi
+                </button>
+                <RouterLink :to="`/pelajar/quiz`" class="px-5 py-2.5 bg-[#334EAC] hover:bg-[#081F5C] text-white text-[12px] font-bold rounded-xl shadow-md transition-all flex items-center gap-1.5">
+                  Buka Menu Kuis
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                </RouterLink>
+              </div>
+            </div>
+
+            <!-- Review of Questions -->
+            <div class="space-y-4">
+              <h5 class="text-xs font-extrabold text-slate-400 uppercase tracking-widest pl-1">Review Jawaban &amp; Pembahasan</h5>
+
+              <div 
+                v-for="(question, index) in summaryData.quiz_set.questions" 
+                :key="question.id"
+                class="p-6 rounded-2xl border text-[13.5px] font-bold space-y-4"
+                :class="simulatorAnswers[question.id] === question.correct_answer 
+                  ? 'bg-emerald-50/30 border-emerald-200/60' 
+                  : 'bg-rose-50/30 border-rose-200/60'"
+              >
+                <!-- Question Title & Indicator -->
+                <div class="flex items-start justify-between gap-4">
+                  <span class="text-[#081F5C] leading-relaxed">
+                    {{ index + 1 }}. {{ question.content }}
+                  </span>
+                  <span class="px-2.5 py-1 text-[9.5px] font-extrabold rounded-md uppercase tracking-wider shrink-0"
+                    :class="simulatorAnswers[question.id] === question.correct_answer 
+                      ? 'bg-emerald-100 text-emerald-800' 
+                      : 'bg-rose-100 text-rose-800'"
+                  >
+                    {{ simulatorAnswers[question.id] === question.correct_answer ? 'Benar' : 'Salah' }}
+                  </span>
+                </div>
+
+                <!-- Chosen & Correct Option details -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs font-bold py-2.5 border-y border-dashed border-slate-200">
+                  <div class="flex items-center gap-2">
+                    <span class="text-slate-400">Jawaban Anda:</span>
+                    <span class="px-2 py-0.5 rounded text-[11px]"
+                      :class="simulatorAnswers[question.id] === question.correct_answer 
+                        ? 'bg-emerald-100 text-emerald-800' 
+                        : 'bg-rose-100 text-rose-800'"
+                    >
+                      Opsi {{ simulatorAnswers[question.id] }}
+                    </span>
+                  </div>
+                  <div class="flex items-center gap-2">
+                    <span class="text-slate-400">Jawaban Benar:</span>
+                    <span class="px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 text-[11px]">
+                      Opsi {{ question.correct_answer }}
+                    </span>
+                  </div>
+                </div>
+
+                <!-- Pembahasan/Explanation -->
+                <div class="p-4 bg-slate-50 border border-slate-200/60 rounded-xl space-y-1">
+                  <p class="text-[11px] font-extrabold text-slate-400 uppercase tracking-wider">Pembahasan</p>
+                  <p class="text-[12.5px] text-slate-600 font-medium leading-relaxed">
+                    {{ question.explanation }}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
     </template>
   </div>
@@ -219,25 +443,110 @@
 
 <script setup>
 import { ref, onMounted, computed, watch } from 'vue'
-import { RouterLink } from 'vue-router'
+import { RouterLink, useRoute } from 'vue-router'
 import { aiService } from '@/services/ai.service'
 import { forumService } from '@/services/forum.service'
+import { quizService } from '@/services/quiz.service'
 
 const summaryData = ref(null)
 const loading = ref(false)
 const error = ref(null)
 const categories = ref([])
 const selectedCategoryId = ref('')
+const selectedJurusan = ref('')
+const selectedSemester = ref('')
+const isAnalyzingNew = ref(false) // flag saat baru saja upload
+
+const route = useRoute()
+
+const filteredCategories = computed(() => {
+  return categories.value.filter(c => 
+    c.jurusan === selectedJurusan.value && 
+    c.semester === selectedSemester.value
+  )
+})
 
 const fetchCategories = async () => {
   try {
     const data = await forumService.getCategories()
     categories.value = data
-    if (data.length > 0) {
-      selectedCategoryId.value = data[0].id
+    if (filteredCategories.value.length > 0) {
+      selectedCategoryId.value = filteredCategories.value[0].id
     }
   } catch (err) {
     console.error('Error fetching categories:', err)
+  }
+}
+
+watch([selectedJurusan, selectedSemester], () => {
+  if (filteredCategories.value.length > 0) {
+    selectedCategoryId.value = filteredCategories.value[0].id
+  } else {
+    selectedCategoryId.value = ''
+    summaryData.value = null // Clear summary if no category
+  }
+})
+
+// Simulator State
+const simulatorStarted = ref(false)
+const simulatorCurrentIndex = ref(0)
+const simulatorAnswers = ref({})
+const simulatorSubmitted = ref(false)
+const simulatorScore = ref(0)
+const simulatorCorrectCount = ref(0)
+const simulatorSubmitting = ref(false)
+const simulatorError = ref(null)
+
+const startSimulator = () => {
+  simulatorStarted.value = true
+  simulatorCurrentIndex.value = 0
+  simulatorAnswers.value = {}
+  simulatorSubmitted.value = false
+  simulatorScore.value = 0
+  simulatorCorrectCount.value = 0
+  simulatorError.value = null
+}
+
+const selectSimulatorOption = (questionId, optionLetter) => {
+  if (simulatorSubmitted.value) return
+  simulatorAnswers.value[questionId] = optionLetter
+}
+
+const prevSimulatorQuestion = () => {
+  if (simulatorCurrentIndex.value > 0) {
+    simulatorCurrentIndex.value--
+  }
+}
+
+const nextSimulatorQuestion = (questionsCount) => {
+  if (simulatorCurrentIndex.value < questionsCount - 1) {
+    simulatorCurrentIndex.value++
+  }
+}
+
+const submitSimulator = async () => {
+  const quizSet = summaryData.value?.quiz_set
+  if (!quizSet) return
+  
+  // Periksa apakah semua soal sudah dijawab
+  const unanswered = quizSet.questions.filter(q => !simulatorAnswers.value[q.id])
+  if (unanswered.length > 0) {
+    simulatorError.value = 'Harap jawab semua soal sebelum mengirim!'
+    return
+  }
+
+  simulatorSubmitting.value = true
+  simulatorError.value = null
+  try {
+    const res = await quizService.submitAttempt(quizSet.id, simulatorAnswers.value)
+    simulatorScore.value = res.score
+    simulatorCorrectCount.value = res.correct_answers_count
+    simulatorSubmitted.value = true
+  } catch (err) {
+    simulatorError.value = err || 'Gagal mengirimkan jawaban kuis.'
+    console.error('Error submitting simulator attempt:', err)
+  } finally {
+    simulatorSubmitting.value = false
   }
 }
 
@@ -254,15 +563,34 @@ const fetchSummary = async () => {
     console.error('Error fetching AI pattern summary:', err)
   } finally {
     loading.value = false
+    isAnalyzingNew.value = false
   }
 }
 
 watch(selectedCategoryId, () => {
   fetchSummary()
+  // Reset simulator
+  simulatorStarted.value = false
+  simulatorCurrentIndex.value = 0
+  simulatorAnswers.value = {}
+  simulatorSubmitted.value = false
+  simulatorScore.value = 0
+  simulatorCorrectCount.value = 0
+  simulatorSubmitting.value = false
+  simulatorError.value = null
 })
 
 onMounted(async () => {
   await fetchCategories()
+
+  // Jika redirect dari halaman upload (ada query params), pre-fill filter
+  if (route.query.category_id) {
+    isAnalyzingNew.value = true
+    selectedJurusan.value = route.query.jurusan || ''
+    selectedSemester.value = route.query.semester ? Number(route.query.semester) : ''
+    selectedCategoryId.value = Number(route.query.category_id)
+    // fetchSummary dipanggil secara otomatis oleh watcher selectedCategoryId
+  }
 })
 
 const getFrequencyPercent = (frequency) => {
@@ -310,9 +638,7 @@ const parseRecommendation = (rec) => {
   }
 }
 
-onMounted(() => {
-  fetchSummary()
-})
+
 </script>
 
 <style scoped>

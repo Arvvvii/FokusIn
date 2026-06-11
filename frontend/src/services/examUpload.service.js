@@ -49,17 +49,13 @@ export const examUploadService = {
    * POST /api/exam-uploads
    */
   async createExamUpload(formData, onUploadProgress) {
-    try {
-      const response = await api.post('/exam-uploads', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        },
-        onUploadProgress
-      })
-      return response.data
-    } catch (error) {
-      throw error.response?.data?.message || 'Gagal mengunggah berkas ujian.'
-    }
+    const response = await api.post('/exam-uploads', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      },
+      onUploadProgress
+    })
+    return response.data
   },
 
   /**

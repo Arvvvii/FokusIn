@@ -28,12 +28,19 @@
 
         <!-- Auth Buttons -->
         <div class="hidden md:flex items-center gap-4">
-          <RouterLink to="/auth/login" class="btn-ghost-nav">
-            Masuk
-          </RouterLink>
-          <RouterLink to="/auth/register" class="btn-cta-primary">
-            Mulai Belajar
-          </RouterLink>
+          <template v-if="authStore.isAuthenticated">
+            <RouterLink :to="`/${authStore.role}/dashboard`" class="btn-cta-primary">
+              Dashboard
+            </RouterLink>
+          </template>
+          <template v-else>
+            <RouterLink to="/auth/login" class="btn-ghost-nav">
+              Masuk
+            </RouterLink>
+            <RouterLink to="/auth/register" class="btn-cta-primary">
+              Mulai Belajar
+            </RouterLink>
+          </template>
         </div>
 
         <!-- Mobile Menu Toggle -->
@@ -59,12 +66,19 @@
           <RouterLink to="/about" class="nav-link-mobile" @click="isMobileMenuOpen = false">Tentang</RouterLink>
           <RouterLink to="/faq" class="nav-link-mobile" @click="isMobileMenuOpen = false">FAQ</RouterLink>
           <hr class="border-slate-200 my-2">
-          <RouterLink to="/auth/login" class="btn-ghost-nav text-center" @click="isMobileMenuOpen = false">
-            Masuk
-          </RouterLink>
-          <RouterLink to="/auth/register" class="btn-cta-primary text-center mt-2" @click="isMobileMenuOpen = false">
-            Mulai Belajar
-          </RouterLink>
+          <template v-if="authStore.isAuthenticated">
+            <RouterLink :to="`/${authStore.role}/dashboard`" class="btn-cta-primary text-center mt-2" @click="isMobileMenuOpen = false">
+              Dashboard
+            </RouterLink>
+          </template>
+          <template v-else>
+            <RouterLink to="/auth/login" class="btn-ghost-nav text-center" @click="isMobileMenuOpen = false">
+              Masuk
+            </RouterLink>
+            <RouterLink to="/auth/register" class="btn-cta-primary text-center mt-2" @click="isMobileMenuOpen = false">
+              Mulai Belajar
+            </RouterLink>
+          </template>
         </div>
       </transition>
     </nav>
@@ -501,12 +515,27 @@
           <div>
             <h4 class="text-[14px] font-extrabold text-[#081F5C] mb-6">Berlangganan</h4>
             <p class="text-[13px] font-medium text-slate-500 mb-4">Dapatkan tips belajar dan update fitur terbaru kami.</p>
-            <div class="flex gap-2">
-              <input type="email" placeholder="Email kamu" class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-[14px] focus:outline-none focus:border-[#334EAC] transition-colors">
-              <button class="px-4 py-2 bg-[#081F5C] hover:bg-[#334EAC] text-white rounded-xl text-[14px] font-bold transition-colors">
-                Kirim
+            <form @submit.prevent="handleSubscribe" class="flex gap-2">
+              <input 
+                v-model="subscribeEmail" 
+                type="email" 
+                required
+                :disabled="subscribing"
+                placeholder="Email kamu" 
+                class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-[14px] focus:outline-none focus:border-[#334EAC] transition-colors disabled:opacity-60"
+              >
+              <button 
+                type="submit"
+                :disabled="subscribing"
+                class="px-4 py-2 bg-[#081F5C] hover:bg-[#334EAC] text-white rounded-xl text-[14px] font-bold transition-colors disabled:opacity-60 flex items-center justify-center min-w-[70px]"
+              >
+                <svg v-if="subscribing" class="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                  <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+                </svg>
+                <span v-else>Kirim</span>
               </button>
-            </div>
+            </form>
           </div>
 
         </div>
@@ -526,10 +555,33 @@
 import { ref, onMounted } from 'vue'
 import { RouterLink } from 'vue-router'
 import { statsService } from '@/services/stats.service'
+import { newsletterService } from '@/services/newsletter.service'
+import { useToastStore } from '@/stores/toast'
+import { useAuthStore } from '@/stores/auth'
+
+const toastStore = useToastStore()
+const authStore = useAuthStore()
+const subscribeEmail = ref('')
+const subscribing = ref(false)
 
 const isMobileMenuOpen = ref(false)
 const toggleMobileMenu = () => {
   isMobileMenuOpen.value = !isMobileMenuOpen.value
+}
+
+const handleSubscribe = async () => {
+  if (!subscribeEmail.value) return
+  
+  subscribing.value = true
+  try {
+    const response = await newsletterService.subscribe(subscribeEmail.value)
+    toastStore.success(response.message || 'Berhasil berlangganan newsletter!')
+    subscribeEmail.value = ''
+  } catch (error) {
+    toastStore.error(error || 'Gagal berlangganan. Silakan coba lagi.')
+  } finally {
+    subscribing.value = false
+  }
 }
 
 const loading = ref(false)

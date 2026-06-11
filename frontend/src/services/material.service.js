@@ -22,9 +22,9 @@ export const materialService = {
    * Mendapatkan daftar materi terpaginasi.
    * GET /materials
    */
-  async getMaterials() {
+  async getMaterials(params = {}) {
     try {
-      const response = await api.get('/materials')
+      const response = await api.get('/materials', { params })
       return response.data
     } catch (error) {
       throw error.response?.data?.message || 'Gagal mengambil data materi akademik.'

@@ -73,30 +73,6 @@
         <!-- 1. LEFT SIDEBAR FILTER (xl:w-[24%]) -->
         <div class="hidden xl:flex flex-col w-[24%] shrink-0 space-y-5 sticky top-[24px] h-fit">
           
-          <!-- Categories: Refened as Stacked Selectable Category Cards -->
-          <div>
-            <h3 class="text-[10px] font-bold text-slate-900 uppercase tracking-widest mb-3">Kategori Diskusi</h3>
-            <ul class="space-y-2">
-              <li v-for="cat in categories" :key="cat.name">
-                <button 
-                  @click="selectCategory(cat)"
-                  class="w-full text-left p-3 rounded-xl border transition-all flex items-start gap-3 shadow-sm select-none"
-                  :class="cat.active ? 'border-l-4 border-l-[#334EAC] border-slate-200 bg-[#EEF3FF] text-[#081F5C]' : 'bg-white/70 border-slate-200 text-slate-700 hover:bg-white'"
-                >
-                  <!-- Academic outline Lucide icon -->
-                  <div class="w-8 h-8 rounded-lg bg-slate-50 border border-slate-200/60 flex items-center justify-center shrink-0 text-slate-400 transition-colors">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5" v-html="cat.icon"></svg>
-                  </div>
-                  
-                  <div class="min-w-0 flex-1">
-                    <span class="block text-xs font-bold leading-tight" :class="cat.active ? 'text-[#081F5C]' : 'text-slate-700'">{{ cat.name }}</span>
-                    <span class="block text-[10px] text-slate-400 font-semibold mt-1">{{ cat.count !== undefined ? cat.count : 'Lihat diskusi' }}</span>
-                  </div>
-                </button>
-              </li>
-            </ul>
-          </div>
-
           <!-- Trending Tags: Unified visual system -->
           <div>
             <h3 class="text-[10px] font-bold text-slate-900 uppercase tracking-widest mb-2.5">Tag Populer</h3>
@@ -147,10 +123,54 @@
         <!-- 2. MAIN DISCUSSION FEED (xl:w-[51%]) -->
         <div class="flex-1 w-full xl:w-[51%] flex flex-col min-w-0">
           
-          <!-- Search & Info Bar -->
-          <div class="relative mb-6 card-panel p-2">
-            <input type="text" v-model="searchQuery" placeholder="Cari diskusi, kata kunci, atau tag..." class="w-full pl-9 pr-4 py-2 bg-transparent text-xs text-slate-800 focus:outline-none focus:ring-0 placeholder-slate-400 font-medium" />
-            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="absolute left-3 top-2.5 text-slate-400"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+          <!-- Search & Academic Filter Bar -->
+          <div class="card-panel p-4 md:p-5 mb-6 space-y-4">
+            <!-- Search -->
+            <div class="relative">
+              <input type="text" v-model="searchQuery" placeholder="Cari diskusi, kata kunci, atau tag..." class="w-full pl-10 pr-4 py-2.5 bg-slate-50 hover:bg-slate-100/30 border border-slate-200 rounded-xl text-xs text-slate-800 focus:outline-none focus:border-[#334EAC] focus:ring-4 focus:ring-[#334EAC]/10 transition-all placeholder-slate-400 font-bold" />
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="absolute left-3.5 top-3.5 text-slate-400"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+            </div>
+
+            <!-- Academic Dropdowns (Spacious & Premium Grid) -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-3 border-t border-slate-200/60">
+              <!-- Jurusan -->
+              <div class="space-y-1">
+                <label class="text-[9px] font-extrabold text-slate-400 uppercase tracking-widest ml-1">Jurusan</label>
+                <div class="relative">
+                  <select v-model="selectedJurusan" class="w-full pl-3 pr-8 py-2 bg-slate-50 hover:bg-white border border-slate-200 rounded-xl text-[11px] font-bold text-slate-800 appearance-none focus:outline-none focus:ring-4 focus:ring-[#334EAC]/10 transition-all cursor-pointer">
+                    <option value="">Semua Jurusan</option>
+                    <option value="Teknologi Rekayasa Instrumentasi dan Kontrol (TRIK)">TRIK</option>
+                    <option value="Kearsipan dan Informasi Digital (KID)">KID</option>
+                    <option value="Teknik Informatika">Teknik Informatika</option>
+                  </select>
+                  <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none text-slate-400"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></div>
+                </div>
+              </div>
+
+              <!-- Semester -->
+              <div class="space-y-1">
+                <label class="text-[9px] font-extrabold uppercase tracking-widest ml-1 transition-colors" :class="selectedJurusan ? 'text-slate-400' : 'text-slate-300'">Semester</label>
+                <div class="relative">
+                  <select v-model="selectedSemester" :disabled="!selectedJurusan" class="w-full pl-3 pr-8 py-2 bg-slate-50 hover:bg-white border border-slate-200 rounded-xl text-[11px] font-bold text-slate-800 appearance-none focus:outline-none focus:ring-4 focus:ring-[#334EAC]/10 transition-all cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed">
+                    <option value="">Semua Semester</option>
+                    <option v-for="i in 6" :key="i" :value="i">Semester {{ i }}</option>
+                  </select>
+                  <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none text-slate-400"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></div>
+                </div>
+              </div>
+
+              <!-- Mata Kuliah -->
+              <div class="space-y-1">
+                <label class="text-[9px] font-extrabold uppercase tracking-widest ml-1 transition-colors" :class="selectedSemester ? 'text-slate-400' : 'text-slate-300'">Mata Kuliah</label>
+                <div class="relative">
+                  <select v-model="selectedCategoryId" :disabled="!selectedSemester" class="w-full pl-3 pr-8 py-2 bg-slate-50 hover:bg-white border border-slate-200 rounded-xl text-[11px] font-bold text-slate-800 appearance-none focus:outline-none focus:ring-4 focus:ring-[#334EAC]/10 transition-all cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed">
+                    <option value="">Semua Mata Kuliah</option>
+                    <option v-for="cat in filteredCategories" :key="cat.id" :value="cat.id">{{ cat.name }}</option>
+                  </select>
+                  <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none text-slate-400"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></div>
+                </div>
+              </div>
+            </div>
           </div>
 
           <!-- Loading State -->
@@ -333,7 +353,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, watch } from 'vue'
 import { RouterLink, useRoute } from 'vue-router'
 import { forumService } from '@/services/forum.service'
 
@@ -354,11 +374,36 @@ const error = ref(null)
 const currentPage = ref(1)
 const lastPage = ref(1)
 
+const selectedJurusan = ref('')
+const selectedSemester = ref('')
+const selectedCategoryId = ref('')
+
 const hasMore = computed(() => currentPage.value < lastPage.value)
+
+const filteredCategories = computed(() => {
+  return categories.value.filter(c => 
+    c.jurusan === selectedJurusan.value && 
+    String(c.semester) === String(selectedSemester.value)
+  )
+})
+
+watch(selectedJurusan, () => {
+  selectedSemester.value = ''
+  selectedCategoryId.value = ''
+  fetchPostsData(true)
+})
+
+watch(selectedSemester, () => {
+  selectedCategoryId.value = ''
+  fetchPostsData(true)
+})
+
+watch(selectedCategoryId, () => {
+  fetchPostsData(true)
+})
 
 const tags = computed(() => {
   return categories.value
-    .filter(c => c.id !== null)
     .map(c => `#${c.name.toLowerCase().replace(/\s+/g, '-')}`)
 })
 
@@ -422,16 +467,13 @@ const mapBackendPost = (post) => {
 const fetchCategories = async () => {
   try {
     const data = await forumService.getCategories()
-    const mapped = data.map(c => ({
+    categories.value = data.map(c => ({
       id: c.id,
       name: c.name,
-      active: false,
+      jurusan: c.jurusan,
+      semester: c.semester,
       icon: getCategoryIcon(c.name)
     }))
-    categories.value = [
-      { id: null, name: 'Semua Topik', active: true, icon: '<rect width="18" height="18" x="3" y="3" rx="2"/><path d="m7 8 3 3-3 3"/><path d="M12 14h4"/>' },
-      ...mapped
-    ]
   } catch (err) {
     console.error('Error fetching categories:', err)
   }
@@ -452,12 +494,18 @@ const fetchPostsData = async (isReset = false) => {
   error.value = null
 
   try {
-    const activeCat = categories.value.find(c => c.active)
     const params = {
       page: currentPage.value
     }
-    if (activeCat && activeCat.id !== null) {
-      params.category_id = activeCat.id
+    if (selectedCategoryId.value) {
+      params.category_id = selectedCategoryId.value
+    } else {
+      if (selectedJurusan.value) {
+        params.jurusan = selectedJurusan.value
+      }
+      if (selectedSemester.value) {
+        params.semester = selectedSemester.value
+      }
     }
 
     const response = await forumService.getPosts(params)
@@ -478,13 +526,6 @@ const fetchPostsData = async (isReset = false) => {
     isLoading.value = false
     isLoadingMore.value = false
   }
-}
-
-const selectCategory = (category) => {
-  categories.value.forEach(c => {
-    c.active = c.id === category.id
-  })
-  fetchPostsData(true)
 }
 
 const searchQuery = ref('')

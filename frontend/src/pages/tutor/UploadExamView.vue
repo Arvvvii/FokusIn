@@ -83,19 +83,28 @@
 
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div class="space-y-2">
-              <label class="text-[11px] font-bold text-slate-400 uppercase tracking-wider ml-1">Mata Kuliah</label>
-              <select v-model="selectedCategoryId" class="input-field">
-                <option value="" disabled selected>Pilih Mata Kuliah</option>
-                <option v-for="cat in categories" :key="cat.id" :value="cat.id">{{ cat.name }}</option>
+              <label class="text-[11px] font-bold text-slate-400 uppercase tracking-wider ml-1">Jurusan</label>
+              <select v-model="selectedJurusan" class="input-field">
+                <option value="">Pilih Jurusan</option>
+                <option value="Teknologi Rekayasa Instrumentasi dan Kontrol (TRIK)">TRIK</option>
+                <option value="Kearsipan dan Informasi Digital (KID)">KID</option>
+                <option value="Teknik Informatika">Teknik Informatika</option>
+              </select>
+            </div>
+
+            <div class="space-y-2">
+              <label class="text-[11px] font-bold text-slate-400 uppercase tracking-wider ml-1">Semester</label>
+              <select v-model="selectedSemester" :disabled="!selectedJurusan" class="input-field disabled:opacity-50 disabled:cursor-not-allowed">
+                <option value="">Pilih Semester</option>
+                <option v-for="i in 6" :key="i" :value="i">Semester {{ i }}</option>
               </select>
             </div>
             
-            <div class="space-y-2">
-              <label class="text-[11px] font-bold text-slate-400 uppercase tracking-wider ml-1">Semester</label>
-              <select v-model="selectedSemester" class="input-field">
-                <option value="" disabled selected>Pilih Semester</option>
-                <option>Ganjil 2025/2026</option>
-                <option>Genap 2025/2026</option>
+            <div class="space-y-2 md:col-span-2">
+              <label class="text-[11px] font-bold text-slate-400 uppercase tracking-wider ml-1">Mata Kuliah</label>
+              <select v-model="selectedCategoryId" :disabled="!selectedSemester" class="input-field disabled:opacity-50 disabled:cursor-not-allowed">
+                <option value="" disabled selected>Pilih Mata Kuliah</option>
+                <option v-for="cat in filteredCategories" :key="cat.id" :value="cat.id">{{ cat.name }}</option>
               </select>
             </div>
           </div>
@@ -171,7 +180,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed, watch } from 'vue'
 import { useRouter, RouterLink } from 'vue-router'
 import { forumService } from '@/services/forum.service'
 import { examUploadService } from '@/services/examUpload.service'
@@ -180,19 +189,35 @@ const router = useRouter()
 const selectedFile = ref(null)
 const categories = ref([])
 const selectedCategoryId = ref('')
-const selectedSemester = ref('')
+const selectedJurusan = ref('Teknik Informatika') // Set default based on seed
+const selectedSemester = ref(1) // Set default based on seed
 const selectedCategory = ref('UAS')
 const isUploading = ref(false)
 const showSuccess = ref(false)
 const showError = ref(false)
 const errorMessage = ref('')
 
+const filteredCategories = computed(() => {
+  return categories.value.filter(c => 
+    c.jurusan === selectedJurusan.value && 
+    c.semester === selectedSemester.value
+  )
+})
+
+watch([selectedJurusan, selectedSemester], () => {
+  if (filteredCategories.value.length > 0) {
+    selectedCategoryId.value = filteredCategories.value[0].id
+  } else {
+    selectedCategoryId.value = ''
+  }
+})
+
 const fetchCategories = async () => {
   try {
     const data = await forumService.getCategories()
     categories.value = data || []
-    if (categories.value.length > 0) {
-      selectedCategoryId.value = categories.value[0].id
+    if (filteredCategories.value.length > 0) {
+      selectedCategoryId.value = filteredCategories.value[0].id
     }
   } catch (err) {
     console.error('Gagal mengambil data kategori:', err)

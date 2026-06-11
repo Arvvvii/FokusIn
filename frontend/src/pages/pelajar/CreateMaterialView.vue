@@ -131,19 +131,50 @@
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div class="space-y-3">
-                <label class="text-[13px] font-bold text-slate-400 uppercase tracking-widest ml-1">Kategori</label>
-                <div class="relative">
-                  <select v-model="materialCatId" class="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl text-[14px] font-bold text-slate-900 focus:outline-none focus:border-[#7096D1] focus:ring-4 focus:ring-[#7096D1]/10 transition-all appearance-none cursor-pointer">
-                    <option value="">Pilih Kategori</option>
-                    <option v-for="cat in categories" :key="cat.id" :value="cat.id">{{ cat.name }}</option>
-                  </select>
-                  <div class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none text-slate-400">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+            <div class="space-y-6">
+              <!-- 3-Step Academic Selection -->
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Jurusan -->
+                <div class="space-y-3">
+                  <label class="text-[13px] font-bold text-slate-400 uppercase tracking-widest ml-1">Jurusan</label>
+                  <div class="relative">
+                    <select v-model="selectedJurusan" class="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl text-[14px] font-bold text-slate-900 focus:outline-none focus:border-[#7096D1] focus:ring-4 focus:ring-[#7096D1]/10 transition-all appearance-none cursor-pointer">
+                      <option value="" disabled selected>Pilih Jurusan</option>
+                      <option value="Teknologi Rekayasa Instrumentasi dan Kontrol (TRIK)">TRIK</option>
+                      <option value="Kearsipan dan Informasi Digital (KID)">KID</option>
+                      <option value="Teknik Informatika">Teknik Informatika</option>
+                    </select>
+                    <div class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none text-slate-400"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></div>
+                  </div>
+                </div>
+
+                <!-- Semester -->
+                <div class="space-y-3">
+                  <label class="text-[13px] font-bold uppercase tracking-widest ml-1" :class="selectedJurusan ? 'text-slate-400' : 'text-slate-200'">Semester</label>
+                  <div class="relative">
+                    <select v-model="selectedSemester" :disabled="!selectedJurusan" class="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl text-[14px] font-bold text-slate-900 focus:outline-none focus:border-[#7096D1] focus:ring-4 focus:ring-[#7096D1]/10 transition-all appearance-none cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed">
+                      <option value="" disabled selected>Pilih Semester</option>
+                      <option v-for="i in 6" :key="i" :value="i">Semester {{ i }}</option>
+                    </select>
+                    <div class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none text-slate-400"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></div>
+                  </div>
+                </div>
+
+                <!-- Mata Kuliah -->
+                <div class="space-y-3">
+                  <label class="text-[13px] font-bold uppercase tracking-widest ml-1" :class="selectedSemester ? 'text-slate-400' : 'text-slate-200'">Mata Kuliah</label>
+                  <div class="relative">
+                    <select v-model="materialCatId" :disabled="!selectedSemester" class="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl text-[14px] font-bold text-slate-900 focus:outline-none focus:border-[#7096D1] focus:ring-4 focus:ring-[#7096D1]/10 transition-all appearance-none cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed">
+                      <option value="" disabled selected>Pilih Mata Kuliah</option>
+                      <option v-for="cat in filteredCategories" :key="cat.id" :value="cat.id">{{ cat.name }}</option>
+                    </select>
+                    <div class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none text-slate-400"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></div>
                   </div>
                 </div>
               </div>
-              <div class="space-y-3">
+
+              <!-- Format Selection -->
+              <div class="space-y-3 pt-3 border-t border-slate-100">
                 <label class="text-[13px] font-bold text-slate-400 uppercase tracking-widest ml-1">Format Tampilan Konten</label>
                 <div class="relative">
                   <select v-model="materialFileType" class="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl text-[14px] font-bold text-slate-900 focus:outline-none focus:border-[#7096D1] focus:ring-4 focus:ring-[#7096D1]/10 transition-all appearance-none cursor-pointer">
@@ -157,6 +188,7 @@
                   </div>
                 </div>
               </div>
+            </div>
             </div>
           </div>
         </div>
@@ -251,7 +283,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, watch } from 'vue'
 import { RouterLink, useRoute, useRouter } from 'vue-router'
 import { materialService } from '@/services/material.service'
 
@@ -262,6 +294,8 @@ const baseMaterialsRoute = computed(() => {
 })
 
 const categories = ref([])
+const selectedJurusan = ref('')
+const selectedSemester = ref('')
 const fileInput = ref(null)
 const selectedFile = ref(null)
 
@@ -282,6 +316,22 @@ const showSuccess = ref(false)
 const successMessage = ref('')
 const showError = ref(false)
 const errorMessage = ref('')
+
+const filteredCategories = computed(() => {
+  return categories.value.filter(c => 
+    c.jurusan === selectedJurusan.value && 
+    String(c.semester) === String(selectedSemester.value)
+  )
+})
+
+watch(selectedJurusan, () => {
+  selectedSemester.value = ''
+  materialCatId.value = ''
+})
+
+watch(selectedSemester, () => {
+  materialCatId.value = ''
+})
 
 const fetchCategories = async () => {
   try {

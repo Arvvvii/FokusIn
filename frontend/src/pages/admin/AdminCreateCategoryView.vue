@@ -56,7 +56,34 @@
           </div>
         </div>
 
-        <div class="space-y-2">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-6">
+          <div class="space-y-2">
+            <label class="admin-label">Jurusan (Opsional)</label>
+            <select 
+              v-model="form.jurusan"
+              class="admin-input appearance-none cursor-pointer"
+              :disabled="submitting"
+            >
+              <option value="">-- Pilih Jurusan --</option>
+              <option value="Teknologi Rekayasa Instrumentasi dan Kontrol (TRIK)">Teknologi Rekayasa Instrumentasi dan Kontrol (TRIK)</option>
+              <option value="Kearsipan dan Informasi Digital (KID)">Kearsipan dan Informasi Digital (KID)</option>
+              <option value="Teknik Informatika">Teknik Informatika</option>
+            </select>
+          </div>
+          <div class="space-y-2">
+            <label class="admin-label">Semester (Opsional)</label>
+            <select 
+              v-model="form.semester"
+              class="admin-input appearance-none cursor-pointer"
+              :disabled="submitting"
+            >
+              <option value="">-- Pilih Semester --</option>
+              <option v-for="i in 8" :key="i" :value="i">Semester {{ i }}</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="space-y-2 mt-6">
           <label class="admin-label">Deskripsi Kategori</label>
           <textarea 
             v-model="form.description"
@@ -108,7 +135,9 @@ const submitting = ref(false)
 const form = reactive({
   name: '',
   group: 'STEM',
-  description: ''
+  description: '',
+  jurusan: '',
+  semester: ''
 })
 
 const submitForm = async () => {
@@ -117,7 +146,9 @@ const submitForm = async () => {
     await categoryService.createCategory({
       name: form.name,
       group: form.group,
-      description: form.description
+      description: form.description,
+      jurusan: form.jurusan || null,
+      semester: form.semester ? parseInt(form.semester) : null
     })
     toastStore.success('Kategori baru berhasil dibuat!')
     router.push({ name: 'admin-materials' })

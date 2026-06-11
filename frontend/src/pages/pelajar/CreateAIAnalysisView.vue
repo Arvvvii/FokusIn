@@ -107,10 +107,39 @@
                 </div>
               </div>
               <div class="space-y-3">
+                <label class="text-[12px] font-extrabold text-slate-400 uppercase tracking-widest ml-1">Jurusan</label>
+                <div class="relative">
+                  <select v-model="selectedJurusan" class="w-full px-5 py-3.5 bg-slate-50 hover:bg-slate-100/50 border border-slate-200 rounded-2xl text-[14px] font-bold text-slate-900 focus:outline-none focus:border-[#7096D1] focus:ring-4 focus:ring-[#7096D1]/10 transition-all appearance-none cursor-pointer">
+                    <option value="">Pilih Jurusan</option>
+                    <option value="Teknologi Rekayasa Instrumentasi dan Kontrol (TRIK)">TRIK</option>
+                    <option value="Kearsipan dan Informasi Digital (KID)">KID</option>
+                    <option value="Teknik Informatika">Teknik Informatika</option>
+                  </select>
+                  <div class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none text-slate-400">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="space-y-3">
+                <label class="text-[12px] font-extrabold text-slate-400 uppercase tracking-widest ml-1">Semester</label>
+                <div class="relative">
+                  <select v-model="selectedSemester" :disabled="!selectedJurusan" class="w-full px-5 py-3.5 bg-slate-50 hover:bg-slate-100/50 border border-slate-200 rounded-2xl text-[14px] font-bold text-slate-900 focus:outline-none focus:border-[#7096D1] focus:ring-4 focus:ring-[#7096D1]/10 transition-all appearance-none cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed">
+                    <option value="">Pilih Semester</option>
+                    <option v-for="i in 6" :key="i" :value="i">Semester {{ i }}</option>
+                  </select>
+                  <div class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none text-slate-400">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+                  </div>
+                </div>
+              </div>
+
+              <div class="space-y-3">
                 <label class="text-[12px] font-extrabold text-slate-400 uppercase tracking-widest ml-1">Kategori Mata Kuliah</label>
                 <div class="relative">
-                  <select v-model="selectedCategoryId" class="w-full px-5 py-3.5 bg-slate-50 hover:bg-slate-100/50 border border-slate-200 rounded-2xl text-[14px] font-bold text-slate-900 focus:outline-none focus:border-[#7096D1] focus:ring-4 focus:ring-[#7096D1]/10 transition-all appearance-none cursor-pointer">
-                    <option v-for="cat in categories" :key="cat.id" :value="cat.id">{{ cat.name }}</option>
+                  <select v-model="selectedCategoryId" :disabled="!selectedSemester" class="w-full px-5 py-3.5 bg-slate-50 hover:bg-slate-100/50 border border-slate-200 rounded-2xl text-[14px] font-bold text-slate-900 focus:outline-none focus:border-[#7096D1] focus:ring-4 focus:ring-[#7096D1]/10 transition-all appearance-none cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed">
+                    <option value="" disabled selected>Pilih Mata Kuliah</option>
+                    <option v-for="cat in filteredCategories" :key="cat.id" :value="cat.id">{{ cat.name }}</option>
                   </select>
                   <div class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none text-slate-400">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
@@ -305,8 +334,8 @@
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
       </div>
       <div>
-        <h4 class="font-bold text-sm">Berhasil!</h4>
-        <p class="text-xs text-[#D0E3FF] font-medium">Dokumen berhasil disubmit ke antrean AI validation.</p>
+        <h4 class="font-bold text-sm">Berhasil Diunggah!</h4>
+        <p class="text-xs text-[#D0E3FF] font-medium">Membuka hasil analisis AI...</p>
       </div>
     </div>
 
@@ -325,7 +354,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed, watch } from 'vue'
 import { useRouter, RouterLink } from 'vue-router'
 import { forumService } from '@/services/forum.service'
 import { examUploadService } from '@/services/examUpload.service'
@@ -337,11 +366,40 @@ const isDragActive = ref(false)
 const selectedType = ref('Analisis Ujian')
 const categories = ref([])
 const selectedCategoryId = ref('')
+const selectedJurusan = ref('Teknik Informatika') // Set default based on seed
+const selectedSemester = ref(1) // Set default based on seed
 const selectedDifficulty = ref('Menengah')
 const isUploading = ref(false)
 const showSuccess = ref(false)
 const showError = ref(false)
 const errorMessage = ref('')
+
+const filteredCategories = computed(() => {
+  return categories.value.filter(c => 
+    c.jurusan === selectedJurusan.value && 
+    c.semester === selectedSemester.value
+  )
+})
+
+watch([selectedJurusan, selectedSemester], () => {
+  if (filteredCategories.value.length > 0) {
+    selectedCategoryId.value = filteredCategories.value[0].id
+  } else {
+    selectedCategoryId.value = ''
+  }
+})
+
+const fetchCategories = async () => {
+  try {
+    const data = await forumService.getCategories()
+    categories.value = data || []
+    if (filteredCategories.value.length > 0) {
+      selectedCategoryId.value = filteredCategories.value[0].id
+    }
+  } catch (err) {
+    console.error('Gagal mengambil data kategori:', err)
+  }
+}
 
 const selectFile = () => {
   if (fileInput.value) {
@@ -385,21 +443,15 @@ const triggerErrorToast = () => {
   }, 4000)
 }
 
-const fetchCategories = async () => {
-  try {
-    const data = await forumService.getCategories()
-    categories.value = data || []
-    if (categories.value.length > 0) {
-      selectedCategoryId.value = categories.value[0].id
-    }
-  } catch (err) {
-    console.error('Gagal mengambil data kategori:', err)
-  }
-}
-
 const handleUpload = async () => {
   if (!selectedFile.value) {
     errorMessage.value = 'Harap pilih berkas terlebih dahulu.'
+    triggerErrorToast()
+    return
+  }
+
+  if (!selectedCategoryId.value) {
+    errorMessage.value = 'Harap pilih Jurusan, Semester, dan Mata Kuliah terlebih dahulu.'
     triggerErrorToast()
     return
   }
@@ -416,10 +468,20 @@ const handleUpload = async () => {
     await examUploadService.createExamUpload(formData)
 
     showSuccess.value = true
+
+    // Setelah upload berhasil, langsung redirect ke halaman analisis
+    // dengan parameter yang sudah terpilih agar AI langsung dijalankan
     setTimeout(() => {
       showSuccess.value = false
-      router.push('/pelajar/ai-analyzer')
-    }, 1500)
+      router.push({
+        path: '/pelajar/ai-analyzer',
+        query: {
+          category_id: selectedCategoryId.value,
+          jurusan: selectedJurusan.value,
+          semester: selectedSemester.value
+        }
+      })
+    }, 1000)
   } catch (err) {
     console.error('Upload failed:', err)
     errorMessage.value = err.response?.data?.message || err.message || 'Gagal mengunggah berkas.'

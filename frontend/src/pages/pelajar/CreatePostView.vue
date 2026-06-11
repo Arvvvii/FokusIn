@@ -69,24 +69,49 @@
         <!-- Post Form Container -->
         <div class="card-base p-6 md:p-10 space-y-8 group/card">
           
-          <!-- Title & Category -->
+          <!-- Title -->
+          <div class="space-y-3">
+            <label class="text-[14px] font-bold text-slate-400 uppercase tracking-widest px-1">Judul Diskusi</label>
+            <input v-model="postTitle" type="text" placeholder="contoh: Bagaimana cara mengimplementasikan algoritma Dijkstra secara efisien?" class="w-full px-5 py-4 bg-[#F7F2EB]/50 border-2 border-slate-100 rounded-2xl text-[15px] font-bold text-slate-900 placeholder-slate-400 focus:outline-none focus:border-[#7096D1] focus:bg-white focus:ring-4 focus:ring-[#7096D1]/10 transition-all shadow-sm hover:border-slate-200">
+          </div>
+
+          <!-- 3-Step Academic Selection -->
           <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div class="md:col-span-2 space-y-3">
-              <label class="text-[14px] font-bold text-slate-400 uppercase tracking-widest px-1">Judul Diskusi</label>
-              <input v-model="postTitle" type="text" placeholder="contoh: Bagaimana cara mengimplementasikan algoritma Dijkstra secara efisien?" class="w-full px-5 py-4 bg-[#F7F2EB]/50 border-2 border-slate-100 rounded-2xl text-[15px] font-bold text-slate-900 placeholder-slate-400 focus:outline-none focus:border-[#7096D1] focus:bg-white focus:ring-4 focus:ring-[#7096D1]/10 transition-all shadow-sm hover:border-slate-200">
-            </div>
+            <!-- Jurusan -->
             <div class="space-y-3">
-              <label class="text-[14px] font-bold text-slate-400 uppercase tracking-widest px-1">Kategori</label>
+              <label class="text-[14px] font-bold text-slate-400 uppercase tracking-widest px-1">Jurusan</label>
               <div class="relative">
-                <select v-model="postCategory" class="w-full px-5 py-4 bg-[#F7F2EB]/50 border-2 border-slate-100 rounded-2xl text-[15px] font-bold text-slate-900 focus:outline-none focus:border-[#7096D1] focus:bg-white focus:ring-4 focus:ring-[#7096D1]/10 transition-all appearance-none cursor-pointer shadow-sm hover:border-slate-200">
-                  <option value="" disabled selected>Pilih kategori...</option>
-                  <option v-for="cat in categories" :key="cat.id" :value="cat.id">
-                    {{ cat.name }}
-                  </option>
+                <select v-model="selectedJurusan" class="w-full px-5 py-4 bg-[#F7F2EB]/50 border-2 border-slate-100 rounded-2xl text-[14px] font-bold text-slate-900 focus:outline-none focus:border-[#7096D1] focus:bg-white focus:ring-4 focus:ring-[#7096D1]/10 transition-all appearance-none cursor-pointer shadow-sm hover:border-slate-200">
+                  <option value="" disabled selected>Pilih Jurusan...</option>
+                  <option value="Teknologi Rekayasa Instrumentasi dan Kontrol (TRIK)">TRIK</option>
+                  <option value="Kearsipan dan Informasi Digital (KID)">KID</option>
+                  <option value="Teknik Informatika">Teknik Informatika</option>
                 </select>
-                <div class="absolute inset-y-0 right-5 flex items-center pointer-events-none text-slate-400">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
-                </div>
+                <div class="absolute inset-y-0 right-5 flex items-center pointer-events-none text-slate-400"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></div>
+              </div>
+            </div>
+
+            <!-- Semester -->
+            <div class="space-y-3">
+              <label class="text-[14px] font-bold uppercase tracking-widest px-1" :class="selectedJurusan ? 'text-slate-400' : 'text-slate-200'">Semester</label>
+              <div class="relative">
+                <select v-model="selectedSemester" :disabled="!selectedJurusan" class="w-full px-5 py-4 bg-[#F7F2EB]/50 border-2 border-slate-100 rounded-2xl text-[14px] font-bold text-slate-900 focus:outline-none focus:border-[#7096D1] focus:bg-white focus:ring-4 focus:ring-[#7096D1]/10 transition-all appearance-none cursor-pointer shadow-sm hover:border-slate-200 disabled:opacity-40 disabled:cursor-not-allowed">
+                  <option value="" disabled selected>Pilih Semester...</option>
+                  <option v-for="i in 6" :key="i" :value="i">Semester {{ i }}</option>
+                </select>
+                <div class="absolute inset-y-0 right-5 flex items-center pointer-events-none text-slate-400"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></div>
+              </div>
+            </div>
+
+            <!-- Mata Kuliah -->
+            <div class="space-y-3">
+              <label class="text-[14px] font-bold uppercase tracking-widest px-1" :class="selectedSemester ? 'text-slate-400' : 'text-slate-200'">Mata Kuliah</label>
+              <div class="relative">
+                <select v-model="postCategory" :disabled="!selectedSemester" class="w-full px-5 py-4 bg-[#F7F2EB]/50 border-2 border-slate-100 rounded-2xl text-[14px] font-bold text-slate-900 focus:outline-none focus:border-[#7096D1] focus:bg-white focus:ring-4 focus:ring-[#7096D1]/10 transition-all appearance-none cursor-pointer shadow-sm hover:border-slate-200 disabled:opacity-40 disabled:cursor-not-allowed">
+                  <option value="" disabled selected>Pilih Mata Kuliah...</option>
+                  <option v-for="cat in filteredCategories" :key="cat.id" :value="cat.id">{{ cat.name }}</option>
+                </select>
+                <div class="absolute inset-y-0 right-5 flex items-center pointer-events-none text-slate-400"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></div>
               </div>
             </div>
           </div>
@@ -216,7 +241,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, watch } from 'vue'
 import { RouterLink, useRoute, useRouter } from 'vue-router'
 import { forumService } from '@/services/forum.service'
 
@@ -224,6 +249,8 @@ const route = useRoute()
 const router = useRouter()
 
 const postTitle = ref('')
+const selectedJurusan = ref('')
+const selectedSemester = ref('')
 const postCategory = ref('')
 const postBody = ref('')
 const activeTags = ref(['algoritma'])
@@ -238,6 +265,22 @@ const categories = ref([])
 
 const baseForumRoute = computed(() => {
   return route.path.startsWith('/tutor') ? '/tutor/forum' : '/pelajar/forum'
+})
+
+const filteredCategories = computed(() => {
+  return categories.value.filter(c => 
+    c.jurusan === selectedJurusan.value && 
+    String(c.semester) === String(selectedSemester.value)
+  )
+})
+
+watch(selectedJurusan, () => {
+  selectedSemester.value = ''
+  postCategory.value = ''
+})
+
+watch(selectedSemester, () => {
+  postCategory.value = ''
 })
 
 const fetchCategories = async () => {
