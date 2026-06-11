@@ -14,7 +14,7 @@
       <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between relative z-10">
         <!-- Logo -->
         <RouterLink to="/" class="flex items-center gap-2 group">
-          <img src="@/assets/logo-fokusin.png" alt="FokusIn Logo" class="navbar-logo" />
+          <img src="/logo-fokusin.png" alt="FokusIn Logo" class="navbar-logo" />
         </RouterLink>
 
         <!-- Desktop Menu -->
