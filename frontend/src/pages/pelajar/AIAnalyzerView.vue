@@ -52,7 +52,7 @@
           <label class="text-[10px] font-extrabold uppercase tracking-widest ml-1 transition-colors" :class="selectedSemester ? 'text-slate-400' : 'text-slate-300'">Mata Kuliah</label>
           <div class="relative">
             <select v-model="selectedCategoryId" :disabled="!selectedSemester" class="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-[13px] font-bold text-slate-800 focus:outline-none focus:border-[#334EAC] focus:ring-4 focus:ring-[#334EAC]/10 transition-all appearance-none cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed disabled:bg-slate-50">
-              <option value="" disabled>— Pilih Mata Kuliah —</option>
+              <option value="">— Pilih Mata Kuliah —</option>
               <option v-for="cat in filteredCategories" :key="cat.id" :value="cat.id">{{ cat.name }}</option>
             </select>
             <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none text-slate-400"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></div>
@@ -618,9 +618,6 @@ const fetchCategories = async () => {
   try {
     const data = await forumService.getCategories()
     categories.value = data || []
-    if (!selectedCategoryId.value && filteredCategories.value.length > 0) {
-      selectedCategoryId.value = filteredCategories.value[0].id
-    }
   } catch (err) {
     console.error('Error fetching categories:', err)
   }
@@ -629,14 +626,10 @@ const fetchCategories = async () => {
 watch([selectedJurusan, selectedSemester], () => {
   const isValid = filteredCategories.value.some(c => Number(c.id) === Number(selectedCategoryId.value))
   if (!isValid) {
-    if (filteredCategories.value.length > 0) {
-      selectedCategoryId.value = filteredCategories.value[0].id
-    } else {
-      selectedCategoryId.value = ''
-      summaryData.value = null
-      analysesList.value = []
-      selectedAnalysis.value = null
-    }
+    selectedCategoryId.value = ''
+    summaryData.value = null
+    analysesList.value = []
+    selectedAnalysis.value = null
   }
 })
 
