@@ -366,19 +366,20 @@
 
 <script setup>
 import { ref, onMounted, computed, watch } from 'vue'
-import { useRouter, RouterLink } from 'vue-router'
+import { useRouter, useRoute, RouterLink } from 'vue-router'
 import { forumService } from '@/services/forum.service'
 import { examUploadService } from '@/services/examUpload.service'
 
 const router = useRouter()
+const route = useRoute()
 const fileInput = ref(null)
 const selectedFile = ref(null)
 const isDragActive = ref(false)
 const selectedType = ref('Analisis Ujian')
 const categories = ref([])
-const selectedCategoryId = ref('')
-const selectedJurusan = ref('Teknik Informatika') // Set default based on seed
-const selectedSemester = ref(1) // Set default based on seed
+const selectedCategoryId = ref(route.query.category_id ? Number(route.query.category_id) : '')
+const selectedJurusan = ref(route.query.jurusan || 'Teknik Informatika') // Set default based on seed or query
+const selectedSemester = ref(route.query.semester ? Number(route.query.semester) : 1) // Set default based on seed or query
 const selectedDifficulty = ref('Menengah')
 const materialTitle = ref('')
 const isUploading = ref(false)
@@ -389,15 +390,19 @@ const errorMessage = ref('')
 const filteredCategories = computed(() => {
   return categories.value.filter(c => 
     c.jurusan === selectedJurusan.value && 
-    c.semester === selectedSemester.value
+    String(c.semester) === String(selectedSemester.value)
   )
 })
 
 watch([selectedJurusan, selectedSemester], () => {
-  if (filteredCategories.value.length > 0) {
-    selectedCategoryId.value = filteredCategories.value[0].id
-  } else {
-    selectedCategoryId.value = ''
+  if (categories.value.length === 0) return // Jangan reset jika kategori belum dimuat
+  const isValid = filteredCategories.value.some(c => Number(c.id) === Number(selectedCategoryId.value))
+  if (!isValid) {
+    if (filteredCategories.value.length > 0) {
+      selectedCategoryId.value = filteredCategories.value[0].id
+    } else {
+      selectedCategoryId.value = ''
+    }
   }
 })
 
@@ -405,7 +410,13 @@ const fetchCategories = async () => {
   try {
     const data = await forumService.getCategories()
     categories.value = data || []
-    if (filteredCategories.value.length > 0) {
+    
+    // Pre-fill query parameters if present
+    if (route.query.category_id) {
+      selectedJurusan.value = route.query.jurusan || 'Teknik Informatika'
+      selectedSemester.value = route.query.semester ? Number(route.query.semester) : 1
+      selectedCategoryId.value = Number(route.query.category_id)
+    } else if (!selectedCategoryId.value && filteredCategories.value.length > 0) {
       selectedCategoryId.value = filteredCategories.value[0].id
     }
   } catch (err) {

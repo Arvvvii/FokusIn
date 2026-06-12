@@ -288,6 +288,8 @@ const error = ref(null)
 const categories = ref([])
 const materials = ref([])
 
+let isInitializing = false
+
 const filteredCategories = computed(() => {
   return categories.value.filter(c => 
     c.jurusan === selectedJurusan.value && 
@@ -296,11 +298,13 @@ const filteredCategories = computed(() => {
 })
 
 watch(selectedJurusan, () => {
+  if (isInitializing) return
   selectedSemester.value = ''
   selectedCategory.value = ''
 })
 
 watch(selectedSemester, () => {
+  if (isInitializing) return
   selectedCategory.value = ''
 })
 
@@ -339,12 +343,22 @@ const fetchMaterials = async () => {
 }
 
 watch([selectedJurusan, selectedSemester, selectedCategory], () => {
+  if (isInitializing) return
   fetchMaterials()
 })
 
-onMounted(() => {
-  fetchCategories()
-  fetchMaterials()
+onMounted(async () => {
+  isInitializing = true
+  await fetchCategories()
+  
+  if (route.query.category_id) {
+    selectedJurusan.value = route.query.jurusan || ''
+    selectedSemester.value = route.query.semester ? Number(route.query.semester) : ''
+    selectedCategory.value = route.query.category_id ? Number(route.query.category_id) : ''
+  }
+  
+  await fetchMaterials()
+  isInitializing = false
 })
 
 const filteredMaterials = computed(() => {

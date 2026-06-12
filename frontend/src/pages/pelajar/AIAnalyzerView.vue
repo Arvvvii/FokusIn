@@ -298,7 +298,7 @@
             </li>
           </ul>
 
-          <RouterLink to="/pelajar/materials" class="mt-2 inline-flex items-center gap-2 text-[14px] font-extrabold text-[#334EAC] hover:text-[#081F5C] transition-colors">
+          <RouterLink :to="{ path: '/pelajar/materials', query: { category_id: selectedCategoryId, jurusan: selectedJurusan, semester: selectedSemester } }" class="mt-2 inline-flex items-center gap-2 text-[14px] font-extrabold text-[#334EAC] hover:text-[#081F5C] transition-colors">
             Lihat silabus personal penuh
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
           </RouterLink>
@@ -610,15 +610,15 @@ const route = useRoute()
 const filteredCategories = computed(() => {
   return categories.value.filter(c => 
     c.jurusan === selectedJurusan.value && 
-    c.semester === selectedSemester.value
+    String(c.semester) === String(selectedSemester.value)
   )
 })
 
 const fetchCategories = async () => {
   try {
     const data = await forumService.getCategories()
-    categories.value = data
-    if (filteredCategories.value.length > 0) {
+    categories.value = data || []
+    if (!selectedCategoryId.value && filteredCategories.value.length > 0) {
       selectedCategoryId.value = filteredCategories.value[0].id
     }
   } catch (err) {
@@ -627,13 +627,16 @@ const fetchCategories = async () => {
 }
 
 watch([selectedJurusan, selectedSemester], () => {
-  if (filteredCategories.value.length > 0) {
-    selectedCategoryId.value = filteredCategories.value[0].id
-  } else {
-    selectedCategoryId.value = ''
-    summaryData.value = null
-    analysesList.value = []
-    selectedAnalysis.value = null
+  const isValid = filteredCategories.value.some(c => Number(c.id) === Number(selectedCategoryId.value))
+  if (!isValid) {
+    if (filteredCategories.value.length > 0) {
+      selectedCategoryId.value = filteredCategories.value[0].id
+    } else {
+      selectedCategoryId.value = ''
+      summaryData.value = null
+      analysesList.value = []
+      selectedAnalysis.value = null
+    }
   }
 })
 

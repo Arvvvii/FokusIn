@@ -13,9 +13,9 @@ class MaterialController extends Controller
     /**
      * Return paginasi tabel materials.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $materials = Material::with([
+        $query = Material::with([
             'user' => function ($q) {
                 $columns = ['id', 'name', 'role'];
                 if (Schema::hasColumn('users', 'avatar_url')) {
@@ -24,7 +24,24 @@ class MaterialController extends Controller
                 $q->select($columns);
             },
             'category'
-        ])->latest()->paginate(10);
+        ]);
+
+        if ($request->has('category_id') && !empty($request->category_id)) {
+            $query->where('category_id', $request->category_id);
+        } else {
+            if ($request->has('jurusan') && !empty($request->jurusan)) {
+                $query->whereHas('category', function ($q) use ($request) {
+                    $q->where('jurusan', $request->jurusan);
+                });
+            }
+            if ($request->has('semester') && !empty($request->semester)) {
+                $query->whereHas('category', function ($q) use ($request) {
+                    $q->where('semester', $request->semester);
+                });
+            }
+        }
+
+        $materials = $query->latest()->paginate(10);
 
         return response()->json($materials);
     }
