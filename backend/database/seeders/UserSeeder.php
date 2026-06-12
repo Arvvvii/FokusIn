@@ -49,6 +49,7 @@ class UserSeeder extends Seeder
                 'name' => $userData['name'],
                 'email' => $userData['email'],
                 'password' => Hash::make('password'),
+                'role' => $userData['role'],
                 'email_verified_at' => now(),
             ]);
 

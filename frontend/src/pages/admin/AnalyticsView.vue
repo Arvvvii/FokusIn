@@ -276,19 +276,27 @@ const statsData = ref({
 const timelineData = ref([])
 
 const formattedTimeline = computed(() => {
-  const dataset = timelineData.value || []
+  let dataset = []
+  if (timelineData.value) {
+    if (chartTab.value === 'users') {
+      dataset = timelineData.value.user_registrations_per_month || []
+    } else {
+      dataset = timelineData.value.posts_per_month || []
+    }
+  }
+
   if (dataset.length === 0) {
-    return Array.from({ length: 14 }).map((_, i) => ({
-      label: `Hari ${i + 1}`,
-      value: Math.floor(Math.random() * 500 + 200),
+    return Array.from({ length: 7 }).map((_, i) => ({
+      label: `Bulan ${i + 1}`,
+      value: Math.floor(Math.random() * 50 + 10),
       height: `${Math.floor(Math.random() * 60 + 30)}%`
     }))
   }
 
-  const maxVal = Math.max(...dataset.map(d => d.total_sessions || d.count || d.value || 1))
+  const maxVal = Math.max(...dataset.map(d => d.total || d.count || d.value || 1))
   return dataset.map((d, i) => {
-    const rawVal = d.total_sessions || d.count || d.value || 0
-    const label = d.date || d.month || d.day || `Hari ${i + 1}`
+    const rawVal = d.total || d.count || d.value || 0
+    const label = d.month || d.date || d.day || `Bulan ${i + 1}`
     return {
       label,
       value: rawVal,
@@ -301,15 +309,29 @@ const fetchStats = async () => {
   loading.value = true
   error.value = null
   try {
-    const data = await statsService.getGlobalStats()
-    statsData.value = { ...statsData.value, ...data }
+    const res = await statsService.getGlobalStats()
+    const stats = res.data || res || {}
+    statsData.value = { ...statsData.value, ...stats }
 
     try {
       const timelineRes = await adminService.getAdminAnalyticsTimeline()
-      timelineData.value = timelineRes.data || timelineRes || []
+      timelineData.value = timelineRes.data || timelineRes || null
+      
+      if (timelineData.value && timelineData.value.user_demographics) {
+        const demo = timelineData.value.user_demographics
+        const total = Object.values(demo).reduce((a, b) => {
+          const val = Number(a) + Number(b)
+          return val
+        }, 0)
+        if (total > 0) {
+          statsData.value.student_percentage = Math.round((demo.pelajar || 0) / total * 100) + '%'
+          statsData.value.tutor_percentage = Math.round((demo.tutor || 0) / total * 100) + '%'
+          statsData.value.admin_percentage = Math.round((demo.admin || 0) / total * 100) + '%'
+        }
+      }
     } catch (timelineErr) {
       console.error('Failed to load admin analytics timeline:', timelineErr)
-      timelineData.value = []
+      timelineData.value = null
     }
   } catch (err) {
     error.value = err

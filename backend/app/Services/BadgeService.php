@@ -56,7 +56,7 @@ class BadgeService
 
                     // Jika user baru saja mendapatkan badge dengan slug 'tutor-terpercaya',
                     // update kolom role pada tabel users menjadi 'tutor'
-                    if ($slug === 'tutor-terpercaya') {
+                    if ($slug === 'tutor-terpercaya' && $user->role !== 'admin') {
                         $user->update(['role' => 'tutor']);
                     }
                 }

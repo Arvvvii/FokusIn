@@ -199,7 +199,16 @@ const fetchDashboard = async () => {
     }
     
     // Map logs
-    liveActivity.value = data.recent_logs || data.logs || []
+    const rawLogs = data.recent_logs || data.logs || []
+    liveActivity.value = rawLogs.map(log => {
+      if (log.name) {
+        return {
+          message: `${log.name} (${log.role}) aktif di platform`,
+          time: log.last_active ? new Date(log.last_active).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }) : 'baru saja'
+        }
+      }
+      return log
+    })
     
     // Map moderation
     moderationQueue.value = data.moderation_queue || data.moderation || []
