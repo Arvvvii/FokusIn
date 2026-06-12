@@ -21,6 +21,7 @@ use App\Http\Controllers\LeaderboardController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\TutorAnalyticsController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\NewsletterController;
 use Illuminate\Support\Facades\Route;
 
@@ -85,6 +86,13 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/auth/me',      [AuthController::class, 'me']);
 
     // ------------------------------------------
+    // Notifikasi
+    // ------------------------------------------
+    Route::get('/notifications',            [NotificationController::class, 'index']);
+    Route::post('/notifications/{id}/read',  [NotificationController::class, 'markAsRead']);
+    Route::post('/notifications/read-all',   [NotificationController::class, 'markAllAsRead']);
+
+    // ------------------------------------------
     // Forum & Postingan (Tulis Post, Vote, Verifikasi, & Best Answer)
     // ------------------------------------------
     Route::post('/posts',                  [PostController::class, 'store']);
@@ -104,6 +112,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/exam-uploads',                         [ExamUploadController::class, 'index']);
     Route::post('/exam-uploads',                        [ExamUploadController::class, 'store']);
     Route::get('/exam-uploads/{id}',                    [ExamUploadController::class, 'show']);
+    Route::put('/exam-uploads/{id}',                    [ExamUploadController::class, 'update']);
     Route::delete('/exam-uploads/{id}',                 [ExamUploadController::class, 'destroy']);
     Route::put('/exam-uploads/{id}/extracted-text',     [ExamUploadController::class, 'updateExtractedText']);
 

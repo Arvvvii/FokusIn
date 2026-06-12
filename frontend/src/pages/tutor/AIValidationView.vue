@@ -241,7 +241,7 @@ const fetchUploads = async () => {
   error.value = null
   try {
     const res = await examUploadService.getExamUploads()
-    uploads.value = res.data || []
+    uploads.value = Array.isArray(res) ? res : (res.data || [])
   } catch (err) {
     console.error(err)
     error.value = err

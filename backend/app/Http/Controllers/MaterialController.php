@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Material;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Log;
 
 class MaterialController extends Controller
 {
@@ -44,7 +46,7 @@ class MaterialController extends Controller
             'file' => 'required|file|max:10240|mimes:pdf,jpg,jpeg,png,mp4,pptx,docx', // Max 10MB
         ]);
 
-        // 2. Upload file ke Cloudinary
+        // 2. Upload file ke Cloudinary (dengan Local fallback)
         $file = $request->file('file');
         $extension = strtolower($file->getClientOriginalExtension());
         $resourceType = 'raw';
@@ -59,12 +61,22 @@ class MaterialController extends Controller
             $publicId = 'fokusin_' . uniqid() . '.' . $extension;
         }
 
-        $uploadedFile = cloudinary()->uploadApi()->upload($file->getRealPath(), [
-            'resource_type' => $resourceType,
-            'public_id' => $publicId,
-        ]);
-        $fileUrl = $uploadedFile['secure_url'];
-        $cloudinaryPublicId = $uploadedFile['public_id'];
+        $cloudinaryUrl = env('CLOUDINARY_URL');
+        $cloudinaryKey = env('CLOUDINARY_KEY');
+
+        if (!empty($cloudinaryUrl) || !empty($cloudinaryKey)) {
+            $uploadedFile = cloudinary()->uploadApi()->upload($file->getRealPath(), [
+                'resource_type' => $resourceType,
+                'public_id' => $publicId,
+            ]);
+            $fileUrl = $uploadedFile['secure_url'];
+            $cloudinaryPublicId = $uploadedFile['public_id'];
+        } else {
+            $fileName = 'fokusin_' . uniqid() . '.' . $extension;
+            $file->storeAs('public/uploads', $fileName);
+            $fileUrl = asset('storage/uploads/' . $fileName);
+            $cloudinaryPublicId = null;
+        }
 
         // 3. Simpan ke database
         $material = Material::create([
@@ -120,7 +132,7 @@ class MaterialController extends Controller
             return response()->json(['message' => 'Anda tidak memiliki hak untuk menghapus materi ini.'], 403);
         }
 
-        // Hapus file dari Cloudinary
+        // Hapus file dari Cloudinary atau Local
         if ($material->cloudinary_public_id) {
             $ext = pathinfo($material->file_url, PATHINFO_EXTENSION);
             $resourceType = 'raw';
@@ -129,9 +141,18 @@ class MaterialController extends Controller
             } elseif (in_array(strtolower($ext), ['mp4', 'avi', 'mov', 'webm'])) {
                 $resourceType = 'video';
             }
-            cloudinary()->uploadApi()->destroy($material->cloudinary_public_id, [
-                'resource_type' => $resourceType
-            ]);
+            try {
+                cloudinary()->uploadApi()->destroy($material->cloudinary_public_id, [
+                    'resource_type' => $resourceType
+                ]);
+            } catch (\Exception $e) {
+                Log::warning('Failed to delete from Cloudinary: ' . $e->getMessage());
+            }
+        } else {
+            $filePath = str_replace(asset('storage/'), 'public/', $material->file_url);
+            if (Storage::exists($filePath)) {
+                Storage::delete($filePath);
+            }
         }
 
         $material->delete();

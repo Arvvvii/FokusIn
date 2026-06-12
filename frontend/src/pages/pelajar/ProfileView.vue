@@ -160,14 +160,112 @@
                 </div>
               </div>
 
-              <!-- Fallback Badge -->
-              <div v-if="!profile?.badges || profile.badges.length === 0" class="col-span-full py-8 text-center text-slate-400 text-sm font-semibold border border-dashed border-slate-200 rounded-[1.25rem]">
-                Belum memiliki badge
-              </div>
+            <!-- Fallback Badge -->
+            <div v-if="!profile?.badges || profile.badges.length === 0" class="col-span-full py-8 text-center text-slate-400 text-sm font-semibold border border-dashed border-slate-200 rounded-[1.25rem]">
+              Belum memiliki badge
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. RIWAYAT AKTIVITAS (DISKUSI & ANALISIS AI) -->
+        <div class="card-base p-7 md:p-8 group/card">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-4 border-b border-slate-100">
+            <h3 class="text-[17px] font-bold text-slate-900 flex items-center gap-3 tracking-tight">
+              <span class="w-8 h-8 rounded-lg bg-[#EDF1F6] flex items-center justify-center text-[#334EAC]">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8v4l3 3"/><circle cx="12" cy="12" r="10"/></svg>
+              </span>
+              Riwayat Aktivitas Anda
+            </h3>
+            
+            <!-- Tab Buttons -->
+            <div class="flex bg-slate-100 p-1 rounded-xl w-fit">
+              <button 
+                @click="activeTab = 'discussions'" 
+                :class="['px-4 py-1.5 rounded-lg text-xs font-bold transition-all', activeTab === 'discussions' ? 'bg-white text-[#334EAC] shadow-sm' : 'text-slate-500 hover:text-slate-800']"
+              >
+                Diskusi Saya ({{ userPosts.length }})
+              </button>
+              <button 
+                @click="activeTab = 'analyses'" 
+                :class="['px-4 py-1.5 rounded-lg text-xs font-bold transition-all', activeTab === 'analyses' ? 'bg-white text-[#334EAC] shadow-sm' : 'text-slate-500 hover:text-slate-800']"
+              >
+                Analisis AI &amp; Unggahan ({{ userAnalyses.length }})
+              </button>
             </div>
           </div>
 
+          <!-- Loading Riwayat -->
+          <div v-if="loadingRiwayat" class="py-8 text-center text-slate-400 text-sm font-semibold">
+            Memuat data riwayat...
+          </div>
+
+          <div v-else>
+            <!-- Tab Discussions -->
+            <div v-if="activeTab === 'discussions'" class="space-y-4">
+              <div v-if="userPosts.length === 0" class="py-8 text-center text-slate-400 text-xs font-semibold border border-dashed border-slate-200 rounded-2xl">
+                Belum pernah membuat diskusi di forum.
+              </div>
+              <div v-else class="space-y-3">
+                <RouterLink 
+                  v-for="post in userPosts" 
+                  :key="post.id" 
+                  :to="`/pelajar/forum/${post.id}`" 
+                  class="block p-4 bg-slate-50 hover:bg-[#F7F2EB]/50 border border-slate-200/40 hover:border-[#7096D1]/40 rounded-2xl transition-all group"
+                >
+                  <div class="flex justify-between items-start gap-4">
+                    <h4 class="text-[13.5px] font-bold text-slate-900 group-hover:text-[#334EAC] transition-colors leading-snug truncate max-w-[80%]">
+                      {{ post.title }}
+                    </h4>
+                    <span class="text-[10px] font-bold text-slate-400 shrink-0">{{ formatRelativeTime(post.created_at) }}</span>
+                  </div>
+                  <div class="flex items-center gap-3 mt-3 text-[11px] font-bold text-slate-400">
+                    <span class="px-2 py-0.5 bg-[#EDF1F6] text-[#334EAC] rounded-md">{{ post.category?.name || 'Umum' }}</span>
+                    <span>•</span>
+                    <span>{{ post.answers_count || 0 }} Jawaban</span>
+                    <span v-if="post.is_resolved" class="text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-md flex items-center gap-1">
+                      ✓ Terjawab
+                    </span>
+                  </div>
+                </RouterLink>
+              </div>
+            </div>
+
+            <!-- Tab Analyses -->
+            <div v-if="activeTab === 'analyses'" class="space-y-4">
+              <div v-if="userAnalyses.length === 0" class="py-8 text-center text-slate-400 text-xs font-semibold border border-dashed border-slate-200 rounded-2xl">
+                Belum pernah mengunggah dokumen/analisis AI.
+              </div>
+              <div v-else class="space-y-3">
+                <div 
+                  v-for="analysis in userAnalyses" 
+                  :key="analysis.id" 
+                  class="p-4 bg-slate-50 border border-slate-200/40 rounded-2xl flex items-center justify-between gap-4 group"
+                >
+                  <div class="min-w-0">
+                    <h4 class="text-[13.5px] font-bold text-slate-900 leading-snug truncate">
+                      {{ analysis.title || 'Analisis Tanpa Judul' }}
+                    </h4>
+                    <div class="flex items-center gap-3 mt-2 text-[11px] font-bold text-slate-400">
+                      <span class="px-2 py-0.5 bg-[#EDF1F6] text-[#334EAC] rounded-md">{{ analysis.category?.name || 'Kategori' }}</span>
+                      <span>•</span>
+                      <span>{{ formatRelativeTime(analysis.created_at) }}</span>
+                    </div>
+                  </div>
+                  <div class="flex gap-2">
+                    <RouterLink 
+                      :to="{ path: '/pelajar/ai-analyzer', query: { category_id: analysis.category_id, jurusan: analysis.category?.jurusan, semester: analysis.category?.semester } }" 
+                      class="px-3.5 py-1.5 bg-[#334EAC] hover:bg-[#081F5C] text-white text-[11px] font-extrabold rounded-xl transition-all shadow-sm shrink-0"
+                    >
+                      Buka AI
+                    </RouterLink>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
+
+      </div>
         
         <!-- RIGHT SIDEBAR -->
         <div class="space-y-6 md:space-y-8 min-w-0">
@@ -226,12 +324,20 @@ import { ref, computed, onMounted } from 'vue'
 import { RouterLink } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 import { profileService } from '@/services/profile.service'
+import { examUploadService } from '@/services/examUpload.service'
+import { forumService } from '@/services/forum.service'
 
 const authStore = useAuthStore()
 
 const profile = ref(null)
 const isLoading = ref(true)
 const errorMsg = ref(null)
+
+// Riwayat tab state
+const activeTab = ref('discussions') // discussions | analyses
+const userPosts = ref([])
+const userAnalyses = ref([])
+const loadingRiwayat = ref(false)
 
 const name = computed(() => profile.value?.name || 'Jennie Kim')
 
@@ -251,6 +357,26 @@ const formatDate = (dateStr) => {
   return `${months[date.getMonth()]} ${date.getFullYear()}`
 }
 
+const formatRelativeTime = (dateString) => {
+  if (!dateString) return ''
+  try {
+    const date = new Date(dateString)
+    const now = new Date()
+    const diffMs = now - date
+    const diffSec = Math.floor(diffMs / 1000)
+    const diffMin = Math.floor(diffSec / 60)
+    const diffHrs = Math.floor(diffMin / 60)
+    const diffDays = Math.floor(diffHrs / 24)
+
+    if (diffSec < 60) return 'baru saja'
+    if (diffMin < 60) return `${diffMin} menit lalu`
+    if (diffHrs < 24) return `${diffHrs} jam lalu`
+    return `${diffDays} hari lalu`
+  } catch (e) {
+    return dateString
+  }
+}
+
 const fetchProfile = async () => {
   isLoading.value = true
   errorMsg.value = null
@@ -258,6 +384,7 @@ const fetchProfile = async () => {
     const userId = authStore.user?.id
     if (userId) {
       profile.value = await profileService.getProfile(userId)
+      await fetchRiwayat()
     } else {
       errorMsg.value = 'User tidak terautentikasi.'
     }
@@ -266,6 +393,27 @@ const fetchProfile = async () => {
     errorMsg.value = err || 'Gagal memuat profil.'
   } finally {
     isLoading.value = false
+  }
+}
+
+const fetchRiwayat = async () => {
+  loadingRiwayat.value = true
+  try {
+    const userId = authStore.user?.id
+    
+    // Fetch all discussions
+    const postsRes = await forumService.getPosts()
+    const postsArray = postsRes.data || postsRes || []
+    userPosts.value = postsArray.filter(post => post.user_id === userId)
+
+    // Fetch all AI Analyses (exam uploads)
+    const analysesRes = await examUploadService.getExamUploads()
+    const analysesArray = analysesRes || []
+    userAnalyses.value = analysesArray.filter(analysis => analysis.user_id === userId)
+  } catch (err) {
+    console.error('Gagal mengambil data riwayat:', err)
+  } finally {
+    loadingRiwayat.value = false
   }
 }
 

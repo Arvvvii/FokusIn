@@ -81,45 +81,58 @@
              Metadata Bank Soal
           </h3>
 
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="space-y-4">
+            <!-- Judul Ujian -->
             <div class="space-y-2">
-              <label class="text-[11px] font-bold text-slate-400 uppercase tracking-wider ml-1">Jurusan</label>
-              <select v-model="selectedJurusan" class="input-field">
-                <option value="">Pilih Jurusan</option>
-                <option value="Teknologi Rekayasa Instrumentasi dan Kontrol (TRIK)">TRIK</option>
-                <option value="Kearsipan dan Informasi Digital (KID)">KID</option>
-                <option value="Teknik Informatika">Teknik Informatika</option>
-              </select>
+              <label class="text-[11px] font-bold text-slate-400 uppercase tracking-wider ml-1">Judul Ujian / Materi</label>
+              <input 
+                type="text" 
+                v-model="examTitle" 
+                placeholder="Masukkan judul ujian (contoh: UTS Desain Grafis 2026)" 
+                class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-900 focus:outline-none focus:border-[#7096D1] transition-all"
+              />
             </div>
 
-            <div class="space-y-2">
-              <label class="text-[11px] font-bold text-slate-400 uppercase tracking-wider ml-1">Semester</label>
-              <select v-model="selectedSemester" :disabled="!selectedJurusan" class="input-field disabled:opacity-50 disabled:cursor-not-allowed">
-                <option value="">Pilih Semester</option>
-                <option v-for="i in 6" :key="i" :value="i">Semester {{ i }}</option>
-              </select>
-            </div>
-            
-            <div class="space-y-2 md:col-span-2">
-              <label class="text-[11px] font-bold text-slate-400 uppercase tracking-wider ml-1">Mata Kuliah</label>
-              <select v-model="selectedCategoryId" :disabled="!selectedSemester" class="input-field disabled:opacity-50 disabled:cursor-not-allowed">
-                <option value="" disabled selected>Pilih Mata Kuliah</option>
-                <option v-for="cat in filteredCategories" :key="cat.id" :value="cat.id">{{ cat.name }}</option>
-              </select>
-            </div>
-          </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div class="space-y-2">
+                <label class="text-[11px] font-bold text-slate-400 uppercase tracking-wider ml-1">Jurusan</label>
+                <select v-model="selectedJurusan" class="input-field">
+                  <option value="">Pilih Jurusan</option>
+                  <option value="Teknologi Rekayasa Instrumentasi dan Kontrol (TRIK)">TRIK</option>
+                  <option value="Kearsipan dan Informasi Digital (KID)">KID</option>
+                  <option value="Teknik Informatika">Teknik Informatika</option>
+                </select>
+              </div>
 
-          <div class="space-y-3">
-            <label class="text-[11px] font-bold text-slate-400 uppercase tracking-wider ml-1">Kategori Ujian</label>
-            <div class="flex flex-wrap gap-2.5">
-              <button 
-                v-for="cat in ['UAS', 'UTS', 'Kuis', 'Latihan']"
-                :key="cat"
-                @click="selectedCategory = cat"
-                :class="['category-btn', selectedCategory === cat ? 'active' : '']"
-              >
-                {{ cat }}
-              </button>
+              <div class="space-y-2">
+                <label class="text-[11px] font-bold text-slate-400 uppercase tracking-wider ml-1">Semester</label>
+                <select v-model="selectedSemester" :disabled="!selectedJurusan" class="input-field disabled:opacity-50 disabled:cursor-not-allowed">
+                  <option value="">Pilih Semester</option>
+                  <option v-for="i in 6" :key="i" :value="i">Semester {{ i }}</option>
+                </select>
+              </div>
+              
+              <div class="space-y-2 md:col-span-2">
+                <label class="text-[11px] font-bold text-slate-400 uppercase tracking-wider ml-1">Mata Kuliah</label>
+                <select v-model="selectedCategoryId" :disabled="!selectedSemester" class="input-field disabled:opacity-50 disabled:cursor-not-allowed">
+                  <option value="" disabled selected>Pilih Mata Kuliah</option>
+                  <option v-for="cat in filteredCategories" :key="cat.id" :value="cat.id">{{ cat.name }}</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="space-y-3">
+              <label class="text-[11px] font-bold text-slate-400 uppercase tracking-wider ml-1">Kategori Ujian</label>
+              <div class="flex flex-wrap gap-2.5">
+                <button 
+                  v-for="cat in ['UAS', 'UTS', 'Kuis', 'Latihan']"
+                  :key="cat"
+                  @click="selectedCategory = cat"
+                  :class="['category-btn', selectedCategory === cat ? 'active' : '']"
+                >
+                  {{ cat }}
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -192,6 +205,7 @@ const selectedCategoryId = ref('')
 const selectedJurusan = ref('Teknik Informatika') // Set default based on seed
 const selectedSemester = ref(1) // Set default based on seed
 const selectedCategory = ref('UAS')
+const examTitle = ref('')
 const isUploading = ref(false)
 const showSuccess = ref(false)
 const showError = ref(false)
@@ -294,6 +308,12 @@ const handleUpload = async () => {
     return
   }
 
+  if (!examTitle.value.trim()) {
+    errorMessage.value = 'Harap masukkan judul materi/ujian.'
+    triggerErrorToast()
+    return
+  }
+
   isUploading.value = true
   showSuccess.value = false
   showError.value = false
@@ -301,6 +321,7 @@ const handleUpload = async () => {
   try {
     const formData = new FormData()
     formData.append('category_id', selectedCategoryId.value.toString())
+    formData.append('title', examTitle.value.trim())
     formData.append('file', selectedFile.value)
 
     await examUploadService.createExamUpload(formData)

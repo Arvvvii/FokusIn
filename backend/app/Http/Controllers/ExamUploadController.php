@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 class ExamUploadController extends Controller
 {
@@ -91,7 +92,7 @@ class ExamUploadController extends Controller
             $extractedText = "Hasil ekstraksi otomatis dari dokumen: " . $file->getClientOriginalName();
         }
 
-        // 3. Upload file ke Cloudinary menggunakan cloudinary()->uploadApi()->upload()
+        // 3. Upload file ke Cloudinary menggunakan cloudinary()->uploadApi()->upload() (dengan Local fallback)
         $resourceType = 'raw';
         if (in_array(strtolower($extension), ['jpg', 'jpeg', 'png', 'gif', 'webp'])) {
             $resourceType = 'image';
@@ -104,12 +105,22 @@ class ExamUploadController extends Controller
             $publicId = 'fokusin_' . uniqid() . '.' . strtolower($extension);
         }
 
-        $uploadedFile = cloudinary()->uploadApi()->upload($file->getRealPath(), [
-            'resource_type' => $resourceType,
-            'public_id' => $publicId,
-        ]);
-        $fileUrl = $uploadedFile['secure_url'];
-        $cloudinaryPublicId = $uploadedFile['public_id'];
+        $cloudinaryUrl = env('CLOUDINARY_URL');
+        $cloudinaryKey = env('CLOUDINARY_KEY');
+
+        if (!empty($cloudinaryUrl) || !empty($cloudinaryKey)) {
+            $uploadedFile = cloudinary()->uploadApi()->upload($file->getRealPath(), [
+                'resource_type' => $resourceType,
+                'public_id' => $publicId,
+            ]);
+            $fileUrl = $uploadedFile['secure_url'];
+            $cloudinaryPublicId = $uploadedFile['public_id'];
+        } else {
+            $fileName = 'fokusin_' . uniqid() . '.' . strtolower($extension);
+            $file->storeAs('public/uploads', $fileName);
+            $fileUrl = asset('storage/uploads/' . $fileName);
+            $cloudinaryPublicId = null;
+        }
 
         // 4. Analisis AI Soal & Rangkuman menggunakan Groq API
         $groqApiKey = env('GROQ_API_KEY');
@@ -342,7 +353,7 @@ class ExamUploadController extends Controller
             return response()->json(['message' => 'Anda tidak memiliki hak untuk menghapus dokumen ini.'], 403);
         }
 
-        // Hapus file dari Cloudinary
+        // Hapus file dari Cloudinary atau Local
         if ($examUpload->cloudinary_public_id) {
             $ext = pathinfo($examUpload->file_url, PATHINFO_EXTENSION);
             $resourceType = 'raw';
@@ -351,9 +362,18 @@ class ExamUploadController extends Controller
             } elseif (in_array(strtolower($ext), ['mp4', 'avi', 'mov', 'webm'])) {
                 $resourceType = 'video';
             }
-            cloudinary()->uploadApi()->destroy($examUpload->cloudinary_public_id, [
-                'resource_type' => $resourceType
-            ]);
+            try {
+                cloudinary()->uploadApi()->destroy($examUpload->cloudinary_public_id, [
+                    'resource_type' => $resourceType
+                ]);
+            } catch (\Exception $e) {
+                Log::warning('Failed to delete from Cloudinary: ' . $e->getMessage());
+            }
+        } else {
+            $filePath = str_replace(asset('storage/'), 'public/', $examUpload->file_url);
+            if (Storage::exists($filePath)) {
+                Storage::delete($filePath);
+            }
         }
 
         // Hapus juga AI summary cache kategori ini agar sinkron
@@ -366,6 +386,42 @@ class ExamUploadController extends Controller
     }
 
     /**
+     * PUT /api/exam-uploads/{id}
+     * Update status validasi dan catatan arsip ujian.
+     */
+    public function update(Request $request, $id)
+    {
+        try {
+            $examUpload = ExamUpload::findOrFail($id);
+
+            if (!in_array(auth()->user()->role, ['admin', 'tutor'])) {
+                return response()->json(['message' => 'Unauthorized'], 403);
+            }
+
+            $validated = $request->validate([
+                'status' => 'required|in:pending,valid,invalid',
+                'validation_notes' => 'nullable|string',
+            ]);
+
+            $examUpload->update([
+                'status' => $validated['status'],
+                'validation_notes' => $validated['validation_notes'] ?? $examUpload->validation_notes,
+            ]);
+
+            return response()->json([
+                'message' => 'Status validasi berhasil diperbarui.',
+                'exam_upload' => $examUpload->fresh(),
+            ]);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            return response()->json(['message' => 'Dokumen tidak ditemukan.'], 404);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return response()->json(['message' => 'Validasi gagal.', 'errors' => $e->errors()], 422);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Terjadi kesalahan: ' . $e->getMessage()], 500);
+        }
+    }
+
+    /**
      * PUT /api/exam-uploads/{id}/extracted-text
      * Update hasil OCR (extracted_text) dari sebuah exam upload.
      */
@@ -374,8 +430,8 @@ class ExamUploadController extends Controller
         try {
             $examUpload = ExamUpload::findOrFail($id);
 
-            // Hanya pemilik dokumen atau admin yang boleh mengupdate
-            if (auth()->id() !== $examUpload->user_id && auth()->user()->role !== 'admin') {
+            // Hanya pemilik dokumen, tutor, atau admin yang boleh mengupdate
+            if (auth()->id() !== $examUpload->user_id && !in_array(auth()->user()->role, ['admin', 'tutor'])) {
                 return response()->json(['message' => 'Anda tidak memiliki hak untuk mengubah dokumen ini.'], 403);
             }
 
