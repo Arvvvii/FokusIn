@@ -53,7 +53,9 @@
           <div class="relative z-10 flex-1 flex flex-col justify-center">
             <div class="inline-flex items-center gap-2 px-3 py-1.5 bg-white/5 rounded-lg border border-white/10 mb-4 shadow-sm backdrop-blur-sm self-start">
               <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.8)]"></span>
-              <span class="text-[11px] font-semibold text-white tracking-wide uppercase">Semester 4 Aktif</span>
+              <span class="text-[11px] font-semibold text-white tracking-wide uppercase">
+                {{ dashboardData?.jurusan ? `${dashboardData.jurusan} • Semester ${dashboardData.semester}` : 'Semester 1 Aktif' }}
+              </span>
             </div>
             
             <h1 class="text-[26px] md:text-[28px] font-bold tracking-tight mb-2 text-white leading-tight">
@@ -73,10 +75,10 @@
               <div class="w-full sm:w-auto flex-1 max-w-xs pl-0 sm:pl-5 sm:border-l border-white/10 pt-2 sm:pt-0">
                 <div class="flex justify-between items-end mb-2">
                   <span class="text-[12px] font-semibold text-[#D0E3FF]/80">Progres Belajar</span>
-                  <span class="text-[13px] font-bold text-white">80%</span>
+                  <span class="text-[13px] font-bold text-white">{{ dashboardData?.progress_percent ?? 0 }}%</span>
                 </div>
                 <div class="h-1.5 w-full bg-white/10 rounded-full overflow-hidden">
-                  <div class="hero-progress-bar h-full rounded-full w-[80%]"></div>
+                  <div class="hero-progress-bar h-full rounded-full" :style="{ width: (dashboardData?.progress_percent ?? 0) + '%' }"></div>
                 </div>
               </div>
             </div>

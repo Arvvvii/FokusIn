@@ -3,11 +3,47 @@
 namespace App\Http\Controllers;
 
 use App\Models\MentoringSession;
+use App\Models\TutorReview;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class TutorDashboardController extends Controller
 {
+    /**
+     * GET /api/tutor/dashboard
+     * Kembalikan data statistik ringkas untuk tutor dashboard.
+     */
+    public function index()
+    {
+        $user = auth()->user();
+
+        // Pastikan hanya tutor yang bisa akses
+        if ($user->role !== 'tutor') {
+            return response()->json(['message' => 'Endpoint ini hanya tersedia untuk tutor.'], 403);
+        }
+
+        try {
+            $tutorId = $user->id;
+
+            $pendingRequests = MentoringSession::where('tutor_id', $tutorId)
+                ->where('status', 'pending')
+                ->count();
+
+            $completedSessions = MentoringSession::where('tutor_id', $tutorId)
+                ->where('status', 'completed')
+                ->count();
+
+            $averageRating = TutorReview::where('tutor_id', $tutorId)->avg('rating') ?? 0.0;
+
+            return response()->json([
+                'pending_requests'   => $pendingRequests,
+                'completed_sessions' => $completedSessions,
+                'average_rating'     => floatval($averageRating),
+            ]);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Terjadi kesalahan: ' . $e->getMessage()], 500);
+        }
+    }
     /**
      * GET /api/tutor/analytics/timeline
      * Kembalikan jumlah sesi mentoring per bulan untuk tutor yang sedang login

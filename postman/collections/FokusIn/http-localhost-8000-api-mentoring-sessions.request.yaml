@@ -1,0 +1,26 @@
+$kind: http-request
+name: http://localhost:8000/api/mentoring/sessions
+url: http://localhost:8000/api/mentoring/sessions
+method: POST
+headers:
+  Accept: application/json
+body:
+  type: json
+  content: "{\r
+
+    \    \"tutor_id\": 2,\r
+
+    \    \"title\": \"Bimbingan ERD Basis Data\",\r
+
+    \    \"description\": \"Mau konsultasi tentang normalisasi dan relasi tabel untuk tugas besar semester 4.\",\r
+
+    \    \"duration_minutes\": \"60\",\r
+
+    \    \"student_message\": \"Kak, mohon bimbingannya ya, nanti saya share screen skema ERD saya.\"\r
+
+    }"
+auth:
+  type: bearer
+  credentials:
+    token: 5gfSsLFFKMrR2gWjCOaBokW40NQn4dNtDkZsiGdXe247053a
+order: 4426251005889226

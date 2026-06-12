@@ -88,19 +88,120 @@
     </div>
 
     <template v-else>
-      <!-- Empty State -->
-      <div v-if="!summaryData || !summaryData.topics || summaryData.topics.length === 0" class="bg-white rounded-3xl p-8 shadow-sm border border-slate-200 flex flex-col items-center justify-center p-12 text-center">
-        <div class="w-16 h-16 rounded-full bg-[#F7F2EB] flex items-center justify-center text-[#334EAC] mb-4 border border-[#D0E3FF]/50">
-          <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      <!-- Jika belum memilih mata kuliah -->
+      <div v-if="!selectedCategoryId" class="bg-white rounded-3xl p-12 text-center border border-slate-200/60 shadow-sm flex flex-col items-center justify-center min-h-[300px]">
+        <div class="w-16 h-16 rounded-full bg-[#EDF1F6] flex items-center justify-center text-[#334EAC] mb-4 border border-[#D0E3FF]/50">
+          <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>
         </div>
-        <p class="text-base font-bold text-slate-700 max-w-md leading-relaxed mb-6">Belum ada data analisis tersedia. Unggah dokumen ujian terlebih dahulu.</p>
-        <RouterLink to="/pelajar/ai-analyzer/create" class="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-[#334EAC] hover:bg-[#081F5C] text-white rounded-xl font-medium text-sm transition-all shadow-sm active:scale-95 cursor-pointer">
-          Unggah Dokumen
-        </RouterLink>
+        <h3 class="text-base font-bold text-slate-800 mb-2">Pilih Mata Kuliah</h3>
+        <p class="text-slate-500 text-xs max-w-sm mx-auto leading-relaxed">
+          Pilih Jurusan, Semester, dan Mata Kuliah di atas untuk melihat daftar analisis materi AI.
+        </p>
       </div>
 
-      <!-- Analytics Grid Layout (Compact & Clean) -->
-      <div v-else class="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
+      <!-- Jika sudah memilih mata kuliah, tetapi belum membuka detail analisis (Tampilan Daftar Forum) -->
+      <template v-else-if="!selectedAnalysis">
+        <div class="space-y-6">
+          <div class="flex items-center justify-between">
+            <h2 class="text-lg font-extrabold text-[#081F5C] tracking-tight">Daftar Analisis Materi</h2>
+            <RouterLink :to="{ path: '/pelajar/ai-analyzer/create', query: { category_id: selectedCategoryId, jurusan: selectedJurusan, semester: selectedSemester } }" class="btn-solid shrink-0 px-4 py-2 flex items-center gap-1.5 text-xs font-bold shadow-sm">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
+              Tambah Analisis
+            </RouterLink>
+          </div>
+
+          <!-- Empty State for List -->
+          <div v-if="analysesList.length === 0" class="bg-white rounded-3xl p-12 text-center border border-slate-200/60 shadow-sm flex flex-col items-center justify-center min-h-[250px]">
+            <div class="w-16 h-16 rounded-full bg-[#EDF1F6] flex items-center justify-center text-[#334EAC] mb-4 border border-[#D0E3FF]/50">
+              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            </div>
+            <h3 class="text-base font-bold text-slate-800 mb-2">Belum ada analisis materi</h3>
+            <p class="text-slate-500 text-xs max-w-sm mx-auto leading-relaxed mb-6">
+              Materi belajar untuk mata kuliah ini belum diunggah. Unggah berkas soal atau modul pertamamu untuk memulai analisis AI.
+            </p>
+            <RouterLink :to="{ path: '/pelajar/ai-analyzer/create', query: { category_id: selectedCategoryId, jurusan: selectedJurusan, semester: selectedSemester } }" class="inline-flex items-center justify-center gap-1.5 px-4 py-2 bg-[#334EAC] hover:bg-[#081F5C] text-white rounded-xl font-bold text-xs transition-all shadow-sm active:scale-95">
+              Unggah Sekarang
+            </RouterLink>
+          </div>
+
+          <!-- Forum Cards Listing -->
+          <div v-else class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div 
+              v-for="analysis in analysesList" 
+              :key="analysis.id" 
+              @click="openAnalysis(analysis.id)"
+              class="bg-white rounded-3xl p-6 border border-slate-200/60 shadow-sm hover:shadow-md hover:border-[#7096D1]/50 cursor-pointer transition-all duration-300 relative group flex flex-col min-h-[200px]"
+            >
+              <!-- Format & Time -->
+              <div class="flex items-center justify-between mb-4">
+                <span class="px-2.5 py-1 bg-[#EDF1F6] text-[#334EAC] text-[10px] font-extrabold rounded-md uppercase tracking-wider">
+                  {{ analysis.file_url?.split('.').pop()?.substring(0, 4) || 'Arsip' }}
+                </span>
+                <span class="text-[11px] font-bold text-slate-400">
+                  {{ formatRelativeTime(analysis.created_at) }}
+                </span>
+              </div>
+
+              <!-- Title -->
+              <h3 class="text-[16px] font-extrabold text-[#081F5C] group-hover:text-[#334EAC] transition-colors line-clamp-2 mb-2">
+                {{ analysis.title || 'Analisis Tanpa Judul' }}
+              </h3>
+
+              <!-- Snippet / Description -->
+              <p class="text-[13px] text-slate-500 font-medium line-clamp-3 mb-6 leading-relaxed">
+                {{ analysis.ai_analysis?.message || 'Analisis materi belajar dan simulasi kuis kustom bertenaga kecerdasan buatan.' }}
+              </p>
+
+              <!-- Footer info -->
+              <div class="flex items-center justify-between pt-4 border-t border-slate-100 mt-auto">
+                <div class="flex items-center gap-2">
+                  <div class="w-7 h-7 rounded-full bg-[#EDF1F6] flex items-center justify-center text-[#081F5C] text-[11px] font-extrabold">
+                    {{ getInitials(analysis.user?.name) }}
+                  </div>
+                  <span class="text-[12px] font-bold text-slate-600">{{ analysis.user?.name || 'Mahasiswa' }}</span>
+                </div>
+
+                <span class="text-[12px] font-extrabold text-[#334EAC] group-hover:translate-x-1 transition-transform flex items-center gap-1">
+                  Buka Analisis
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </template>
+
+      <!-- Jika sudah membuka detail analisis (Tampilan Detail Analisis Dashboard) -->
+      <div v-else class="space-y-6">
+        <!-- Back Button & Material Header Info -->
+        <div class="bg-white/80 backdrop-blur-xl rounded-3xl p-6 shadow-sm border border-slate-200/60 flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div class="flex flex-col gap-2">
+            <button @click="backToList" class="text-xs font-extrabold text-slate-400 hover:text-[#334EAC] transition-all flex items-center gap-1 bg-slate-50 px-3 py-1.5 rounded-lg border border-slate-200/60 w-fit">
+              ← Kembali ke Daftar Materi
+            </button>
+            <h2 class="text-xl md:text-2xl font-extrabold text-[#081F5C] tracking-tight mt-1">
+              {{ selectedAnalysis.title }}
+            </h2>
+            <div class="flex flex-wrap items-center gap-3 text-xs font-bold text-slate-400">
+              <span>Diunggah oleh: <strong class="text-slate-600">{{ selectedAnalysis.user?.name }}</strong></span>
+              <span>•</span>
+              <span>{{ formatRelativeTime(selectedAnalysis.created_at) }}</span>
+            </div>
+          </div>
+
+          <!-- File Source Access Button -->
+          <a 
+            v-if="selectedAnalysis.file_url" 
+            :href="selectedAnalysis.file_url" 
+            target="_blank" 
+            class="px-5 py-3 bg-[#081F5C] hover:bg-[#334EAC] text-white rounded-xl font-bold text-[13px] transition-colors flex items-center justify-center gap-2 shadow-sm shrink-0"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+            Unduh Berkas Sumber
+          </a>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
         
         <!-- Most Frequent Topics -->
         <div class="card-panel lg:col-span-2 rounded-3xl p-8 transition-all duration-300 ease-out group/card">
@@ -290,20 +391,20 @@
               <!-- Options Grid (Single Column) -->
               <div class="space-y-3">
                 <button 
-                  v-for="(optionText, idx) in summaryData.quiz_set.questions[simulatorCurrentIndex].options" 
-                  :key="idx"
-                  @click="selectSimulatorOption(summaryData.quiz_set.questions[simulatorCurrentIndex].id, ['A', 'B', 'C', 'D'][idx])"
+                  v-for="(optionText, key) in summaryData.quiz_set.questions[simulatorCurrentIndex].options" 
+                  :key="key"
+                  @click="selectSimulatorOption(summaryData.quiz_set.questions[simulatorCurrentIndex].id, key)"
                   class="w-full text-left px-5 py-4 rounded-xl border text-[13.5px] font-bold transition-all flex items-center gap-3 active:scale-[0.99] group/opt"
-                  :class="simulatorAnswers[summaryData.quiz_set.questions[simulatorCurrentIndex].id] === ['A', 'B', 'C', 'D'][idx]
+                  :class="simulatorAnswers[summaryData.quiz_set.questions[simulatorCurrentIndex].id] === key
                     ? 'bg-[#334EAC]/10 border-[#334EAC] text-[#334EAC]'
                     : 'bg-white hover:bg-[#EDF1F6]/50 border-slate-200 text-slate-700 hover:text-slate-900'"
                 >
                   <span class="w-7 h-7 flex items-center justify-center rounded-lg border text-xs font-extrabold shrink-0"
-                    :class="simulatorAnswers[summaryData.quiz_set.questions[simulatorCurrentIndex].id] === ['A', 'B', 'C', 'D'][idx]
+                    :class="simulatorAnswers[summaryData.quiz_set.questions[simulatorCurrentIndex].id] === key
                       ? 'bg-[#334EAC] text-white border-transparent'
                       : 'bg-slate-50 border-slate-200 text-slate-400 group-hover/opt:border-[#334EAC] group-hover/opt:text-[#334EAC]'"
                   >
-                    {{ ['A', 'B', 'C', 'D'][idx] }}
+                    {{ key }}
                   </span>
                   {{ optionText }}
                 </button>
@@ -435,7 +536,7 @@
             </div>
           </div>
         </div>
-
+      </div>
       </div>
     </template>
   </div>
@@ -447,6 +548,7 @@ import { RouterLink, useRoute } from 'vue-router'
 import { aiService } from '@/services/ai.service'
 import { forumService } from '@/services/forum.service'
 import { quizService } from '@/services/quiz.service'
+import { examUploadService } from '@/services/examUpload.service'
 
 const summaryData = ref(null)
 const loading = ref(false)
@@ -456,6 +558,52 @@ const selectedCategoryId = ref('')
 const selectedJurusan = ref('')
 const selectedSemester = ref('')
 const isAnalyzingNew = ref(false) // flag saat baru saja upload
+
+const analysesList = ref([])
+const selectedAnalysis = ref(null)
+
+const getInitials = (name) => {
+  if (!name) return '?'
+  const parts = name.trim().split(/\s+/)
+  if (parts.length === 1) {
+    return parts[0].substring(0, 2).toUpperCase()
+  }
+  return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase()
+}
+
+const formatRelativeTime = (dateString) => {
+  if (!dateString) return ''
+  try {
+    const date = new Date(dateString)
+    const now = new Date()
+    const diffMs = now - date
+    const diffSec = Math.floor(diffMs / 1000)
+    const diffMin = Math.floor(diffSec / 60)
+    const diffHrs = Math.floor(diffMin / 60)
+    const diffDays = Math.floor(diffHrs / 24)
+    const diffWeeks = Math.floor(diffDays / 7)
+    const diffMonths = Math.floor(diffDays / 30)
+    const diffYears = Math.floor(diffDays / 365)
+
+    if (diffSec < 60) {
+      return 'baru saja'
+    } else if (diffMin < 60) {
+      return `${diffMin} menit lalu`
+    } else if (diffHrs < 24) {
+      return `${diffHrs} jam lalu`
+    } else if (diffDays < 7) {
+      return `${diffDays} hari lalu`
+    } else if (diffWeeks < 4) {
+      return `${diffWeeks} minggu lalu`
+    } else if (diffMonths < 12) {
+      return `${diffMonths} bulan lalu`
+    } else {
+      return `${diffYears} tahun lalu`
+    }
+  } catch (e) {
+    return dateString
+  }
+}
 
 const route = useRoute()
 
@@ -483,7 +631,9 @@ watch([selectedJurusan, selectedSemester], () => {
     selectedCategoryId.value = filteredCategories.value[0].id
   } else {
     selectedCategoryId.value = ''
-    summaryData.value = null // Clear summary if no category
+    summaryData.value = null
+    analysesList.value = []
+    selectedAnalysis.value = null
   }
 })
 
@@ -550,25 +700,67 @@ const submitSimulator = async () => {
   }
 }
 
-const fetchSummary = async () => {
+const fetchAnalysesList = async () => {
   if (!selectedCategoryId.value) return
   loading.value = true
   error.value = null
   try {
-    const data = await aiService.getSummary(selectedCategoryId.value)
-    summaryData.value = data
-    console.log('summaryData:', summaryData.value)
+    const data = await examUploadService.getExamUploads({ category_id: selectedCategoryId.value })
+    analysesList.value = data || []
   } catch (err) {
-    error.value = err
-    console.error('Error fetching AI pattern summary:', err)
+    error.value = err || 'Gagal mengambil daftar analisis.'
+    console.error('Error fetching analyses list:', err)
   } finally {
     loading.value = false
-    isAnalyzingNew.value = false
+  }
+}
+
+const openAnalysis = async (analysisId) => {
+  loading.value = true
+  error.value = null
+  try {
+    const data = await examUploadService.getExamUploadById(analysisId)
+    selectedAnalysis.value = data
+    
+    // Map to summaryData format
+    summaryData.value = {
+      message: data.ai_analysis?.message || 'Analisis materi selesai.',
+      detailed_summary: data.ai_analysis?.detailed_summary || '',
+      topics: data.ai_analysis?.topics || [],
+      difficulty_distribution: data.ai_analysis?.difficulty_distribution || { easy: '0%', medium: '0%', hard: '0%' },
+      frequent_keywords: data.ai_analysis?.frequent_keywords || [],
+      recommendations: data.ai_analysis?.recommendations || [],
+      quiz_set: data.quiz_set || null
+    }
+    // Reset simulator
+    startSimulator()
+  } catch (err) {
+    error.value = err || 'Gagal memuat detail analisis.'
+    console.error(err)
+  } finally {
+    loading.value = false
+  }
+}
+
+const backToList = () => {
+  selectedAnalysis.value = null
+  summaryData.value = null
+  fetchAnalysesList()
+}
+
+// Keep fetchSummary fallback for compatibility
+const fetchSummary = async () => {
+  if (selectedAnalysis.value) {
+    await openAnalysis(selectedAnalysis.value.id)
+  } else {
+    await fetchAnalysesList()
   }
 }
 
 watch(selectedCategoryId, () => {
-  fetchSummary()
+  selectedAnalysis.value = null
+  summaryData.value = null
+  fetchAnalysesList()
   // Reset simulator
   simulatorStarted.value = false
   simulatorCurrentIndex.value = 0
@@ -589,7 +781,18 @@ onMounted(async () => {
     selectedJurusan.value = route.query.jurusan || ''
     selectedSemester.value = route.query.semester ? Number(route.query.semester) : ''
     selectedCategoryId.value = Number(route.query.category_id)
-    // fetchSummary dipanggil secara otomatis oleh watcher selectedCategoryId
+    
+    // Tunggu kategori diset lalu fetch list
+    await fetchAnalysesList()
+    
+    // Dan otomatis buka analisis terbaru yang baru saja diunggah
+    if (analysesList.value.length > 0) {
+      await openAnalysis(analysesList.value[0].id)
+    }
+  } else {
+    if (selectedCategoryId.value) {
+      await fetchAnalysesList()
+    }
   }
 })
 

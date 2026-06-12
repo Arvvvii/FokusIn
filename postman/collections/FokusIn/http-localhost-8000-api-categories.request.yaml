@@ -1,0 +1,11 @@
+$kind: http-request
+name: http://localhost:8000/api/categories
+url: http://localhost:8000/api/categories
+method: GET
+headers:
+  Accept: application/json
+auth:
+  type: bearer
+  credentials:
+    token: DJUGFUSyqq9GlWRre8JALrHgbd2NDTUgPtHjwrfC31ce7a75
+order: 4366810335553939

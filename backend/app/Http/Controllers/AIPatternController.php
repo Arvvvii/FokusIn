@@ -74,6 +74,85 @@ class AIPatternController extends Controller
     }
 
     /**
+     * Mengoptimalkan teks postingan forum menggunakan AI (Groq API).
+     * Memperbaiki tata bahasa, struktur, dan kejelasan penulisan.
+     */
+    public function optimizePost(Request $request)
+    {
+        $request->validate([
+            'content' => 'required|string|min:10|max:10000',
+            'title'   => 'nullable|string|max:500',
+        ]);
+
+        try {
+            $content = $request->input('content');
+            $title = $request->input('title', '');
+            $groqApiKey = env('GROQ_API_KEY');
+
+            if (!$groqApiKey) {
+                return response()->json([
+                    'message' => 'GROQ_API_KEY tidak dikonfigurasi.'
+                ], 503);
+            }
+
+            $systemPrompt = 'Anda adalah editor teks akademik. Tugas Anda HANYA menulis ulang teks agar lebih rapi, jelas, dan terstruktur untuk forum diskusi mahasiswa. '
+                . 'PERINGATAN KERAS: '
+                . '- JANGAN PERNAH menjawab, menjelaskan solusi, atau memberikan jawaban atas pertanyaan dalam teks. '
+                . '- JANGAN menambahkan pengetahuan, solusi, atau informasi baru apapun. '
+                . '- Anda BUKAN asisten yang menjawab pertanyaan. Anda HANYA editor yang merapikan tulisan. '
+                . 'Yang harus Anda lakukan: '
+                . '1. Perbaiki tata bahasa, ejaan, dan tanda baca agar lebih formal dan profesional. '
+                . '2. Susun ulang kalimat dan paragraf agar alur pertanyaan lebih logis dan mudah dipahami pembaca forum. '
+                . '3. Pertahankan semua kode program (code block) PERSIS seperti aslinya tanpa perubahan apapun. '
+                . '4. Pertahankan maksud dan inti pertanyaan yang sama. '
+                . '5. Gunakan format Markdown jika membantu keterbacaan (misalnya bold, list, code block). '
+                . '6. Balas HANYA dengan teks hasil penulisan ulang. Tanpa kata pembuka, tanpa komentar, tanpa penjelasan.';
+
+            $userPrompt = "Tulis ulang teks forum berikut agar lebih rapi dan terstruktur. JANGAN jawab pertanyaannya, HANYA rapikan penulisannya:\n\n{$content}";
+
+            $response = \Illuminate\Support\Facades\Http::withHeaders([
+                'Authorization' => 'Bearer ' . $groqApiKey,
+                'Content-Type' => 'application/json',
+            ])->timeout(60)->post('https://api.groq.com/openai/v1/chat/completions', [
+                'model' => 'llama-3.1-8b-instant',
+                'messages' => [
+                    ['role' => 'system', 'content' => $systemPrompt],
+                    ['role' => 'user', 'content' => $userPrompt],
+                ],
+                'temperature' => 0.3,
+                'max_tokens' => 4000,
+            ]);
+
+            if ($response->successful()) {
+                $optimizedContent = $response->json('choices.0.message.content', '');
+
+                if (trim($optimizedContent) === '') {
+                    return response()->json([
+                        'message' => 'AI tidak dapat mengoptimalkan teks. Silakan coba lagi.'
+                    ], 422);
+                }
+
+                return response()->json([
+                    'optimized_content' => trim($optimizedContent),
+                    'message' => 'Teks berhasil dioptimalkan oleh AI.'
+                ]);
+            }
+
+            \Log::error('Groq API Optimize Error', ['body' => $response->body()]);
+            return response()->json([
+                'message' => 'Gagal terhubung ke layanan AI. Silakan coba lagi nanti.'
+            ], 500);
+
+        } catch (\Exception $e) {
+            \Log::error('AI Optimize Post Error', ['exception' => $e->getMessage(), 'user_id' => auth()->id()]);
+            return response()->json([
+                'message' => 'Terjadi kesalahan saat mengoptimalkan teks.',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    /**
      * Menerima upload file arsip ujian, mengekstrak teks, dan mengirimkan ke Groq API.
      */
     public function analyze(Request $request)
@@ -124,7 +203,7 @@ class AIPatternController extends Controller
                 'Authorization' => 'Bearer ' . $groqApiKey,
                 'Content-Type' => 'application/json',
             ])->timeout(60)->post('https://api.groq.com/openai/v1/chat/completions', [
-                'model' => 'llama3-8b-8192',
+                'model' => 'llama-3.1-8b-instant',
                 'messages' => [
                     [
                         'role' => 'system',
@@ -150,8 +229,7 @@ class AIPatternController extends Controller
 
             // 3. Menangani Respons dari Groq
             if ($response->successful()) {
-                $result = $response->json();
-                $content = $result['choices'][0]['message']['content'] ?? '';
+                $content = $response->json('choices.0.message.content', '');
                 
                 // Parse string JSON dari Groq ke dalam array
                 $decodedContent = json_decode($content, true);

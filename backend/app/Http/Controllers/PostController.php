@@ -50,6 +50,20 @@ class PostController extends Controller
             $query->where('category_id', $request->category_id);
         }
 
+        // Filter berdasarkan jurusan via relasi category
+        if ($request->filled('jurusan')) {
+            $query->whereHas('category', function ($q) use ($request) {
+                $q->where('jurusan', $request->jurusan);
+            });
+        }
+
+        // Filter berdasarkan semester via relasi category
+        if ($request->filled('semester')) {
+            $query->whereHas('category', function ($q) use ($request) {
+                $q->where('semester', $request->semester);
+            });
+        }
+
         // Filter postingan yang butuh verifikasi tutor (is_verified = false)
         // Diakses via: GET /api/posts?needs_verification=1
         if ($request->boolean('needs_verification')) {
@@ -60,6 +74,48 @@ class PostController extends Controller
         $posts = $query->latest()->paginate(10);
 
         return response()->json($posts);
+    }
+
+    /**
+     * Return detail Post beserta relasi user, category, votes, dan comments (jawaban).
+     */
+    public function show($id)
+    {
+        $query = Post::with([
+            'user' => function ($q) {
+                $columns = ['id', 'name', 'role'];
+                if (Schema::hasColumn('users', 'avatar_url')) {
+                    $columns[] = 'avatar_url';
+                }
+                $q->select($columns);
+            },
+            'category',
+            'votes'
+        ]);
+
+        // Jika kolom parent_id ada, muat juga jawaban (child posts / comments)
+        if (Schema::hasColumn('posts', 'parent_id')) {
+            $query->with([
+                'comments' => function ($q) {
+                    $q->where('type', 'answer')
+                      ->with([
+                          'user' => function ($uq) {
+                              $columns = ['id', 'name', 'role'];
+                              if (Schema::hasColumn('users', 'avatar_url')) {
+                                  $columns[] = 'avatar_url';
+                              }
+                              $uq->select($columns);
+                          },
+                          'votes'
+                      ])
+                      ->latest();
+                }
+            ]);
+        }
+
+        $post = $query->findOrFail($id);
+
+        return response()->json($post);
     }
 
     /**
@@ -108,6 +164,48 @@ class PostController extends Controller
 
         // 5. Return JSON data post dengan status 201
         return response()->json($post, 201);
+    }
+
+    /**
+     * Simpan jawaban baru untuk suatu postingan (parent_id = $id, type = 'answer').
+     */
+    public function storeAnswer(Request $request, $id)
+    {
+        $parentPost = Post::findOrFail($id);
+
+        // Validasi input
+        $request->validate([
+            'content' => 'required|string',
+        ]);
+
+        $data = [
+            'user_id' => auth()->id(),
+            'parent_id' => $parentPost->id,
+            'category_id' => $parentPost->category_id,
+            'title' => 'Re: ' . $parentPost->title,
+            'content' => $request->content,
+            'is_verified' => false,
+            'is_best_answer' => false,
+        ];
+
+        if (Schema::hasColumn('posts', 'type')) {
+            $data['type'] = 'answer';
+        }
+
+        $answer = Post::create($data);
+
+        // Muat relasi user untuk kemudahan di frontend
+        $answer->load([
+            'user' => function ($q) {
+                $columns = ['id', 'name', 'role'];
+                if (Schema::hasColumn('users', 'avatar_url')) {
+                    $columns[] = 'avatar_url';
+                }
+                $q->select($columns);
+            }
+        ]);
+
+        return response()->json($answer, 201);
     }
 
     /**

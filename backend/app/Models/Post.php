@@ -22,4 +22,8 @@ class Post extends Model
     public function votes() {
         return $this->hasMany(Vote::class);
     }
+
+    public function comments() {
+        return $this->hasMany(Post::class, 'parent_id');
+    }
 }

@@ -157,9 +157,10 @@
                 <div class="w-px h-6 bg-slate-200 mx-2"></div>
                 
                 <!-- AI Assistant Trigger -->
-                <button @click="optimizeWithAI" class="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-[#081F5C] to-[#334EAC] text-white rounded-xl font-bold text-[13px] shadow-[0_4px_15px_rgba(8,31,92,0.15)] hover:opacity-90 transition-all active:scale-95 ml-auto">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
-                  Optimalkan dengan AI
+                <button @click="optimizeWithAI" :disabled="isOptimizing" class="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-[#081F5C] to-[#334EAC] text-white rounded-xl font-bold text-[13px] shadow-[0_4px_15px_rgba(8,31,92,0.15)] hover:opacity-90 transition-all active:scale-95 ml-auto disabled:opacity-60 disabled:cursor-not-allowed">
+                  <svg v-if="isOptimizing" class="animate-spin" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>
+                  <svg v-else xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+                  {{ isOptimizing ? 'Mengoptimalkan...' : 'Optimalkan dengan AI' }}
                 </button>
               </div>
               
@@ -317,15 +318,44 @@ const insertFormat = (type) => {
   if (type === 'list') postBody.value += '\n- Item List'
 }
 
-const optimizeWithAI = () => {
+const isOptimizing = ref(false)
+
+const optimizeWithAI = async () => {
   if (!postBody.value.trim()) {
     alert('Tulis pertanyaan terlebih dahulu agar AI bisa mengoptimasi tata bahasa Anda.')
     return
   }
-  postBody.value += '\n\n*(Optimasi AI: Format penulisan diperjelas untuk menonjolkan kode sumber)*'
-  toastMessage.value = 'Pertanyaan berhasil dioptimalkan oleh AI!'
-  showSuccess.value = true
-  setTimeout(() => { showSuccess.value = false }, 3000)
+  if (postBody.value.trim().length < 10) {
+    alert('Teks terlalu pendek untuk dioptimasi. Tuliskan minimal 10 karakter.')
+    return
+  }
+
+  isOptimizing.value = true
+  try {
+    const result = await forumService.optimizePost({
+      content: postBody.value.trim(),
+      title: postTitle.value.trim() || undefined,
+    })
+
+    if (result.optimized_content) {
+      const originalText = postBody.value
+      postBody.value = result.optimized_content
+
+      toastMessage.value = 'Pertanyaan berhasil dioptimalkan oleh AI!'
+      showSuccess.value = true
+      setTimeout(() => { showSuccess.value = false }, 3000)
+    } else {
+      errorMessage.value = 'AI tidak mengembalikan hasil. Silakan coba lagi.'
+      showError.value = true
+      setTimeout(() => { showError.value = false }, 3000)
+    }
+  } catch (err) {
+    errorMessage.value = typeof err === 'string' ? err : 'Gagal mengoptimalkan teks. Silakan coba lagi.'
+    showError.value = true
+    setTimeout(() => { showError.value = false }, 3000)
+  } finally {
+    isOptimizing.value = false
+  }
 }
 
 const saveDraft = () => {
@@ -350,13 +380,13 @@ const publishPost = async () => {
       title: postTitle.value.trim(),
       content: postBody.value.trim()
     }
-    await forumService.createPost(payload)
+    const newPost = await forumService.createPost(payload)
     
     toastMessage.value = 'Diskusi baru berhasil diterbitkan di forum!'
     showSuccess.value = true
     setTimeout(() => {
       showSuccess.value = false
-      router.push(baseForumRoute.value)
+      router.push(`${baseForumRoute.value}/${newPost.id}`)
     }, 1500)
   } catch (err) {
     errorMessage.value = err || 'Gagal menerbitkan diskusi baru.'

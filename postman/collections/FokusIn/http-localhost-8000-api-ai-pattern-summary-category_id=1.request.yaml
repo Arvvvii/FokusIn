@@ -1,0 +1,13 @@
+$kind: http-request
+name: http://localhost:8000/api/ai-pattern/summary?category_id=1
+url: http://localhost:8000/api/ai-pattern/summary?category_id=1
+method: GET
+headers:
+  Accept: application/json
+queryParams:
+  category_id: "1"
+auth:
+  type: bearer
+  credentials:
+    token: CJ3Dxd9uDJXictBmI7sSRwoQZf2VaP1BMtIgVNzq4e6ec7e6
+order: 1779798498765

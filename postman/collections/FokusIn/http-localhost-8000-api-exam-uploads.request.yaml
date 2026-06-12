@@ -1,0 +1,35 @@
+$kind: http-request
+name: http://localhost:8000/api/exam-uploads
+url: http://localhost:8000/api/exam-uploads
+method: POST
+headers:
+  Accept: application/json
+body:
+  type: formdata
+  content:
+    - type: text
+      key: category_id
+      value: "1"
+      description: ID kategori yang valid
+      disabled: false
+    - type: text
+      key: title
+      value: UTS Struktur Data Ganjil 2025
+      description: Judul dokumen
+      disabled: false
+    - type: text
+      key: extracted_text
+      value: Tulis teks manual soal jika ada
+      description: Teks OCR buatan sendiri
+      disabled: false
+    - type: file
+      key: file
+      src:
+        - postman-cloud:///1f157a09-4343-47b0-b920-58e0b3f900cf
+      description: Berkas ujian fisik
+      disabled: false
+auth:
+  type: bearer
+  credentials:
+    token: DJUGFUSyqq9GlWRre8JALrHgbd2NDTUgPtHjwrfC31ce7a75
+order: 3974227549930642

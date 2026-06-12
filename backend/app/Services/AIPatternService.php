@@ -85,7 +85,7 @@ class AIPatternService
             . "  \"recommendations\": [\"rekomendasi1\", \"rekomendasi2\"]\n"
             . "}";
 
-        // 3. Panggil API Groq menggunakan model llama3-70b-8192
+        // 3. Panggil API Groq menggunakan model llama-3.3-70b-versatile
         $apiKey = env('GROQ_API_KEY');
 
         if (!$apiKey) {
@@ -96,7 +96,7 @@ class AIPatternService
             'Authorization' => 'Bearer ' . $apiKey,
             'Content-Type' => 'application/json',
         ])->post('https://api.groq.com/openai/v1/chat/completions', [
-            'model' => 'llama3-70b-8192',
+            'model' => 'llama-3.3-70b-versatile',
             'messages' => [
                 [
                     'role' => 'system', 

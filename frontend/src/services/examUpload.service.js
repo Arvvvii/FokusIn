@@ -9,9 +9,9 @@ export const examUploadService = {
    * Mendapatkan daftar arsip ujian terpaginasi.
    * GET /api/exam-uploads
    */
-  async getExamUploads() {
+  async getExamUploads(params = {}) {
     try {
-      const response = await api.get('/exam-uploads')
+      const response = await api.get('/exam-uploads', { params })
       return response.data
     } catch (error) {
       throw error.response?.data?.message || 'Gagal mengambil data arsip ujian.'

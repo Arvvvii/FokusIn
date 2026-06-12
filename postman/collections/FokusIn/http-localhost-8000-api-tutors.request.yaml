@@ -1,0 +1,5 @@
+$kind: http-request
+name: http://localhost:8000/api/tutors
+url: http://localhost:8000/api/tutors
+method: GET
+order: 4492247573960979

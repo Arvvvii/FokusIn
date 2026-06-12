@@ -11,6 +11,10 @@ class ExamUpload extends Model
 
     protected $guarded = ['id'];
 
+    protected $casts = [
+        'ai_analysis' => 'array',
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -19,5 +23,10 @@ class ExamUpload extends Model
     public function category()
     {
         return $this->belongsTo(Category::class);
+    }
+
+    public function quizSet()
+    {
+        return $this->belongsTo(QuizSet::class);
     }
 }

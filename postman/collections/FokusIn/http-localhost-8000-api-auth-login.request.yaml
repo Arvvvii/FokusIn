@@ -1,0 +1,14 @@
+$kind: http-request
+name: http://localhost:8000/api/auth/login
+url: http://localhost:8000/api/auth/login
+method: POST
+body:
+  type: json
+  content: "{\r
+
+    \    \"email\": \"siti@fokusin.com\",\r
+
+    \    \"password\": \"password123\"\r
+
+    }"
+order: 4501991306172443

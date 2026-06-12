@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\AiSummary;
 use App\Models\QuizAttempt;
+use App\Models\MentoringSession;
+use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -22,7 +24,7 @@ class DashboardController extends Controller
         $user = auth()->user();
 
         // Pastikan hanya student yang bisa akses
-        if ($user->role !== 'student') {
+        if ($user->role !== 'pelajar') {
             return response()->json(['message' => 'Endpoint ini hanya tersedia untuk siswa.'], 403);
         }
 
@@ -64,6 +66,80 @@ class DashboardController extends Controller
                 $avgScoreLastWeek
             );
 
+            // Calculate real recommendations based on quiz attempts per category
+            $attemptsStats = QuizAttempt::where('user_id', $user->id)
+                ->join('quiz_sets', 'quiz_attempts.quiz_set_id', '=', 'quiz_sets.id')
+                ->join('categories', 'quiz_sets.category_id', '=', 'categories.id')
+                ->select('categories.name as category_name', DB::raw('AVG(score) as avg_score'))
+                ->groupBy('categories.id', 'categories.name')
+                ->get();
+
+            $recommendations = [];
+            foreach ($attemptsStats as $stat) {
+                $score = round($stat->avg_score);
+                $priority = $score < 70 ? 'high' : 'medium';
+                $recommendations[] = [
+                    'topic' => $stat->category_name,
+                    'priority' => $priority,
+                    'score' => $score
+                ];
+            }
+
+            // Sort recommendations so high priority comes first (lowest score first)
+            usort($recommendations, function($a, $b) {
+                return $a['score'] <=> $b['score'];
+            });
+
+            // If no attempts yet, see if there are any uploaded exams / ai summary recommendations
+            if (empty($recommendations) && $aiSummary && isset($aiSummary->summary_json['recommendations'])) {
+                $aiRecs = $aiSummary->summary_json['recommendations'] ?? [];
+                foreach (array_slice($aiRecs, 0, 3) as $rec) {
+                    $parts = explode(':', $rec, 2);
+                    $topic = trim($parts[0]);
+                    $recommendations[] = [
+                        'topic' => $topic,
+                        'priority' => 'high',
+                        'score' => 40
+                    ];
+                }
+            }
+
+            if (empty($recommendations)) {
+                // Fallback: active jurusan and semester
+                $latestUpload = \App\Models\ExamUpload::where('user_id', $user->id)
+                    ->with('category')
+                    ->latest()
+                    ->first();
+
+                $latestQuizAttempt = QuizAttempt::where('user_id', $user->id)
+                    ->with('quizSet.category')
+                    ->latest()
+                    ->first();
+
+                $jurusan = 'Teknik Informatika';
+                $semester = 1;
+
+                if ($latestUpload && $latestUpload->category) {
+                    $jurusan = $latestUpload->category->jurusan ?? $jurusan;
+                    $semester = $latestUpload->category->semester ?? $semester;
+                } elseif ($latestQuizAttempt && $latestQuizAttempt->quizSet && $latestQuizAttempt->quizSet->category) {
+                    $jurusan = $latestQuizAttempt->quizSet->category->jurusan ?? $jurusan;
+                    $semester = $latestQuizAttempt->quizSet->category->semester ?? $semester;
+                }
+
+                $activeCategories = \App\Models\Category::where('jurusan', $jurusan)
+                    ->where('semester', $semester)
+                    ->take(2)
+                    ->get();
+                foreach ($activeCategories as $cat) {
+                    $recommendations[] = [
+                        'topic' => $cat->name,
+                        'priority' => 'high',
+                        'score' => 35
+                    ];
+                }
+            }
+
             return response()->json([
                 'user_id'             => $user->id,
                 'user_name'           => $user->name,
@@ -78,6 +154,84 @@ class DashboardController extends Controller
                 ],
                 'insight_text'        => $insightText,
                 'reputation_score'    => $user->reputation_score ?? 0,
+                'summary'             => $insightText,
+                'confidence_score'    => $totalAttempts > 0 ? (min(100, 75 + $totalAttempts) . '%') : '85%',
+                'recommendations'     => $recommendations,
+            ]);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Terjadi kesalahan: ' . $e->getMessage()], 500);
+        }
+    }
+
+    /**
+     * GET /api/student/dashboard
+     * Kembalikan statistik ringkas untuk student dashboard.
+     */
+    public function studentDashboard()
+    {
+        $user = auth()->user();
+
+        // Pastikan hanya student yang bisa akses
+        if ($user->role !== 'pelajar') {
+            return response()->json(['message' => 'Endpoint ini hanya tersedia untuk siswa.'], 403);
+        }
+
+        try {
+            $totalMentoringSessions = MentoringSession::where('student_id', $user->id)->count();
+            $totalForumPosts = Post::where('user_id', $user->id)->count();
+            $totalQuizAttempts = QuizAttempt::where('user_id', $user->id)->count();
+
+            // Find active jurusan & semester based on latest activity
+            $latestUpload = \App\Models\ExamUpload::where('user_id', $user->id)
+                ->with('category')
+                ->latest()
+                ->first();
+
+            $latestQuizAttempt = QuizAttempt::where('user_id', $user->id)
+                ->with('quizSet.category')
+                ->latest()
+                ->first();
+
+            $jurusan = 'Teknik Informatika';
+            $semester = 1;
+
+            if ($latestUpload && $latestUpload->category) {
+                $jurusan = $latestUpload->category->jurusan ?? $jurusan;
+                $semester = $latestUpload->category->semester ?? $semester;
+            } elseif ($latestQuizAttempt && $latestQuizAttempt->quizSet && $latestQuizAttempt->quizSet->category) {
+                $jurusan = $latestQuizAttempt->quizSet->category->jurusan ?? $jurusan;
+                $semester = $latestQuizAttempt->quizSet->category->semester ?? $semester;
+            }
+
+            // Find categories for this major and semester
+            $categories = \App\Models\Category::where('jurusan', $jurusan)
+                ->where('semester', $semester)
+                ->pluck('id');
+
+            // Find quiz sets in these categories
+            $totalQuizSets = \App\Models\QuizSet::whereIn('category_id', $categories)->count();
+
+            // Find how many of these quiz sets the user has attempted
+            $attemptedQuizSets = QuizAttempt::where('user_id', $user->id)
+                ->whereIn('quiz_set_id', function($q) use ($categories) {
+                    $q->select('id')->from('quiz_sets')->whereIn('category_id', $categories);
+                })
+                ->distinct('quiz_set_id')
+                ->count('quiz_set_id');
+
+            // Progress percentage
+            $progressPercent = $totalQuizSets > 0 ? round(($attemptedQuizSets / $totalQuizSets) * 100) : 0;
+            if ($progressPercent === 0) {
+                $progressPercent = 15; // default minimum visual progress
+            }
+
+            return response()->json([
+                'total_mentoring_sessions' => $totalMentoringSessions,
+                'total_forum_posts'        => $totalForumPosts,
+                'total_quiz_attempts'      => $totalQuizAttempts,
+                'jurusan'                  => $jurusan,
+                'semester'                 => $semester,
+                'progress_percent'         => $progressPercent,
             ]);
         } catch (\Exception $e) {
             return response()->json(['message' => 'Terjadi kesalahan: ' . $e->getMessage()], 500);

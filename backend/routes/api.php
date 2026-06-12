@@ -20,6 +20,8 @@ use App\Http\Controllers\TutorDashboardController;
 use App\Http\Controllers\LeaderboardController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\TutorAnalyticsController;
+use App\Http\Controllers\NewsletterController;
 use Illuminate\Support\Facades\Route;
 
 // ==========================================
@@ -42,9 +44,13 @@ Route::prefix('auth')->middleware('throttle:10,1')->group(function () {
     Route::post('/login',    [AuthController::class, 'login']);
 });
 
+// Newsletter subscription
+Route::post('/newsletter/subscribe', [NewsletterController::class, 'subscribe']);
+
 // Q&A / Forum Kategori & Postingan
 Route::get('/categories',      [CategoryController::class, 'index']);  // List publik (enhanced)
 Route::get('/posts',           [PostController::class, 'index']);
+Route::get('/posts/{id}',      [PostController::class, 'show']);
 
 // Statistik Global Sistem
 Route::get('/global-stats', [UserController::class, 'globalStats']);
@@ -82,6 +88,7 @@ Route::middleware('auth:sanctum')->group(function () {
     // Forum & Postingan (Tulis Post, Vote, Verifikasi, & Best Answer)
     // ------------------------------------------
     Route::post('/posts',                  [PostController::class, 'store']);
+    Route::post('/posts/{id}/answers',     [PostController::class, 'storeAnswer']);
     Route::post('/posts/{id}/vote',        [PostController::class, 'vote']);
     Route::post('/posts/{id}/verify',      [PostController::class, 'verify']);
     Route::post('/posts/{id}/best-answer', [PostController::class, 'setBestAnswer']);
@@ -96,6 +103,7 @@ Route::middleware('auth:sanctum')->group(function () {
     // ------------------------------------------
     Route::get('/exam-uploads',                         [ExamUploadController::class, 'index']);
     Route::post('/exam-uploads',                        [ExamUploadController::class, 'store']);
+    Route::get('/exam-uploads/{id}',                    [ExamUploadController::class, 'show']);
     Route::delete('/exam-uploads/{id}',                 [ExamUploadController::class, 'destroy']);
     Route::put('/exam-uploads/{id}/extracted-text',     [ExamUploadController::class, 'updateExtractedText']);
 
@@ -105,6 +113,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/ai/analyze',         [AIPatternController::class, 'analyze']);
     Route::get('/ai-pattern/summary',  [AIPatternController::class, 'summary']);
     Route::post('/ai-pattern/refresh', [AIPatternController::class, 'refresh']);
+    Route::post('/ai/optimize-post',   [AIPatternController::class, 'optimizePost']);
 
     // ------------------------------------------
     // Materi Belajar (Unggah & Hapus - Khusus Tutor/Admin)
@@ -147,6 +156,13 @@ Route::middleware('auth:sanctum')->group(function () {
     // Student: AI Insights & Ringkasan Belajar
     // ------------------------------------------
     Route::get('/student/ai-insights', [DashboardController::class, 'aiInsights']);
+    Route::get('/student/dashboard',   [DashboardController::class, 'studentDashboard']);
+
+    // ------------------------------------------
+    // Tutor: Dashboard & Analytics
+    // ------------------------------------------
+    Route::get('/tutor/dashboard', [TutorDashboardController::class, 'index']);
+    Route::get('/tutor/analytics', [TutorAnalyticsController::class, 'analytics']);
 
     // ------------------------------------------
     // Tutor: Analytics Timeline

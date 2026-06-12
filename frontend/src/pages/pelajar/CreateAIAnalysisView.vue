@@ -93,6 +93,17 @@
 
             <!-- Existing Selects -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
+              <!-- Judul Materi Input -->
+              <div class="space-y-3 md:col-span-2">
+                <label class="text-[12px] font-extrabold text-slate-400 uppercase tracking-widest ml-1">Judul Materi</label>
+                <input 
+                  type="text" 
+                  v-model="materialTitle" 
+                  placeholder="Masukkan judul materi analisis (contoh: Bab 1 Basis Data)" 
+                  class="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl text-[14px] font-bold text-[#081F5C] focus:outline-none focus:border-[#7096D1] focus:ring-4 focus:ring-[#7096D1]/10 transition-all placeholder:text-slate-400"
+                />
+              </div>
+
               <div class="space-y-3">
                 <label class="text-[12px] font-extrabold text-slate-400 uppercase tracking-widest ml-1">Tipe Analisis</label>
                 <div class="relative">
@@ -369,6 +380,7 @@ const selectedCategoryId = ref('')
 const selectedJurusan = ref('Teknik Informatika') // Set default based on seed
 const selectedSemester = ref(1) // Set default based on seed
 const selectedDifficulty = ref('Menengah')
+const materialTitle = ref('')
 const isUploading = ref(false)
 const showSuccess = ref(false)
 const showError = ref(false)
@@ -456,6 +468,12 @@ const handleUpload = async () => {
     return
   }
 
+  if (!materialTitle.value.trim()) {
+    errorMessage.value = 'Harap masukkan judul materi terlebih dahulu.'
+    triggerErrorToast()
+    return
+  }
+
   isUploading.value = true
   showSuccess.value = false
   showError.value = false
@@ -463,6 +481,7 @@ const handleUpload = async () => {
   try {
     const formData = new FormData()
     formData.append('category_id', selectedCategoryId.value.toString())
+    formData.append('title', materialTitle.value.trim())
     formData.append('file', selectedFile.value)
 
     await examUploadService.createExamUpload(formData)

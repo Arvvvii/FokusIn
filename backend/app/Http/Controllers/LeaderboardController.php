@@ -28,7 +28,7 @@ class LeaderboardController extends Controller
                     'reputation_score',
                     'avatar_url',
                 ])
-                ->where('role', 'student')
+                ->where('role', 'pelajar')
                 ->orderBy('reputation_score', 'desc')
                 ->paginate($perPage);
 

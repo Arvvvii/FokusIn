@@ -43,6 +43,20 @@ export const forumService = {
   },
 
   /**
+   * Membuat jawaban baru untuk postingan tertentu.
+   * POST /posts/{id}/answers
+   * Payload: { content }
+   */
+  async createAnswer(postId, content) {
+    try {
+      const response = await api.post(`/posts/${postId}/answers`, { content })
+      return response.data
+    } catch (error) {
+      throw error.response?.data?.message || 'Gagal mengirimkan jawaban.'
+    }
+  },
+
+  /**
    * Mendapatkan detail postingan berdasarkan ID.
    * GET /posts/{id}
    */
@@ -92,6 +106,20 @@ export const forumService = {
       return response.data
     } catch (error) {
       throw error.response?.data?.message || 'Gagal menandai jawaban terbaik.'
+    }
+  },
+
+  /**
+   * Mengoptimalkan teks postingan menggunakan AI.
+   * POST /ai/optimize-post
+   * Payload: { content, title? }
+   */
+  async optimizePost(payload) {
+    try {
+      const response = await api.post('/ai/optimize-post', payload, { timeout: 60000 })
+      return response.data
+    } catch (error) {
+      throw error.response?.data?.message || 'Gagal mengoptimalkan teks dengan AI.'
     }
   }
 }

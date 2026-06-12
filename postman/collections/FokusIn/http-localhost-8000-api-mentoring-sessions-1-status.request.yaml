@@ -1,0 +1,18 @@
+$kind: http-request
+name: http://localhost:8000/api/mentoring/sessions/1/status
+url: http://localhost:8000/api/mentoring/sessions/1/status
+method: PATCH
+headers:
+  Accept: application/json
+body:
+  type: json
+  content: "{\r
+
+    \    \"status\": \"confirmed\"\r
+
+    }"
+auth:
+  type: bearer
+  credentials:
+    token: 4BLdFJ0kPFt9zJdlQt1FYdRbT78wfGm0dKWMVK8Yf9a86eff
+order: 4367913507393212

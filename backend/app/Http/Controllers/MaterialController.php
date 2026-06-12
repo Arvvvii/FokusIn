@@ -45,7 +45,24 @@ class MaterialController extends Controller
         ]);
 
         // 2. Upload file ke Cloudinary
-        $uploadedFile = cloudinary()->uploadApi()->upload($request->file('file')->getRealPath());
+        $file = $request->file('file');
+        $extension = strtolower($file->getClientOriginalExtension());
+        $resourceType = 'raw';
+        if (in_array($extension, ['jpg', 'jpeg', 'png', 'gif', 'webp'])) {
+            $resourceType = 'image';
+            $publicId = 'fokusin_' . uniqid();
+        } elseif (in_array($extension, ['mp4', 'avi', 'mov', 'webm'])) {
+            $resourceType = 'video';
+            $publicId = 'fokusin_' . uniqid();
+        } else {
+            $resourceType = 'raw';
+            $publicId = 'fokusin_' . uniqid() . '.' . $extension;
+        }
+
+        $uploadedFile = cloudinary()->uploadApi()->upload($file->getRealPath(), [
+            'resource_type' => $resourceType,
+            'public_id' => $publicId,
+        ]);
         $fileUrl = $uploadedFile['secure_url'];
         $cloudinaryPublicId = $uploadedFile['public_id'];
 
@@ -105,7 +122,16 @@ class MaterialController extends Controller
 
         // Hapus file dari Cloudinary
         if ($material->cloudinary_public_id) {
-            cloudinary()->uploadApi()->destroy($material->cloudinary_public_id);
+            $ext = pathinfo($material->file_url, PATHINFO_EXTENSION);
+            $resourceType = 'raw';
+            if (in_array(strtolower($ext), ['jpg', 'jpeg', 'png', 'gif', 'webp'])) {
+                $resourceType = 'image';
+            } elseif (in_array(strtolower($ext), ['mp4', 'avi', 'mov', 'webm'])) {
+                $resourceType = 'video';
+            }
+            cloudinary()->uploadApi()->destroy($material->cloudinary_public_id, [
+                'resource_type' => $resourceType
+            ]);
         }
 
         $material->delete();

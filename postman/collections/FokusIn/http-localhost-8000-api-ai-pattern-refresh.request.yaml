@@ -1,0 +1,18 @@
+$kind: http-request
+name: http://localhost:8000/api/ai-pattern/refresh
+url: http://localhost:8000/api/ai-pattern/refresh
+method: POST
+headers:
+  Accept: application/json
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "category_id": 1
+    }
+auth:
+  type: bearer
+  credentials:
+    token: CJ3Dxd9uDJXictBmI7sSRwoQZf2VaP1BMtIgVNzq4e6ec7e6
+order: 1779798498766
